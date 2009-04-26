@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="common"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_CRT_NON_CONFORMING_SWPRINTFS"
+		EnableEnhancedInstructionSet="2"
+		FloatingPointModel="2"
+		UsePrecompiledHeader="2"
+		WarningLevel="4"
+		WarnAsError="true"
+		CallingConvention="1"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		TargetMachine="1"
+	/>
+</VisualStudioPropertySheet>
