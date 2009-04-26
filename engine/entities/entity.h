@@ -1,8 +1,7 @@
 #ifndef ENTITY_INCLUDED
 #define ENTITY_INCLUDED
 
-#include "audio/audio_system.h"
-#include "video/video_system.h"
+#include "utility/registry.h"
 
 namespace engine {
 

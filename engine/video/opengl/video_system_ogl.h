@@ -1,18 +1,16 @@
-#ifndef ORB_INCLUDED
-#define ORB_INCLUDED
+#ifndef VIDEO_SYSTEM_OGL_INCLUDED
+#define VIDEO_SYSTEM_OGL_INCLUDED
 
-#include "entities/entity.h"
+#include "video/video_system.h"
 
-#include "orb_audio.h"
-#include "orb_video.h"
-
-namespace game {
+namespace engine {
 
 //=====================================================================================================================
 
-class Orb : public engine::Entity<OrbVideo, OrbAudio> {
+class VideoSystemOGL : public VideoSystem {
 public:
-	virtual ~Orb() {}
+	// interface: Updatable
+	virtual void update(const float dt);
 };
 
 //=====================================================================================================================

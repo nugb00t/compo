@@ -40,7 +40,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="engine;game;extern/boost;extern/glew/inc;extern/opengl/inc;extern/physfs/inc"
+				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew/inc;extern/kaynine;extern/opengl/inc;extern/physfs/inc"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;KN_USE_TRACE"
 				RuntimeLibrary="3"
 			/>
@@ -108,7 +108,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="engine;game;extern/boost;extern/glew/inc;extern/opengl/inc;extern/physfs/inc"
+				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew/inc;extern/kaynine;extern/opengl/inc;extern/physfs/inc"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;KN_USE_TRACE"
 				RuntimeLibrary="2"
 			/>
@@ -222,9 +222,25 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\video\video_system.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\video_system.h"
 					>
 				</File>
+				<Filter
+					Name="opengl"
+					>
+					<File
+						RelativePath=".\engine\video\opengl\video_system_ogl.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\opengl\video_system_ogl.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
