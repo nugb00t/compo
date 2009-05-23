@@ -56,7 +56,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(SolutionDir)exec\Comp-$(ConfigurationName).exe"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="extern/boost/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -124,7 +124,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(SolutionDir)exec\Comp-$(ConfigurationName).exe"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="extern/boost/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -161,18 +161,70 @@
 			<Filter
 				Name="boost"
 				>
+				<File
+					RelativePath=".\extern\boost\lib\libboost_date_time-vc80-mt-1_38.lib"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\extern\boost\lib\libboost_date_time-vc80-mt-gd-1_38.lib"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\extern\boost\lib\libboost_thread-vc80-mt-1_38.lib"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\extern\boost\lib\libboost_thread-vc80-mt-gd-1_38.lib"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
 			Name="engine"
 			>
 			<File
-				RelativePath=".\engine\engine-stdafx.h"
+				RelativePath=".\engine\engine_pch.h"
 				>
 			</File>
 			<Filter
 				Name="utility"
 				>
+				<File
+					RelativePath=".\engine\utility\callable.h"
+					>
+				</File>
 				<File
 					RelativePath=".\engine\utility\holder.h"
 					>
@@ -242,6 +294,30 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="core"
+				>
+				<File
+					RelativePath=".\engine\core\core_system.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\core_system.h"
+					>
+				</File>
+				<Filter
+					Name="win32"
+					>
+					<File
+						RelativePath=".\engine\core\win32\core_system_w32.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\core\win32\core_system_w32.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="game"
@@ -272,10 +348,6 @@
 			</File>
 			<File
 				RelativePath=".\game\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\game\targetver.h"
 				>
 			</File>
 			<Filter
