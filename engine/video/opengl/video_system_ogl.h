@@ -9,8 +9,30 @@ namespace engine {
 
 class VideoSystemOGL : public VideoSystem {
 public:
-	// interface: Updatable
-	virtual void update(const float dt);
+	VideoSystemOGL();
+	~VideoSystemOGL();
+
+	// interface: VideoSystem
+	virtual bool startup();
+	virtual void shutdown();
+
+	virtual void clear();
+	virtual bool init();
+	virtual void flush();
+
+	// window
+	void reshape(int width, int height);
+
+	// interface: VideoSystem
+	virtual void setOrthogonalView();
+	virtual void drawMesh(const Mesh& mesh);
+
+private:
+	bool choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits, BYTE stencilBits, BYTE samples);
+
+private:
+	HGLRC					context_;
+	float					aspect_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

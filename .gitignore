@@ -1,0 +1,8 @@
+build
+exec/*.exe
+exec/*.ilk
+exec/*.pdb
+*.user
+*.ncb
+*.suo
+

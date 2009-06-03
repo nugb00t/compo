@@ -40,7 +40,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew/inc;extern/kaynine;extern/opengl/inc;extern/physfs/inc"
+				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;KN_USE_TRACE"
 				RuntimeLibrary="3"
 			/>
@@ -108,7 +108,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew/inc;extern/kaynine;extern/opengl/inc;extern/physfs/inc"
+				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;KN_USE_TRACE"
 				RuntimeLibrary="2"
 			/>
@@ -210,6 +210,34 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+			<Filter
+				Name="glew"
+				>
+				<File
+					RelativePath=".\extern\glew\glew.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							PreprocessorDefinitions="GLEW_STATIC"
+							UsePrecompiledHeader="0"
+							DisableSpecificWarnings="4244;4706"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							PreprocessorDefinitions="GLEW_STATIC"
+							UsePrecompiledHeader="0"
+							DisableSpecificWarnings="4244;4706"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="engine"
@@ -270,6 +298,14 @@
 				Name="video"
 				>
 				<File
+					RelativePath=".\engine\video\mesh.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\video\mesh.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\video_component.h"
 					>
 				</File>
@@ -295,25 +331,25 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="core"
+				Name="window"
 				>
 				<File
-					RelativePath=".\engine\core\core_system.cpp"
+					RelativePath=".\engine\window\window_system.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\engine\core\core_system.h"
+					RelativePath=".\engine\window\window_system.h"
 					>
 				</File>
 				<Filter
 					Name="win32"
 					>
 					<File
-						RelativePath=".\engine\core\win32\core_system_w32.cpp"
+						RelativePath=".\engine\window\win32\window_system_w32.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\core\win32\core_system_w32.h"
+						RelativePath=".\engine\window\win32\window_system_w32.h"
 						>
 					</File>
 				</Filter>

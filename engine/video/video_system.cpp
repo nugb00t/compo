@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "video_system.h"
+#include "window/window.h"
 
 using namespace engine;
 
@@ -13,7 +14,22 @@ VideoSystem::VideoSystem() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoSystem::operator()() {
+	if (Window::get().create(800, 600, 32, 0, false) &&
+		startup() &&
+		init())
+	{
+		while (true) {
+			clear();
+			// TODO: valid dt here?
+			if (!Window::get().update(0))
+				break;
+
+			flush();
+			Window::get().swapBuffers();
+		}
+	}
+
+	Window::get().destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
