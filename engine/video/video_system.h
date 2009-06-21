@@ -4,6 +4,9 @@
 #include "utility/callable.h"
 #include "utility/holder.h"
 
+// factory-created objects
+#include "texture.h"
+
 namespace engine {
 
 class Mesh;
@@ -16,17 +19,12 @@ class VideoSystem :
 public:
 	VideoSystem();
 
-	// interface: Callable
-	virtual void operator()();
-
 	// startup/shutdown
 	virtual bool startup() = 0;
 	virtual void shutdown() = 0;
 
 	// utility
-	virtual void clear() = 0;
 	virtual bool init() = 0;
-	virtual void flush() = 0;
 
 	// image
 	//virtual void tex2d(const int level, const int border, const Image& image) = 0;
@@ -36,7 +34,11 @@ public:
 	//virtual void setPerspective(float fovY, float aspect, float zNear, float zFar) = 0;
 
 	// drawing
-	virtual void drawMesh(const Mesh& mesh) = 0;
+	virtual void draw(const Mesh& mesh) = 0;
+	virtual void drawTest() = 0;
+
+	// object factory
+	virtual TexturePtr createTexture() = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

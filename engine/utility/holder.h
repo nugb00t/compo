@@ -8,7 +8,7 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
-class Holder : public safe_bool<Holder<T> > {
+class Holder {
 public:
 	static T& get();
 
@@ -16,10 +16,9 @@ private:
 	// invoked in T's ctor
 	static void set(T& t);
 
-	static T*& holder();
+	static T*& subject();
 
-	// interface: safe_bool
-	bool boolean_test() const;
+	static bool valid();
 
 	friend T;
 };
@@ -28,21 +27,21 @@ private:
 
 template <class T>
 T& Holder<T>::get() { 
-	return *holder(); 
+	return *subject(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
 void Holder<T>::set(T& t) {
-	assert(!holder());
-	holder() = &t;
+	assert(!subject());
+	subject() = &t;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
-T*& Holder<T>::holder() {
+T*& Holder<T>::subject() {
 	static T* t = 0;
 	return t;
 }
@@ -50,8 +49,8 @@ T*& Holder<T>::holder() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
-bool Holder<T>::boolean_test() const {
-	return holder() != 0;
+bool Holder<T>::valid() {
+	return subject() != 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

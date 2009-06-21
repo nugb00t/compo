@@ -1,18 +1,14 @@
 #include "stdafx.h"
 
-// glew - before opengl
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GL/wglew.h>
-// opengl
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glaux.h>
+#ifdef VIDEO_OPENGL
+
 #pragma comment(lib, "glaux.lib")
 #pragma comment(lib, "glu32.lib")
 #pragma comment(lib, "opengl32.lib")
 
-#include "window/window.h"
+#include "window/window_system.h"
+#include "utility/registry.h"
+#include "video/video_component.h"
 
 #include "video/mesh.h"
 
@@ -76,34 +72,48 @@ bool VideoSystemOGL::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE dept
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemOGL::drawMesh(const Mesh& mesh) {
+void VideoSystemOGL::draw(const Mesh& mesh) {
 	// tmp
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glShadeModel(GL_SMOOTH);
+
+	glColor3f(0.5f, 1.f, 0.f);
 	// tmp
 
-	assert(mesh.getIndexCount() > 0 && mesh.getVerticeCount() > 0);
+	assert(mesh.indexCount() > 0 && mesh.verticeCount() > 0);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(Vertice), &mesh.getVerticeArray()[0].point);
+	glVertexPointer(3, GL_FLOAT, sizeof(Vertice), &mesh.vertices()[0].point);
 
 	glEnableClientState(GL_NORMAL_ARRAY);
-	glNormalPointer(GL_FLOAT, sizeof(Vertice), &mesh.getVerticeArray()[0].normal);
+	glNormalPointer(GL_FLOAT, sizeof(Vertice), &mesh.vertices()[0].normal);
 
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertice), &mesh.getVerticeArray()[0].uv);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertice), &mesh.vertices()[0].uv);
 
-	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(mesh.getIndexCount()), GL_UNSIGNED_INT, mesh.getIndexArray());
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(mesh.indexCount()), GL_UNSIGNED_INT, mesh.indices());
 	assert(glGetError() == GL_NO_ERROR);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	assert(glGetError() == GL_NO_ERROR);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void VideoSystemOGL::drawTest() {
+	glBegin(GL_TRIANGLES);
+	glVertex3f(+5.f, +5.f, -5.f);
+	glVertex3f(-5.f, +5.f, -5.f);
+	glVertex3f(+5.f, -5.f, -5.f);
+	glEnd();	 
 
 	assert(glGetError() == GL_NO_ERROR);
 }
@@ -130,13 +140,43 @@ bool VideoSystemOGL::init() {
 
 	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+	// TODO: move outta here?
+	setOrthogonalView();
 	
 	return glGetError() == GL_NO_ERROR;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemOGL::reshape(int width, int height) {
+void VideoSystemOGL::operator()() {
+	if (Window::get().create(800, 600, 32, 0, false) &&
+		startup() &&
+		init())
+	{
+		while (true) {
+			//clear();
+			// TODO: valid dt here?
+			if (!Window::get().update(0))
+				break;
+
+			// TODO: correct dt
+			Registry<VideoComponent>::update(/* correct dt */ 0);
+
+			Video::get().drawTest();
+
+			flush();
+			Window::get().swapBuffers();
+		}
+	}
+
+	shutdown();
+	Window::get().destroy();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void VideoSystemOGL::reshape(const unsigned width, const unsigned height) {
 	glViewport(0, 0, width, height);
 	aspect_ = static_cast<float>(width) / height;
 	assert(glGetError() == GL_NO_ERROR);
@@ -163,7 +203,7 @@ void VideoSystemOGL::shutdown() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoSystemOGL::startup() {
-	if (Window::get().choosePixelFormat(24, 8, 24, 0) &&
+	if (Window::get().choosePixelFormat(32, 8, 24, 0) &&
 		(context_ = wglCreateContext(Window::get().context())) != 0 &&
 		wglMakeCurrent(Window::get().context(), context_) &&
 		glewInit() == GLEW_OK &&
@@ -209,3 +249,4 @@ void VideoSystemOGL::tex2d(const int level, const int border, const Image& image
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#endif

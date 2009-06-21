@@ -1,24 +1,26 @@
-#ifndef ORB_VIDEO_INCLUDED
-#define ORB_VIDEO_INCLUDED
+#ifndef TEXTURE_DX_INCLUDED
+#define TEXTURE_DX_INCLUDED
 
-#include "video/video_component.h"
-#include "video/mesh.h"
 #include "video/texture.h"
 
-namespace game {
+namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class OrbVideo : public engine::VideoComponent {
+class TextureDX : public Texture {
 public:
-	OrbVideo();
+	TextureDX();
 
-	// interface: Updatable
-	virtual bool update(const float dt);
+	// interface: Texture
+	virtual bool load(const TCHAR* const path);
+	virtual void update();
 
 private:
-	engine::Mesh mesh_;
-	engine::TexturePtr tex_;
+	bool doLoad();
+
+private:
+	IDirect3DSurface9* surface_;
+	const TCHAR* path_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

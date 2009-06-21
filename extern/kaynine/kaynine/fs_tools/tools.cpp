@@ -23,3 +23,13 @@ bool kaynine::setRelativeDirectory(TCHAR* relativePath)
 
 	return ::SetCurrentDirectory(newPath.c_str()) != 0;
 }
+
+bool kaynine::setCurrentDirectory()
+{
+	TCHAR exePath[MAX_PATH + 1];
+
+	::GetModuleFileName(NULL, exePath, MAX_PATH);
+	::PathRemoveFileSpec(exePath);
+
+	return ::SetCurrentDirectory(exePath) != 0;
+}

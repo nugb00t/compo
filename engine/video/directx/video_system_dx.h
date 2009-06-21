@@ -1,16 +1,19 @@
-#ifndef VIDEO_SYSTEM_OGL_INCLUDED
-#define VIDEO_SYSTEM_OGL_INCLUDED
+#ifndef VIDEO_SYSTEM_DX_INCLUDED
+#define VIDEO_SYSTEM_DX_INCLUDED
 
 #include "video/video_system.h"
+
+// factory-created objects
+#include "texture_dx.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoSystemOGL : public VideoSystem {
+class VideoSystemDX : public VideoSystem {
 public:
-	VideoSystemOGL();
-	~VideoSystemOGL();
+	VideoSystemDX();
+	~VideoSystemDX();
 
 	// interface: Callable
 	virtual void operator()();
@@ -19,26 +22,31 @@ public:
 	virtual bool startup();
 	virtual void shutdown();
 
-	virtual void clear();
 	virtual bool init();
-	virtual void flush();
 
 	virtual void setOrthogonalView();
 	virtual void draw(const Mesh& mesh);
 	virtual void drawTest();
 
+	virtual TexturePtr createTexture() { return new TextureDX; }
+
+	// own
+	IDirect3DDevice9& device() { return *device_; }
+
 	// window
 	void reshape(const unsigned width, const unsigned height);
 
 private:
-	bool choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits, BYTE stencilBits, BYTE samples);
+	void update();
 
 private:
-	HGLRC	context_;
-	float	aspect_;
+	IDirect3D9* d3d_;
+	IDirect3DDevice9* device_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef Holder<VideoSystemDX> VideoDX;
 
 }
 

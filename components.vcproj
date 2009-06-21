@@ -40,7 +40,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs"
+				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs;extern/directx/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;KN_USE_TRACE"
 				RuntimeLibrary="3"
 			/>
@@ -56,7 +56,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(SolutionDir)exec\Comp-$(ConfigurationName).exe"
-				AdditionalLibraryDirectories="extern/boost/lib"
+				AdditionalLibraryDirectories="extern/boost/lib;extern/directx/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -108,7 +108,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs"
+				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs;extern/directx/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;KN_USE_TRACE"
 				RuntimeLibrary="2"
 			/>
@@ -124,7 +124,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(SolutionDir)exec\Comp-$(ConfigurationName).exe"
-				AdditionalLibraryDirectories="extern/boost/lib"
+				AdditionalLibraryDirectories="extern/boost/lib;extern/directx/lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -161,6 +161,10 @@
 			<Filter
 				Name="boost"
 				>
+				<File
+					RelativePath=".\extern\boost\boost\intrusive_ptr.hpp"
+					>
+				</File>
 				<File
 					RelativePath=".\extern\boost\lib\libboost_date_time-vc80-mt-1_38.lib"
 					>
@@ -213,30 +217,98 @@
 			<Filter
 				Name="glew"
 				>
+			</Filter>
+			<Filter
+				Name="directx"
+				>
 				<File
-					RelativePath=".\extern\glew\glew.c"
+					RelativePath=".\extern\directx\include\d3d9.h"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions="GLEW_STATIC"
-							UsePrecompiledHeader="0"
-							DisableSpecificWarnings="4244;4706"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions="GLEW_STATIC"
-							UsePrecompiledHeader="0"
-							DisableSpecificWarnings="4244;4706"
-						/>
-					</FileConfiguration>
 				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3d9caps.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3d9types.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9anim.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9core.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9effect.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9math.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9math.inl"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9mesh.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9shader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9shape.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9tex.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\directx\include\d3dx9xof.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="kaynine"
+				>
+				<Filter
+					Name="fs_tools"
+					>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\fs_tools\tools.cpp"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\fs_tools\tools.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -255,6 +327,14 @@
 				</File>
 				<File
 					RelativePath=".\engine\utility\holder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\utility\intrusive_ptr_base.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\utility\intrusive_ptr_base.h"
 					>
 				</File>
 				<File
@@ -306,6 +386,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\video\texture.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\video_component.h"
 					>
 				</File>
@@ -326,6 +410,26 @@
 					</File>
 					<File
 						RelativePath=".\engine\video\opengl\video_system_ogl.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="directx"
+					>
+					<File
+						RelativePath=".\engine\video\directx\texture_dx.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\texture_dx.h"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\video_system_dx.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\video_system_dx.h"
 						>
 					</File>
 				</Filter>

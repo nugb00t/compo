@@ -1,17 +1,29 @@
 #ifndef REGISTRY_INCLUDED
 #define REGISTRY_INCLUDED
 
+#include <algorithm>
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
 class Registry {
+	typedef std::pair<unsigned, T*> Registrant;
 	typedef std::map<unsigned, T*> Registrants;
+
+	struct Updater : public std::unary_function<Registrant, void> {
+		Updater(const float dt) : time(dt) {}
+		void operator() (Registrant r) { r.second->update(time); }
+
+		const float time;
+	};
 
 public:
 	static bool add(const unsigned id, T* registrant);
 	static bool remove(const unsigned id);
+
+	static bool update(const float dt);
 
 private:
 	static Registrants& registrants();
@@ -30,6 +42,14 @@ bool Registry<T>::add(const unsigned id, T* registrant) {
 template <class T>
 bool Registry<T>::remove(const unsigned id) {
 	return registrants().erase(id) > 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+template <class T>
+bool Registry<T>::update(const float dt) {
+	Updater up = std::for_each(registrants().begin(), registrants().end(), Updater(dt));
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

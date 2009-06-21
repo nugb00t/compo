@@ -26,7 +26,9 @@ namespace kaynine
 
 		@return	The directory set
 	*/
-	bool setRelativeDirectory(TCHAR* relativePath = NULL);
+	bool setRelativeDirectory(TCHAR* relativePath);
+
+	bool setCurrentDirectory();
 
 
 } //namespace kaynine
