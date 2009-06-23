@@ -128,7 +128,7 @@ void VideoSystemDX::update() {
 		Registry<VideoComponent>::update(/* correct dt */ 0);
 
 		// tmp
-		Video::get().drawTest();
+		//Video::get().drawTest();
 		// tmp
 
 		device_->EndScene();

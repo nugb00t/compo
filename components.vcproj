@@ -405,6 +405,14 @@
 					Name="opengl"
 					>
 					<File
+						RelativePath=".\engine\video\opengl\mesh_ogl.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\opengl\mesh_ogl.h"
+						>
+					</File>
+					<File
 						RelativePath=".\engine\video\opengl\video_system_ogl.cpp"
 						>
 					</File>

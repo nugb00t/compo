@@ -24,7 +24,8 @@ OrbVideo::OrbVideo()
 	mesh_.addIndex(v3);
 	mesh_.addIndex(v0);
 
-	bool ok = tex_->load(_T("myself.bmp"));
+	DEBUG_ONLY(bool ok = )
+	tex_->load(_T("myself.bmp"));		// tga
 	assert(ok);
 }
 
