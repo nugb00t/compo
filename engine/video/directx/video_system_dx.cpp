@@ -1,13 +1,11 @@
 #include "stdafx.h"
 
 #ifdef VIDEO_DIRECTX
+#include "video_system_dx.h"
 
 #include "utility/registry.h"
 #include "window/window_system.h"
 #include "video/video_component.h"
-#include "video/mesh.h"
-
-#include "video_system_dx.h"
 
 // directx
 #pragma comment(lib, "d3d9.lib")
@@ -34,18 +32,6 @@ VideoSystemDX::~VideoSystemDX() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemDX::draw(const Mesh& /*mesh*/) {
-	// TODO: implement
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void VideoSystemDX::drawTest() {
-	// TODO: implement
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 bool VideoSystemDX::init() {
 	// TODO: implement
 	return true;
@@ -54,33 +40,18 @@ bool VideoSystemDX::init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoSystemDX::operator()() {
-	if (Window::get().create(800, 600, 32, 0, false) &&
-		startup() &&
-		init())
-	{
+	if (Window::get().create(800, 600, 32, 0, false) && startup()) {
 		while (true) {
 			// TODO: valid dt here?
 			if (!Window::get().update(0))
 				break;
 
-			update();
+			update(0);
 		}
 	}
 
 	shutdown();
 	Window::get().destroy();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void VideoSystemDX::reshape(const unsigned /*width*/, const unsigned /*height*/) {
-	// TODO: implement
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void VideoSystemDX::setOrthogonalView() {
-	// TODO: implement
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,26 +86,28 @@ bool VideoSystemDX::startup() {
 	if (FAILED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window::get().handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &device_)))
 		return false;
 
+	camera_ = createCamera();
+	assert(camera_);
+
 	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemDX::update() {
+bool VideoSystemDX::update(const float dt) {
 	device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
 
 	if (SUCCEEDED(device_->BeginScene())) {
+		camera_->update(dt);
+
 		// TODO: correct dt
 		Registry<VideoComponent>::update(/* correct dt */ 0);
-
-		// tmp
-		//Video::get().drawTest();
-		// tmp
 
 		device_->EndScene();
 	}
 
 	device_->Present(NULL, NULL, NULL, NULL);
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

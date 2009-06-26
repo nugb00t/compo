@@ -5,11 +5,11 @@
 #include "utility/holder.h"
 
 // factory-created objects
+#include "camera.h"
+#include "mesh.h"
 #include "texture.h"
 
 namespace engine {
-
-class Mesh;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,21 +23,9 @@ public:
 	virtual bool startup() = 0;
 	virtual void shutdown() = 0;
 
-	// utility
-	virtual bool init() = 0;
-
-	// image
-	//virtual void tex2d(const int level, const int border, const Image& image) = 0;
-
-	// viewport
-	virtual void setOrthogonalView() = 0;
-	//virtual void setPerspective(float fovY, float aspect, float zNear, float zFar) = 0;
-
-	// drawing
-	virtual void draw(const Mesh& mesh) = 0;
-	virtual void drawTest() = 0;
-
 	// object factory
+	virtual CameraPtr createCamera() = 0;
+	virtual MeshPtr createMesh() = 0;
 	virtual TexturePtr createTexture() = 0;
 };
 

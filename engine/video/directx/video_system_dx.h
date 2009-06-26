@@ -4,6 +4,8 @@
 #include "video/video_system.h"
 
 // factory-created objects
+#include "camera_dx.h"
+#include "mesh_dx.h"
 #include "texture_dx.h"
 
 namespace engine {
@@ -18,16 +20,17 @@ public:
 	// interface: Callable
 	virtual void operator()();
 
+	// interface: Updatable
+	virtual bool update(const float dt);
+
 	// interface: VideoSystem
 	virtual bool startup();
 	virtual void shutdown();
 
 	virtual bool init();
 
-	virtual void setOrthogonalView();
-	virtual void draw(const Mesh& mesh);
-	virtual void drawTest();
-
+	virtual CameraPtr createCamera() { return new CameraDX; }
+	virtual MeshPtr createMesh() { return new MeshDX; }
 	virtual TexturePtr createTexture() { return new TextureDX; }
 
 	// own
@@ -37,11 +40,12 @@ public:
 	void reshape(const unsigned width, const unsigned height);
 
 private:
-	void update();
 
 private:
 	IDirect3D9* d3d_;
 	IDirect3DDevice9* device_;
+
+	CameraPtr camera_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

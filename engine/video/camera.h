@@ -1,22 +1,20 @@
-#ifndef TEXTURE_INCLUDED
-#define TEXTURE_INCLUDED
+#ifndef CAMERA_INCLUDED
+#define CAMERA_INCLUDED
 
 #include "utility/intrusive_ptr_base.h"
+#include "utility/updatable.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Texture : public IntrusivePtrBase {
-public:
-	virtual bool load(const TCHAR* const path) = 0;
-	virtual void update() = 0;
+class Camera : public IntrusivePtrBase, public Updatable {
 };
 
-typedef boost::intrusive_ptr<Texture> TexturePtr;
+typedef boost::intrusive_ptr<Camera> CameraPtr;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
+} // namespace engine
 
 #endif

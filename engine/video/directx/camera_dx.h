@@ -1,27 +1,29 @@
-#ifndef ORB_VIDEO_INCLUDED
-#define ORB_VIDEO_INCLUDED
+#ifndef CAMERA_DX_INCLUDED
+#define CAMERA_DX_INCLUDED
 
-#include "video/video_component.h"
-#include "video/mesh.h"
-#include "video/texture.h"
+#include "video/camera.h"
 
-namespace game {
+namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class OrbVideo : public engine::VideoComponent {
+class CameraDX : public Camera {
 public:
-	OrbVideo();
+	CameraDX();
 
 	// interface: Updatable
 	virtual bool update(const float dt);
 
 private:
-	engine::MeshPtr mesh_;
+	D3DXMATRIX view_;
+
+	D3DXVECTOR3 pos_;
+	D3DXVECTOR3 lookAt_;
+	D3DXVECTOR3 up_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
+} // namespace engine
 
 #endif

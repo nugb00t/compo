@@ -378,7 +378,7 @@
 				Name="video"
 				>
 				<File
-					RelativePath=".\engine\video\mesh.cpp"
+					RelativePath=".\engine\video\camera.h"
 					>
 				</File>
 				<File
@@ -424,6 +424,22 @@
 				<Filter
 					Name="directx"
 					>
+					<File
+						RelativePath=".\engine\video\directx\camera_dx.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\camera_dx.h"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\mesh_dx.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\mesh_dx.h"
+						>
+					</File>
 					<File
 						RelativePath=".\engine\video\directx\texture_dx.cpp"
 						>
