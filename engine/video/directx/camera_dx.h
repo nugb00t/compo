@@ -15,11 +15,12 @@ public:
 	virtual bool update(const float dt);
 
 private:
-	D3DXMATRIX view_;
-
 	D3DXVECTOR3 pos_;
 	D3DXVECTOR3 lookAt_;
 	D3DXVECTOR3 up_;
+
+	float fov_;
+	float aspect_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

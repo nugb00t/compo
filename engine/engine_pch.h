@@ -62,10 +62,16 @@ typedef cml::vector4f Vector4;
 #define UNUSED(x)
 
 #ifdef _DEBUG
-#define DEBUG_ONLY(x) x
+#define DEBUG_ONLY(x)		(x)
+#define CHECKED_CALL(x)		assert((x))
+#define CHECKED_D3D_CALL(x)	assert((x) == D3D_OK)
 #else
 #define DEBUG_ONLY(x)
+#define CHECKED_CALL(x)		(x)
+#define CHECKED_D3D_CALL(x)	(x)
 #endif
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

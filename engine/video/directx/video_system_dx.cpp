@@ -17,6 +17,10 @@
 
 using namespace engine;
 
+namespace {
+	const D3DCOLOR CLEAR_COLOR = D3DCOLOR_XRGB(127, 127, 127);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 VideoSystemDX::VideoSystemDX()
@@ -95,7 +99,7 @@ bool VideoSystemDX::startup() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoSystemDX::update(const float dt) {
-	device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+	device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0);
 
 	if (SUCCEEDED(device_->BeginScene())) {
 		camera_->update(dt);

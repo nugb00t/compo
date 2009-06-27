@@ -24,21 +24,15 @@ bool TextureDX::load(const TCHAR* const path) {
 
 void TextureDX::update() {
 	if (!surface_) {
-		DEBUG_ONLY(bool ok = )
-			doLoad();
-		assert(ok);
+		CHECKED_CALL(doLoad());
 	}
 
 	if (surface_) {
 		IDirect3DSurface9* backBuffer = NULL;
 
-		DEBUG_ONLY(HRESULT res = )
-			VideoDX::get().device().GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
-		assert(res == D3D_OK);
+		CHECKED_D3D_CALL(VideoDX::get().device().GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer));
 
-		DEBUG_ONLY(res = )
-		VideoDX::get().device().UpdateSurface(surface_, NULL, backBuffer, NULL);
-		assert(res == D3D_OK);
+		CHECKED_D3D_CALL(VideoDX::get().device().UpdateSurface(surface_, NULL, backBuffer, NULL));
 	}
 }
 
@@ -49,16 +43,11 @@ bool TextureDX::doLoad() {
 		return false;
 
 	D3DXIMAGE_INFO info;
-	HRESULT res = D3DXGetImageInfoFromFile(path_, &info);
-	if (res != D3D_OK)
-		return false;
+	CHECKED_D3D_CALL(D3DXGetImageInfoFromFile(path_, &info));
 
-	res = VideoDX::get().device().CreateOffscreenPlainSurface(info.Width, info.Height, D3DFMT_X8R8G8B8/*info.Format*/, D3DPOOL_SYSTEMMEM, &surface_, NULL);
-	if (res != D3D_OK)
-		return false;
+	CHECKED_D3D_CALL(VideoDX::get().device().CreateOffscreenPlainSurface(info.Width, info.Height, D3DFMT_X8R8G8B8/*info.Format*/, D3DPOOL_SYSTEMMEM, &surface_, NULL));
 
-	res = D3DXLoadSurfaceFromFile(surface_, NULL, NULL, path_, NULL, D3DX_FILTER_NONE, 0, NULL);
-	if (res != D3D_OK) {
+	if (D3DXLoadSurfaceFromFile(surface_, NULL, NULL, path_, NULL, D3DX_FILTER_NONE, 0, NULL) != D3D_OK) {
 		// TODO: release surface_
 		return false;
 	}

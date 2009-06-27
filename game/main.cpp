@@ -15,9 +15,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
-	DEBUG_ONLY(bool ok = )
-		kaynine::setCurrentDirectory();
-	assert(ok);
+	CHECKED_CALL(kaynine::setCurrentDirectory());
 
 	engine::VideoSystemDX video;
 	engine::WindowSystemW32 window;
