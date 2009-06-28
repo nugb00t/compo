@@ -32,7 +32,10 @@ public:
 
 private:
 	static const Vertex vertices_[];
-	IDirect3DVertexBuffer9* vb_;
+	static const short indices_[];
+
+	IDirect3DVertexBuffer9* vertexBuffer_;
+	IDirect3DIndexBuffer9* indexBuffer_;
 
 	engine::TexturePtr texture_;
 
