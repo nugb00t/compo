@@ -1,5 +1,5 @@
-#ifndef VIDEO_COMPONENT_INCLUDED
-#define VIDEO_COMPONENT_INCLUDED
+#ifndef LIGHT_INCLUDED
+#define LIGHT_INCLUDED
 
 #include "utility/intrusive_ptr_base.h"
 #include "utility/updatable.h"
@@ -8,12 +8,13 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoComponent : public Updatable {};
+class Light : public IntrusivePtrBase, public Updatable {
+};
 
-typedef boost::intrusive_ptr<VideoComponent> VideoComponentPtr;
+typedef boost::intrusive_ptr<Light> LightPtr;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
+} // namespace engine
 
 #endif

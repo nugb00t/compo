@@ -12,10 +12,10 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const MeshDX::Vertex MeshDX::vertices_[] = {
-	{ Vector3( 5.0f,  5.0f, 1.5f), 0xffff0000, },
-	{ Vector3(25.0f, 25.0f, 1.5f), 0xff00ff00, },
-	{ Vector3( 5.0f, 25.0f, 1.5f), 0xff00ffff, },
-	{ Vector3(25.0f,  5.0f, 1.5f), 0xff00ffff, },
+	{ D3DXVECTOR3( 5.0f,  5.0f, 1.5f), 0xffff0000, },
+	{ D3DXVECTOR3(25.0f, 25.0f, 1.5f), 0xff00ff00, },
+	{ D3DXVECTOR3( 5.0f, 25.0f, 1.5f), 0xff00ffff, },
+	{ D3DXVECTOR3(25.0f,  5.0f, 1.5f), 0xff00ffff, },
 };
 
 const short MeshDX::indices_[] = {

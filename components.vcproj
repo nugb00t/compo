@@ -338,6 +338,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\utility\registry.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\utility\registry.h"
 					>
 				</File>
@@ -353,6 +357,10 @@
 			<Filter
 				Name="entities"
 				>
+				<File
+					RelativePath=".\engine\entities\entity.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\engine\entities\entity.h"
 					>
@@ -379,6 +387,10 @@
 				>
 				<File
 					RelativePath=".\engine\video\camera.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\video\light.h"
 					>
 				</File>
 				<File
@@ -430,6 +442,14 @@
 					</File>
 					<File
 						RelativePath=".\engine\video\directx\camera_dx.h"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\light_dx.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\light_dx.h"
 						>
 					</File>
 					<File

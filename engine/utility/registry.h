@@ -37,14 +37,10 @@ bool Registry<T>::add(const unsigned id, T* registrant) {
 	return result.second;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 template <class T>
 bool Registry<T>::remove(const unsigned id) {
 	return registrants().erase(id) > 0;
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
 bool Registry<T>::update(const float dt) {
@@ -59,6 +55,26 @@ typename Registry<T>::Registrants& Registry<T>::registrants() {
 	static Registrants registrants;
 	return registrants;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Empty {};
+
+template <class T>
+bool registerComponent(const unsigned id, T* registrant) {
+	return Registry<typename T::ComponentType>::add(id, registrant);
+}
+
+template <>
+bool registerComponent<Empty>(const unsigned, Empty*);
+
+template <class T>
+bool unregisterComponent(const unsigned id) {
+	return Registry<typename T::ComponentType>::remove(id);
+}
+
+template <>
+bool unregisterComponent<Empty>(const unsigned);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

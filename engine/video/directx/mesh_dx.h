@@ -14,8 +14,8 @@ class MeshDX : public Mesh {
 	struct Vertex {
 		static const short FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 
-		Vector3	point;
-		unsigned color;
+		Vector3	xyz;
+		unsigned diffuse;
 		//Vector3	normal;
 		//Vector2	uv;
 

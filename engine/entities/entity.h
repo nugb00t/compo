@@ -7,12 +7,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoComponentEmpty {};
-class AudioComponentEmpty {};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-template <class TVideoComponent = VideoComponentEmpty, class TAudioComponent = AudioComponentEmpty>
+template <class TVideoComponent = Empty, class TAudioComponent = Empty>
 class Entity {
 	const unsigned id_;
 
@@ -33,16 +28,16 @@ template <class TVideoComponent, class TAudioComponent>
 Entity<TVideoComponent, TAudioComponent>::Entity()
 : id_(::rand())
 {
-	Registry<VideoComponent>::add(id_, &videoComponent_);
-	Registry<AudioComponent>::add(id_, &audioComponent_);
+	registerComponent<TVideoComponent>(id_, &videoComponent_);
+	registerComponent<TAudioComponent>(id_, &audioComponent_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class TVideoComponent, class TAudioComponent>
 Entity<TVideoComponent, TAudioComponent>::~Entity() {
-	Registry<VideoComponent>::remove(id_);
-	Registry<AudioComponent>::remove(id_);
+	unregisterComponent<TVideoComponent>(id_);
+	unregisterComponent<TAudioComponent>(id_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

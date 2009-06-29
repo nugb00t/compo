@@ -37,7 +37,10 @@ VideoSystemDX::~VideoSystemDX() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoSystemDX::init() {
-	// TODO: implement
+	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_LIGHTING, TRUE));
+	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_RGBA(255, 0, 0, 22)));
+	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD));
+
 	return true;
 }
 
