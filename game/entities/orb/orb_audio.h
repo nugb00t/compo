@@ -9,7 +9,7 @@ namespace game {
 
 class OrbAudio : public engine::AudioComponent {
 public:
-	typedef engine::AudioComponent ComponentType;
+	typedef engine::AudioComponent Type;
 
 	// interface: Updatable
 	virtual bool update(const float dt);

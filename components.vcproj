@@ -338,10 +338,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\engine\utility\registry.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\engine\utility\registry.h"
 					>
 				</File>
@@ -355,14 +351,18 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="entities"
+				Name="core"
 				>
 				<File
-					RelativePath=".\engine\entities\entity.cpp"
+					RelativePath=".\engine\core\core.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\engine\entities\entity.h"
+					RelativePath=".\engine\core\core.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\entity.h"
 					>
 				</File>
 			</Filter>
@@ -501,6 +501,14 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="logic"
+				>
+				<File
+					RelativePath=".\engine\logic\logic_component.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

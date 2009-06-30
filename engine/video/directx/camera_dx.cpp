@@ -17,6 +17,7 @@ namespace {
 	const D3DXVECTOR3 CAMERA_LOOKAT	= D3DXVECTOR3(0.0f,  0.0f,  0.0f);
 	const D3DXVECTOR3 CAMERA_UP		= D3DXVECTOR3(0.0f,  1.0f,  0.0f);
 }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 CameraDX::CameraDX()

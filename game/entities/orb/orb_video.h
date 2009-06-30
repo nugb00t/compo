@@ -11,7 +11,7 @@ namespace game {
 
 class OrbVideo : public engine::VideoComponent {
 public:
-	typedef engine::VideoComponent ComponentType;
+	typedef engine::VideoComponent Type;
 
 	OrbVideo();
 

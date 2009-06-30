@@ -58,26 +58,6 @@ typename Registry<T>::Registrants& Registry<T>::registrants() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Empty {};
-
-template <class T>
-bool registerComponent(const unsigned id, T* registrant) {
-	return Registry<typename T::ComponentType>::add(id, registrant);
-}
-
-template <>
-bool registerComponent<Empty>(const unsigned, Empty*);
-
-template <class T>
-bool unregisterComponent(const unsigned id) {
-	return Registry<typename T::ComponentType>::remove(id);
-}
-
-template <>
-bool unregisterComponent<Empty>(const unsigned);
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 }
 
 #endif
