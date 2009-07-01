@@ -1,19 +1,17 @@
-#ifndef LOGIC_COMPONENT_INCLUDED
-#define LOGIC_COMPONENT_INCLUDED
+#ifndef SYNC_INCLUDED
+#define SYNC_INCLUDED
 
-#include "utility/intrusive_ptr_base.h"
-#include "utility/updatable.h"
+#include "utility/callable.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class LogicComponent : public Updatable {
+class Sync {
 public:
-	typedef engine::LogicComponent Type;
-};
+	static const TCHAR EXIT_SIGNAL_NAME[];
 
-typedef boost::intrusive_ptr<LogicComponent> LogicComponentPtr;
+};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

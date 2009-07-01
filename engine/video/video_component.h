@@ -8,7 +8,10 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoComponent : public Updatable {};
+class VideoComponent : public Updatable {
+public:
+	typedef engine::VideoComponent Type;
+};
 
 typedef boost::intrusive_ptr<VideoComponent> VideoComponentPtr;
 

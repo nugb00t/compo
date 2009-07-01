@@ -2,19 +2,30 @@
 
 #include "core.h"
 
-#include "video/directx/video_system_dx.h"
-#include "window/win32/window_system_w32.h"
+#pragma comment(lib, "winmm.lib")		// timer stuff
 
 using namespace engine;
 
-void Core::run() {
-	CHECKED_CALL(kaynine::setCurrentDirectory());
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	engine::VideoSystemDX video;
-	engine::WindowSystemW32 window;
-
-	boost::thread_group threads;
-	threads.create_thread(boost::ref(engine::Video::get()));
-
-	threads.join_all();
+Core::Core() {
+	CHECKED_GENERIC_CALL(::timeBeginPeriod(1), TIMERR_NOERROR);	// system timer resolution
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Core::run() {
+	for (std::list<Callable*>::iterator it = systems_.begin(); it != systems_.end(); ++it) {
+		threads_.create_thread(boost::ref(**it));
+	}
+
+	threads_.join_all();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+time_t Core::time() const {
+	return ::timeGetTime();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

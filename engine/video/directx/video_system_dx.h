@@ -17,9 +17,6 @@ public:
 	VideoSystemDX();
 	~VideoSystemDX();
 
-	// interface: Callable
-	virtual void operator()();
-
 	// interface: Updatable
 	virtual bool update(const float dt);
 

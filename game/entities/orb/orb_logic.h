@@ -1,23 +1,18 @@
-#ifndef ORB_VIDEO_INCLUDED
-#define ORB_VIDEO_INCLUDED
+#ifndef ORB_LOGIC_INCLUDED
+#define ORB_LOGIC_INCLUDED
 
-#include "video/video_component.h"
-#include "video/mesh.h"
-#include "video/texture.h"
+#include "logic/logic_component.h"
 
 namespace game {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class OrbVideo : public engine::VideoComponent {
+class OrbLogic : public engine::LogicComponent {
 public:
-	OrbVideo();
+	typedef engine::LogicComponent Type;
 
 	// interface: Updatable
 	virtual bool update(const float dt);
-
-private:
-	engine::MeshPtr mesh_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

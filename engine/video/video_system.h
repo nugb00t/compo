@@ -13,11 +13,12 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoSystem : 
-	public Callable
-{
+class VideoSystem : public Callable, public Updatable {
 public:
 	VideoSystem();
+
+	// interface: Callable
+	virtual void operator()();
 
 	// startup/shutdown
 	virtual bool startup() = 0;

@@ -28,217 +28,98 @@
 
 namespace kaynine {
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class CriticalSection {
 private:
-	CRITICAL_SECTION	cs_;
+	CRITICAL_SECTION cs_;
 
 
 public:
 	// new
-	explicit CriticalSection(bool bLock = false) {	
-		InitializeCriticalSection(&cs_);
+	explicit CriticalSection(bool initialLock = false);
+	~CriticalSection();
 
-		if (bLock)
-			EnterCriticalSection(&cs_);
-	}
+	bool tryLock();
+	void lock();
+	void unlock();
 
-	~CriticalSection() {	
-		if (isLocked())
-			unlock();
-
-		DeleteCriticalSection(&cs_);	
-	}
-
-	// by pointer
-	explicit CriticalSection(CRITICAL_SECTION* pcs)
-		: cs_(*pcs) {}
-
-	inline CriticalSection& operator =(CRITICAL_SECTION* pcs) {
-		cs_ = *pcs;
-		return *this;
-	}
-
-	// cast
-	inline operator CRITICAL_SECTION*() {	
-		return &cs_;					
-	}
-
-	// tools
-	inline void lock() {	
-		EnterCriticalSection(&cs_);
-	}
-
-	inline bool tryLock() {	
-		return TryEnterCriticalSection(&cs_) == TRUE;	
-	}
-
-	inline void unlock() {	
-		LeaveCriticalSection(&cs_);
-	}
-
-	inline bool isLocked() {	
-		return cs_.LockCount >= 0;
-	}
+	bool isLocked();
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
-	@brief		lock
-*/
 template<class T = CriticalSection>
 class AutoLock {
 public:
-	typedef T	LOCKOBJECT_TYPE;
-
+	AutoLock(T* lockable);
+	~AutoLock();
 
 private:
-	T*			pObj_;
-
-
-public:
-	explicit AutoLock(T* pObj)
-		: pObj_(pObj) {
-		pObj_->lock();
-	}
-
-	~AutoLock() {
-		pObj_->unlock();
-		pObj_ = NULL;
-	}
+	T* lockable_;
 };
 
-// CRITICAL_SECTION
-template<> AutoLock<CriticalSection>::AutoLock(CriticalSection* pObj)
-	: pObj_(pObj) {
-		EnterCriticalSection(pObj_->operator CRITICAL_SECTION*());
+template<class T>
+AutoLock<T>::AutoLock(T* lockable) 
+: obj_(lockable) {
+	lockable_->lock();
 }
 
-template<> AutoLock<CriticalSection>::~AutoLock() {
-	LeaveCriticalSection(pObj_->operator CRITICAL_SECTION*());
-	pObj_ = NULL;
+template<class T>
+AutoLock<T>::~AutoLock() {
+	lockable_->unlock();
+	lockable_ = NULL;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
-	@brief		Handle wrapper
-	
-	@remarks	Main purpose is to manage handle destruction
-
-				Does not provide duplicate facility by default for copying and assignment.
-				Children have to take care of it themselves.
-*/
 class Handle {
-protected:
-	HANDLE		handle_;
-
-
 public:
-	Handle(HANDLE handle){
-		DuplicateHandle(GetCurrentProcess(), handle, GetCurrentProcess(), &handle_ , 0, FALSE, DUPLICATE_SAME_ACCESS);	
-	}
+	Handle(const HANDLE handle, const bool takeOwnership = false);
+	Handle(const Handle& handle);
+	~Handle();
 
-	Handle(const Handle& handle) {
-		DuplicateHandle(GetCurrentProcess(), handle, GetCurrentProcess(), &handle_ , 0, FALSE, DUPLICATE_SAME_ACCESS);	
-	}
+	Handle& operator =(const HANDLE handle);
 
-	~Handle() {	
-		CloseHandle(handle_);
-	}
+	bool isSet() const;
+	unsigned wait(unsigned dwMilliseconds = INFINITE);
 
-	inline Handle& operator =(HANDLE handle) {
-		// close existing
-		if (handle_)
-			CloseHandle(handle_);
+protected:
+	const HANDLE handle() const;
 
-		DuplicateHandle(GetCurrentProcess(), handle, GetCurrentProcess(), &handle_ , 0, FALSE, DUPLICATE_SAME_ACCESS);	
-
-		return *this;
-	}
-
-	inline operator HANDLE() const {	
-		return handle_;			
-	}
-
-	inline HANDLE duplicate(HANDLE hSourceProcessHandle = GetCurrentProcess(), 
-							HANDLE hTargetProcessHandle = GetCurrentProcess(),
-							DWORD dwDesiredAccess = 0, 
-							BOOL bInheritHandle = FALSE, 
-							DWORD dwOptions = DUPLICATE_SAME_ACCESS) const {
-		HANDLE hNew = NULL;
-		DuplicateHandle(hSourceProcessHandle, handle_, hTargetProcessHandle, &hNew , dwDesiredAccess, bInheritHandle, dwOptions);	
-
-		return hNew;
-	}
-
-	inline bool isSet() {	
-		return WaitForSingleObject(handle_, 0) == WAIT_OBJECT_0;
-	}
-
-	inline DWORD wait(DWORD dwMilliseconds = INFINITE) {	
-		return WaitForSingleObject(handle_, dwMilliseconds);	
-	}
+private:
+	HANDLE handle_;
+	bool ownsHandle_;
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
-	@brief	Event wrapper
-*/
 class Event : public Handle {
 public:
-	Event(bool bInitialState = false, 
-				 bool bManualReset = true, 
-				 LPSECURITY_ATTRIBUTES lpsaAttribute = NULL)
-	: Handle(CreateEvent(lpsaAttribute, bManualReset, bInitialState, NULL)) {}
+	enum Ownership {
+		DontTakeOwnership
+	};
 
-	Event(HANDLE handle)
-	: Handle(handle) {}
+public:
+	Event(const TCHAR* const name);
+	Event(const TCHAR* const name, const Ownership);
 
-	Event(const Event& event)
-	: Handle(event) {}
-
-
-	// tools
-	inline bool set() {	
-		return SetEvent(handle_) == TRUE;	
-	}
-
-	inline bool reset() {
-		return ResetEvent(handle_) == TRUE;
-	}
+	const bool set();
+	const bool reset();
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class WaitableTimer : public Handle {
 public:
-	// creation
-	WaitableTimer(bool bManualReset = false, LPSECURITY_ATTRIBUTES lpsaAttribute = NULL)
-	: Handle(CreateWaitableTimer(lpsaAttribute, bManualReset, NULL)) {}
+	WaitableTimer(bool manualReset = false);
+	~WaitableTimer();
 
-	// seizing
-	WaitableTimer(HANDLE handle)
-	: Handle(handle) {}
-
-	~WaitableTimer() {
-		CancelWaitableTimer(handle_);
-	}
-
-	// tools
-	inline bool set(const LARGE_INTEGER* pDueTime, 
-					LONG lMilliseconds = 0, 
-					PTIMERAPCROUTINE pfnCompletionRoutine = NULL, 
-					LPVOID lpArgToCompletionRoutine = NULL, 
-					BOOL bResume = FALSE) {
-		LARGE_INTEGER liDueTime;
-		liDueTime.QuadPart = pDueTime ? pDueTime->QuadPart : -1;
-		return SetWaitableTimer(handle_, &liDueTime, lMilliseconds, pfnCompletionRoutine, lpArgToCompletionRoutine, bResume) == TRUE;	
-	}
-
-	inline bool cancel() {	
-		return CancelWaitableTimer(handle_) == TRUE;	
-	}
+	bool set(const LARGE_INTEGER dueTime, const bool resume = false);
+	bool cancel();
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class MultipleObjects {
 private:
@@ -271,29 +152,29 @@ public:
 		handles_.push_back(h3);
 	}
 
-	inline DWORD areSetAll() {
+	DWORD areSetAll() {
 		return WaitForMultipleObjects((DWORD)handles_.size(), &*handles_.begin(), TRUE, 0);
 	}
 
-	inline DWORD areSetAny() {
+	DWORD areSetAny() {
 		return WaitForMultipleObjects((DWORD)handles_.size(), &*handles_.begin(), FALSE, 0);
 	}
 
-	inline DWORD waitAll(DWORD dwMilliseconds = INFINITE) {
+	DWORD waitAll(DWORD dwMilliseconds = INFINITE) {
 		return WaitForMultipleObjects((DWORD)handles_.size(), &*handles_.begin(), TRUE, dwMilliseconds);
 	}
 
-	inline DWORD waitAny(DWORD dwMilliseconds = INFINITE) {
+	DWORD waitAny(DWORD dwMilliseconds = INFINITE) {
 		return WaitForMultipleObjects((DWORD)handles_.size(), &*handles_.begin(), FALSE, dwMilliseconds);
 	}
 
-	inline HANDLE operator[] (size_t i) {
+	HANDLE operator[] (size_t i) {
 		return handles_[i];
 	}
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 } //namespace kaynine
 
-
-#endif //_KN_SYNC_WRAPPERS_INCLUDED_
+#endif

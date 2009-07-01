@@ -17,6 +17,7 @@
 #pragma warning (disable: 4244)		// conversion from 'int' to 'unsigned short', possible loss of data
 #include <boost/intrusive_ptr.hpp>
 #include <boost/thread.hpp>
+// #include <boost/thread/thread_time.hpp>		// get_system_time();
 #pragma warning (default: 4244)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,20 +57,23 @@ typedef cml::vector4f Vector4;
 
 #include <kaynine/utility/singleton.h>
 #include <kaynine/fs_tools/tools.h>
+#include <kaynine/threading/sync_wrappers.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define UNUSED(x)
 
 #ifdef _DEBUG
-#define DEBUG_ONLY(x)		(x)
-#define CHECKED_CALL(x)		assert((x))
-#define CHECKED_D3D_CALL(x)	assert((x) == D3D_OK)
+#define DEBUG_ONLY(x)				(x)
+#define CHECKED_CALL(x)				assert((x))
+#define CHECKED_GENERIC_CALL(x, r)	assert((x) == (r))
 #else
 #define DEBUG_ONLY(x)
-#define CHECKED_CALL(x)		(x)
-#define CHECKED_D3D_CALL(x)	(x)
+#define CHECKED_CALL(x)				(x)
+#define CHECKED_GENERIC_CALL(x, r)	(x)
 #endif
+
+#define CHECKED_D3D_CALL(x)			CHECKED_GENERIC_CALL(x, D3D_OK)
 
 
 

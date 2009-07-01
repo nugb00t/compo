@@ -1,19 +1,17 @@
-#ifndef LOGIC_COMPONENT_INCLUDED
-#define LOGIC_COMPONENT_INCLUDED
+#ifndef LOGIC_INCLUDED
+#define LOGIC_INCLUDED
 
-#include "utility/intrusive_ptr_base.h"
-#include "utility/updatable.h"
+#include "utility/callable.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class LogicComponent : public Updatable {
+class Logic : public Callable, public kaynine::Singleton<Logic> {
 public:
-	typedef engine::LogicComponent Type;
+	// interface: Callable
+	virtual void operator()();
 };
-
-typedef boost::intrusive_ptr<LogicComponent> LogicComponentPtr;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

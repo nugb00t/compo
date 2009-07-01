@@ -46,23 +46,6 @@ bool VideoSystemDX::init() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemDX::operator()() {
-	if (Window::get().create(800, 600, 32, 0, false) && startup()) {
-		while (true) {
-			// TODO: valid dt here?
-			if (!Window::get().update(0))
-				break;
-
-			update(0);
-		}
-	}
-
-	shutdown();
-	Window::get().destroy();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void VideoSystemDX::shutdown() {
 	if (d3d_) {
 		d3d_->Release();

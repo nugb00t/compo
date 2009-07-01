@@ -309,6 +309,42 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="threading"
+					>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\threading\frame_buffer.h"
+						>
+					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\threading\frame_buffer_access.h"
+						>
+					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\threading\sync_wrappers.cpp"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\threading\sync_wrappers.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -363,6 +399,14 @@
 				</File>
 				<File
 					RelativePath=".\engine\core\entity.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\sync.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\sync.h"
 					>
 				</File>
 			</Filter>
@@ -509,6 +553,14 @@
 					RelativePath=".\engine\logic\logic_component.h"
 					>
 				</File>
+				<File
+					RelativePath=".\engine\logic\logic_system.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\logic\logic_system.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -549,10 +601,6 @@
 					Name="orb"
 					>
 					<File
-						RelativePath=".\game\entities\orb\orb.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\game\entities\orb\orb.h"
 						>
 					</File>
@@ -562,6 +610,14 @@
 					</File>
 					<File
 						RelativePath=".\game\entities\orb\orb_audio.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\entities\orb\orb_logic.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\game\entities\orb\orb_logic.h"
 						>
 					</File>
 					<File

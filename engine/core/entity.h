@@ -40,11 +40,30 @@ public:
 					Registry<TComponent2::Type>::add(id(), &component2_);	}
 
 	~Entity2()	{	Registry<TComponent1::Type>::remove(id());
-					Registry<TComponent1::Type>::remove(id());	}
+					Registry<TComponent2::Type>::remove(id());	}
 
 private:
 	TComponent1 component1_;
 	TComponent2 component2_;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+template <class TComponent1, class TComponent2, class TComponent3>
+class Entity3 : public EntityBase {
+public:
+	Entity3()	{	Registry<TComponent1::Type>::add(id(), &component1_);
+					Registry<TComponent2::Type>::add(id(), &component2_);
+					Registry<TComponent3::Type>::add(id(), &component3_);	}
+
+	~Entity3()	{	Registry<TComponent1::Type>::remove(id());
+					Registry<TComponent2::Type>::remove(id());
+					Registry<TComponent3::Type>::remove(id());	}
+
+private:
+	TComponent1 component1_;
+	TComponent2 component2_;
+	TComponent3 component3_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

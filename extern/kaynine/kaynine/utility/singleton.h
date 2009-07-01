@@ -7,7 +7,7 @@ namespace kaynine {
 
 template <class T>
 struct Singleton {
-	static T& inst() {
+	static T& get() {
 		static T t;
 		return t;
 	}

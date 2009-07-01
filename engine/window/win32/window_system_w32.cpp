@@ -2,6 +2,8 @@
 
 #include "window_system_w32.h"
 
+#include "core/sync.h"
+
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,9 +197,11 @@ void WindowSystemW32::destroy() {
 
 bool WindowSystemW32::update(const float UNUSED(dt)) {
 	MSG	msg;
-
 	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 		if (msg.message == WM_QUIT) {
+			kaynine::Event exitSignal(Sync::EXIT_SIGNAL_NAME);
+			exitSignal.set();
+
 			return false;
 		} else {
 			::TranslateMessage(&msg);
