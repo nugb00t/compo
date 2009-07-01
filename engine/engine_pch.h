@@ -57,6 +57,8 @@ typedef cml::vector4f Vector4;
 
 #include <kaynine/utility/singleton.h>
 #include <kaynine/fs_tools/tools.h>
+#include <kaynine/threading/frame_buffer.h>
+#include <kaynine/threading/frame_buffer_access.h>
 #include <kaynine/threading/sync_wrappers.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

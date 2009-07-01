@@ -102,19 +102,21 @@ const bool Event::reset() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WaitableTimer::WaitableTimer(bool manualReset)
-: Handle(::CreateWaitableTimer(NULL, manualReset, NULL)) {}
+WaitableTimer::WaitableTimer(const unsigned dueTime)
+: Handle(::CreateWaitableTimer(NULL, FALSE, NULL)) {
+	set(dueTime);
+}
 
 WaitableTimer::~WaitableTimer() {
 	assert(handle());
 	cancel();
 }
 
-bool WaitableTimer::set(const LARGE_INTEGER dueTime, const bool resume) {
+bool WaitableTimer::set(const unsigned dueTime) {
 	assert(handle());
-	//LARGE_INTEGER liDueTime;
-	//liDueTime.QuadPart = dueTime ? dueTime.QuadPart : -1;
-	return ::SetWaitableTimer(handle(), &dueTime, 0, NULL, NULL, resume) == TRUE;	
+	LARGE_INTEGER period;
+	period.QuadPart = dueTime;
+	return ::SetWaitableTimer(handle(), &period, 0, NULL, NULL, FALSE) == TRUE;	
 }
 
 bool WaitableTimer::cancel() {	

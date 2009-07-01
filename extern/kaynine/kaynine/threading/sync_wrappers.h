@@ -112,10 +112,10 @@ public:
 
 class WaitableTimer : public Handle {
 public:
-	WaitableTimer(bool manualReset = false);
+	WaitableTimer(const unsigned dueTime);
 	~WaitableTimer();
 
-	bool set(const LARGE_INTEGER dueTime, const bool resume = false);
+	bool set(const unsigned dueTime);
 	bool cancel();
 };
 

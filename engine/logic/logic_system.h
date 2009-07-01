@@ -11,6 +11,8 @@ class Logic : public Callable, public kaynine::Singleton<Logic> {
 public:
 	// interface: Callable
 	virtual void operator()();
+
+	bool update(const float dt);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
