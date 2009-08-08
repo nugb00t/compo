@@ -22,12 +22,12 @@ void VideoSystem::operator()() {
 	if (Window::get().create(800, 600, 32, 0, false) && Video::get().startup()) {
 		kaynine::WaitableTimer timer(sync::VIDEO_FRAMETIME);
 
-		time_t last = Core::get().time();
+		time_t last = Core::inst().time();
 		float dt;
 
 		while (!exitSignal.isSet()) {
-			dt = static_cast<float>(Core::get().time() - last);
-			last = Core::get().time();
+			dt = static_cast<float>(Core::inst().time() - last);
+			last = Core::inst().time();
 
 			Window::get().update(dt);
 			Video::get().update(dt);

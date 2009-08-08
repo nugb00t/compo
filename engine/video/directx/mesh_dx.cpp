@@ -51,13 +51,11 @@ MeshDX::MeshDX()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool MeshDX::update(const float /*dt*/) {
+bool MeshDX::draw(const Vector3& position, const Vector3& direction, const Vector3& scale) {
 	D3DXMatrixIdentity(&transform_);
-	D3DXMatrixTranslation(&transform_, 0.0f, 0.0f, 0.0f);
-
-	unsigned time = ::timeGetTime() % 1000;
-	float angle = time * (2.0f * D3DX_PI) / 1000.0f;
-	D3DXMatrixRotationY(&transform_, angle);
+	D3DXMatrixTranslation(&transform_, position[0], position[1], position[2]);
+	D3DXMatrixScaling(&transform_, scale[0], scale[1], scale[2]);
+	D3DXMatrixRotationYawPitchRoll(&transform_, direction[0], direction[1], direction[2]);
 
 	CHECKED_D3D_CALL(VideoDX::get().device().SetTransform(D3DTS_WORLD, &transform_));
 
@@ -68,7 +66,7 @@ bool MeshDX::update(const float /*dt*/) {
 
 	// TEMP
 	//texture_->update();
-	// TEMP
+	// TEMPW
 
 	return true;
 }

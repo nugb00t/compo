@@ -19,9 +19,9 @@ int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
 
 	game::Orb orb;
 
-	engine::Core::get().add(engine::Logic::get());
-	engine::Core::get().add(engine::Video::get());
-	engine::Core::get().run();
+	engine::Core::inst().add(engine::Logic::inst());
+	engine::Core::inst().add(engine::Video::get());
+	engine::Core::inst().run();
 
 	return 0;
 }

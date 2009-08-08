@@ -11,8 +11,6 @@ namespace game {
 
 class OrbVideo : public engine::VideoComponent {
 public:
-	OrbVideo();
-
 	// interface: Updatable
 	virtual bool update(const float dt);
 

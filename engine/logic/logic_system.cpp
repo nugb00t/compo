@@ -17,14 +17,14 @@ void Logic::operator()() {
 
 	kaynine::WaitableTimer timer(sync::LOGIC_FRAMETIME);
 
-	time_t last = Core::get().time();
+	time_t last = Core::inst().time();
 	float dt;
 
 	while (!exitSignal.isSet()) {
-		dt = static_cast<float>(Core::get().time() - last);
-		last = Core::get().time();
+		dt = static_cast<float>(Core::inst().time() - last);
+		last = Core::inst().time();
 
-		Logic::get().update(dt);
+		Logic::inst().update(dt);
 
 		timer.wait(sync::VIDEO_FRAMETIME * 2);
 	}

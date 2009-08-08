@@ -1,20 +1,17 @@
-#ifndef MESH_INCLUDED
-#define MESH_INCLUDED
-
-#include "utility/intrusive_ptr_base.h"
-#include "utility/drawable.h"
+#ifndef DRAWABLE_INCLUDED
+#define DRAWABLE_INCLUDED
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Mesh : public IntrusivePtrBase, public Drawable {
+class Drawable {
+public:
+	virtual bool draw(const Vector3& position, const Vector3& direction, const Vector3& scale) = 0;
 };
-
-typedef boost::intrusive_ptr<Mesh> MeshPtr;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-} // namespace engine
+}
 
 #endif

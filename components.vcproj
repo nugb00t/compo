@@ -362,6 +362,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\utility\drawable.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\utility\holder.h"
 					>
 				</File>

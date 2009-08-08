@@ -27,8 +27,8 @@ class MeshDX : public Mesh {
 public:
 	MeshDX();
 
-	// interface: Updatable
-	virtual bool update(const float dt);
+	// interface: Drawable
+	virtual bool draw(const Vector3& position, const Vector3& direction, const Vector3& scale);
 
 private:
 	static const Vertex vertices_[];
