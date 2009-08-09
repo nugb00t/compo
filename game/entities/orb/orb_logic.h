@@ -11,8 +11,9 @@ class OrbLogic : public engine::LogicComponent {
 public:
 	typedef engine::LogicComponent Type;
 
-	// interface: Updatable
-	virtual bool update(const float dt);
+public:
+	// interface: LogicComponent
+	virtual void update(engine::Sync::EntityParams& toVideo, const float dt);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -27,7 +27,7 @@ const short MeshDX::indices_[] = {
 
 MeshDX::MeshDX()
 : vertexBuffer_(NULL) {
-	CHECKED_D3D_CALL(VideoDX::get().device().CreateVertexBuffer(sizeof(vertices_), 0, Vertex::FVF, D3DPOOL_DEFAULT, &vertexBuffer_, NULL));
+	CHECKED_D3D_CALL(VideoDX::inst().device().CreateVertexBuffer(sizeof(vertices_), 0, Vertex::FVF, D3DPOOL_DEFAULT, &vertexBuffer_, NULL));
 
 	// vertex buffer
 	void* buffer = NULL;
@@ -36,14 +36,14 @@ MeshDX::MeshDX()
 	CHECKED_D3D_CALL(vertexBuffer_->Unlock());
 
 	// index buffer
-	CHECKED_D3D_CALL(VideoDX::get().device().CreateIndexBuffer(sizeof(indices_), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &indexBuffer_, NULL));
+	CHECKED_D3D_CALL(VideoDX::inst().device().CreateIndexBuffer(sizeof(indices_), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &indexBuffer_, NULL));
 
 	buffer = NULL;
 	CHECKED_D3D_CALL(indexBuffer_->Lock(0, 0, &buffer, 0));
 	::memcpy(buffer, (void*) &indices_, sizeof(indices_));
 	CHECKED_D3D_CALL(indexBuffer_->Unlock());
 
-	texture_ = VideoDX::get().createTexture();
+	texture_ = VideoDX::inst().createTexture();
 	assert(texture_);
 
 	CHECKED_CALL(texture_->load(_T("myself.bmp")));		// tga
@@ -63,12 +63,12 @@ bool MeshDX::draw(const Vector3& position, const Vector3& rotation, const Vector
 		NULL, &rotationQ, 
 		reinterpret_cast<const D3DXVECTOR3*>(position.data()));
 
-	CHECKED_D3D_CALL(VideoDX::get().device().SetTransform(D3DTS_WORLD, &transform_));
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_WORLD, &transform_));
 
-	CHECKED_D3D_CALL(VideoDX::get().device().SetStreamSource(0, vertexBuffer_, 0, sizeof(Vertex)));
-	CHECKED_D3D_CALL(VideoDX::get().device().SetIndices(indexBuffer_));
-	CHECKED_D3D_CALL(VideoDX::get().device().SetFVF(Vertex::FVF));
-	CHECKED_D3D_CALL(VideoDX::get().device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, sizeof(vertices_) / sizeof(Vertex), 0, sizeof(indices_) / 3 / sizeof(short)));
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetStreamSource(0, vertexBuffer_, 0, sizeof(Vertex)));
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetIndices(indexBuffer_));
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetFVF(Vertex::FVF));
+	CHECKED_D3D_CALL(VideoDX::inst().device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, sizeof(vertices_) / sizeof(Vertex), 0, sizeof(indices_) / 3 / sizeof(short)));
 
 	// TEMP
 	//texture_->update();

@@ -67,7 +67,7 @@ private:
 
 template<class T>
 AutoLock<T>::AutoLock(T* lockable) 
-: obj_(lockable) {
+: lockable_(lockable) {
 	lockable_->lock();
 }
 

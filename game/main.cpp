@@ -20,7 +20,7 @@ int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
 	game::Orb orb;
 
 	engine::Core::inst().add(engine::Logic::inst());
-	engine::Core::inst().add(engine::Video::get());
+	engine::Core::inst().add(engine::Video::inst());
 	engine::Core::inst().run();
 
 	return 0;

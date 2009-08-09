@@ -30,9 +30,9 @@ void TextureDX::update() {
 	if (surface_) {
 		IDirect3DSurface9* backBuffer = NULL;
 
-		CHECKED_D3D_CALL(VideoDX::get().device().GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer));
+		CHECKED_D3D_CALL(VideoDX::inst().device().GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer));
 
-		CHECKED_D3D_CALL(VideoDX::get().device().UpdateSurface(surface_, NULL, backBuffer, NULL));
+		CHECKED_D3D_CALL(VideoDX::inst().device().UpdateSurface(surface_, NULL, backBuffer, NULL));
 	}
 }
 
@@ -45,7 +45,7 @@ bool TextureDX::doLoad() {
 	D3DXIMAGE_INFO info;
 	CHECKED_D3D_CALL(D3DXGetImageInfoFromFile(path_, &info));
 
-	CHECKED_D3D_CALL(VideoDX::get().device().CreateOffscreenPlainSurface(info.Width, info.Height, D3DFMT_X8R8G8B8/*info.Format*/, D3DPOOL_SYSTEMMEM, &surface_, NULL));
+	CHECKED_D3D_CALL(VideoDX::inst().device().CreateOffscreenPlainSurface(info.Width, info.Height, D3DFMT_X8R8G8B8/*info.Format*/, D3DPOOL_SYSTEMMEM, &surface_, NULL));
 
 	if (D3DXLoadSurfaceFromFile(surface_, NULL, NULL, path_, NULL, D3DX_FILTER_NONE, 0, NULL) != D3D_OK) {
 		// TODO: release surface_

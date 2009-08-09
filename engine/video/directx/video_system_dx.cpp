@@ -73,7 +73,7 @@ bool VideoSystemDX::startup() {
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 
-	if (FAILED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window::get().handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &device_)))
+	if (FAILED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window::inst().handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &device_)))
 		return false;
 
 	camera_ = createCamera();
@@ -84,20 +84,23 @@ bool VideoSystemDX::startup() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool VideoSystemDX::update(const float dt) {
+void VideoSystemDX::update(const float dt) {
 	device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0);
 
 	if (SUCCEEDED(device_->BeginScene())) {
 		camera_->update(dt);
 
-		// TODO: correct dt
-		Registry<VideoComponent>::update(/* correct dt */ 0);
+		Sync::LogicToVideoReadable fromLogic(Sync::inst().logicToVideo());
+
+		if (fromLogic)
+			for (unsigned i = 0; i < Sync::MAX_ENTITIES; ++i)
+				if (VideoComponentRegistry::inst().valid(i))
+					VideoComponentRegistry::inst().get(i).update(fromLogic->entityParams[i], dt);
 
 		device_->EndScene();
 	}
 
 	device_->Present(NULL, NULL, NULL, NULL);
-	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

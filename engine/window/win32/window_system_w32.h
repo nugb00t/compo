@@ -19,7 +19,7 @@ public:
 	virtual bool boolean_test() const;
 
 	// interface: Updatable
-	virtual bool update(const float dt);
+	virtual void update(const float dt);
 
 	// interface: WindowSystem
 	virtual bool create(const unsigned width, const unsigned height);

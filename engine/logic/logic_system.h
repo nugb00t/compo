@@ -9,12 +9,14 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Logic : public Callable, public Updatable, public kaynine::Singleton<Logic> {
+	static const unsigned FRAMERATE = 20;
+
 public:
 	// interface: Callable
 	virtual void operator()();
 
 	// interface: Updatable
-	bool update(const float dt);
+	void update(const float dt);
 
 	friend struct kaynine::Singleton<Logic>;
 };

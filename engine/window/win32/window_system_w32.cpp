@@ -195,21 +195,17 @@ void WindowSystemW32::destroy() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool WindowSystemW32::update(const float UNUSED(dt)) {
+void WindowSystemW32::update(const float UNUSED(dt)) {
 	MSG	msg;
 	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 		if (msg.message == WM_QUIT) {
-			kaynine::Event exitSignal(sync::EXIT_SIGNAL_NAME);
+			kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
 			exitSignal.set();
-
-			return false;
 		} else {
 			::TranslateMessage(&msg);
 			::DispatchMessage(&msg);
 		}
 	}
-
-	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

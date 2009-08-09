@@ -57,7 +57,7 @@ bool VideoSystemOGL::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE dept
 	assert(wglChoosePixelFormatARB);
 
 	int format;
-	const bool ok = wglChoosePixelFormatARB(Window::get().context(), iAttributes, fAttributes, 1, &format, &numFormats) != 0 && numFormats > 0;
+	const bool ok = wglChoosePixelFormatARB(Window::inst().context(), iAttributes, fAttributes, 1, &format, &numFormats) != 0 && numFormats > 0;
 
 #ifdef DEBUG
 	if (!ok) {
@@ -150,28 +150,28 @@ bool VideoSystemOGL::init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoSystemOGL::operator()() {
-	if (Window::get().create(800, 600, 32, 0, false) &&
+	if (Window::inst().create(800, 600, 32, 0, false) &&
 		startup() &&
 		init())
 	{
 		while (true) {
 			//clear();
 			// TODO: valid dt here?
-			if (!Window::get().update(0))
+			if (!Window::inst().update(0))
 				break;
 
 			// TODO: correct dt
-			Registry<VideoComponent>::update(/* correct dt */ 0);
+			Registry<VideoComponent, Sync::MAX_ENTITIES>::update(/* correct dt */ 0);
 
-			Video::get().drawTest();
+			Video::inst().drawTest();
 
 			flush();
-			Window::get().swapBuffers();
+			Window::inst().swapBuffers();
 		}
 	}
 
 	shutdown();
-	Window::get().destroy();
+	Window::inst().destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,9 +203,9 @@ void VideoSystemOGL::shutdown() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoSystemOGL::startup() {
-	if (Window::get().choosePixelFormat(32, 8, 24, 0) &&
-		(context_ = wglCreateContext(Window::get().context())) != 0 &&
-		wglMakeCurrent(Window::get().context(), context_) &&
+	if (Window::inst().choosePixelFormat(32, 8, 24, 0) &&
+		(context_ = wglCreateContext(Window::inst().context())) != 0 &&
+		wglMakeCurrent(Window::inst().context(), context_) &&
 		glewInit() == GLEW_OK &&
 		choosePixelFormat(24, 8, 24, 0, 2)) 
 	{

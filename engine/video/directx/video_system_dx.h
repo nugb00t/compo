@@ -18,7 +18,7 @@ public:
 	~VideoSystemDX();
 
 	// interface: Updatable
-	virtual bool update(const float dt);
+	virtual void update(const float dt);
 
 	// interface: VideoSystem
 	virtual bool startup();

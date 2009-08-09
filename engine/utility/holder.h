@@ -10,7 +10,7 @@ namespace engine {
 template <class T>
 class Holder {
 public:
-	static T& get();
+	static T& inst();
 
 private:
 	// invoked in T's ctor
@@ -26,7 +26,7 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
-T& Holder<T>::get() { 
+T& Holder<T>::inst() { 
 	return *subject(); 
 }
 

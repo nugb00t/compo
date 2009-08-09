@@ -30,18 +30,16 @@ CameraDX::CameraDX()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool CameraDX::update(const float /*dt*/) {
+void CameraDX::update(const float /*dt*/) {
 	D3DXMATRIX view;
 	D3DXMatrixLookAtLH(&view, &pos_, &lookAt_, &up_);
 
-	CHECKED_D3D_CALL(VideoDX::get().device().SetTransform(D3DTS_VIEW, &view));
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_VIEW, &view));
 
 	D3DXMATRIX projection;
 	D3DXMatrixPerspectiveFovLH(&projection, fov_, aspect_, Z_NEAR, Z_FAR);
 
-	CHECKED_D3D_CALL(VideoDX::get().device().SetTransform(D3DTS_PROJECTION, &projection));
-
-	return true;
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_PROJECTION, &projection));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -11,8 +11,8 @@ namespace game {
 
 class OrbVideo : public engine::VideoComponent {
 public:
-	// interface: Updatable
-	virtual bool update(const float dt);
+	// interface: VideoComponent
+	virtual void update(const engine::Sync::EntityParams& fromLogic, const float dt);
 
 private:
 	engine::MeshPtr mesh_;

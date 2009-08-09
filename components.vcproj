@@ -422,6 +422,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\core\sync.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\core\sync.h"
 					>
 				</File>

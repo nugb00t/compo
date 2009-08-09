@@ -9,17 +9,11 @@ using namespace game;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool OrbVideo::update(const float UNUSED(dt)) {
+void OrbVideo::update(const Sync::EntityParams& fromLogic, const float UNUSED(dt)) {
 	if (!mesh_)
-		mesh_ = Video::get().createMesh();
+		mesh_ = Video::inst().createMesh();
 
-	unsigned time = ::timeGetTime() % 1000;
-	float angle = time * (2.0f * D3DX_PI) / 1000.0f;
-	::printf("angle: %f\n", angle);
-
-	mesh_->draw(Vector3(0.f, 0.f, 0.f), Vector3(angle, 0.f, 0.f), Vector3(1.f, 1.f, 1.f));
-
-	return true;
+	mesh_->draw(fromLogic.position, fromLogic.rotation, Vector3(1.f, 1.f, 1.f));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

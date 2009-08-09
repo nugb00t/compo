@@ -1,59 +1,83 @@
 #ifndef REGISTRY_INCLUDED
 #define REGISTRY_INCLUDED
 
-#include <algorithm>
-
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template <class T>
-class Registry {
-	typedef std::pair<unsigned, T*> Registrant;
-	typedef std::map<unsigned, T*> Registrants;
-
-	struct Updater : public std::unary_function<Registrant, void> {
-		Updater(const float dt) : time(dt) {}
-		void operator() (Registrant r) { r.second->update(time); }
-
-		const float time;
-	};
+template <class T, unsigned SIZE>
+class Registry : public kaynine::Singleton<Registry<T, SIZE> > {
+protected:
+	Registry();
 
 public:
-	static bool add(const unsigned id, T* registrant);
-	static bool remove(const unsigned id);
+	void add(const unsigned id, T* registrant);
+	void remove(const unsigned id);
 
-	static bool update(const float dt);
+	T& get(const unsigned id);
+	const T& get(const unsigned id) const;
+
+	const bool valid(const unsigned id) const;
 
 private:
-	static Registrants& registrants();
+	T* registrants_[SIZE];
+
+	friend kaynine::Singleton<Registry<T, SIZE> >;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template <class T>
-bool Registry<T>::add(const unsigned id, T* registrant) {
-	std::pair<Registrants::const_iterator, bool> result = registrants().insert(std::make_pair(id, registrant));
-	return result.second;
-}
-
-template <class T>
-bool Registry<T>::remove(const unsigned id) {
-	return registrants().erase(id) > 0;
-}
-
-template <class T>
-bool Registry<T>::update(const float dt) {
-	Updater up = std::for_each(registrants().begin(), registrants().end(), Updater(dt));
-	return true;
+template <class T, unsigned SIZE>
+Registry<T, SIZE>::Registry() {
+	::memset(registrants_, NULL, sizeof(T*) * SIZE);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template <class T>
-typename Registry<T>::Registrants& Registry<T>::registrants() {
-	static Registrants registrants;
-	return registrants;
+template <class T, unsigned SIZE>
+void Registry<T, SIZE>::add(const unsigned id, T* registrant) {
+	assert(id < SIZE);
+	assert(registrants_[id] == 0);
+
+	registrants_[id] = registrant;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+template <class T, unsigned SIZE>
+void Registry<T, SIZE>::remove(const unsigned id) {
+	assert(id < SIZE);
+
+	registrants_[id] = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+template <class T, unsigned SIZE>
+T& Registry<T, SIZE>::get(const unsigned id) {
+	assert(id < SIZE);
+	assert(registrants_[id]);
+
+	return *registrants_[id];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+template <class T, unsigned SIZE>
+const T& Registry<T, SIZE>::get(const unsigned id) const {
+	assert(id < SIZE);
+	assert(registrants_[id]);
+
+	return *registrants_[id];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+template <class T, unsigned SIZE>
+const bool Registry<T, SIZE>::valid(const unsigned id) const {
+	assert(id < SIZE);
+
+	return registrants_[id] != NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

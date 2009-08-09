@@ -1,32 +1,32 @@
 #ifndef REGISTRY_INDEX_INCLUDED
 #define REGISTRY_INDEX_INCLUDED
 
+#include "core/sync.h"
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class RegistryIndex : public kaynine::Singleton<RegistryIndex> {
-public:
-	static const unsigned SIZE = 4096;
-
-private:
 	static const unsigned TAKEN = (unsigned)-1;
+
+	typedef kaynine::AutoLock<kaynine::CriticalSection> AutoLock;
 
 protected:
 	RegistryIndex();
 
 public:
 	const unsigned enlist();
-	void discharge(const unsigned id);
+	void dismiss(const unsigned id);
 
 	const unsigned size() const { return size_; }
 
 private:
-	unsigned ids_[SIZE];
+	unsigned ids_[Sync::MAX_ENTITIES];
 	unsigned firstFree_;
 	unsigned size_;
 
-	kaynine::CriticalSection lock_;
+	kaynine::CriticalSection guard_;
 
 	friend struct kaynine::Singleton<RegistryIndex>;
 };

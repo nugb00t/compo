@@ -2,18 +2,26 @@
 #define LOGIC_COMPONENT_INCLUDED
 
 #include "utility/intrusive_ptr_base.h"
-#include "utility/updatable.h"
+#include "utility/registry.h"
+#include "core/sync.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class LogicComponent : public Updatable {
+class LogicComponent {
 public:
 	typedef engine::LogicComponent Type;
+
+public:
+	virtual void update(Sync::EntityParams& toVideo, const float dt) = 0;
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 typedef boost::intrusive_ptr<LogicComponent> LogicComponentPtr;
+
+typedef Registry<LogicComponent, Sync::MAX_ENTITIES> LogicComponentRegistry;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
