@@ -3,6 +3,7 @@
 
 #include "utility/intrusive_ptr_base.h"
 #include "utility/registry.h"
+#include "utility/registry_index.h"
 
 namespace engine {
 
@@ -10,7 +11,8 @@ namespace engine {
 
 class EntityBase : public IntrusivePtrBase {
 public:
-	EntityBase() : id_(::rand())	{}
+	EntityBase() : id_(RegistryIndex::inst().enlist())	{}
+	~EntityBase()	{	RegistryIndex::inst().discharge(id_);	}
 
 	const unsigned id() const	{	return id_;	}
 

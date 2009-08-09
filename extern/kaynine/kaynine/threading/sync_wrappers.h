@@ -31,13 +31,19 @@ namespace kaynine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class CriticalSection {
+public:
+	enum LOCK_STATE {
+		LOCKED,
+		UNLOCKED
+	};
+
 private:
 	CRITICAL_SECTION cs_;
 
 
 public:
 	// new
-	explicit CriticalSection(bool initialLock = false);
+	explicit CriticalSection(const LOCK_STATE state = UNLOCKED);
 	~CriticalSection();
 
 	bool tryLock();

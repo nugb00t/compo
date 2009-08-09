@@ -12,15 +12,15 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const MeshDX::Vertex MeshDX::vertices_[] = {
-	{ D3DXVECTOR3( 5.0f,  5.0f, 1.5f), 0xffff0000, },
-	{ D3DXVECTOR3(25.0f, 25.0f, 1.5f), 0xff00ff00, },
-	{ D3DXVECTOR3( 5.0f, 25.0f, 1.5f), 0xff00ffff, },
-	{ D3DXVECTOR3(25.0f,  5.0f, 1.5f), 0xff00ffff, },
+	{ Vector3( 5.0f,  5.0f, 1.5f), 0xffff0000, Vector2(0.f, 1.f) },
+	{ Vector3( 5.0f, 25.0f, 1.5f), 0xff00ffff, Vector2(0.f, 0.f) },
+	{ Vector3(25.0f, 25.0f, 1.5f), 0xff00ff00, Vector2(0.f, 0.f) },
+	{ Vector3(25.0f,  5.0f, 1.5f), 0xff00ffff, Vector2(0.f, 0.f) },
 };
 
 const short MeshDX::indices_[] = {
-	0, 1, 2,
-	3, 1, 0
+	0, 2, 1,
+	3, 2, 0
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,11 +51,17 @@ MeshDX::MeshDX()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool MeshDX::draw(const Vector3& position, const Vector3& direction, const Vector3& scale) {
+bool MeshDX::draw(const Vector3& position, const Vector3& rotation, const Vector3& scale) {
 	D3DXMatrixIdentity(&transform_);
-	D3DXMatrixTranslation(&transform_, position[0], position[1], position[2]);
-	D3DXMatrixScaling(&transform_, scale[0], scale[1], scale[2]);
-	D3DXMatrixRotationYawPitchRoll(&transform_, direction[0], direction[1], direction[2]);
+
+	D3DXQUATERNION rotationQ;
+	D3DXQuaternionIdentity(&rotationQ);
+	D3DXQuaternionRotationYawPitchRoll(&rotationQ, rotation[0], rotation[1], rotation[2]);
+
+	D3DXMatrixTransformation(&transform_, 
+		NULL, NULL, reinterpret_cast<const D3DXVECTOR3*>(scale.data()), 
+		NULL, &rotationQ, 
+		reinterpret_cast<const D3DXVECTOR3*>(position.data()));
 
 	CHECKED_D3D_CALL(VideoDX::get().device().SetTransform(D3DTS_WORLD, &transform_));
 

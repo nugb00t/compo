@@ -345,6 +345,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="utility"
+					>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\utility\singleton.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -379,6 +387,14 @@
 				</File>
 				<File
 					RelativePath=".\engine\utility\registry.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\utility\registry_index.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\utility\registry_index.h"
 					>
 				</File>
 				<File

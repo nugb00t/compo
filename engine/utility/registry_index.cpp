@@ -1,0 +1,50 @@
+#include "stdafx.h"
+
+#include "registry_index.h"
+
+using namespace engine;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+RegistryIndex::RegistryIndex()
+: firstFree_(0), size_(0), lock_(kaynine::CriticalSection::UNLOCKED) {
+	for (unsigned i = 0; i < SIZE; ++i) {
+		ids_[i] = i + 1;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const unsigned RegistryIndex::enlist() {
+	assert(size_ <= SIZE);
+
+	lock_.lock();
+
+	const unsigned ret = firstFree_;
+	firstFree_ = ids_[ret];
+	ids_[ret] = TAKEN;
+
+	++size_;
+
+	lock_.unlock();
+
+	return ret;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void RegistryIndex::discharge(const unsigned id) {
+	assert(id <= SIZE);
+	assert(size_ >= 0);
+
+	lock_.lock();
+
+	ids_[id] = firstFree_;
+	firstFree_ = id;
+
+	--size_;
+
+	lock_.unlock();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

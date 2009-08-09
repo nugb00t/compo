@@ -6,10 +6,10 @@ using namespace kaynine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CriticalSection::CriticalSection(bool initialLock) {	
+CriticalSection::CriticalSection(const LOCK_STATE state) {	
 	::InitializeCriticalSection(&cs_);
 
-	if (initialLock)
+	if (state == LOCKED)
 		lock();
 }
 
