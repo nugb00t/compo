@@ -22,14 +22,26 @@ public:
 	// interface: Callable
 	virtual void operator()();
 
-	// startup/shutdown
+	// interface: Updatable
+	virtual void update(const float dt);
+
+	// startup / shutdown
 	virtual bool startup() = 0;
 	virtual void shutdown() = 0;
+
+	// frame
+	virtual void clear() = 0;
+	virtual bool begin() = 0;
+	virtual void end() = 0;
+	virtual void present() = 0;
 
 	// object factory
 	virtual CameraPtr createCamera() = 0;
 	virtual MeshPtr createMesh() = 0;
 	virtual TexturePtr createTexture() = 0;
+
+private:
+	CameraPtr camera_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

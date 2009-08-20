@@ -16,13 +16,14 @@ public:
     CyclicBuffer() : lastUpdated_(-1) {}
 
     void add(const TValue& t) {
-        const unsigned justAdded = ++lastUpdated_ % SIZE;
-        ts_[justAdded] = t;
+        lastUpdated_ = (lastUpdated_ + 1) % SIZE;
+        ts_[lastUpdated_] = t;
     }
 
     const TValue& get(const int index) const {
-        assert(-SIZE < index <= 0 && lastUpdated_ != -1);
-        return ts_[(lastUpdated_ + index) % SIZE];
+        assert(-(int)SIZE < index && index <= 0 && lastUpdated_ != -1);
+		const unsigned requested = (lastUpdated_ + index) % SIZE;
+        return ts_[requested];
     }
 
 private:

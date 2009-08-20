@@ -9,19 +9,31 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoComponent {
+class EntityVideoComponent {
 public:
-	typedef engine::VideoComponent Type;
+	typedef engine::EntityVideoComponent Type;
 
 public:
 	virtual void update(const Sync::EntityParams& fromLogic, const float dt) = 0;
 };
 
+typedef boost::intrusive_ptr<EntityVideoComponent> EntityVideoComponentPtr;
+
+typedef Registry<EntityVideoComponent, Sync::MAX_ENTITIES> EntityVideoComponentRegistry;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef boost::intrusive_ptr<VideoComponent> VideoComponentPtr;
+class ScreenVideoComponent {
+public:
+	typedef engine::ScreenVideoComponent Type;
 
-typedef Registry<VideoComponent, Sync::MAX_ENTITIES> VideoComponentRegistry;
+public:
+	virtual void update(const float dt) = 0;
+};
+
+typedef boost::intrusive_ptr<ScreenVideoComponent> ScreenVideoComponentPtr;
+
+typedef Registry<ScreenVideoComponent, Sync::MAX_ENTITIES> ScreenVideoComponentRegistry;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

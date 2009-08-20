@@ -5,7 +5,6 @@
 
 #include "utility/registry.h"
 #include "window/window_system.h"
-#include "video/video_component.h"
 
 // directx
 #pragma comment(lib, "d3d9.lib")
@@ -76,30 +75,30 @@ bool VideoSystemDX::startup() {
 	if (FAILED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window::inst().handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &device_)))
 		return false;
 
-	camera_ = createCamera();
-	assert(camera_);
-
 	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemDX::update(const float dt) {
+void VideoSystemDX::clear() {
 	device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0);
+}
 
-	if (SUCCEEDED(device_->BeginScene())) {
-		camera_->update(dt);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		Sync::LogicToVideoReadable fromLogic(Sync::inst().logicToVideo());
+bool VideoSystemDX::begin() {
+	return SUCCEEDED(device_->BeginScene());
+}
 
-		if (fromLogic)
-			for (unsigned i = 0; i < Sync::MAX_ENTITIES; ++i)
-				if (VideoComponentRegistry::inst().valid(i))
-					VideoComponentRegistry::inst().get(i).update(fromLogic->entityParams[i], dt);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		device_->EndScene();
-	}
+void VideoSystemDX::end() {
+	device_->EndScene();
+}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void VideoSystemDX::present() {
 	device_->Present(NULL, NULL, NULL, NULL);
 }
 

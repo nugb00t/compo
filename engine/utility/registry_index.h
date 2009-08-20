@@ -10,8 +10,6 @@ namespace engine {
 class RegistryIndex : public kaynine::Singleton<RegistryIndex> {
 	static const unsigned TAKEN = (unsigned)-1;
 
-	typedef kaynine::AutoLock<kaynine::CriticalSection> AutoLock;
-
 protected:
 	RegistryIndex();
 

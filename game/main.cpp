@@ -8,6 +8,7 @@
 #include "core/core.h"
 
 #include "entities/orb/orb.h"
+#include "screens/profiler/profiler_screen.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -18,6 +19,7 @@ int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
 	engine::WindowSystemW32 window;
 
 	game::Orb orb;
+	game::ProfilerScreen profilerScreen;
 
 	engine::Core::inst().add(engine::Logic::inst());
 	engine::Core::inst().add(engine::Video::inst());

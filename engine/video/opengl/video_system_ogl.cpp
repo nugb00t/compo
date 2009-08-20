@@ -161,7 +161,7 @@ void VideoSystemOGL::operator()() {
 				break;
 
 			// TODO: correct dt
-			Registry<VideoComponent, Sync::MAX_ENTITIES>::update(/* correct dt */ 0);
+			Registry<EntityVideoComponent, Sync::MAX_ENTITIES>::update(/* correct dt */ 0);
 
 			Video::inst().drawTest();
 

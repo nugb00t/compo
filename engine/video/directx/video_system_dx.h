@@ -17,12 +17,14 @@ public:
 	VideoSystemDX();
 	~VideoSystemDX();
 
-	// interface: Updatable
-	virtual void update(const float dt);
-
 	// interface: VideoSystem
 	virtual bool startup();
 	virtual void shutdown();
+
+	virtual void clear();
+	virtual bool begin();
+	virtual void end();
+	virtual void present();
 
 	virtual bool init();
 
@@ -41,8 +43,6 @@ private:
 private:
 	IDirect3D9* d3d_;
 	IDirect3DDevice9* device_;
-
-	CameraPtr camera_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

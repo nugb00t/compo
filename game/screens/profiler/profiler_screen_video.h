@@ -1,18 +1,17 @@
-#ifndef ORB_VIDEO_INCLUDED
-#define ORB_VIDEO_INCLUDED
+#ifndef PROFILER_SCREEN_VIDEO_INCLUDED
+#define PROFILER_SCREEN_VIDEO_INCLUDED
 
 #include "video/video_component.h"
 #include "video/mesh.h"
-#include "video/texture.h"
 
 namespace game {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class OrbVideo : public engine::EntityVideoComponent {
+class ProfilerScreenVideo : public engine::ScreenVideoComponent {
 public:
 	// interface: EntityVideoComponent
-	virtual void update(const engine::Sync::EntityParams& fromLogic, const float dt);
+	virtual void update(const float dt);
 
 private:
 	engine::MeshPtr mesh_;

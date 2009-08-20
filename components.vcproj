@@ -670,6 +670,26 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="screens"
+				>
+				<Filter
+					Name="profiler"
+					>
+					<File
+						RelativePath=".\game\screens\profiler\profiler_screen.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\screens\profiler\profiler_screen_video.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\game\screens\profiler\profiler_screen_video.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

@@ -13,9 +13,9 @@ namespace {
 	const float Z_NEAR = 1.0f;
 	const float Z_FAR = 500.0f;
 
-	const D3DXVECTOR3 CAMERA_POS	= D3DXVECTOR3(0.0f, 25.0f, 50.0f);
-	const D3DXVECTOR3 CAMERA_LOOKAT	= D3DXVECTOR3(0.0f,  0.0f,  0.0f);
-	const D3DXVECTOR3 CAMERA_UP		= D3DXVECTOR3(0.0f,  1.0f,  0.0f);
+	const D3DXVECTOR3 CAMERA_POS	= D3DXVECTOR3(0.0f, 0.0f, 10.0f);
+	const D3DXVECTOR3 CAMERA_LOOKAT	= D3DXVECTOR3(0.0f, 0.0f,  0.0f);
+	const D3DXVECTOR3 CAMERA_UP		= D3DXVECTOR3(0.0f, 1.0f,  0.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

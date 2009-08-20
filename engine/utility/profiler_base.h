@@ -22,42 +22,51 @@ public:
     class StopWatch {
     public:
         explicit StopWatch(const unsigned id)
-            : id_(id), start_((float)Timer::inst().now()) {}
+            : id_(id), start_(Timer::inst().now()) {}
 
         ~StopWatch() {
-            Profiler::inst().track(id_, start_, (float)Timer::inst().now());
+            Profiler::inst().track(id_, start_, Timer::inst().now());
         }
 
     private:
         unsigned id_;
-        float start_;
+        unsigned long start_;
     };
 
     struct Period {
         Period() {};
-        Period(const float start_, const float end_) : start(start_), end(end_) {}
+        Period(const unsigned long start_, const unsigned long end_) : start(start_), end(end_) {}
+		const unsigned long length() const { return end - start; }
+		const unsigned long middle() const { return (end + start) / 2; }
 
-        float start;
-        float end;
+        unsigned long start;
+        unsigned long end;
     };
 
 public:
-    void track(const unsigned id, const float start, const float end) {
-        assert(id < TTrackerCount);
-
-		kaynine::AutoLock<> lock(guard_);
-        trackers_[id].add(Period(start, end));
-    }
+	ProfilerBase() {
+		// avoid uninitialized section counters by placing dummy periods in the beginning
+		for (unsigned id = 0; id < SECTION_COUNT; ++id)
+			track(id, 0, 0);
+	}
 
     const Period& get(const unsigned id, const int age = 0) const {
         assert(id < TTrackerCount);
-		kaynine::AutoLock lock(guard_);
+		kaynine::AutoLock<> lock(guard_);
         return trackers_[id].get(age);
     }
 
+protected:
+	void track(const unsigned id, const unsigned long start, const unsigned long end) {
+		assert(id < TTrackerCount);
+
+		kaynine::AutoLock<> lock(guard_);
+		trackers_[id].add(Period(start, end));
+	}
+
 private:
     CyclicBuffer<Period, THistoryDepth> trackers_[TTrackerCount];
-	kaynine::CriticalSection guard_;
+	mutable kaynine::CriticalSection guard_;
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

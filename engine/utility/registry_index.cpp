@@ -17,7 +17,7 @@ RegistryIndex::RegistryIndex()
 const unsigned RegistryIndex::enlist() {
 	assert(size_ <= Sync::MAX_ENTITIES);
 
-	AutoLock lock(guard_);
+	kaynine::AutoLock<> lock(guard_);
 
 	const unsigned ret = firstFree_;
 	firstFree_ = ids_[ret];
@@ -34,7 +34,7 @@ void RegistryIndex::dismiss(const unsigned id) {
 	assert(id <= Sync::MAX_ENTITIES);
 	assert(size_ >= 0);
 
-	AutoLock lock(guard_);
+	kaynine::AutoLock<> lock(guard_);
 
 	ids_[id] = firstFree_;
 	firstFree_ = id;
