@@ -370,6 +370,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\utility\cyclic_buffer.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\utility\drawable.h"
 					>
 				</File>
@@ -386,6 +390,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\utility\profiler_base.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\utility\registry.h"
 					>
 				</File>
@@ -399,6 +407,14 @@
 				</File>
 				<File
 					RelativePath=".\engine\utility\safe_bool.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\utility\timer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\utility\timer.h"
 					>
 				</File>
 				<File
@@ -419,6 +435,10 @@
 				</File>
 				<File
 					RelativePath=".\engine\core\entity.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\profiler.h"
 					>
 				</File>
 				<File

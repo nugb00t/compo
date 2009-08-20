@@ -8,15 +8,10 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Core : public kaynine::Singleton<Core> {
-protected:
-	Core();
-
 public:
 	void clear()				{	systems_.clear();				}
 	void add(Callable& system)	{	systems_.push_back(&system);	}
 	void run();
-
-	time_t time() const;
 
 private:
 	boost::thread_group threads_;

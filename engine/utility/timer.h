@@ -1,20 +1,22 @@
-#ifndef LIGHT_DX_INCLUDED
-#define LIGHT_DX_INCLUDED
-
-#include "video/light.h"
+#ifndef TIMER_INCLUDED
+#define TIMER_INCLUDED
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class LightDX : public Light {
+class Timer : public kaynine::Singleton<Timer> {
+protected:
+	Timer();
+
 public:
-	// interface: Updatable
-	virtual void update(const float dt);
+	const unsigned long now() const;
+
+	friend struct kaynine::Singleton<Timer>;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-} // namespace engine
+}
 
 #endif

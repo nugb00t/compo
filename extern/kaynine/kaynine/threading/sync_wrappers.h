@@ -58,23 +58,22 @@ public:
 template<class T = CriticalSection>
 class AutoLock {
 public:
-	AutoLock(T* lockable);
+	AutoLock(T& lockable);
 	~AutoLock();
 
 private:
-	T* lockable_;
+	T& lockable_;
 };
 
 template<class T>
-AutoLock<T>::AutoLock(T* lockable) 
+AutoLock<T>::AutoLock(T& lockable) 
 : lockable_(lockable) {
-	lockable_->lock();
+	lockable_.lock();
 }
 
 template<class T>
 AutoLock<T>::~AutoLock() {
-	lockable_->unlock();
-	lockable_ = NULL;
+	lockable_.unlock();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -4,6 +4,7 @@
 
 #include "core/core.h"
 #include "core/sync.h"
+#include "core/profiler.h"
 #include "window/window_system.h"
 
 using namespace engine;
@@ -22,15 +23,18 @@ void VideoSystem::operator()() {
 	if (Window::inst().create(800, 600, 32, 0, false) && Video::inst().startup()) {
 		kaynine::WaitableTimer timer(unsigned(1000.f / FRAMERATE));
 
-		time_t last = Core::inst().time();
-		float dt;
+		unsigned long last = Timer::inst().now();
 
 		while (!exitSignal.isSet()) {
-			dt = static_cast<float>(Core::inst().time() - last);
-			last = Core::inst().time();
+			const float dt = static_cast<float>(Timer::inst().now() - last) / 1000.f;
+			last = Timer::inst().now();
 
-			Window::inst().update(dt);
-			Video::inst().update(dt);
+			{
+				Profiler::StopWatch stopWatch(Profiler::LOGIC_THREAD);
+
+				Window::inst().update(dt);
+				Video::inst().update(dt);
+			}
 
 			timer.wait(unsigned(1000.f / FRAMERATE) * 2);
 		}

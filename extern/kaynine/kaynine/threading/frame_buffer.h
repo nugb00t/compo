@@ -43,7 +43,7 @@ private:
 	mutable int			iReading_;
 	int					iWriting_;
 
-	mutable CriticalSection		csIndexes_;
+	mutable CriticalSection		guard_;
 
 
 public:
@@ -74,7 +74,7 @@ kaynine::FrameBuffer<TContents>::FrameBuffer()
 
 template <class TContents>
 bool kaynine::FrameBuffer<TContents>::lockWritable() {
-	AutoLock<CriticalSection> lock(&csIndexes_);
+	AutoLock<> lock(guard_);
 
 	// writing in progress
 	if (iWriting_ != FRAME_INVALID)
@@ -95,7 +95,7 @@ bool kaynine::FrameBuffer<TContents>::lockWritable() {
 
 template <class TContents>
 TContents* kaynine::FrameBuffer<TContents>::getWritable() {
-	AutoLock<CriticalSection> lock(&csIndexes_);
+	AutoLock<> lock(guard_);
 
 	assert(0 <= iWriting_ && iWriting_ < NUM_FRAMES);
 
@@ -108,7 +108,7 @@ TContents* kaynine::FrameBuffer<TContents>::getWritable() {
 
 template <class TContents>
 void kaynine::FrameBuffer<TContents>::unlockWritable() {
-	AutoLock<CriticalSection> lock(&csIndexes_);
+	AutoLock<> lock(guard_);
 
 	assert(0 <= aiTimeLine_[0] && aiTimeLine_[0] < NUM_FRAMES);
 
@@ -132,7 +132,7 @@ void kaynine::FrameBuffer<TContents>::unlockWritable() {
 
 template <class TContents>
 bool kaynine::FrameBuffer<TContents>::lockReadable() const {
-	AutoLock<CriticalSection> lock(&csIndexes_);
+	AutoLock<> lock(guard_);
 
 	if (iReading_ != FRAME_INVALID)
 		return false;
@@ -150,7 +150,7 @@ bool kaynine::FrameBuffer<TContents>::lockReadable() const {
 
 template <class TContents>
 const TContents* kaynine::FrameBuffer<TContents>::getReadable() const {
-	AutoLock<CriticalSection> lock(&csIndexes_);
+	AutoLock<> lock(guard_);
 
 	if (iReading_ == FRAME_INVALID)
 		return NULL;
@@ -161,7 +161,7 @@ const TContents* kaynine::FrameBuffer<TContents>::getReadable() const {
 
 template <class TContents>
 void kaynine::FrameBuffer<TContents>::unlockReadable() const {
-	AutoLock<CriticalSection> lock(&csIndexes_);
+	AutoLock<> lock(guard_);
 
 	iReading_ = FRAME_INVALID;
 }
