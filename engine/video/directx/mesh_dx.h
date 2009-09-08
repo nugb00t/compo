@@ -28,7 +28,8 @@ public:
 	MeshDX();
 
 	// interface: Drawable
-	virtual bool draw(const Vector3& position, const Vector3& rotation, const Vector3& scale);
+	virtual void setTransform(const Vector3& position, const Vector3& rotation, const Vector3& scale);
+	virtual bool draw();
 
 private:
 	static const Vertex vertices_[];

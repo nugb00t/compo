@@ -28,11 +28,11 @@ void VideoSystem::operator()() {
 
 		kaynine::WaitableTimer timer(unsigned(1000.f / FRAMERATE));
 
-		unsigned long last = Timer::inst().now();
+		unsigned long last = Timer::inst().msec();
 
 		while (!exitSignal.isSet()) {
-			const float dt = static_cast<float>(Timer::inst().now() - last) / 1000.f;
-			last = Timer::inst().now();
+			const float dt = static_cast<float>(Timer::inst().msec() - last) / 1000.f;
+			last = Timer::inst().msec();
 
 			{
 				Profiler::StopWatch stopWatch(Profiler::VIDEO_THREAD);

@@ -10,9 +10,13 @@ protected:
 	Timer();
 
 public:
-	const unsigned long now() const;
+	const unsigned long msec() const;
+	const float now() const;
 
 	friend struct kaynine::Singleton<Timer>;
+
+private:
+	const unsigned long zero_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

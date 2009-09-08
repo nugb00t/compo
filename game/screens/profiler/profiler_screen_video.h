@@ -1,6 +1,7 @@
 #ifndef PROFILER_SCREEN_VIDEO_INCLUDED
 #define PROFILER_SCREEN_VIDEO_INCLUDED
 
+#include "core/profiler.h"
 #include "video/video_component.h"
 #include "video/mesh.h"
 
@@ -14,7 +15,7 @@ public:
 	virtual void update(const float dt);
 
 private:
-	engine::MeshPtr mesh_;
+	engine::MeshPtr meshes_[engine::Profiler::SECTION_COUNT][engine::ProfilerSections::HISTORY_DEPTH];
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

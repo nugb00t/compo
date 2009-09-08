@@ -18,7 +18,7 @@ int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
 	engine::VideoSystemDX video;
 	engine::WindowSystemW32 window;
 
-	game::Orb orb;
+	//game::Orb orb;
 	game::ProfilerScreen profilerScreen;
 
 	engine::Core::inst().add(engine::Logic::inst());

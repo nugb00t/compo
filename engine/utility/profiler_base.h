@@ -16,16 +16,17 @@
 template <unsigned TTrackerCount, unsigned THistoryDepth>
 class ProfilerBase : public kaynine::Singleton<ProfilerBase<TTrackerCount, THistoryDepth> > {
 public:
-    static const unsigned SECTION_COUNT = TTrackerCount;
+	static const unsigned SECTION_COUNT = TTrackerCount;
+	static const unsigned HISTORY_DEPTH = THistoryDepth;
 
 public:
     class StopWatch {
     public:
         explicit StopWatch(const unsigned id)
-            : id_(id), start_(Timer::inst().now()) {}
+            : id_(id), start_(Timer::inst().msec()) {}
 
         ~StopWatch() {
-            Profiler::inst().track(id_, start_, Timer::inst().now());
+            Profiler::inst().track(id_, start_, Timer::inst().msec());
         }
 
     private:
@@ -35,11 +36,11 @@ public:
 
     struct Period {
         Period() {};
-        Period(const unsigned long start_, const unsigned long end_) : start(start_), end(end_) {}
-		const unsigned long length() const { return end - start; }
-		const unsigned long middle() const { return (end + start) / 2; }
+        Period(const unsigned long start_, const unsigned long end_) : begin(start_), end(end_) {}
+		const unsigned long length() const { return end - begin; }
+		const unsigned long middle() const { return (end + begin) / 2; }
 
-        unsigned long start;
+        unsigned long begin;
         unsigned long end;
     };
 
@@ -57,11 +58,11 @@ public:
     }
 
 protected:
-	void track(const unsigned id, const unsigned long start, const unsigned long end) {
+	void track(const unsigned id, const unsigned long begin, const unsigned long end) {
 		assert(id < TTrackerCount);
 
 		kaynine::AutoLock<> lock(guard_);
-		trackers_[id].add(Period(start, end));
+		trackers_[id].add(Period(begin, end));
 	}
 
 private:

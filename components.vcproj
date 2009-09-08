@@ -374,10 +374,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\engine\utility\drawable.h"
-					>
-				</File>
-				<File
 					RelativePath=".\engine\utility\holder.h"
 					>
 				</File>
@@ -474,11 +470,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\video\drawable.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\light.h"
 					>
 				</File>
 				<File
+					RelativePath=".\engine\video\mesh.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\mesh.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\video\plain_mesh.h"
 					>
 				</File>
 				<File

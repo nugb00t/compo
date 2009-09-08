@@ -7,7 +7,9 @@ namespace engine {
 
 class Drawable {
 public:
-	virtual bool draw(const Vector3& position, const Vector3& rotation, const Vector3& scale) = 0;
+	virtual void setTransform(const Vector3& position, const Vector3& rotation, const Vector3& scale) = 0;
+
+	virtual bool draw() = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
