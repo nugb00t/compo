@@ -14,7 +14,7 @@ public:
 	typedef engine::LogicComponent Type;
 
 public:
-	virtual void update(Sync::EntityParams& toVideo, const float dt) = 0;
+	virtual void update(Drawn::Params& toVideo, const float dt) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

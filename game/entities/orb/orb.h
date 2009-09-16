@@ -1,7 +1,7 @@
 #ifndef ORB_INCLUDED
 #define ORB_INCLUDED
 
-#include "core/entity.h"
+#include "utility/registrant.h"
 
 #include "orb_audio.h"
 #include "orb_logic.h"
@@ -11,7 +11,7 @@ namespace game {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Orb : public engine::Entity3<OrbLogic, OrbVideo, OrbAudio> {};
+class Orb : public engine::Registrant3<OrbLogic, OrbVideo, OrbAudio> {};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

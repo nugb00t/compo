@@ -14,13 +14,8 @@ public:
 	static const unsigned MAX_ENTITIES = 4096;
 
 public:
-	struct EntityParams {
-		Vector3 position;
-		Vector3 rotation;
-	};
-
 	struct LogicToVideo {
-		EntityParams entityParams[MAX_ENTITIES];
+		Drawn::Params drawnParams[MAX_ENTITIES];
 		float age;
 	};
 

@@ -1,7 +1,6 @@
 #ifndef WINDOW_SYSTEM_INCLUDED
 #define WINDOW_SYSTEM_INCLUDED
 
-#include "utility/updatable.h"
 #include "utility/holder.h"
 
 namespace engine {

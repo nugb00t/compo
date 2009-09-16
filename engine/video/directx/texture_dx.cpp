@@ -14,6 +14,12 @@ TextureDX::TextureDX()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+TextureDX::~TextureDX() {
+	//if (surface_)
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool TextureDX::load(const TCHAR* const path) {
 	path_ = path;
 
@@ -31,7 +37,6 @@ void TextureDX::update() {
 		IDirect3DSurface9* backBuffer = NULL;
 
 		CHECKED_D3D_CALL(VideoDX::inst().device().GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer));
-
 		CHECKED_D3D_CALL(VideoDX::inst().device().UpdateSurface(surface_, NULL, backBuffer, NULL));
 	}
 }

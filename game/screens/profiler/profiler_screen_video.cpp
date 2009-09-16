@@ -11,9 +11,9 @@ using namespace game;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ProfilerScreenVideo::update(const float UNUSED(dt)) {
-	static const float SECTION_STEP	= 2.0f;
-	static const float BAR_HEIGHT	= 1.5f;
-	static const float BAR_DEPTH	= 1.0f;
+	static const float SECTION_STEP		= 2.0f;
+	static const float BAR_HEIGHT		= 1.5f;
+	static const float BAR_DEPTH		= 1.0f;
 
 	static const float SCREEN_WIDTH		= 10.0f;
 	static const float SCREEN_HEIGHT	= 10.0f;
@@ -33,10 +33,10 @@ void ProfilerScreenVideo::update(const float UNUSED(dt)) {
 			const float end		= (float)period.end / 1000.f;
 
 			if (left < begin && begin < right || left < end && end < right) {
-				const float barLeft		= max(0.f, (begin - left) / 0.1f);
-				const float barRight	= min((end - left) / 0.1f, 1.f);
+				const float barLeft		= std::max(0.f, (begin - left) / 0.1f);
+				const float barRight	= std::min((end - left) / 0.1f, 1.f);
 
-				mesh->setTransformRect(barLeft, section * SECTION_STEP, barRight, section * SECTION_STEP + BAR_HEIGHT, BAR_DEPTH);
+				mesh->transform() = transformFromRect(barLeft, section * SECTION_STEP, barRight, section * SECTION_STEP + BAR_HEIGHT, BAR_DEPTH);
 				mesh->draw();
 			}
 		}

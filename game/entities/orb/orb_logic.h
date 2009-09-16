@@ -13,7 +13,7 @@ public:
 
 public:
 	// interface: LogicComponent
-	virtual void update(engine::Sync::EntityParams& toVideo, const float dt);
+	virtual void update(engine::Drawn::Params& toVideo, const float dt);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

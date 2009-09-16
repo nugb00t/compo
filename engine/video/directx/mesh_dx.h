@@ -27,9 +27,8 @@ class MeshDX : public Mesh {
 public:
 	MeshDX();
 
-	// interface: Drawable
-	virtual void setTransform(const Vector3& position, const Vector3& rotation, const Vector3& scale);
-	virtual bool draw();
+	// interface: Drawn
+	virtual void draw();
 
 private:
 	static const Vertex vertices_[];
@@ -39,8 +38,6 @@ private:
 	IDirect3DIndexBuffer9* indexBuffer_;
 
 	engine::TexturePtr texture_;
-
-	D3DXMATRIX transform_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

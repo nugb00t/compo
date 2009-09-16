@@ -12,7 +12,7 @@ namespace game {
 class OrbVideo : public engine::EntityVideoComponent {
 public:
 	// interface: EntityVideoComponent
-	virtual void update(const engine::Sync::EntityParams& fromLogic, const float dt);
+	virtual void update(const engine::Drawn::Params& fromLogic, const float dt);
 
 private:
 	engine::MeshPtr mesh_;

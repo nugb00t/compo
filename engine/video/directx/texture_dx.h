@@ -10,6 +10,7 @@ namespace engine {
 class TextureDX : public Texture {
 public:
 	TextureDX();
+	~TextureDX();
 
 	// interface: Texture
 	virtual bool load(const TCHAR* const path);

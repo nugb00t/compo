@@ -1,7 +1,6 @@
 #ifndef PROFILER_INCLUDED
 #define PROFILER_INCLUDED
 
-#include "utility/callable.h"
 #include "utility/profiler_base.h"
 
 namespace engine {

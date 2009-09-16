@@ -2,7 +2,6 @@
 #define LIGHT_INCLUDED
 
 #include "utility/intrusive_ptr_base.h"
-#include "utility/updatable.h"
 
 namespace engine {
 

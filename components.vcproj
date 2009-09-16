@@ -359,16 +359,24 @@
 			Name="engine"
 			>
 			<File
+				RelativePath=".\engine\debug_checks.h"
+				>
+			</File>
+			<File
+				RelativePath=".\engine\engine_math.h"
+				>
+			</File>
+			<File
 				RelativePath=".\engine\engine_pch.h"
+				>
+			</File>
+			<File
+				RelativePath=".\engine\engine_types.h"
 				>
 			</File>
 			<Filter
 				Name="utility"
 				>
-				<File
-					RelativePath=".\engine\utility\callable.h"
-					>
-				</File>
 				<File
 					RelativePath=".\engine\utility\cyclic_buffer.h"
 					>
@@ -387,6 +395,10 @@
 				</File>
 				<File
 					RelativePath=".\engine\utility\profiler_base.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\utility\registrant.h"
 					>
 				</File>
 				<File
@@ -413,10 +425,6 @@
 					RelativePath=".\engine\utility\timer.h"
 					>
 				</File>
-				<File
-					RelativePath=".\engine\utility\updatable.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="core"
@@ -427,10 +435,6 @@
 				</File>
 				<File
 					RelativePath=".\engine\core\core.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\core\entity.h"
 					>
 				</File>
 				<File
@@ -470,15 +474,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\engine\video\drawable.h"
-					>
-				</File>
-				<File
 					RelativePath=".\engine\video\light.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\video\mesh.cpp"
 					>
 				</File>
 				<File

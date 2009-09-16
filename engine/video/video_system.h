@@ -1,7 +1,6 @@
 #ifndef VIDEO_SYSTEM_INCLUDED
 #define VIDEO_SYSTEM_INCLUDED
 
-#include "utility/callable.h"
 #include "utility/holder.h"
 
 // factory-created objects

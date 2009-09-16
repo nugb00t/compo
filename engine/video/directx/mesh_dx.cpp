@@ -52,30 +52,13 @@ MeshDX::MeshDX()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MeshDX::setTransform(const Vector3& position, const Vector3& rotation, const Vector3& scale) {
-	D3DXMatrixIdentity(&transform_);
-
-	D3DXQUATERNION rotationQ;
-	D3DXQuaternionIdentity(&rotationQ);
-	D3DXQuaternionRotationYawPitchRoll(&rotationQ, rotation[0], rotation[1], rotation[2]);
-
-	D3DXMatrixTransformation(&transform_, 
-		NULL, NULL, reinterpret_cast<const D3DXVECTOR3*>(scale.data()), 
-		NULL, &rotationQ, 
-		reinterpret_cast<const D3DXVECTOR3*>(position.data()));
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool MeshDX::draw() {
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_WORLD, &transform_));
+void MeshDX::draw() {
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_WORLD, (const D3DMATRIX*)transform_.data()));
 
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetStreamSource(0, vertexBuffer_, 0, sizeof(Vertex)));
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetIndices(indexBuffer_));
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetFVF(Vertex::FVF));
 	CHECKED_D3D_CALL(VideoDX::inst().device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, sizeof(vertices_) / sizeof(Vertex), 0, sizeof(indices_) / 3 / sizeof(short)));
-
-	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

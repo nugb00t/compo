@@ -62,7 +62,7 @@ void VideoSystem::update(const float dt) {
 		if (fromLogic)
 			for (unsigned i = 0; i < Sync::MAX_ENTITIES; ++i)
 				if (EntityVideoComponentRegistry::inst().valid(i))
-					EntityVideoComponentRegistry::inst().get(i).update(fromLogic->entityParams[i], dt);
+					EntityVideoComponentRegistry::inst().get(i).update(fromLogic->drawnParams[i], dt);
 
 		for (unsigned i = 0; i < Sync::MAX_ENTITIES; ++i)
 			if (ScreenVideoComponentRegistry::inst().valid(i))
