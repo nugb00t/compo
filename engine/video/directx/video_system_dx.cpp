@@ -36,9 +36,21 @@ VideoSystemDX::~VideoSystemDX() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoSystemDX::init() {
-	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_LIGHTING, TRUE));
+	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE));
+	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_LIGHTING, FALSE));
 	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_RGBA(255, 0, 0, 22)));
 	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD));
+	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_ZENABLE, TRUE));
+
+	// texture filtering
+	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR));
+	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR));
+	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR));
+
+	// alpha blending
+	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE));
+	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA));
+	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA));
 
 	return true;
 }

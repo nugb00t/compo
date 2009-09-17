@@ -10,54 +10,34 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TextureDX::TextureDX()
-: surface_(NULL), path_(NULL) {}
+: texture_(NULL) {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TextureDX::~TextureDX() {
-	//if (surface_)
+	if (texture_)
+		texture_->Release();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool TextureDX::load(const TCHAR* const path) {
-	path_ = path;
+	assert(path);
 
-	return true;
+	return D3DXCreateTextureFromFile(&VideoDX::inst().device(), path, &texture_) == D3D_OK;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void TextureDX::update() {
-	if (!surface_) {
-		CHECKED_CALL(doLoad());
-	}
+void TextureDX::activate(const unsigned channel) {
+	assert(texture_);
 
-	if (surface_) {
-		IDirect3DSurface9* backBuffer = NULL;
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetTexture(channel, texture_));
 
-		CHECKED_D3D_CALL(VideoDX::inst().device().GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer));
-		CHECKED_D3D_CALL(VideoDX::inst().device().UpdateSurface(surface_, NULL, backBuffer, NULL));
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool TextureDX::doLoad() {
-	if (!path_)
-		return false;
-
-	D3DXIMAGE_INFO info;
-	CHECKED_D3D_CALL(D3DXGetImageInfoFromFile(path_, &info));
-
-	CHECKED_D3D_CALL(VideoDX::inst().device().CreateOffscreenPlainSurface(info.Width, info.Height, D3DFMT_X8R8G8B8/*info.Format*/, D3DPOOL_SYSTEMMEM, &surface_, NULL));
-
-	if (D3DXLoadSurfaceFromFile(surface_, NULL, NULL, path_, NULL, D3DX_FILTER_NONE, 0, NULL) != D3D_OK) {
-		// TODO: release surface_
-		return false;
-	}
-
-	return true;
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetTextureStageState(channel, D3DTSS_COLOROP, D3DTOP_MODULATE));
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetTextureStageState(channel, D3DTSS_COLORARG1, D3DTA_TEXTURE));
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetTextureStageState(channel, D3DTSS_COLORARG2, D3DTA_DIFFUSE));
+	CHECKED_D3D_CALL(VideoDX::inst().device().SetTextureStageState(channel, D3DTSS_ALPHAOP, D3DTOP_DISABLE));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

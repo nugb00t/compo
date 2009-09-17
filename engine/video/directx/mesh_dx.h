@@ -12,10 +12,10 @@ class MeshDX : public Mesh {
 
 #pragma pack(push, 4)
 	struct Vertex {
-		static const short FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1;
+		static const short FVF = D3DFVF_XYZ | /*D3DFVF_DIFFUSE |*/ D3DFVF_TEX1;
 
 		Vector3	xyz;
-		unsigned diffuse;
+		//unsigned diffuse;
 		//Vector3	normal;
 		Vector2	uv;
 

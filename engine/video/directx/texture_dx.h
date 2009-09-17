@@ -14,14 +14,10 @@ public:
 
 	// interface: Texture
 	virtual bool load(const TCHAR* const path);
-	virtual void update();
+	virtual void activate(const unsigned channel);
 
 private:
-	bool doLoad();
-
-private:
-	IDirect3DSurface9* surface_;
-	const TCHAR* path_;
+	IDirect3DTexture9* texture_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

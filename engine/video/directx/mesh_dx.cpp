@@ -11,10 +11,10 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const MeshDX::Vertex MeshDX::vertices_[] = {
-	{ Vector3(-.5f, -.5f, 0.f), 0xffff0000, Vector2(0.f, 0.f) },
-	{ Vector3(-.5f,  .5f, 0.f), 0xff00ffff, Vector2(0.f, 1.f) },
-	{ Vector3( .5f,  .5f, 0.f), 0xff00ff00, Vector2(1.f, 1.f) },
-	{ Vector3( .5f, -.5f, 0.f), 0xff00ffff, Vector2(1.f, 0.f) },
+	{ Vector3(-.5f, -.5f, 0.f), /* 0xffff0000, */ Vector2(0.f, 1.f) },
+	{ Vector3(-.5f,  .5f, 0.f), /* 0xff00ffff, */ Vector2(0.f, 0.f) },
+	{ Vector3( .5f,  .5f, 0.f), /* 0xff00ff00, */ Vector2(1.f, 0.f) },
+	{ Vector3( .5f, -.5f, 0.f), /* 0xff00ffff, */ Vector2(1.f, 1.f) },
 };
 
 const short MeshDX::indices_[] = {
@@ -54,6 +54,8 @@ MeshDX::MeshDX()
 
 void MeshDX::draw() {
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_WORLD, (const D3DMATRIX*)transform_.data()));
+
+	texture_->activate(0);
 
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetStreamSource(0, vertexBuffer_, 0, sizeof(Vertex)));
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetIndices(indexBuffer_));
