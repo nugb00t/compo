@@ -36,11 +36,12 @@ VideoSystemDX::~VideoSystemDX() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoSystemDX::init() {
-	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE));
+	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_ZENABLE, TRUE));
+	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE));
 	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_LIGHTING, FALSE));
-	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_RGBA(255, 0, 0, 22)));
-	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD));
-	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_ZENABLE, TRUE));
+	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_RGBA(255, 0, 0, 22)));
+	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD));
+	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, D3DMCS_COLOR1));
 
 	// texture filtering
 	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR));
@@ -87,7 +88,7 @@ bool VideoSystemDX::startup() {
 	if (FAILED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window::inst().handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &device_)))
 		return false;
 
-	return true;
+	return init();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
