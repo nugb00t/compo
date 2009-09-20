@@ -12,7 +12,7 @@ class MeshDX : public Mesh {
 
 #pragma pack(push, 4)
 	struct Vertex {
-		static const short FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1;
+		static const D3DVERTEXELEMENT9 Elements[];
 
 		Vector3	xyz;
 		unsigned diffuse;
@@ -26,6 +26,7 @@ class MeshDX : public Mesh {
 
 public:
 	MeshDX();
+	~MeshDX();
 
 	// interface: Drawn
 	virtual void draw();
@@ -36,6 +37,7 @@ private:
 
 	IDirect3DVertexBuffer9* vertexBuffer_;
 	IDirect3DIndexBuffer9* indexBuffer_;
+	IDirect3DVertexDeclaration9* vertexDecl_;
 
 	engine::TexturePtr texture_;
 };

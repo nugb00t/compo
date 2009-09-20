@@ -8,6 +8,7 @@
 
 // directx
 #pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "dxerr.lib")
 #ifndef _DEBUG
 #pragma comment(lib, "d3dx9.lib")
 #else
@@ -85,7 +86,7 @@ bool VideoSystemDX::startup() {
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 
-	if (FAILED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window::inst().handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &device_)))
+	if (FAILED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window::inst().handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(& D3DCREATE_PUREDEVICE), &d3dpp, &device_)))
 		return false;
 
 	return init();

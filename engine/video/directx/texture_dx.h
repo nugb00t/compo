@@ -14,7 +14,7 @@ public:
 
 	// interface: Texture
 	virtual bool load(const TCHAR* const path);
-	virtual void activate(const unsigned channel);
+	virtual void activate(const unsigned stage);
 
 private:
 	IDirect3DTexture9* texture_;

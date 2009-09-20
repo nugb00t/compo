@@ -18,7 +18,6 @@
 #pragma warning (disable: 4244)		// conversion from 'int' to 'unsigned short', possible loss of data
 #include <boost/intrusive_ptr.hpp>
 #include <boost/thread.hpp>
-// #include <boost/thread/thread_time.hpp>		// get_system_time();
 #pragma warning (default: 4244)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,6 +35,7 @@
 #ifdef VIDEO_DIRECTX
 	#include <d3d9.h>
 	#include <d3dx9.h>
+	#include <dxerr.h>
 #endif
 
 #ifdef VIDEO_OPENGL
@@ -59,9 +59,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include "engine_macros.h"
 #include "engine_math.h"
 #include "engine_types.h"
-#include "debug_checks.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
