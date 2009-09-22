@@ -750,6 +750,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\video\effect.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\light.h"
 					>
 				</File>
@@ -802,6 +806,14 @@
 					</File>
 					<File
 						RelativePath=".\engine\video\directx\camera_dx.h"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\effect_dx.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\effect_dx.h"
 						>
 					</File>
 					<File
@@ -965,6 +977,14 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="effects"
+				>
+				<File
+					RelativePath=".\exec\fx\simple.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>

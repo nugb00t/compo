@@ -8,6 +8,8 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Camera : public IntrusivePtrBase, public Updatable {
+public:
+	virtual const Matrix44& view_projection() const = 0;
 };
 
 typedef boost::intrusive_ptr<Camera> CameraPtr;

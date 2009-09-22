@@ -26,20 +26,30 @@ CameraDX::CameraDX()
 	up_(CAMERA_UP),
 	fov_(FOV),
 	aspect_(ASPECT)
-		 {}
+		 {
+			 view_projection_.identity();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void CameraDX::update(const float /*dt*/) {
-	D3DXMATRIX view;
-	D3DXMatrixLookAtLH(&view, &pos_, &lookAt_, &up_);
+	D3DXMatrixLookAtLH(view_projection_.d3dMatrix(), &pos_, &lookAt_, &up_);
 
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_VIEW, &view));
+	//CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_VIEW, &view));
 
-	D3DXMATRIX projection;
-	D3DXMatrixPerspectiveFovLH(&projection, fov_, aspect_, Z_NEAR, Z_FAR);
+	Matrix44 projection;
+	D3DXMatrixPerspectiveFovLH(projection.d3dMatrix(), fov_, aspect_, Z_NEAR, Z_FAR);
+	//D3DXMatrixOrthoLH();
 
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_PROJECTION, &projection));
+	//CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_PROJECTION, &projection));
+
+	view_projection_ *= projection;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const Matrix44& CameraDX::view_projection() const {
+	return view_projection_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

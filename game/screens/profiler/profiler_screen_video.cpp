@@ -37,7 +37,7 @@ void ProfilerScreenVideo::update(const float UNUSED(dt)) {
 				const float barRight	= std::min((end - left) / 0.1f, 1.f);
 
 				mesh->transform() = transformFromRect(barLeft, section * SECTION_STEP, barRight, section * SECTION_STEP + BAR_HEIGHT, BAR_DEPTH);
-				mesh->draw();
+				mesh->draw(Video::inst().camera().view_projection());
 			}
 		}
 	}

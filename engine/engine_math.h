@@ -1,6 +1,7 @@
 #ifndef ENGINE_MATH_INCLUDED
 #define ENGINE_MATH_INCLUDED
 
+#define CML_USE_GENERATED_MATRIX_ASSIGN_OP
 #include <cml/cml.h>
 
 namespace engine {
@@ -13,7 +14,19 @@ typedef cml::vector2f Vector2;
 typedef cml::vector3f Vector3;
 typedef cml::vector4f Vector4;
 typedef cml::quaternionf_n Quaternion;
-typedef cml::matrix44f_r Matrix44;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Matrix44 : public cml::matrix44f_r {
+public:
+	inline D3DXMATRIX* d3dMatrix() {
+		return reinterpret_cast<D3DXMATRIX*>(data());
+	}
+
+	inline const D3DXMATRIX* d3dMatrix() const {
+		return reinterpret_cast<const D3DXMATRIX*>(data());
+	}
+};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -27,7 +40,8 @@ inline Matrix44 transformFromVectors(const Vector3 position, const Vector3 rotat
 	Matrix44 s;
 	cml::matrix_scale(s, scale[0], scale[1], scale[2]);
 
-	return s * transform; 
+	s *= transform;
+	return s; 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

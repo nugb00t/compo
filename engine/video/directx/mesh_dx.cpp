@@ -56,29 +56,45 @@ MeshDX::MeshDX()
 	// texture
 	texture_ = VideoDX::inst().createTexture();
 	assert(texture_);
-
 	CHECKED_CALL(texture_->load(_T("textures/myself.bmp")));
+
+	// effect
+	effect_ = VideoDX::inst().createEffect();
+	assert(effect_);
+	CHECKED_CALL(effect_->load(_T("fx/simple.h")));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 MeshDX::~MeshDX() {
-	vertexBuffer_->Release();
-	indexBuffer_->Release();
-	vertexDecl_->Release();
+	if (vertexBuffer_)
+		vertexBuffer_->Release();
+
+	if (indexBuffer_)
+		indexBuffer_->Release();
+
+	if (vertexDecl_)
+		vertexDecl_->Release();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MeshDX::draw() {
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_WORLD, (const D3DMATRIX*)transform_.data()));
-
-	texture_->activate(0);
+void MeshDX::draw(const Matrix44& view_proj) {
+	//CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_WORLD, transform_.data()));
 
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetStreamSource(0, vertexBuffer_, 0, sizeof(Vertex)));
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetIndices(indexBuffer_));
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetVertexDeclaration(vertexDecl_));
+
+	texture_->activate(0);
+
+	Matrix44 wvp = transform_;
+	wvp *= view_proj;
+	effect_->activate(wvp);
+
 	CHECKED_D3D_CALL(VideoDX::inst().device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, sizeof(vertices_) / sizeof(Vertex), 0, sizeof(indices_) / 3 / sizeof(short)));
+
+	effect_->deactivate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -6,6 +6,7 @@
 // factory-created objects
 #include "camera_dx.h"
 #include "mesh_dx.h"
+#include "effect_dx.h"
 #include "texture_dx.h"
 
 namespace engine {
@@ -28,9 +29,11 @@ public:
 
 	virtual bool init();
 
+	// object factory
 	virtual CameraPtr createCamera() { return new CameraDX; }
-	virtual MeshPtr createMesh() { return new MeshDX; }
-	virtual TexturePtr createTexture() { return new TextureDX; }
+	virtual MeshPtr createMesh() { return new MeshDX(); }
+	virtual EffectPtr createEffect() { return new EffectDX(); }
+	virtual TexturePtr createTexture() { return new TextureDX(); }
 
 	// own
 	IDirect3DDevice9& device() { return *device_; }

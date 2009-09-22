@@ -2,6 +2,7 @@
 #define MESH_DX_INCLUDED
 
 #include "video/mesh.h"
+#include "video/effect.h"
 #include "video/texture.h"
 
 namespace engine {
@@ -29,7 +30,7 @@ public:
 	~MeshDX();
 
 	// interface: Drawn
-	virtual void draw();
+	virtual void draw(const Matrix44& view_proj);
 
 private:
 	static const Vertex vertices_[];
@@ -39,6 +40,7 @@ private:
 	IDirect3DIndexBuffer9* indexBuffer_;
 	IDirect3DVertexDeclaration9* vertexDecl_;
 
+	engine::EffectPtr effect_;
 	engine::TexturePtr texture_;
 };
 

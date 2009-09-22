@@ -14,8 +14,7 @@ void OrbVideo::update(const Drawn::Params& fromLogic, const float UNUSED(dt)) {
 		mesh_ = Video::inst().createMesh();
 
 	mesh_->transform() = fromLogic.transform;
-	mesh_->draw();
+	mesh_->draw(Video::inst().camera().view_projection());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-

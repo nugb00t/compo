@@ -6,6 +6,7 @@
 // factory-created objects
 #include "camera.h"
 #include "mesh.h"
+#include "effect.h"
 #include "texture.h"
 
 namespace engine {
@@ -37,7 +38,12 @@ public:
 	// object factory
 	virtual CameraPtr createCamera() = 0;
 	virtual MeshPtr createMesh() = 0;
+	virtual EffectPtr createEffect() = 0;
 	virtual TexturePtr createTexture() = 0;
+
+	virtual const Camera& camera() const {
+		return *camera_;
+	}
 
 private:
 	CameraPtr camera_;
