@@ -9,14 +9,12 @@ namespace engine {
 
 class EffectDX : public Effect {
 public:
-	EffectDX();
+	EffectDX(const TCHAR* const path);
 	~EffectDX();
 
 	// interface: Effect
-	virtual bool load(const TCHAR* const path);
-	virtual const char* errors() const {
-		return reinterpret_cast<const char*>(errors_->GetBufferPointer());
-	}
+	virtual const char* errors() const { return reinterpret_cast<const char*>(errors_->GetBufferPointer()); }
+
 	virtual void activate(const Matrix44& transform);
 	virtual void deactivate();
 

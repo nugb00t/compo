@@ -2,8 +2,6 @@
 #define MESH_DX_INCLUDED
 
 #include "video/mesh.h"
-#include "video/effect.h"
-#include "video/texture.h"
 
 namespace engine {
 
@@ -26,11 +24,12 @@ class MeshDX : public Mesh {
 #pragma pack(pop)
 
 public:
-	MeshDX();
+	MeshDX(EffectPtr effect, TexturePtr texture);
 	~MeshDX();
 
 	// interface: Drawn
 	virtual void draw(const Matrix44& view_proj);
+
 
 private:
 	static const Vertex vertices_[];

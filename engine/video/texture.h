@@ -9,7 +9,6 @@ namespace engine {
 
 class Texture : public IntrusivePtrBase {
 public:
-	virtual bool load(const TCHAR* const path) = 0;
 	virtual void activate(const unsigned stage) = 0;
 };
 

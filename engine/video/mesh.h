@@ -3,12 +3,14 @@
 
 #include "utility/intrusive_ptr_base.h"
 
+#include "effect.h"
+#include "texture.h"
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Mesh : public IntrusivePtrBase, public Drawn {
-};
+class Mesh : public IntrusivePtrBase, public Drawn {};
 
 typedef boost::intrusive_ptr<Mesh> MeshPtr;
 

@@ -27,7 +27,9 @@ void ProfilerScreenVideo::update(const float UNUSED(dt)) {
 			engine::MeshPtr& mesh = meshes_[section][age];
 
 			if (!mesh)
-				mesh = Video::inst().createMesh();
+				mesh = Video::inst().createMesh(
+					Video::inst().createEffect(_T("fx/simple.h")), 
+					Video::inst().createTexture(_T("textures/myself.bmp")));
 
 			const float begin	= (float)period.begin / 1000.f;
 			const float end		= (float)period.end / 1000.f;

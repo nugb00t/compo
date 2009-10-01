@@ -31,9 +31,9 @@ public:
 
 	// object factory
 	virtual CameraPtr createCamera() { return new CameraDX; }
-	virtual MeshPtr createMesh() { return new MeshDX(); }
-	virtual EffectPtr createEffect() { return new EffectDX(); }
-	virtual TexturePtr createTexture() { return new TextureDX(); }
+	virtual MeshPtr createMesh(EffectPtr effect, TexturePtr texture) { return new MeshDX(effect, texture); }
+	virtual EffectPtr createEffect(const TCHAR* const path = NULL) { return new EffectDX(path); }
+	virtual TexturePtr createTexture(const TCHAR* const path = NULL) { return new TextureDX(path); }
 
 	// own
 	IDirect3DDevice9& device() { return *device_; }

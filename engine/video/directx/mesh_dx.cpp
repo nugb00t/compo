@@ -10,17 +10,17 @@ using namespace engine;
 
 const D3DVERTEXELEMENT9 MeshDX::Vertex::Elements[] = {
 	// stream, offset, type, method, usage, usage index
-	{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
-	{ 0, 12, D3DDECLTYPE_D3DCOLOR,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0},
-//	{ 0, 12, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0},
-	{ 0, 16, D3DDECLTYPE_FLOAT2,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+	{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,	0},
+	{ 0, 12, D3DDECLTYPE_D3DCOLOR,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,		0},
+//	{ 0, 12, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,		0},
+	{ 0, 16, D3DDECLTYPE_FLOAT2,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,	0},
 	D3DDECL_END()
 };
 
 const MeshDX::Vertex MeshDX::vertices_[] = {
-	{ Vector3(-.5f, -.5f, 0.f), 0xffff0000, Vector2(0.f, 1.f) },
+	{ Vector3(-.5f, -.5f, 0.f), 0x0fff0000, Vector2(0.f, 1.f) },
 	{ Vector3(-.5f,  .5f, 0.f), 0xff00ffff, Vector2(0.f, 0.f) },
-	{ Vector3( .5f,  .5f, 0.f), 0xff00ff00, Vector2(1.f, 0.f) },
+	{ Vector3( .5f,  .5f, 0.f), 0x0f00ff00, Vector2(1.f, 0.f) },
 	{ Vector3( .5f, -.5f, 0.f), 0xff00ffff, Vector2(1.f, 1.f) },
 };
 
@@ -33,8 +33,11 @@ const short MeshDX::indices_[] = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MeshDX::MeshDX()
-: vertexDecl_(NULL), vertexBuffer_(NULL), indexBuffer_(NULL) {
+MeshDX::MeshDX(EffectPtr effect, TexturePtr texture)
+: vertexDecl_(NULL), vertexBuffer_(NULL), indexBuffer_(NULL), effect_(effect), texture_(texture) {
+	assert(effect_);
+	assert(texture_);
+
 	// vertex buffer
 	CHECKED_D3D_CALL(VideoDX::inst().device().CreateVertexBuffer(sizeof(vertices_), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &vertexBuffer_, NULL));
 
@@ -52,16 +55,6 @@ MeshDX::MeshDX()
 
 	// vertex decl
 	CHECKED_D3D_CALL(VideoDX::inst().device().CreateVertexDeclaration(Vertex::Elements, &vertexDecl_));
-
-	// texture
-	texture_ = VideoDX::inst().createTexture();
-	assert(texture_);
-	CHECKED_CALL(texture_->load(_T("textures/myself.bmp")));
-
-	// effect
-	effect_ = VideoDX::inst().createEffect();
-	assert(effect_);
-	CHECKED_CALL(effect_->load(_T("fx/simple.h")));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,11 +79,11 @@ void MeshDX::draw(const Matrix44& view_proj) {
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetIndices(indexBuffer_));
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetVertexDeclaration(vertexDecl_));
 
-	texture_->activate(0);
-
 	Matrix44 wvp = transform_;
 	wvp *= view_proj;
 	effect_->activate(wvp);
+
+	texture_->activate(0);
 
 	CHECKED_D3D_CALL(VideoDX::inst().device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, sizeof(vertices_) / sizeof(Vertex), 0, sizeof(indices_) / 3 / sizeof(short)));
 

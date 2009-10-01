@@ -9,22 +9,8 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-EffectDX::EffectDX()
-: effect_(NULL), errors_(NULL) {}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-EffectDX::~EffectDX() {
-	if (effect_)
-		effect_->Release();
-
-	if (errors_)
-		errors_->Release();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool EffectDX::load(const TCHAR* const path) {
+EffectDX::EffectDX(const TCHAR* const path)
+: effect_(NULL), errors_(NULL) {
 	assert(path);
 
 	HRESULT hr = D3DXCreateEffectFromFile(&VideoDX::inst().device(), path, 0, 0, D3DXSHADER_DEBUG, 0, &effect_, &errors_);
@@ -34,8 +20,16 @@ bool EffectDX::load(const TCHAR* const path) {
 		const char* charBuffer = reinterpret_cast<const char*>(errors_->GetBufferPointer());
 		MessageBoxA(0, charBuffer, 0, 0);
 	}
+}
 
-	return !errors_;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+EffectDX::~EffectDX() {
+	if (effect_)
+		effect_->Release();
+
+	if (errors_)
+		errors_->Release();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +44,7 @@ void EffectDX::activate(const Matrix44& transform) {
 	CHECKED_D3D_CALL(effect_->SetMatrix(wvpHandle, transform.d3dMatrix()));
 
 	UINT numPasses = 0;
-	CHECKED_D3D_CALL(effect_->Begin(&numPasses, 0));
+	CHECKED_D3D_CALL(effect_->Begin(&numPasses, D3DXFX_DONOTSAVESTATE));
 
 	CHECKED_D3D_CALL(effect_->BeginPass(0));
 }

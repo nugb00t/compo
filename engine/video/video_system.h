@@ -37,13 +37,12 @@ public:
 
 	// object factory
 	virtual CameraPtr createCamera() = 0;
-	virtual MeshPtr createMesh() = 0;
-	virtual EffectPtr createEffect() = 0;
-	virtual TexturePtr createTexture() = 0;
+	virtual MeshPtr createMesh(EffectPtr effect, TexturePtr texture) = 0;
+	virtual EffectPtr createEffect(const TCHAR* const path) = 0;
+	virtual TexturePtr createTexture(const TCHAR* const path) = 0;
 
-	virtual const Camera& camera() const {
-		return *camera_;
-	}
+	// HACK (?)
+	virtual const Camera& camera() const { return *camera_; }
 
 private:
 	CameraPtr camera_;

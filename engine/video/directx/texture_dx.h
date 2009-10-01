@@ -9,11 +9,10 @@ namespace engine {
 
 class TextureDX : public Texture {
 public:
-	TextureDX();
+	TextureDX(const TCHAR* const path);
 	~TextureDX();
 
 	// interface: Texture
-	virtual bool load(const TCHAR* const path);
 	virtual void activate(const unsigned stage);
 
 private:
