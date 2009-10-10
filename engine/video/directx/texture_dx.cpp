@@ -13,8 +13,7 @@ TextureDX::TextureDX(const TCHAR* const path)
 : texture_(NULL) {
 	assert(path);
 
-	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&VideoDX::inst().device(), path, &texture_));
-}
+	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&VideoDX::inst().device(), path, &texture_));}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

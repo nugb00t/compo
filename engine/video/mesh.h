@@ -3,14 +3,15 @@
 
 #include "utility/intrusive_ptr_base.h"
 
-#include "effect.h"
-#include "texture.h"
-
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Mesh : public IntrusivePtrBase, public Drawn {};
+class Mesh : public IntrusivePtrBase, public Drawn {
+public:
+	virtual void setBuffers(const void* const vertices, const unsigned verticesSize, const unsigned vertexSize, 
+							const short* const indices, const unsigned indicesSize) = 0;
+};
 
 typedef boost::intrusive_ptr<Mesh> MeshPtr;
 

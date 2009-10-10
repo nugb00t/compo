@@ -8,6 +8,7 @@
 #include "mesh_dx.h"
 #include "effect_dx.h"
 #include "texture_dx.h"
+#include "vertex_decl_dx.h"
 
 namespace engine {
 
@@ -31,9 +32,11 @@ public:
 
 	// object factory
 	virtual CameraPtr createCamera() { return new CameraDX; }
-	virtual MeshPtr createMesh(EffectPtr effect, TexturePtr texture) { return new MeshDX(effect, texture); }
-	virtual EffectPtr createEffect(const TCHAR* const path) { return new EffectDX(path); }
+	virtual MeshPtr createMesh(EffectPtr effect) { return new MeshDX(effect); }
+	virtual EffectPtr createEffect(const TCHAR* const path, const VertexDeclPtr vertexDecl, const TexturePtr texture) { return new EffectDX(path, vertexDecl, texture); }
 	virtual TexturePtr createTexture(const TCHAR* const path) { return new TextureDX(path); }
+
+	virtual VertexDeclPtr getVertexDecl(const VertexDecl::Type type) { return VertexDeclDX::get(type); }
 
 	// own
 	IDirect3DDevice9& device() { return *device_; }

@@ -1,5 +1,5 @@
-#ifndef EFFECT_INCLUDED
-#define EFFECT_INCLUDED
+#ifndef VERTEX_INCLUDED
+#define VERTEX_INCLUDED
 
 #include "utility/intrusive_ptr_base.h"
 
@@ -7,15 +7,20 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Effect : public IntrusivePtrBase {
+class VertexDecl : public IntrusivePtrBase {
 public:
- 	virtual const char* errors() const = 0;
+	enum Type {
+		POS_DIFFUSE_TEX,
+		//POS_NORMAL_TEX,
 
-	virtual void activate(const Matrix44& transform) = 0;
-	virtual void deactivate() = 0;
+		Type_COUNT
+	};
+
+public:
+	virtual void activate() = 0; 
 };
 
-typedef boost::intrusive_ptr<Effect> EffectPtr;
+typedef boost::intrusive_ptr<VertexDecl> VertexDeclPtr;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -3,7 +3,7 @@ uniform extern float4x4 gWVP;
 
 // Structure
 struct OutputVS {
-	float4 posH : POSITION0;
+	float4 posH		: POSITION0;
 	float4 color : COLOR0;
 };
 
@@ -18,7 +18,7 @@ OutputVS TransformVS(float3 posL : POSITION0, float4 c : COLOR0) {
 	// Just pass the vertex color into the pixel shader.
 	outVS.color = c;
 
-	// Done--return the output
+	// Done--return the output.
 	return outVS;
 }
 

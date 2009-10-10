@@ -28,8 +28,11 @@ void ProfilerScreenVideo::update(const float UNUSED(dt)) {
 
 			if (!mesh)
 				mesh = Video::inst().createMesh(
-					Video::inst().createEffect(engine::Effect::First), 
-					Video::inst().createTexture(_T("textures/myself.bmp")));
+					Video::inst().createEffect(
+						_T("playground/fx/simple.h"),
+						Video::inst().getVertexDecl(VertexDecl::POS_DIFFUSE_TEX),
+						Video::inst().createTexture(_T("playground/textures/myself.bmp"))
+				));
 
 			const float begin	= (float)period.begin / 1000.f;
 			const float end		= (float)period.end / 1000.f;

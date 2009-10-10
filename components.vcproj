@@ -750,6 +750,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\video\vertex_decl.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\video_component.h"
 					>
 				</File>
@@ -825,6 +829,14 @@
 						>
 					</File>
 					<File
+						RelativePath=".\engine\video\directx\vertex_decl_dx.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\directx\vertex_decl_dx.h"
+						>
+					</File>
+					<File
 						RelativePath=".\engine\video\directx\video_system_dx.cpp"
 						>
 					</File>
@@ -885,6 +897,22 @@
 			<File
 				RelativePath=".\game\stdafx.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\game\stdafx.h"

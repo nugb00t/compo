@@ -9,9 +9,11 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-EffectDX::EffectDX(const TCHAR* const path)
-: effect_(NULL), errors_(NULL) {
+EffectDX::EffectDX(const TCHAR* const path, const VertexDeclPtr vertexDecl, const TexturePtr texture)
+: effect_(NULL), errors_(NULL), vertexDecl_(vertexDecl), texture_(texture) {
 	assert(path);
+	assert(vertexDecl_);
+	assert(texture_);
 
 	HRESULT hr = D3DXCreateEffectFromFile(&VideoDX::inst().device(), path, 0, 0, D3DXSHADER_DEBUG, 0, &effect_, &errors_);
 	if (hr != D3D_OK)  {
@@ -36,6 +38,10 @@ EffectDX::~EffectDX() {
 
 void EffectDX::activate(const Matrix44& transform) {
 	assert(effect_);
+
+	texture_->activate(0);
+	vertexDecl_->activate();
+
 
 	D3DXHANDLE wvpHandle = effect_->GetParameterByName(0, "gWVP");
 	CHECKED_D3D_CALL(effect_->SetMatrix(wvpHandle, transform.d3dMatrix()));

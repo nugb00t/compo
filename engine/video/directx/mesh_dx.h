@@ -1,6 +1,8 @@
 #ifndef MESH_DX_INCLUDED
 #define MESH_DX_INCLUDED
 
+#include "video/effect.h"
+
 #include "video/mesh.h"
 
 namespace engine {
@@ -8,39 +10,30 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class MeshDX : public Mesh {
-
-#pragma pack(push, 4)
-	struct Vertex {
-		static const D3DVERTEXELEMENT9 Elements[];
-
-		Vector3	xyz;
-		unsigned diffuse;
-		//Vector3	normal;
-		Vector2	uv;
-
-		//inline Vertex(const Vector3 point_ = Vector3(0.f, 0.f, 0.f), const Vector3 normal_ = Vector3(0.f, 0.f, 1.f), const Vector2 uv_ = Vector2(0.f, 0.f))
-		//	: point(point_), normal(normal_), uv(uv_) {}
-	};
-#pragma pack(pop)
-
 public:
-	MeshDX(EffectPtr effect, TexturePtr texture);
+	MeshDX(EffectPtr effect);
 	~MeshDX();
 
 	// interface: Drawn
 	virtual void draw(const Matrix44& view_proj);
 
+	// interface: Mesh
+	virtual void setBuffers(const void* const vertices, const unsigned verticesSize, const unsigned vertexSize,
+							const short* const indices, const unsigned indicesSize);
 
 private:
-	static const Vertex vertices_[];
-	static const short indices_[];
-
+	// Direct3D
 	IDirect3DVertexBuffer9* vertexBuffer_;
 	IDirect3DIndexBuffer9* indexBuffer_;
-	IDirect3DVertexDeclaration9* vertexDecl_;
+
+	unsigned verticesCapacity_;
+	unsigned verticesSize_;
+	unsigned vertexSize_;
+
+	unsigned indicesCapacity_;
+	unsigned indicesSize_;
 
 	engine::EffectPtr effect_;
-	engine::TexturePtr texture_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

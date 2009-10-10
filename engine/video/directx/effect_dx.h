@@ -1,6 +1,8 @@
 #ifndef EFFECT_DX_INCLUDED
 #define EFFECT_DX_INCLUDED
 
+#include "video/vertex_decl.h"
+
 #include "video/effect.h"
 
 namespace engine {
@@ -9,7 +11,7 @@ namespace engine {
 
 class EffectDX : public Effect {
 public:
-	EffectDX(const TCHAR* const path);
+	EffectDX(const TCHAR* const path, const VertexDeclPtr vertexDecl, const TexturePtr texture);
 	~EffectDX();
 
 	// interface: Effect
@@ -21,8 +23,12 @@ public:
 private:
 	static const TCHAR* const FX_PATHS[];
 
+	// Direct3D
 	ID3DXEffect* effect_;
 	ID3DXBuffer* errors_;
+
+	engine::VertexDeclPtr vertexDecl_;
+	engine::TexturePtr texture_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
