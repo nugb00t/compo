@@ -6,7 +6,7 @@
 #include "profiler_screen_video.h"
 
 using namespace engine;
-using namespace game;
+using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -28,7 +28,7 @@ void ProfilerScreenVideo::update(const float UNUSED(dt)) {
 
 			if (!mesh)
 				mesh = Video::inst().createMesh(
-					Video::inst().createEffect(_T("fx/simple.h")), 
+					Video::inst().createEffect(engine::Effect::First), 
 					Video::inst().createTexture(_T("textures/myself.bmp")));
 
 			const float begin	= (float)period.begin / 1000.f;

@@ -19,6 +19,8 @@ public:
 	virtual void deactivate();
 
 private:
+	static const TCHAR* const FX_PATHS[];
+
 	ID3DXEffect* effect_;
 	ID3DXBuffer* errors_;
 };

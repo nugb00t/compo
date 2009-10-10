@@ -17,6 +17,7 @@
 
 #pragma warning (disable: 4244)		// conversion from 'int' to 'unsigned short', possible loss of data
 #include <boost/intrusive_ptr.hpp>
+#include <boost/static_assert.hpp>
 #include <boost/thread.hpp>
 #pragma warning (default: 4244)
 

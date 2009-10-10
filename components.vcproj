@@ -727,22 +727,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="audio"
-				>
-				<File
-					RelativePath=".\engine\audio\audio_component.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\audio\audio_system.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\audio\audio_system.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="video"
 				>
 				<File
@@ -901,90 +885,86 @@
 			<File
 				RelativePath=".\game\stdafx.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\game\stdafx.h"
 				>
 			</File>
 			<Filter
-				Name="entities"
-				>
-				<Filter
-					Name="orb"
-					>
-					<File
-						RelativePath=".\game\entities\orb\orb.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\entities\orb\orb_audio.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\game\entities\orb\orb_audio.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\entities\orb\orb_logic.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\game\entities\orb\orb_logic.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\entities\orb\orb_video.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\game\entities\orb\orb_video.h"
-						>
-					</File>
-				</Filter>
-			</Filter>
-			<Filter
-				Name="screens"
-				>
-				<Filter
-					Name="profiler"
-					>
-					<File
-						RelativePath=".\game\screens\profiler\profiler_screen.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\screens\profiler\profiler_screen_video.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\game\screens\profiler\profiler_screen_video.h"
-						>
-					</File>
-				</Filter>
-			</Filter>
-			<Filter
-				Name="effects"
+				Name="playground"
 				>
 				<File
-					RelativePath=".\exec\fx\simple.h"
+					RelativePath=".\game\playground\game_playground.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\game\playground\game_playground.h"
+					>
+				</File>
+				<Filter
+					Name="src"
+					>
+					<Filter
+						Name="screens"
+						>
+						<Filter
+							Name="profiler"
+							>
+							<File
+								RelativePath=".\game\playground\screens\profiler\profiler_screen.h"
+								>
+							</File>
+							<File
+								RelativePath=".\game\playground\screens\profiler\profiler_screen_video.cpp"
+								>
+							</File>
+							<File
+								RelativePath=".\game\playground\screens\profiler\profiler_screen_video.h"
+								>
+							</File>
+						</Filter>
+					</Filter>
+					<Filter
+						Name="entities"
+						>
+						<Filter
+							Name="orb"
+							>
+							<File
+								RelativePath=".\game\playground\entities\orb\orb.h"
+								>
+							</File>
+							<File
+								RelativePath=".\game\playground\entities\orb\orb_logic.cpp"
+								>
+							</File>
+							<File
+								RelativePath=".\game\playground\entities\orb\orb_logic.h"
+								>
+							</File>
+							<File
+								RelativePath=".\game\playground\entities\orb\orb_video.cpp"
+								>
+							</File>
+							<File
+								RelativePath=".\game\playground\entities\orb\orb_video.h"
+								>
+							</File>
+						</Filter>
+					</Filter>
+				</Filter>
+				<Filter
+					Name="data"
+					>
+					<Filter
+						Name="effects"
+						>
+						<File
+							RelativePath=".\exec\playground\fx\simple.h"
+							>
+						</File>
+					</Filter>
+				</Filter>
 			</Filter>
 		</Filter>
 	</Files>

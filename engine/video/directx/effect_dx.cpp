@@ -37,11 +37,11 @@ EffectDX::~EffectDX() {
 void EffectDX::activate(const Matrix44& transform) {
 	assert(effect_);
 
-	D3DXHANDLE techHandle = effect_->GetTechniqueByName("TransformTech");
-	CHECKED_D3D_CALL(effect_->SetTechnique(techHandle));
-
 	D3DXHANDLE wvpHandle = effect_->GetParameterByName(0, "gWVP");
 	CHECKED_D3D_CALL(effect_->SetMatrix(wvpHandle, transform.d3dMatrix()));
+
+	D3DXHANDLE techHandle = effect_->GetTechniqueByName("TransformTech");
+	CHECKED_D3D_CALL(effect_->SetTechnique(techHandle));
 
 	UINT numPasses = 0;
 	CHECKED_D3D_CALL(effect_->Begin(&numPasses, D3DXFX_DONOTSAVESTATE));

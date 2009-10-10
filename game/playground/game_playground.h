@@ -1,13 +1,18 @@
-#ifndef AUDIO_COMPONENT_INCLUDED
-#define AUDIO_COMPONENT_INCLUDED
+#ifndef GAME_PLAYGROUND_INCLUDED
+#define GAME_PLAYGROUND_INCLUDED
 
-namespace engine {
+#include "entities/orb/orb.h"
+#include "screens/profiler/profiler_screen.h"
+
+namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class AudioComponent : public Updatable {
+class Game {
 public:
-	typedef engine::AudioComponent Type;
+
+private:
+	Orb orb_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

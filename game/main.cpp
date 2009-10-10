@@ -7,8 +7,7 @@
 #include "video/video_system.h"
 #include "core/core.h"
 
-#include "entities/orb/orb.h"
-#include "screens/profiler/profiler_screen.h"
+#include "playground/game_playground.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -18,8 +17,7 @@ int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
 	engine::VideoSystemDX video;
 	engine::WindowSystemW32 window;
 
-	game::Orb orb;
-	//game::ProfilerScreen profilerScreen;
+	game_playground::Game game;
 
 	engine::Core::inst().add(engine::Logic::inst());
 	engine::Core::inst().add(engine::Video::inst());
