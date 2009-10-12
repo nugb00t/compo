@@ -12,25 +12,29 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Transformable {
-public:
-	virtual Matrix44& transform()	{	return transform_;	}
-	virtual const Matrix44& transform() const	{	return transform_;	}
+//class Transformable {
+//public:
+//	virtual Matrix44& transform()	{	return transform_;	}
+//	virtual const Matrix44& transform() const	{	return transform_;	}
+//
+//protected:
+//	Matrix44 transform_;
+//};
 
-protected:
-	Matrix44 transform_;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Drawn {
+public:
+	virtual void draw(const Matrix44& transform) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Drawn : public Transformable {
+class Entity {
 public:
-	struct Params {
-		Matrix44 transform;
-	};
-
-public:
-	virtual void draw(const Matrix44& view_proj) = 0;
+    struct Params {
+        Matrix44 transform;
+    };
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

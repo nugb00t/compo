@@ -15,7 +15,7 @@ public:
 
 public:
 	struct LogicToVideo {
-		Drawn::Params drawnParams[MAX_ENTITIES];
+		Entity::Params entities[MAX_ENTITIES];
 		float age;
 	};
 

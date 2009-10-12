@@ -734,6 +734,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\video\effect.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\effect.h"
 					>
 				</File>

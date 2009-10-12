@@ -25,7 +25,7 @@ const short OrbVideo::indices_[] = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void OrbVideo::update(const Drawn::Params& fromLogic, const float UNUSED(dt)) {
+void OrbVideo::update(const Entity::Params& fromLogic, const float UNUSED(dt)) {
 	if (!mesh_) {
 
 		mesh_ = Video::inst().createMesh(
@@ -38,8 +38,9 @@ void OrbVideo::update(const Drawn::Params& fromLogic, const float UNUSED(dt)) {
 		mesh_->setBuffers(vertices_, sizeof(vertices_), sizeof(Vertex), indices_, sizeof(indices_));
 	}
 
-	mesh_->transform() = fromLogic.transform;
-	mesh_->draw(Video::inst().camera().view_projection());
+    Matrix44 transform = fromLogic.transform;
+    transform *= Video::inst().camera().view_projection();
+	mesh_->draw(transform);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -21,7 +21,7 @@ class OrbVideo : public engine::EntityVideoComponent {
 
 public:
 	// interface: EntityVideoComponent
-	virtual void update(const engine::Drawn::Params& fromLogic, const float dt);
+	virtual void update(const engine::Entity::Params& fromLogic, const float dt);
 
 private:
 	static const Vertex vertices_[];

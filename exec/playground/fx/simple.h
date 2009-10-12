@@ -1,5 +1,5 @@
 // FX parameter (global variable to the shader).
-uniform extern float4x4 gWVP;
+uniform extern float4x4 transform;
 
 // Structure
 struct OutputVS {
@@ -13,7 +13,7 @@ OutputVS TransformVS(float3 posL : POSITION0, float4 c : COLOR0) {
 	OutputVS outVS = (OutputVS)0;
 
 	// Transform to homogeneous clip space
-	outVS.posH = mul(float4(posL, 1.0f), gWVP);
+	outVS.posH = mul(float4(posL, 1.0f), transform);
 
 	// Just pass the vertex color into the pixel shader.
 	outVS.color = c;

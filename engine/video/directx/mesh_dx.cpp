@@ -28,7 +28,7 @@ MeshDX::~MeshDX() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MeshDX::draw(const Matrix44& view_proj) {
+void MeshDX::draw(const Matrix44& transform) {
 	assert(effect_);
 	assert(effect_);
 	assert(effect_);
@@ -36,9 +36,8 @@ void MeshDX::draw(const Matrix44& view_proj) {
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetStreamSource(0, vertexBuffer_, 0, vertexSize_));
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetIndices(indexBuffer_));
 
-	Matrix44 wvp = transform_;
-	wvp *= view_proj;
-	effect_->activate(wvp);
+    effect_->setTransform(transform);
+	effect_->activate();
 
 	CHECKED_D3D_CALL(VideoDX::inst().device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, verticesSize_ / vertexSize_, 0, indicesSize_ / (3 * sizeof(short))));
 

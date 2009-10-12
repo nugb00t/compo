@@ -33,7 +33,7 @@ void Logic::update(const float dt) {
 
 	for (unsigned i = 0; i < Sync::MAX_ENTITIES; ++i)
 		if (LogicComponentRegistry::inst().valid(i))
-			LogicComponentRegistry::inst().get(i).update(toVideo->drawnParams[i], dt);
+			LogicComponentRegistry::inst().get(i).update(toVideo->entities[i], dt);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -17,7 +17,10 @@ public:
 	// interface: Effect
 	virtual const char* errors() const { return reinterpret_cast<const char*>(errors_->GetBufferPointer()); }
 
-	virtual void activate(const Matrix44& transform);
+    virtual void setUniforms(const Uniform* const uniforms);
+    virtual void setTransform(const Matrix44& transform);
+
+	virtual void activate();
 	virtual void deactivate();
 
 private:
@@ -29,6 +32,8 @@ private:
 
 	engine::VertexDeclPtr vertexDecl_;
 	engine::TexturePtr texture_;
+
+    const Uniform* uniforms_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

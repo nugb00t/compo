@@ -14,7 +14,7 @@ public:
 	typedef engine::EntityVideoComponent Type;
 
 public:
-	virtual void update(const Drawn::Params& fromLogic, const float dt) = 0;
+	virtual void update(const Entity::Params& fromLogic, const float dt) = 0;
 };
 
 typedef boost::intrusive_ptr<EntityVideoComponent> EntityVideoComponentPtr;
