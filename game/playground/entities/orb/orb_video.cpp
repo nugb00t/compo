@@ -23,18 +23,31 @@ const short OrbVideo::indices_[] = {
 	3, 2, 0
 };
 
+const Effect::Uniform OrbVideo::uniforms_[] = {
+    Effect::Uniform::TERMINATOR
+};
+
+const Effect::TextureUniform OrbVideo::texUniforms_[] = {
+    { "tex_diffuse", _T("playground/textures/myself.bmp") },
+    Effect::TextureUniform::TERMINATOR
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+OrbVideo::OrbVideo()
+: mesh_(NULL), effect_(NULL) {}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void OrbVideo::update(const Entity::Params& fromLogic, const float UNUSED(dt)) {
-	if (!mesh_) {
+	if (!mesh_ || !effect_) {
+        assert(!mesh_ && !effect_);
 
-		mesh_ = Video::inst().createMesh(
-			Video::inst().createEffect(
-				_T("playground/fx/simple.h"),
-				Video::inst().getVertexDecl(VertexDecl::POS_DIFFUSE_TEX),
-				Video::inst().createTexture(_T("playground/textures/myself.bmp"))
-			));
+        effect_ = Video::inst().createEffect(_T("playground/fx/simple.h"), Video::inst().getVertexDecl(VertexDecl::POS_DIFFUSE_TEX));
+        effect_->setUniforms(uniforms_);
+        effect_->setTexUniforms(texUniforms_);
 
+        mesh_ = Video::inst().createMesh(effect_);
 		mesh_->setBuffers(vertices_, sizeof(vertices_), sizeof(Vertex), indices_, sizeof(indices_));
 	}
 

@@ -10,10 +10,11 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TextureDX::TextureDX(const TCHAR* const path)
-: texture_(NULL) {
+: texture_(NULL), path_(path) {
 	assert(path);
 
-	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&VideoDX::inst().device(), path, &texture_));}
+	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&VideoDX::inst().device(), path, &texture_));
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -10,6 +10,13 @@ using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+ProfilerScreenVideo::ProfilerScreenVideo()
+:effect_(NULL) {
+    for (unsigned i = 0; i < engine::Profiler::SECTION_COUNT; ++i)
+        for (unsigned j = 0; j < engine::ProfilerSections::HISTORY_DEPTH; ++j)
+            meshes_[i][j] = NULL;
+}
+
 void ProfilerScreenVideo::update(const float UNUSED(dt)) {
 	static const float SECTION_STEP		= 2.0f;
 	static const float BAR_HEIGHT		= 1.5f;
@@ -27,11 +34,10 @@ void ProfilerScreenVideo::update(const float UNUSED(dt)) {
 			engine::MeshPtr& mesh = meshes_[section][age];
 
 			if (!mesh)
-				mesh = Video::inst().createMesh(
-					Video::inst().createEffect(
-						_T("playground/fx/simple.h"),
-						Video::inst().getVertexDecl(VertexDecl::POS_DIFFUSE_TEX),
-						Video::inst().createTexture(_T("playground/textures/myself.bmp"))
+                effect_ = Video::inst().createEffect(_T("playground/fx/simple.h"), Video::inst().getVertexDecl(VertexDecl::POS_DIFFUSE_TEX));
+				mesh = Video::inst().createMesh(effect_);
+                
+                Video::inst().createTexture(_T("playground/textures/myself.bmp"))
 				));
 
 			const float begin	= (float)period.begin / 1000.f;

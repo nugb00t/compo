@@ -39,7 +39,7 @@ public:
 	// object factory
 	virtual CameraPtr createCamera() = 0;
 	virtual MeshPtr createMesh(EffectPtr effect) = 0;
-	virtual EffectPtr createEffect(const TCHAR* const path, const VertexDeclPtr vertexDecl, const TexturePtr texture) = 0;
+	virtual EffectPtr createEffect(const TCHAR* const path, const VertexDeclPtr vertexDecl) = 0;
 	virtual TexturePtr createTexture(const TCHAR* const path) = 0;
 
 	virtual VertexDeclPtr getVertexDecl(const VertexDecl::Type type) = 0;

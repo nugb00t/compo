@@ -37,11 +37,11 @@ void MeshDX::draw(const Matrix44& transform) {
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetIndices(indexBuffer_));
 
     effect_->setTransform(transform);
-	effect_->activate();
+	effect_->begin();
 
 	CHECKED_D3D_CALL(VideoDX::inst().device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, verticesSize_ / vertexSize_, 0, indicesSize_ / (3 * sizeof(short))));
 
-	effect_->deactivate();
+	effect_->end();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

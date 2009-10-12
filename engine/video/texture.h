@@ -10,6 +10,8 @@ namespace engine {
 class Texture : public IntrusivePtrBase {
 public:
 	virtual void activate(const unsigned stage) = 0;
+
+    virtual const TCHAR* path() const = 0;
 };
 
 typedef boost::intrusive_ptr<Texture> TexturePtr;
