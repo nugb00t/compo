@@ -10,10 +10,10 @@ using namespace game_playground;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const OrbVideo::Vertex OrbVideo::vertices_[] = {
-	{ Vector3(-.5f, -.5f, 0.f), 0x0fff0000, Vector2(0.f, 1.f) },
-	{ Vector3(-.5f,  .5f, 0.f), 0xff00ffff, Vector2(0.f, 0.f) },
-	{ Vector3( .5f,  .5f, 0.f), 0x0f00ff00, Vector2(1.f, 0.f) },
-	{ Vector3( .5f, -.5f, 0.f), 0xff00ffff, Vector2(1.f, 1.f) },
+	{ Vector3(-.5f, -.5f, 0.f), 0x0fff0000, Vector2(0.f, 1.f), Vector2(0.f, 0.f) },
+	{ Vector3(-.5f,  .5f, 0.f), 0xff00ffff, Vector2(0.f, 0.f), Vector2(0.f, 0.f) },
+	{ Vector3( .5f,  .5f, 0.f), 0x0f00ff00, Vector2(1.f, 0.f), Vector2(0.f, 0.f) },
+	{ Vector3( .5f, -.5f, 0.f), 0xff00ffff, Vector2(1.f, 1.f), Vector2(0.f, 0.f) },
 };
 
 const short OrbVideo::indices_[] = {

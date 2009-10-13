@@ -17,6 +17,8 @@ class OrbVideo : public engine::EntityVideoComponent {
 		Vector3	xyz;
 		unsigned diffuse;
 		Vector2	uv;
+
+		Vector2 dummy;
 	};
 #pragma pack(pop)
 
