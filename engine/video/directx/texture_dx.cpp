@@ -29,11 +29,6 @@ void TextureDX::activate(const unsigned stage) {
 	assert(texture_);
 
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetTexture(stage, texture_));
-
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetTextureStageState(stage, D3DTSS_COLOROP, D3DTOP_MODULATE));
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetTextureStageState(stage, D3DTSS_COLORARG1, D3DTA_TEXTURE));
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetTextureStageState(stage, D3DTSS_COLORARG2, D3DTA_DIFFUSE));
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetTextureStageState(stage, D3DTSS_ALPHAOP, D3DTOP_DISABLE));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

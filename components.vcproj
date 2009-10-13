@@ -215,10 +215,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="glew"
-				>
-			</Filter>
-			<Filter
 				Name="directx"
 				>
 				<File

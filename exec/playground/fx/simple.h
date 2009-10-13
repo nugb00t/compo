@@ -14,6 +14,7 @@ sampler TexS = sampler_state {
 struct OutputVS {
 	float4 posH		: POSITION0;
 	float4 color	: COLOR0;
+    float2 tex0     : TEXCOORD0;
 };
 
 // Vertex shader
@@ -27,16 +28,16 @@ OutputVS TransformVS(float3 posL    : POSITION0,
 	outVS.posH = mul(float4(posL, 1.0f), transform);
 
 	// Just pass the vertex color into the pixel shader.
-	outVS.color = c;
+    outVS.color = c;
+    outVS.tex0 = tex0;
 
 	// Done--return the output.
 	return outVS;
 }
 
 // Pixel shader
-float4 TransformPS(float4 c     : COLOR0,
-                   float2 tex0  : TEXCOORD0) : COLOR {
-	return tex2D(TexS, tex0);
+float4 TransformPS(OutputVS outVS) : COLOR {
+	return tex2D(TexS, outVS.tex0);
 }
 
 // Techniques
