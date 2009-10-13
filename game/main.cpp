@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+#include "system/win32/message_sink_system_win32.h"
 #include "video/directx/video_system_dx.h"
 #include "window/win32/window_system_w32.h"
 
@@ -9,19 +10,26 @@
 
 #include "playground/game_playground.h"
 
+using namespace engine;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
 	CHECKED_CALL(kaynine::setCurrentDirectory());
 
-	engine::VideoSystemDX video;
-	engine::WindowSystemW32 window;
+	// platform-specific subsystem instantiations
+	MessageSinkSystemW32 messageSink;
+	VideoSystemDX video;
+	WindowSystemW32 window;
 
+	// the game
 	game_playground::Game game;
 
-	engine::Core::inst().add(engine::Logic::inst());
-	engine::Core::inst().add(engine::Video::inst());
-	engine::Core::inst().run();
+	// threads
+	Core::inst().add(Logic::inst());
+	Core::inst().add(Video::inst());
+	Core::inst().add(MessageSink::inst());
+	Core::inst().run();
 
 	return 0;
 }

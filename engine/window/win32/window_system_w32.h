@@ -18,12 +18,7 @@ public:
 	// interface: safe_bool
 	virtual bool boolean_test() const;
 
-	// interface: Updatable
-	virtual void update(const float dt);
-
 	// interface: WindowSystem
-	virtual bool create(const unsigned width, const unsigned height);
-
 	virtual bool create(
 		const unsigned width, 
 		const unsigned height, 
@@ -42,11 +37,6 @@ public:
 	virtual int format() const { return format_; }
 
 	virtual void swapBuffers() { ::SwapBuffers(context_); }
-
-
-private:
-	static LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
-
 
 private:
 	HWND		window_;

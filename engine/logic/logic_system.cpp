@@ -3,8 +3,8 @@
 #include "logic_system.h"
 #include "logic_component.h"
 
-#include "utility/timer.h"
 #include "core/sync.h"
+#include "core/timer.h"
 
 using namespace engine;
 

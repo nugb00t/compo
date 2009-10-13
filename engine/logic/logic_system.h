@@ -1,5 +1,5 @@
-#ifndef LOGIC_INCLUDED
-#define LOGIC_INCLUDED
+#ifndef LOGIC_SYSTEM_INCLUDED
+#define LOGIC_SYSTEM_INCLUDED
 
 namespace engine {
 

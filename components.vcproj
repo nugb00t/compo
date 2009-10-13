@@ -689,14 +689,6 @@
 					RelativePath=".\engine\utility\safe_bool.h"
 					>
 				</File>
-				<File
-					RelativePath=".\engine\utility\timer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\utility\timer.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="core"
@@ -719,6 +711,14 @@
 				</File>
 				<File
 					RelativePath=".\engine\core\sync.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\timer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\timer.h"
 					>
 				</File>
 			</Filter>
@@ -885,6 +885,30 @@
 					RelativePath=".\engine\logic\logic_system.h"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="system"
+				>
+				<File
+					RelativePath=".\engine\system\message_sink_system.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\system\message_sink_system.h"
+					>
+				</File>
+				<Filter
+					Name="win32"
+					>
+					<File
+						RelativePath=".\engine\system\win32\message_sink_system_win32.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\system\win32\message_sink_system_win32.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

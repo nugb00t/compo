@@ -7,14 +7,12 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class WindowSystem : public Updatable
+class WindowSystem
 {
 public:
 	WindowSystem();
 
 	// own: WindowSystem
-	virtual bool create(const unsigned width, const unsigned height) = 0;
-
 	virtual bool create(
 		const unsigned width, 
 		const unsigned height, 

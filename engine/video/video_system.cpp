@@ -37,7 +37,6 @@ void VideoSystem::operator()() {
 			{
 				Profiler::StopWatch stopWatch(Profiler::VIDEO_THREAD);
 
-				Window::inst().update(dt);
 				Video::inst().update(dt);
 			}
 

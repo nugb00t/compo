@@ -16,7 +16,7 @@ public:
 public:
 	struct LogicToVideo {
 		Entity::Params entities[MAX_ENTITIES];
-		float age;
+		unsigned long age;
 	};
 
 	typedef kaynine::ReadableAccess<LogicToVideo>		LogicToVideoReadable;

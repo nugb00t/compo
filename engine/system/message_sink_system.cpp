@@ -1,19 +1,14 @@
 #include "stdafx.h"
 
-#include "core.h"
-#include "profiler.h"
+#include "message_sink_system.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Core::run() {
-	Profiler::inst();
-
-	for (std::list<Callable*>::iterator it = systems_.begin(); it != systems_.end(); ++it)
-		threads_.create_thread(boost::ref(**it));
-
-	threads_.join_all();
+MessageSinkSystem::MessageSinkSystem() {
+	MessageSink::set(*this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
