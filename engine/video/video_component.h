@@ -1,7 +1,6 @@
 #ifndef VIDEO_COMPONENT_INCLUDED
 #define VIDEO_COMPONENT_INCLUDED
 
-#include "utility/intrusive_ptr_base.h"
 #include "utility/registry.h"
 #include "core/sync.h"
 

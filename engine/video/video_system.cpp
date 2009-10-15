@@ -5,7 +5,7 @@
 #include "core/core.h"
 #include "core/sync.h"
 #include "core/profiler.h"
-#include "window/window_system.h"
+#include "system/window_system.h"
 #include "video/video_component.h"
 
 using namespace engine;
@@ -21,7 +21,7 @@ VideoSystem::VideoSystem() {
 void VideoSystem::operator()() {
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
 
-	if (Window::inst().create(800, 600, 32, 0, false) && Video::inst().startup()) {
+	if (Video::inst().startup()) {
 		// TODO: move camera to its own entity
 		camera_ = createCamera();
 		assert(camera_);
@@ -45,7 +45,6 @@ void VideoSystem::operator()() {
 	}
 
 	Video::inst().shutdown();
-	Window::inst().destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

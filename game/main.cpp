@@ -2,7 +2,6 @@
 
 #include "system/win32/message_sink_system_win32.h"
 #include "video/directx/video_system_dx.h"
-#include "window/win32/window_system_w32.h"
 
 #include "logic/logic_system.h"
 #include "video/video_system.h"
@@ -20,7 +19,6 @@ int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
 	// platform-specific subsystem instantiations
 	MessageSinkSystemW32 messageSink;
 	VideoSystemDX video;
-	WindowSystemW32 window;
 
 	// the game
 	game_playground::Game game;

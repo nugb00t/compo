@@ -847,30 +847,6 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="window"
-				>
-				<File
-					RelativePath=".\engine\window\window_system.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\window\window_system.h"
-					>
-				</File>
-				<Filter
-					Name="win32"
-					>
-					<File
-						RelativePath=".\engine\window\win32\window_system_w32.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\window\win32\window_system_w32.h"
-						>
-					</File>
-				</Filter>
-			</Filter>
-			<Filter
 				Name="logic"
 				>
 				<File
@@ -897,6 +873,14 @@
 					RelativePath=".\engine\system\message_sink_system.h"
 					>
 				</File>
+				<File
+					RelativePath=".\engine\system\window_system.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\system\window_system.h"
+					>
+				</File>
 				<Filter
 					Name="win32"
 					>
@@ -906,6 +890,14 @@
 					</File>
 					<File
 						RelativePath=".\engine\system\win32\message_sink_system_win32.h"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\system\win32\window_system_w32.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\system\win32\window_system_w32.h"
 						>
 					</File>
 				</Filter>

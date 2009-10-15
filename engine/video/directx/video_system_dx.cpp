@@ -4,7 +4,7 @@
 #include "video_system_dx.h"
 
 #include "utility/registry.h"
-#include "window/window_system.h"
+#include "system/window_system.h"
 
 // directx
 #pragma comment(lib, "d3d9.lib")

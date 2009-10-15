@@ -1,4 +1,5 @@
-build
+extern
+exec/*.dll
 exec/*.exe
 exec/*.ilk
 exec/*.pdb

@@ -1,16 +1,27 @@
 #include "stdafx.h"
 
 #ifdef PLATFORM_WIN32
-#include "core/sync.h"
-
 #include "message_sink_system_win32.h"
+
+#include "core/sync.h"
+#include "window_system_w32.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MessageSinkSystemW32::MessageSinkSystemW32() {
-	//CHECKED_CALL(::RegisterRawInputDevices());
+MessageSinkSystemW32::MessageSinkSystemW32()
+: window_(new WindowSystemW32(&MessageSinkSystemW32::messageHandler)) {}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void MessageSinkSystemW32::operator()() {
+    CHECKED_CALL(Window::inst().create(800, 600, 32, 0, false));
+    //CHECKED_CALL(::RegisterRawInputDevices());
+
+    loop();
+
+    Window::inst().destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,8 +76,8 @@ LRESULT CALLBACK MessageSinkSystemW32::messageHandler(HWND hWnd, UINT uMsg, WPAR
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MessageSinkSystemW32::operator()() {
-	MSG	msg;
+void MessageSinkSystemW32::loop() {
+    MSG	msg;
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
 
 	while (!exitSignal.isSet())
