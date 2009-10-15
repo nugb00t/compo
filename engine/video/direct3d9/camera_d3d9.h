@@ -1,5 +1,5 @@
-#ifndef CAMERA_DX_INCLUDED
-#define CAMERA_DX_INCLUDED
+#ifndef CAMERA_D3D9_INCLUDED
+#define CAMERA_D3D9_INCLUDED
 
 #include "video/camera.h"
 
@@ -7,9 +7,9 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class CameraDX : public Camera {
+class CameraD3D9 : public Camera {
 public:
-	CameraDX();
+	CameraD3D9();
 
 	// interface: Updatable
 	virtual void update(const float dt);

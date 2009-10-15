@@ -1,8 +1,8 @@
-#ifndef EFFECT_DX_INCLUDED
-#define EFFECT_DX_INCLUDED
+#ifndef EFFECT_D3D9_INCLUDED
+#define EFFECT_D3D9_INCLUDED
 
-#include "video/directx/texture_dx.h"
-#include "video/directx/vertex_decl_dx.h"
+#include "video/direct3d9/texture_d3d9.h"
+#include "video/direct3d9/vertex_decl_d3d9.h"
 
 #include "video/effect.h"
 
@@ -10,10 +10,10 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class EffectDX : public Effect {
+class EffectD3D9 : public Effect {
 public:
-	EffectDX(const TCHAR* const path, const VertexDeclPtr vertexDecl);
-	~EffectDX();
+	EffectD3D9(const TCHAR* const path, const VertexDeclPtr vertexDecl);
+	~EffectD3D9();
 
 	// interface: Effect
 	virtual const char* errors() const { return reinterpret_cast<const char*>(errors_->GetBufferPointer()); }

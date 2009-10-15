@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "video/video_system.h"
+#include "video/video_interface.h"
 
 #include "orb_video.h"
 

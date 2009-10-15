@@ -1,26 +1,25 @@
-#ifndef VIDEO_SYSTEM_OGL_INCLUDED
-#define VIDEO_SYSTEM_OGL_INCLUDED
+#ifndef VIDEO_OGL_INCLUDED
+#define VIDEO_OGL_INCLUDED
 
-#include "video/video_system.h"
+#include "video/video_interface.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoSystemOGL : public VideoSystem {
+class VideoOGL : public VideoInterface {
 public:
-	VideoSystemOGL();
-	~VideoSystemOGL();
+	VideoOGL();
+	~VideoOGL();
 
 	// interface: Callable
 	virtual void operator()();
 
-	// interface: VideoSystem
+	// interface: VideoInterface
 	virtual bool startup();
 	virtual void shutdown();
 
 	virtual void clear();
-	virtual bool init();
 	virtual void flush();
 
 	virtual void setOrthogonalView();
@@ -31,6 +30,7 @@ public:
 	void reshape(const unsigned width, const unsigned height);
 
 private:
+    bool init();
 	bool choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits, BYTE stencilBits, BYTE samples);
 
 private:

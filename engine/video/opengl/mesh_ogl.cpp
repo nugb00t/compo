@@ -2,7 +2,7 @@
 
 #ifdef VIDEO_OPENGL
 
-#include "video_system.h"
+#include "video_interface.h"
 
 #include "mesh.h"
 

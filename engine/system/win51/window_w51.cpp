@@ -1,18 +1,18 @@
 #include "stdafx.h"
 
-#ifdef PLATFORM_WIN32
-#include "window_system_w32.h"
+#ifdef PLATFORM_WIN51
+#include "window_w51.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const TCHAR	WindowSystemW32::CLASS_NAME[]	= _T("Components window");
-const TCHAR	WindowSystemW32::WND_TITLE[]	= _T("Components");
+const TCHAR	WindowW51::CLASS_NAME[]	= _T("Components window");
+const TCHAR	WindowW51::WND_TITLE[]	= _T("Components");
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WindowSystemW32::WindowSystemW32(WNDPROC messageHandler)
+WindowW51::WindowW51(WNDPROC messageHandler)
 :	messageHandler_(messageHandler),
     window_(0),
 	context_(0),
@@ -24,19 +24,19 @@ WindowSystemW32::WindowSystemW32(WNDPROC messageHandler)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WindowSystemW32::~WindowSystemW32() {
+WindowW51::~WindowW51() {
 	destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool WindowSystemW32::boolean_test() const {
+bool WindowW51::boolean_test() const {
 	return window_ && context_ && format_ && width_ && height_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool WindowSystemW32::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits, BYTE stencilBits) {
+bool WindowW51::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits, BYTE stencilBits) {
 	PIXELFORMATDESCRIPTOR pfd;
 
 	::ZeroMemory (&pfd, sizeof(pfd));
@@ -58,7 +58,7 @@ bool WindowSystemW32::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE dep
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool WindowSystemW32::create(const unsigned width, 
+bool WindowW51::create(const unsigned width, 
 							 const unsigned height, 
 							 const unsigned colorBits, 
 							 const unsigned frequency, 
@@ -77,7 +77,7 @@ bool WindowSystemW32::create(const unsigned width,
 	wc.lpszClassName	= CLASS_NAME;
 
 	if (!::RegisterClass(&wc)) {
-		::MessageBox(NULL, _T("Failed To Register The WindowSystem Class."), _T("ERROR"), MB_OK | MB_ICONEXCLAMATION);
+		::MessageBox(NULL, _T("Failed To Register The WindowInterface Class."), _T("ERROR"), MB_OK | MB_ICONEXCLAMATION);
 		return false;
 	}
 
@@ -137,7 +137,7 @@ bool WindowSystemW32::create(const unsigned width,
 							 0);
 	if (!window_) {
 		destroy();
-		::MessageBox(NULL, _T("WindowSystem Creation Error."), _T("ERROR"), MB_OK | MB_ICONEXCLAMATION);
+		::MessageBox(NULL, _T("WindowInterface Creation Error."), _T("ERROR"), MB_OK | MB_ICONEXCLAMATION);
 		return false;
 	}
 
@@ -152,7 +152,7 @@ bool WindowSystemW32::create(const unsigned width,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void WindowSystemW32::destroy() {
+void WindowW51::destroy() {
 	::ShowCursor(TRUE);
 
 	if (fullscreen_) {

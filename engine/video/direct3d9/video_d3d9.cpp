@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#ifdef VIDEO_DIRECTX
-#include "video_system_dx.h"
+#ifdef VIDEO_DIRECT3D9
+#include "video_d3d9.h"
 
 #include "utility/registry.h"
-#include "system/window_system.h"
+#include "system/window_interface.h"
 
 // directx
 #pragma comment(lib, "d3d9.lib")
@@ -23,43 +23,20 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoSystemDX::VideoSystemDX()
+VideoD3D9::VideoD3D9()
 : d3d_(NULL), device_(NULL) {
 	VideoDX::set(*this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoSystemDX::~VideoSystemDX() {
+VideoD3D9::~VideoD3D9() {
 	shutdown();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool VideoSystemDX::init() {
-	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_ZENABLE, TRUE));
-	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE));
-	CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_LIGHTING, FALSE));
-	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_RGBA(255, 0, 0, 22)));
-	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD));
-	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, D3DMCS_COLOR1));
-
-	// texture filtering
-	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR));
-	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR));
-	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR));
-
-	// alpha blending
-	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE));
-	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA));
-	//CHECKED_D3D_CALL(device_->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA));
-
-	return true;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void VideoSystemDX::shutdown() {
+void VideoD3D9::shutdown() {
 	if (d3d_) {
 		d3d_->Release();
 		d3d_ = 0;
@@ -73,7 +50,7 @@ void VideoSystemDX::shutdown() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool VideoSystemDX::startup() {
+bool VideoD3D9::startup() {
 	d3d_ = Direct3DCreate9(D3D_SDK_VERSION);
 	if (!d3d_)
 		return false;
@@ -86,33 +63,30 @@ bool VideoSystemDX::startup() {
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 
-	if (FAILED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window::inst().handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(& D3DCREATE_PUREDEVICE), &d3dpp, &device_)))
-		return false;
-
-	return init();
+	return SUCCEEDED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window::inst().handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(& D3DCREATE_PUREDEVICE), &d3dpp, &device_));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemDX::clear() {
+void VideoD3D9::clear() {
 	device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool VideoSystemDX::begin() {
+bool VideoD3D9::begin() {
 	return SUCCEEDED(device_->BeginScene());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemDX::end() {
+void VideoD3D9::end() {
 	device_->EndScene();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemDX::present() {
+void VideoD3D9::present() {
 	device_->Present(NULL, NULL, NULL, NULL);
 }
 

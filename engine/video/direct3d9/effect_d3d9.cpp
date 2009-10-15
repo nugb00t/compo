@@ -1,15 +1,15 @@
 #include "stdafx.h"
 
-#ifdef VIDEO_DIRECTX
+#ifdef VIDEO_DIRECT3D9
 
-#include "video_system_dx.h"
-#include "texture_dx.h"
+#include "video_d3d9.h"
+#include "texture_d3d9.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-EffectDX::EffectDX(const TCHAR* const path, const VertexDeclPtr vertexDecl)
+EffectD3D9::EffectD3D9(const TCHAR* const path, const VertexDeclPtr vertexDecl)
 : effect_(NULL), errors_(NULL), vertexDecl_(vertexDecl), uniforms_(&Uniform::TERMINATOR) {
 	assert(path);
 	assert(vertexDecl_);
@@ -25,7 +25,7 @@ EffectDX::EffectDX(const TCHAR* const path, const VertexDeclPtr vertexDecl)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-EffectDX::~EffectDX() {
+EffectD3D9::~EffectD3D9() {
 	if (effect_)
 		effect_->Release();
 
@@ -35,7 +35,7 @@ EffectDX::~EffectDX() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EffectDX::setTexUniforms(const TextureUniform* const texUniforms) { 
+void EffectD3D9::setTexUniforms(const TextureUniform* const texUniforms) { 
     assert(texUniforms);
 
     texUniforms_ = texUniforms;
@@ -46,7 +46,7 @@ void EffectDX::setTexUniforms(const TextureUniform* const texUniforms) {
             assert(!texUniforms_[i].name && !texUniforms_[i].path);
             break;
         } else if (!textures_[i] || textures_[i]->path() && _tcscmp(texUniforms_[i].path, textures_[i]->path()))
-            textures_[i] = new TextureDX(texUniforms_[i].path);
+            textures_[i] = new TextureD3D9(texUniforms_[i].path);
     }
 
     for (; i < MAX_TEXTURES; ++i)
@@ -55,7 +55,7 @@ void EffectDX::setTexUniforms(const TextureUniform* const texUniforms) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EffectDX::setTransform(const Matrix44& transform) {
+void EffectD3D9::setTransform(const Matrix44& transform) {
     D3DXHANDLE handle = effect_->GetParameterByName(0, "transform");
     assert(handle);
     CHECKED_D3D_CALL(effect_->SetMatrix(handle, transform.d3dMatrix()));
@@ -63,7 +63,7 @@ void EffectDX::setTransform(const Matrix44& transform) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned EffectDX::begin() {
+unsigned EffectD3D9::begin() {
 	assert(effect_);
     assert(uniforms_);
 
@@ -97,12 +97,12 @@ unsigned EffectDX::begin() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EffectDX::next() {
+void EffectD3D9::next() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EffectDX::end() {
+void EffectD3D9::end() {
 	assert(effect_);
 
 	CHECKED_D3D_CALL(effect_->EndPass());

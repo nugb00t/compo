@@ -1,15 +1,15 @@
 #include "stdafx.h"
 
-#ifdef VIDEO_DIRECTX
+#ifdef VIDEO_DIRECT3D9
 
-#include "video_system_dx.h"
-#include "texture_dx.h"
+#include "video_d3d9.h"
+#include "texture_d3d9.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TextureDX::TextureDX(const TCHAR* const path)
+TextureD3D9::TextureD3D9(const TCHAR* const path)
 : texture_(NULL), path_(path) {
 	assert(path);
 
@@ -18,14 +18,14 @@ TextureDX::TextureDX(const TCHAR* const path)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TextureDX::~TextureDX() {
+TextureD3D9::~TextureD3D9() {
 	if (texture_)
 		texture_->Release();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void TextureDX::activate(const unsigned stage) {
+void TextureD3D9::activate(const unsigned stage) {
 	assert(texture_);
 
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetTexture(stage, texture_));

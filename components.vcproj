@@ -631,19 +631,7 @@
 			Name="engine"
 			>
 			<File
-				RelativePath=".\engine\engine_macros.h"
-				>
-			</File>
-			<File
-				RelativePath=".\engine\engine_math.h"
-				>
-			</File>
-			<File
 				RelativePath=".\engine\engine_pch.h"
-				>
-			</File>
-			<File
-				RelativePath=".\engine\engine_types.h"
 				>
 			</File>
 			<Filter
@@ -658,11 +646,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\utility\interfaces.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\utility\intrusive_ptr_base.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\engine\utility\intrusive_ptr_base.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\utility\macros.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\utility\math_wrapper.h"
 					>
 				</File>
 				<File
@@ -738,10 +738,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\engine\video\light.h"
-					>
-				</File>
-				<File
 					RelativePath=".\engine\video\mesh.h"
 					>
 				</File>
@@ -758,11 +754,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\engine\video\video_system.cpp"
+					RelativePath=".\engine\video\video_interface.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\engine\video\video_system.h"
+					RelativePath=".\engine\video\video_interface.h"
 					>
 				</File>
 				<Filter
@@ -777,71 +773,63 @@
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\opengl\video_system_ogl.cpp"
+						RelativePath=".\engine\video\opengl\video_ogl.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\opengl\video_system_ogl.h"
+						RelativePath=".\engine\video\opengl\video_ogl.h"
 						>
 					</File>
 				</Filter>
 				<Filter
-					Name="directx"
+					Name="direct3d9"
 					>
 					<File
-						RelativePath=".\engine\video\directx\camera_dx.cpp"
+						RelativePath=".\engine\video\direct3d9\camera_d3d9.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\camera_dx.h"
+						RelativePath=".\engine\video\direct3d9\camera_d3d9.h"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\effect_dx.cpp"
+						RelativePath=".\engine\video\direct3d9\effect_d3d9.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\effect_dx.h"
+						RelativePath=".\engine\video\direct3d9\effect_d3d9.h"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\light_dx.cpp"
+						RelativePath=".\engine\video\direct3d9\mesh_d3d9.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\light_dx.h"
+						RelativePath=".\engine\video\direct3d9\mesh_d3d9.h"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\mesh_dx.cpp"
+						RelativePath=".\engine\video\direct3d9\texture_d3d9.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\mesh_dx.h"
+						RelativePath=".\engine\video\direct3d9\texture_d3d9.h"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\texture_dx.cpp"
+						RelativePath=".\engine\video\direct3d9\vertex_decl_d3d9.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\texture_dx.h"
+						RelativePath=".\engine\video\direct3d9\vertex_decl_d3d9.h"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\vertex_decl_dx.cpp"
+						RelativePath=".\engine\video\direct3d9\video_d3d9.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\directx\vertex_decl_dx.h"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\video\directx\video_system_dx.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\video\directx\video_system_dx.h"
+						RelativePath=".\engine\video\direct3d9\video_d3d9.h"
 						>
 					</File>
 				</Filter>
@@ -866,38 +854,38 @@
 				Name="system"
 				>
 				<File
-					RelativePath=".\engine\system\message_sink_system.cpp"
+					RelativePath=".\engine\system\message_sink_interface.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\engine\system\message_sink_system.h"
+					RelativePath=".\engine\system\message_sink_interface.h"
 					>
 				</File>
 				<File
-					RelativePath=".\engine\system\window_system.cpp"
+					RelativePath=".\engine\system\window_interface.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\engine\system\window_system.h"
+					RelativePath=".\engine\system\window_interface.h"
 					>
 				</File>
 				<Filter
-					Name="win32"
+					Name="win51"
 					>
 					<File
-						RelativePath=".\engine\system\win32\message_sink_system_win32.cpp"
+						RelativePath=".\engine\system\win51\message_sink_w51.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\system\win32\message_sink_system_win32.h"
+						RelativePath=".\engine\system\win51\message_sink_w51.h"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\system\win32\window_system_w32.cpp"
+						RelativePath=".\engine\system\win51\window_w51.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\system\win32\window_system_w32.h"
+						RelativePath=".\engine\system\win51\window_w51.h"
 						>
 					</File>
 				</Filter>

@@ -1,5 +1,5 @@
-#ifndef ENGINE_MATH_INCLUDED
-#define ENGINE_MATH_INCLUDED
+#ifndef MATH_INCLUDED
+#define MATH_INCLUDED
 
 #define CML_USE_GENERATED_MATRIX_ASSIGN_OP
 #include <cml/cml.h>
@@ -15,6 +15,7 @@ typedef cml::quaternionf_n Quaternion;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef VIDEO_DIRECT3D9
 class Matrix44 : public cml::matrix44f_r {
 public:
 	inline D3DXMATRIX* d3dMatrix() {
@@ -25,6 +26,7 @@ public:
 		return reinterpret_cast<const D3DXMATRIX*>(data());
 	}
 };
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

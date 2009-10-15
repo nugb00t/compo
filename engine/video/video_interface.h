@@ -1,7 +1,5 @@
-#ifndef VIDEO_SYSTEM_INCLUDED
-#define VIDEO_SYSTEM_INCLUDED
-
-#include "utility/holder.h"
+#ifndef VIDEO_INTERFACE_INCLUDED
+#define VIDEO_INTERFACE_INCLUDED
 
 // factory-created objects
 #include "camera.h"
@@ -14,11 +12,11 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoSystem : public Callable, public Updatable {
+class VideoInterface : public Callable, public Updatable, public IntrusivePtrBase {
 	static const unsigned FRAMERATE = 60;
 
 public:
-	VideoSystem();
+	VideoInterface();
 
 	// interface: Callable
 	virtual void operator()();
@@ -53,7 +51,8 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef Holder<VideoSystem> Video;
+typedef Holder<VideoInterface> Video;
+typedef boost::intrusive_ptr<VideoInterface> VideoPtr;
 
 }
 

@@ -5,10 +5,10 @@
 
 #pragma warning (disable: 4512)		// assignment operator could not be generated
 
-#define VIDEO_DIRECTX
+#define VIDEO_DIRECT3D9
 //#define VIDEO_OPENGL
 
-#define PLATFORM_WIN32
+#define PLATFORM_WIN51
 
 #include "engine_pch.h"
 

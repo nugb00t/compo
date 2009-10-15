@@ -1,5 +1,5 @@
-#ifndef VERTEX_DX_INCLUDED
-#define VERTEX_DX_INCLUDED
+#ifndef VERTEX_D3D9_INCLUDED
+#define VERTEX_D3D9_INCLUDED
 
 #include "video/vertex_decl.h"
 
@@ -7,17 +7,17 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VertexDeclDX : public VertexDecl {
+class VertexDeclD3D9 : public VertexDecl {
 	static const unsigned MAX_ELEMENTS = 8;
 
 public:
 	static VertexDeclPtr get(const Type type);
 
 private:
-	VertexDeclDX(const Type type);
+	VertexDeclD3D9(const Type type);
 
 public:
-	~VertexDeclDX();
+	~VertexDeclD3D9();
 
 	virtual void activate(); 
 

@@ -1,24 +1,24 @@
-#ifndef WINDOW_SYSTEM_W32_INCLUDED
-#define WINDOW_SYSTEM_W32_INCLUDED
+#ifndef WINDOW_W51_INCLUDED
+#define WINDOW_W51_INCLUDED
 
-#include "system/window_system.h"
+#include "system/window_interface.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class WindowSystemW32 : public WindowSystem {
+class WindowW51 : public WindowInterface {
 	static const TCHAR	CLASS_NAME[];
 	static const TCHAR	WND_TITLE[];
 
 public:
-	WindowSystemW32(WNDPROC messageHandler);
-	virtual ~WindowSystemW32();
+	WindowW51(WNDPROC messageHandler);
+	virtual ~WindowW51();
 
 	// interface: safe_bool
 	virtual bool boolean_test() const;
 
-	// interface: WindowSystem
+	// interface: WindowInterface
 	virtual bool create(
 		const unsigned width, 
 		const unsigned height, 

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#ifdef VIDEO_DIRECTX
-#include "camera_dx.h"
+#ifdef VIDEO_DIRECT3D9
+#include "camera_d3d9.h"
 
-#include "video_system_dx.h"
+#include "video_d3d9.h"
 
 using namespace engine;
 
@@ -20,7 +20,7 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CameraDX::CameraDX()
+CameraD3D9::CameraD3D9()
 :	pos_(CAMERA_POS),
 	lookAt_(CAMERA_LOOKAT),
 	up_(CAMERA_UP),
@@ -32,7 +32,7 @@ CameraDX::CameraDX()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CameraDX::update(const float /*dt*/) {
+void CameraD3D9::update(const float /*dt*/) {
 	D3DXMatrixLookAtLH(view_projection_.d3dMatrix(), &pos_, &lookAt_, &up_);
 
 	//CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_VIEW, &view));
@@ -48,7 +48,7 @@ void CameraDX::update(const float /*dt*/) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const Matrix44& CameraDX::view_projection() const {
+const Matrix44& CameraD3D9::view_projection() const {
 	return view_projection_;
 }
 

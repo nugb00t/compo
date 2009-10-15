@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-#include "message_sink_system.h"
+#include "message_sink_interface.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MessageSinkSystem::MessageSinkSystem() {
+MessageSinkInterface::MessageSinkInterface() {
 	MessageSink::set(*this);
 }
 

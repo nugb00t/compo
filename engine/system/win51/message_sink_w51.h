@@ -1,16 +1,16 @@
-#ifndef MESSAGE_SINK_SYSTEM_W32_INCLUDED
-#define MESSAGE_SINK_SYSTEM_W32_INCLUDED
+#ifndef MESSAGE_SINK_W51_INCLUDED
+#define MESSAGE_SINK_W51_INCLUDED
 
-#include "system/message_sink_system.h"
-#include "system/window_system.h"
+#include "system/message_sink_interface.h"
+#include "system/window_interface.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class MessageSinkSystemW32 : public MessageSinkSystem {
+class MessageSinkW51 : public MessageSinkInterface {
 public:
-    MessageSinkSystemW32();
+    MessageSinkW51();
 
 	void operator()();
 
@@ -20,7 +20,7 @@ private:
     void loop();
 
 private:
-    WindowSystemPtr window_;
+    WindowInterfacePtr window_;
 
     Controls controls_;
 };

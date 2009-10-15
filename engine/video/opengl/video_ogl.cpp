@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 #ifdef VIDEO_OPENGL
-
 #pragma comment(lib, "glaux.lib")
 #pragma comment(lib, "glu32.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -18,25 +17,25 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoSystemOGL::VideoSystemOGL()
+VideoOGL::VideoOGL()
 : context_(0) {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoSystemOGL::~VideoSystemOGL() {
+VideoOGL::~VideoOGL() {
 	shutdown();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemOGL::clear() {
+void VideoOGL::clear() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// important: screws up ATI rendering if disabled
 	assert(glGetError() == GL_NO_ERROR);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool VideoSystemOGL::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits, BYTE stencilBits, BYTE samples)
+bool VideoOGL::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits, BYTE stencilBits, BYTE samples)
 {
 	UINT numFormats;
 	float fAttributes[] = {0, 0};
@@ -72,7 +71,7 @@ bool VideoSystemOGL::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE dept
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemOGL::draw(const Mesh& mesh) {
+void VideoOGL::draw(const Mesh& mesh) {
 	// tmp
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
@@ -108,7 +107,7 @@ void VideoSystemOGL::draw(const Mesh& mesh) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemOGL::drawTest() {
+void VideoOGL::drawTest() {
 	glBegin(GL_TRIANGLES);
 	glVertex3f(+5.f, +5.f, -5.f);
 	glVertex3f(-5.f, +5.f, -5.f);
@@ -120,14 +119,14 @@ void VideoSystemOGL::drawTest() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemOGL::flush() {
+void VideoOGL::flush() {
 	glFlush();
 	assert(glGetError() == GL_NO_ERROR);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool VideoSystemOGL::init() {
+bool VideoOGL::init() {
 	glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 	glClearDepth(1.0f);
 
@@ -149,7 +148,7 @@ bool VideoSystemOGL::init() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemOGL::operator()() {
+void VideoOGL::operator()() {
 	if (Window::inst().create(800, 600, 32, 0, false) &&
 		startup() &&
 		init())
@@ -176,7 +175,7 @@ void VideoSystemOGL::operator()() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemOGL::reshape(const unsigned width, const unsigned height) {
+void VideoOGL::reshape(const unsigned width, const unsigned height) {
 	glViewport(0, 0, width, height);
 	aspect_ = static_cast<float>(width) / height;
 	assert(glGetError() == GL_NO_ERROR);
@@ -184,7 +183,7 @@ void VideoSystemOGL::reshape(const unsigned width, const unsigned height) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemOGL::setOrthogonalView() {
+void VideoOGL::setOrthogonalView() {
 	GLfloat halfAspect = aspect_ / 2.0f;
 	gluOrtho2D(-halfAspect, halfAspect, -0.5, 0.5);
 	assert(glGetError() == GL_NO_ERROR);
@@ -192,7 +191,7 @@ void VideoSystemOGL::setOrthogonalView() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystemOGL::shutdown() {
+void VideoOGL::shutdown() {
 	if (context_) {
 		wglMakeCurrent(NULL, NULL);
 		wglDeleteContext(context_);
@@ -202,7 +201,7 @@ void VideoSystemOGL::shutdown() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool VideoSystemOGL::startup() {
+bool VideoOGL::startup() {
 	if (Window::inst().choosePixelFormat(32, 8, 24, 0) &&
 		(context_ = wglCreateContext(Window::inst().context())) != 0 &&
 		wglMakeCurrent(Window::inst().context(), context_) &&
@@ -220,7 +219,7 @@ bool VideoSystemOGL::startup() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
-void VideoSystemOGL::tex2d(const int level, const int border, const Image& image) {
+void VideoOGL::tex2d(const int level, const int border, const Image& image) {
 	GLint format = GL_BGRA_EXT;
 	GLint components = GL_RGB8;
 

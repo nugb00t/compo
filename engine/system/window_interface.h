@@ -1,18 +1,16 @@
-#ifndef WINDOW_SYSTEM_INCLUDED
-#define WINDOW_SYSTEM_INCLUDED
-
-#include "utility/holder.h"
+#ifndef WINDOW_INTERFACE_INCLUDED
+#define WINDOW_INTERFACE_INCLUDED
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class WindowSystem : public IntrusivePtrBase
+class WindowInterface : public IntrusivePtrBase
 {
 public:
-	WindowSystem();
+	WindowInterface();
 
-	// own: WindowSystem
+	// own: WindowInterface
 	virtual bool create(
 		const unsigned width, 
 		const unsigned height, 
@@ -38,9 +36,9 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef Holder<WindowSystem> Window;
+typedef Holder<WindowInterface> Window;
 
-typedef boost::intrusive_ptr<WindowSystem> WindowSystemPtr;
+typedef boost::intrusive_ptr<WindowInterface> WindowInterfacePtr;
 
 }
 

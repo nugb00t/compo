@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-#include "window_system.h"
+#include "window_interface.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WindowSystem::WindowSystem() {
+WindowInterface::WindowInterface() {
 	Window::set(*this); 
 }
 

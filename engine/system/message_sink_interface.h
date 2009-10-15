@@ -1,7 +1,5 @@
-#ifndef MESSAGE_SINK_SYSTEM_INCLUDED
-#define MESSAGE_SINK_SYSTEM_INCLUDED
-
-#include "utility/holder.h"
+#ifndef MESSAGE_SINK_INTERFACE_INCLUDED
+#define MESSAGE_SINK_INTERFACE_INCLUDED
 
 namespace engine {
 
@@ -9,7 +7,7 @@ namespace engine {
 
 // Input system that tracks the time of the input event in addition to the event itself.
 // May allow for more precise (?) button handling and / or smarter (?) axis interpolation.
-class MessageSinkSystem : public Callable {
+class MessageSinkInterface : public Callable, public IntrusivePtrBase {
 public:
     // buttons
     static const unsigned BUTTON_COUNT = 256;      // windows VKeys
@@ -48,12 +46,13 @@ public:
     };
 
 public:
-	MessageSinkSystem();
+	MessageSinkInterface();
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef Holder<MessageSinkSystem> MessageSink;
+typedef Holder<MessageSinkInterface> MessageSink;
+typedef boost::intrusive_ptr<MessageSinkInterface> MessageSinkPtr;
 
 }
 

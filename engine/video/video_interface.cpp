@@ -1,24 +1,24 @@
 #include "stdafx.h"
 
-#include "video_system.h"
+#include "video_interface.h"
 
 #include "core/core.h"
 #include "core/sync.h"
 #include "core/profiler.h"
-#include "system/window_system.h"
+#include "system/window_interface.h"
 #include "video/video_component.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoSystem::VideoSystem() {
+VideoInterface::VideoInterface() {
 	Video::set(*this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystem::operator()() {
+void VideoInterface::operator()() {
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
 
 	if (Video::inst().startup()) {
@@ -49,7 +49,7 @@ void VideoSystem::operator()() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoSystem::update(const float dt) {
+void VideoInterface::update(const float dt) {
 	clear();
 
 	if (begin()) {

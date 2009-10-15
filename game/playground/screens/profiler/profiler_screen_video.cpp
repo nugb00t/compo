@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "utility/timer.h"
-#include "video/video_system.h"
+#include "video/video_interface.h"
 
 #include "profiler_screen_video.h"
 

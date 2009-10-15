@@ -1,21 +1,21 @@
 #include "stdafx.h"
 
-#ifdef PLATFORM_WIN32
-#include "message_sink_system_win32.h"
+#ifdef PLATFORM_WIN51
+#include "message_sink_w51.h"
 
 #include "core/sync.h"
-#include "window_system_w32.h"
+#include "window_w51.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MessageSinkSystemW32::MessageSinkSystemW32()
-: window_(new WindowSystemW32(&MessageSinkSystemW32::messageHandler)) {}
+MessageSinkW51::MessageSinkW51()
+: window_(new WindowW51(&MessageSinkW51::messageHandler)) {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MessageSinkSystemW32::operator()() {
+void MessageSinkW51::operator()() {
     CHECKED_CALL(Window::inst().create(800, 600, 32, 0, false));
     //CHECKED_CALL(::RegisterRawInputDevices());
 
@@ -26,7 +26,7 @@ void MessageSinkSystemW32::operator()() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CALLBACK MessageSinkSystemW32::messageHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
 
 		// TODO: re-add activation event
@@ -76,7 +76,7 @@ LRESULT CALLBACK MessageSinkSystemW32::messageHandler(HWND hWnd, UINT uMsg, WPAR
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MessageSinkSystemW32::loop() {
+void MessageSinkW51::loop() {
     MSG	msg;
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
 

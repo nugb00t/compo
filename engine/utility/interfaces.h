@@ -1,5 +1,5 @@
-#ifndef ENGINE_TYPES_INCLUDED
-#define ENGINE_TYPES_INCLUDED
+#ifndef INTERFACES_INCLUDED
+#define INTERFACES_INCLUDED
 
 namespace engine {
 

@@ -1,5 +1,5 @@
-#ifndef MESH_DX_INCLUDED
-#define MESH_DX_INCLUDED
+#ifndef MESH_D3D9_INCLUDED
+#define MESH_D3D9_INCLUDED
 
 #include "video/effect.h"
 
@@ -9,10 +9,10 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class MeshDX : public Mesh {
+class MeshD3D9 : public Mesh {
 public:
-	MeshDX(EffectPtr effect);
-	~MeshDX();
+	MeshD3D9(EffectPtr effect);
+	~MeshD3D9();
 
 	// interface: Drawn
 	virtual void draw(const Matrix44& view_proj);

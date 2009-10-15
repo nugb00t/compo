@@ -1,5 +1,5 @@
-#ifndef VERTEX_INCLUDED
-#define VERTEX_INCLUDED
+#ifndef VERTEX_DECL_INCLUDED
+#define VERTEX_DECL_INCLUDED
 
 namespace engine {
 

@@ -1,5 +1,5 @@
-#ifndef TEXTURE_DX_INCLUDED
-#define TEXTURE_DX_INCLUDED
+#ifndef TEXTURE_D3D9_INCLUDED
+#define TEXTURE_D3D9_INCLUDED
 
 #include "video/texture.h"
 
@@ -7,10 +7,10 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class TextureDX : public Texture {
+class TextureD3D9 : public Texture {
 public:
-	TextureDX(const TCHAR* const path);
-	~TextureDX();
+	TextureD3D9(const TCHAR* const path);
+	~TextureD3D9();
 
 	// interface: Texture
 	virtual void activate(const unsigned stage);
@@ -25,7 +25,7 @@ private:
     const TCHAR* path_;
 };
 
-typedef boost::intrusive_ptr<TextureDX> TextureDXPtr;
+typedef boost::intrusive_ptr<TextureD3D9> TextureDXPtr;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
