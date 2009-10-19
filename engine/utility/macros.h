@@ -31,8 +31,10 @@
 
 #ifdef _DEBUG
 #define CHECKED_D3D_CALL(x)	{ HRESULT hr = x; if(FAILED(hr)) DXTrace(__FILE__, __LINE__, hr, _T(#x), TRUE); }
+#define CHECKED_WIN_CALL(x)	assert((x))
 #else
 #define CHECKED_D3D_CALL(x)	(x)
+#define CHECKED_WIN_CALL(x)	(x)
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

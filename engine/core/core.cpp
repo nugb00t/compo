@@ -4,11 +4,11 @@
 #include "profiler.h"
 
 #ifdef PLATFORM_WIN51
-#include "system/win51/message_sink_w51.h"
+	#include "system/win51/message_sink_w51.h"
 #endif
 
 #ifdef VIDEO_DIRECT3D9
-#include "video/direct3d9/video_d3d9.h"
+	#include "video/direct3d9/video_d3d9.h"
 #endif
 
 #include "logic/logic_system.h"

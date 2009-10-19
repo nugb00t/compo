@@ -854,6 +854,14 @@
 				Name="system"
 				>
 				<File
+					RelativePath=".\engine\system\input_interface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\system\input_interface.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\system\message_sink_interface.cpp"
 					>
 				</File>
@@ -872,6 +880,14 @@
 				<Filter
 					Name="win51"
 					>
+					<File
+						RelativePath=".\engine\system\win51\input_w51.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\system\win51\input_w51.h"
+						>
+					</File>
 					<File
 						RelativePath=".\engine\system\win51\message_sink_w51.cpp"
 						>

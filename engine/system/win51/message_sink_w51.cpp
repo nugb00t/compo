@@ -4,24 +4,31 @@
 #include "message_sink_w51.h"
 
 #include "core/sync.h"
-#include "window_w51.h"
+#include "input_w51.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MessageSinkW51::MessageSinkW51()
-: window_(new WindowW51(&MessageSinkW51::messageHandler)) {}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void MessageSinkW51::operator()() {
-    CHECKED_CALL(Window::inst().create(800, 600, 32, 0, false));
-    //CHECKED_CALL(::RegisterRawInputDevices());
+	window_ = new WindowW51(&MessageSinkW51::messageHandler);
+	CHECKED_CALL(window_->create(800, 600, 32, 0, false));
 
-    loop();
+	//InputW51::inst();
 
-    Window::inst().destroy();
+	MSG	msg;
+	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
+
+	while (!exitSignal.isSet())
+		while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+			if (msg.message == WM_QUIT) {
+				exitSignal.set();
+			} else {
+				::TranslateMessage(&msg);
+				::DispatchMessage(&msg);
+			}
+
+	window_->destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,6 +71,10 @@ LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wPa
 			//	pRenderLoop_->reshapeRenderer(LOWORD(lParam), HIWORD(lParam));
 			//	break;
 
+		case WM_INPUT:
+			InputW51::inst().handleRawInput(reinterpret_cast<HRAWINPUT>(lParam));
+			break;
+
 		case WM_SYSCOMMAND:
 			if (wParam == SC_SCREENSAVE || wParam == SC_MONITORPOWER)
 				return 0;
@@ -72,22 +83,6 @@ LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wPa
 	}
 
 	return ::DefWindowProc(hWnd, uMsg, wParam, lParam);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void MessageSinkW51::loop() {
-    MSG	msg;
-	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
-
-	while (!exitSignal.isSet())
-		while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-			if (msg.message == WM_QUIT) {
-				exitSignal.set();
-			} else {
-				::TranslateMessage(&msg);
-				::DispatchMessage(&msg);
-			}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

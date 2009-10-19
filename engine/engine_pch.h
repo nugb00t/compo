@@ -24,14 +24,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef PLATFORM_WIN51
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0510		// winxp
-#endif
+	#ifndef _WIN32_WINNT
+		#define _WIN32_WINNT 0x0510		// winxp
+	#endif
 
-#define NOMINMAX	// disable min() and max() macros (for cml)
+	#define NOMINMAX	// disable min() and max() macros (for cml)
 
-#include <Windows.h>
-
+	#include <Windows.h>
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

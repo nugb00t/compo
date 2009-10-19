@@ -1,22 +1,22 @@
-#ifndef TIMER_INCLUDED
-#define TIMER_INCLUDED
+#ifndef INPUT_W51_INCLUDED
+#define INPUT_W51_INCLUDED
+
+#include "system/input_interface.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Timer : public kaynine::Singleton<Timer> {
-protected:
-	Timer();
-
+class InputW51 : public InputInterface, public kaynine::Singleton<InputW51> {
 public:
-	const unsigned long msec() const;
-	const float now() const;
+	InputW51();
+
+	void handleRawInput(HRAWINPUT handle);
 
 private:
-	const unsigned long zero_;
+	Controls controls_;
 
-	friend struct kaynine::Singleton<Timer>;
+	friend struct kaynine::Singleton<InputW51>;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
