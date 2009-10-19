@@ -8,10 +8,18 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class InputW51 : public InputInterface, public kaynine::Singleton<InputW51> {
+	//static const unsigned RAW_INPUT_BUFFER_COUNT = 16;
+
 public:
 	InputW51();
 
-	void handleRawInput(HRAWINPUT handle);
+	inline void handleRawInput(const HRAWINPUT handle, const unsigned long now) { unbuffered(handle, now); }
+
+private:
+	//void buffered(const HRAWINPUT handle, const unsigned long now);
+	void unbuffered(const HRAWINPUT handle, const unsigned long now);
+
+	void process(const RAWINPUT& raw, const unsigned long now);
 
 private:
 	Controls controls_;
