@@ -22,7 +22,7 @@ public:
 	virtual void operator()();
 
 	// interface: Updatable
-	virtual void update(const float dt);
+	virtual void update(const unsigned msec);
 
 	// startup / shutdown
 	virtual bool startup() = 0;

@@ -39,7 +39,7 @@ OrbVideo::OrbVideo()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void OrbVideo::update(const Entity::Params& fromLogic, const float UNUSED(dt)) {
+void OrbVideo::update(const Entity::Params& fromLogic, const unsigned UNUSED(msec)) {
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 

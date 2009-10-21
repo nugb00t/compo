@@ -102,27 +102,26 @@ const bool Event::reset() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Timer::Timer() : Handle(::CreateWaitableTimer(NULL, FALSE, NULL)) {}
+WaitableTimer::WaitableTimer() 
+: Handle(::CreateWaitableTimer(NULL, FALSE, NULL)) {}
 
-Timer::Timer(const unsigned dueTime, PTIMERAPCROUTINE func /*= NULL*/, void* arg /*= NULL*/)
+WaitableTimer::WaitableTimer(const long period, PTIMERAPCROUTINE func /*= NULL*/, void* arg /*= NULL*/)
 : Handle(::CreateWaitableTimer(NULL, FALSE, NULL)) {
-	set(dueTime, func, arg);
+	bool ok = set(period, func, arg);
+	assert(ok);
 }
 
-Timer::~Timer() {
-	assert(handle());
+WaitableTimer::~WaitableTimer() {
 	cancel();
 }
 
-bool Timer::set(const unsigned dueTime, PTIMERAPCROUTINE func /*= NULL*/, void* arg /*= NULL*/) {
-	assert(handle());
-	LARGE_INTEGER period;
-	period.QuadPart = dueTime;
-	return ::SetWaitableTimer(handle(), &period, 0, func, arg, FALSE) == TRUE;	
+bool WaitableTimer::set(const long period, PTIMERAPCROUTINE func /*= NULL*/, void* arg /*= NULL*/) {
+	LARGE_INTEGER dueTime;
+	dueTime.QuadPart = 0ll;
+	return ::SetWaitableTimer(handle(), &dueTime, period, func, arg, FALSE) == TRUE;	
 }
 
-bool Timer::cancel() {	
-	assert(handle());
+bool WaitableTimer::cancel() {	
 	return ::CancelWaitableTimer(handle()) == TRUE;	
 }
 

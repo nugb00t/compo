@@ -13,7 +13,7 @@ public:
 	virtual void operator()();
 
 	// interface: Updatable
-	void update(const float dt);
+	void update(const unsigned msec);
 
 	friend struct kaynine::Singleton<Logic>;
 };

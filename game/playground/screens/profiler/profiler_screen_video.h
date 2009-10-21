@@ -14,7 +14,7 @@ public:
     ProfilerScreenVideo();
 
 	// interface: EntityVideoComponent
-	virtual void update(const float dt);
+	virtual void update(const unsigned msec);
 
 private:
 	engine::MeshPtr meshes_[engine::Profiler::SECTION_COUNT][engine::ProfilerSections::HISTORY_DEPTH];

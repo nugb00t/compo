@@ -32,7 +32,7 @@ CameraD3D9::CameraD3D9()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CameraD3D9::update(const float /*dt*/) {
+void CameraD3D9::update(const unsigned UNUSED(msec)) {
 	D3DXMatrixLookAtLH(view_projection_.d3dMatrix(), &pos_, &lookAt_, &up_);
 
 	//CHECKED_D3D_CALL(VideoDX::inst().device().SetTransform(D3DTS_VIEW, &view));

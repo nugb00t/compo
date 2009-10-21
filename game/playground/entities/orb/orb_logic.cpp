@@ -7,7 +7,7 @@ using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void OrbLogic::update(Entity::Params& toVideo, const float UNUSED(dt)) {
+void OrbLogic::update(Entity::Params& toVideo, const unsigned UNUSED(msec)) {
 	const unsigned time = ::timeGetTime() % 1000;
 	const float angle = time * (2.0f * D3DX_PI) / 1000.0f;
 

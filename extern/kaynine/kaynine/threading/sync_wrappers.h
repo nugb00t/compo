@@ -12,7 +12,7 @@
 
 
 // std
-#include <vector>
+#include <assert.h>
 
 // win
 #ifndef _WIN32_WINNT
@@ -95,6 +95,8 @@ protected:
 private:
 	HANDLE handle_;
 	bool ownsHandle_;
+
+	friend class MultipleObjects;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,68 +117,80 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Timer : public Handle {
+class WaitableTimer : public Handle {
 public:
-	Timer();
-	Timer(const unsigned dueTime, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
-	~Timer();
+	WaitableTimer();
+	WaitableTimer(const long period, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
+	~WaitableTimer();
 
-	bool set(const unsigned dueTime, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
+	bool set(const long period, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
 	bool cancel();
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class MultipleObjects {
-private:
-	std::vector<HANDLE>		handles_;
+class Timer {
+public:
+	Timer(const unsigned period, TIMERPROC func = NULL, HWND wnd = NULL, unsigned timer = 0) 
+		: wnd_(wnd), timer_(::SetTimer(wnd, timer, period, func)) {
+			assert(timer_);
+	}
 
+	~Timer() {
+		::KillTimer(wnd_, timer_);
+	}
+
+private:
+	HWND wnd_;
+	unsigned timer_;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class MultipleObjects {
+	MultipleObjects& operator=(const MultipleObjects&);
 
 public:
-	MultipleObjects(HANDLE h0) {
-		handles_.push_back(h0);
+	MultipleObjects(const Handle& h0) 
+		: count_(1) {
+			handles_[0] = h0.handle();
 	}
 
-	MultipleObjects(HANDLE h0, HANDLE h1) {
-		handles_.reserve(2);
-		handles_.push_back(h0);
-		handles_.push_back(h1);
+	MultipleObjects(const Handle& h0, const Handle& h1)
+		: count_(2) {
+			handles_[0] = h0.handle();
+			handles_[1] = h1.handle();
 	}
 
-	MultipleObjects(HANDLE h0, HANDLE h1, HANDLE h2) {
-		handles_.reserve(3);
-		handles_.push_back(h0);
-		handles_.push_back(h1);
-		handles_.push_back(h2);
+	MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2)
+		: count_(3) {
+			handles_[0] = h0.handle();
+			handles_[1] = h1.handle();
+			handles_[2] = h2.handle();
 	}
 
-	MultipleObjects(HANDLE h0, HANDLE h1, HANDLE h2, HANDLE h3) {
-		handles_.reserve(4);
-		handles_.push_back(h0);
-		handles_.push_back(h1);
-		handles_.push_back(h2);
-		handles_.push_back(h3);
+	MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2, const Handle& h3)
+		: count_(3) {
+			handles_[0] = h0.handle();
+			handles_[1] = h1.handle();
+			handles_[2] = h2.handle();
+			handles_[3] = h3.handle();
 	}
 
-	DWORD areSetAll() {
-		return WaitForMultipleObjects((DWORD)handles_.size(), &*handles_.begin(), TRUE, 0);
-	}
+	unsigned waitAll(unsigned msec = INFINITE) { return ::WaitForMultipleObjects(count_, handles_, TRUE, msec); }
+	unsigned waitAny(unsigned msec = INFINITE) { return ::WaitForMultipleObjects(count_, handles_, FALSE, msec); }
 
-	DWORD areSetAny() {
-		return WaitForMultipleObjects((DWORD)handles_.size(), &*handles_.begin(), FALSE, 0);
-	}
+	unsigned areSetAll() { return waitAll(0); }
+	unsigned areSetAny() { return waitAny(0); }
 
-	DWORD waitAll(DWORD dwMilliseconds = INFINITE) {
-		return WaitForMultipleObjects((DWORD)handles_.size(), &*handles_.begin(), TRUE, dwMilliseconds);
-	}
-
-	DWORD waitAny(DWORD dwMilliseconds = INFINITE) {
-		return WaitForMultipleObjects((DWORD)handles_.size(), &*handles_.begin(), FALSE, dwMilliseconds);
-	}
-
-	HANDLE operator[] (size_t i) {
+	HANDLE operator[] (const unsigned i) {
+		assert(i < count_);
 		return handles_[i];
 	}
+
+private:
+	HANDLE handles_[4];
+	const unsigned count_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

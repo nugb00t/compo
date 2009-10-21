@@ -25,7 +25,7 @@ public:
 #endif
 	}
 
-	static void CALLBACK publish(void*, const unsigned long low, const unsigned long high);
+	static void CALLBACK publish(HWND hwnd, UINT message, UINT_PTR timer, DWORD time);
 
 private:
 #ifdef USE_BUFFERED_RAW_INPUT

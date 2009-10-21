@@ -17,12 +17,10 @@ void MessageSinkW51::operator()() {
 	CHECKED_CALL(window_->create(800, 600, 32, 0, false));
 
 	InputW51::inst();
-	kaynine::Timer timer;
-	bool ok = timer.set(unsigned(1000.f / InputInterface::FRAMERATE), &InputW51::publish);
-	assert(ok);
+	kaynine::Timer timer(long(1000.f / InputInterface::FRAMERATE), InputW51::publish);
 
-	MSG	msg;
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
+	MSG	msg;
 
 	while (!exitSignal.isSet())
 		while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))

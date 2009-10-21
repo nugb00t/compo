@@ -19,29 +19,19 @@ VideoInterface::VideoInterface() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoInterface::operator()() {
-	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
-
 	if (Video::inst().startup()) {
 		// TODO: move camera to its own entity
 		camera_ = createCamera();
 		assert(camera_);
 
-		kaynine::Timer timer(unsigned(1000.f / FRAMERATE));
+		kaynine::WaitableTimer timer(unsigned(1000.f / FRAMERATE));
+		kaynine::Event signal(EXIT_SIGNAL_NAME);
+		kaynine::MultipleObjects objects(timer, signal);
 
-		unsigned long last = Time::inst().msec();
-
-		while (!exitSignal.isSet()) {
-			const float dt = static_cast<float>(Time::inst().msec() - last) / 1000.f;
-			last = Time::inst().msec();
-
-			{
+		for (unsigned wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
 				Profiler::StopWatch stopWatch(Profiler::VIDEO_THREAD);
-
-				Video::inst().update(dt);
+				Video::inst().update(0);
 			}
-
-			timer.wait(unsigned(1000.f / FRAMERATE) * 2);
-		}
 	}
 
 	Video::inst().shutdown();
@@ -49,22 +39,22 @@ void VideoInterface::operator()() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoInterface::update(const float dt) {
+void VideoInterface::update(const unsigned msec) {
 	clear();
 
 	if (begin()) {
-		camera_->update(dt);
+		camera_->update(msec);
 
 		Sync::LogicToVideoReadable fromLogic(Sync::inst().logicToVideo());
 
 		if (fromLogic)
 			for (unsigned i = 0; i < Sync::MAX_ENTITIES; ++i)
 				if (EntityVideoComponentRegistry::inst().valid(i))
-					EntityVideoComponentRegistry::inst().get(i).update(fromLogic->entities[i], dt);
+					EntityVideoComponentRegistry::inst().get(i).update(fromLogic->entities[i], msec);
 
 		for (unsigned i = 0; i < Sync::MAX_ENTITIES; ++i)
 			if (ScreenVideoComponentRegistry::inst().valid(i))
-				ScreenVideoComponentRegistry::inst().get(i).update(dt);
+				ScreenVideoComponentRegistry::inst().get(i).update(msec);
 
 		end();
 	}

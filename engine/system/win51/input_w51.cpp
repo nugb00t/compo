@@ -22,7 +22,7 @@ InputW51::InputW51() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CALLBACK InputW51::publish(void*, const unsigned long /*low*/, const unsigned long /*high*/) {
+void CALLBACK InputW51::publish(HWND UNUSED(hwnd), UINT UNUSED(message), UINT_PTR UNUSED(event), DWORD UNUSED(time)) {
 	Sync::InputToClientWritable toClient(Sync::inst().inputToClient());
 }
 

@@ -13,7 +13,7 @@ public:
 	typedef engine::LogicComponent Type;
 
 public:
-	virtual void update(Entity::Params& toVideo, const float dt) = 0;
+	virtual void update(Entity::Params& toVideo, const unsigned msec) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

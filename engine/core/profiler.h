@@ -9,7 +9,7 @@ namespace engine {
 
 struct ProfilerSections {
 	enum SectionID {
-		//LOGIC_THREAD,
+		LOGIC_THREAD,
 		VIDEO_THREAD,
 		SECTION_COUNT_
 	};

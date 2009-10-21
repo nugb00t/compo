@@ -40,6 +40,7 @@ void Core::create(Platform platform, Video video) {
 void Core::run() {
 	Profiler::inst();
 
+	// TODO: migrate to win32 threads?
     boost::thread_group threads;
 
     threads.create_thread(boost::ref(Logic::inst()));
