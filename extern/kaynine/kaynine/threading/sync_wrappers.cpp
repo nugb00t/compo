@@ -102,24 +102,26 @@ const bool Event::reset() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WaitableTimer::WaitableTimer(const unsigned dueTime)
+Timer::Timer() : Handle(::CreateWaitableTimer(NULL, FALSE, NULL)) {}
+
+Timer::Timer(const unsigned dueTime, PTIMERAPCROUTINE func /*= NULL*/, void* arg /*= NULL*/)
 : Handle(::CreateWaitableTimer(NULL, FALSE, NULL)) {
-	set(dueTime);
+	set(dueTime, func, arg);
 }
 
-WaitableTimer::~WaitableTimer() {
+Timer::~Timer() {
 	assert(handle());
 	cancel();
 }
 
-bool WaitableTimer::set(const unsigned dueTime) {
+bool Timer::set(const unsigned dueTime, PTIMERAPCROUTINE func /*= NULL*/, void* arg /*= NULL*/) {
 	assert(handle());
 	LARGE_INTEGER period;
 	period.QuadPart = dueTime;
-	return ::SetWaitableTimer(handle(), &period, 0, NULL, NULL, FALSE) == TRUE;	
+	return ::SetWaitableTimer(handle(), &period, 0, func, arg, FALSE) == TRUE;	
 }
 
-bool WaitableTimer::cancel() {	
+bool Timer::cancel() {	
 	assert(handle());
 	return ::CancelWaitableTimer(handle()) == TRUE;	
 }

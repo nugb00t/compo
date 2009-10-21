@@ -115,12 +115,13 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class WaitableTimer : public Handle {
+class Timer : public Handle {
 public:
-	WaitableTimer(const unsigned dueTime);
-	~WaitableTimer();
+	Timer();
+	Timer(const unsigned dueTime, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
+	~Timer();
 
-	bool set(const unsigned dueTime);
+	bool set(const unsigned dueTime, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
 	bool cancel();
 };
 

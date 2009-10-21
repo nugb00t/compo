@@ -1,13 +1,13 @@
-#ifndef TIMER_INCLUDED
-#define TIMER_INCLUDED
+#ifndef TIME_INCLUDED
+#define TIME_INCLUDED
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Timer : public kaynine::Singleton<Timer> {
+class Time : public kaynine::Singleton<Time> {
 protected:
-	Timer();
+	Time();
 
 public:
 	const unsigned long msec() const;
@@ -16,7 +16,7 @@ public:
 private:
 	const unsigned long zero_;
 
-	friend struct kaynine::Singleton<Timer>;
+	friend struct kaynine::Singleton<Time>;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

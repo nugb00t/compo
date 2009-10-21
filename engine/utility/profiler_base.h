@@ -5,8 +5,8 @@
 
 #include "kaynine/threading/sync_wrappers.h"
 
+#include "core/time.h"
 #include "cyclic_buffer.h"
-#include "timer.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,10 +23,10 @@ public:
     class StopWatch {
     public:
         explicit StopWatch(const unsigned id)
-            : id_(id), start_(Timer::inst().msec()) {}
+            : id_(id), start_(Time::inst().msec()) {}
 
         ~StopWatch() {
-            Profiler::inst().track(id_, start_, Timer::inst().msec());
+            Profiler::inst().track(id_, start_, Time::inst().msec());
         }
 
     private:

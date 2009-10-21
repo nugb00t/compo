@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "timer.h"
+#include "time.h"
 
 #pragma comment(lib, "winmm.lib")		// timer stuff
 
@@ -8,19 +8,19 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Timer::Timer() : zero_(::timeGetTime()) {
+Time::Time() : zero_(::timeGetTime()) {
 	CHECKED_GENERIC_CALL(::timeBeginPeriod(1), TIMERR_NOERROR);	// system timer resolution
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const unsigned long Timer::msec() const {
+const unsigned long Time::msec() const {
 	return ::timeGetTime() - zero_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const float Timer::now() const {
+const float Time::now() const {
 	return (float)(::timeGetTime() - zero_) / 1000.f;
 }
 

@@ -3,6 +3,8 @@
 #ifdef PLATFORM_WIN51
 #include "input_w51.h"
 
+#include "core/sync.h"
+
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,30 +22,38 @@ InputW51::InputW51() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//void InputW51::buffered(const HRAWINPUT handle, const unsigned long now) {
-//	/*
-//	unsigned ret = ::GetRawInputBuffer(NULL, &size, sizeof(RAWINPUTHEADER));
-//	assert(ret == 0);
-//	assert(size < sizeof(RAWINPUT) * RAW_INPUT_BUFFER_COUNT);
-//	*/
-//
-//	static RAWINPUT buffers[RAW_INPUT_BUFFER_COUNT];
-//
-//	unsigned size = sizeof(buffers); 
-//	while (true) {
-//		const unsigned count = ::GetRawInputBuffer(buffers, &size, sizeof(RAWINPUTHEADER));
-//		if (!count)
-//			break;
-//
-//		RAWINPUT* raw = buffers;
-//		for (UINT i = 0; i < count; ++i, raw = NEXTRAWINPUTBLOCK(raw)) {
-//			assert(raw->header.dwSize == sizeof(RAWINPUT));
-//			process(raw, now);
-//		}
-//
-//		//::DefRawInputProc(&buffers[0], count, sizeof(RAWINPUTHEADER)); 
-//	}
-//}
+void CALLBACK InputW51::publish(void*, const unsigned long /*low*/, const unsigned long /*high*/) {
+	Sync::InputToClientWritable toClient(Sync::inst().inputToClient());
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef USE_BUFFERED_RAW_INPUT
+void InputW51::buffered(const HRAWINPUT handle, const unsigned long now) {
+	/*
+	unsigned ret = ::GetRawInputBuffer(NULL, &size, sizeof(RAWINPUTHEADER));
+	assert(ret == 0);
+	assert(size < sizeof(RAWINPUT) * RAW_INPUT_BUFFER_COUNT);
+	*/
+
+	static RAWINPUT buffers[RAW_INPUT_BUFFER_COUNT];
+
+	unsigned size = sizeof(buffers); 
+	while (true) {
+		const unsigned count = ::GetRawInputBuffer(buffers, &size, sizeof(RAWINPUTHEADER));
+		if (!count)
+			break;
+
+		RAWINPUT* raw = buffers;
+		for (UINT i = 0; i < count; ++i, raw = NEXTRAWINPUTBLOCK(raw)) {
+			assert(raw->header.dwSize == sizeof(RAWINPUT));
+			process(raw, now);
+		}
+
+		//::DefRawInputProc(&buffers[0], count, sizeof(RAWINPUTHEADER)); 
+	}
+}
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

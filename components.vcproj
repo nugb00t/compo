@@ -713,14 +713,6 @@
 					RelativePath=".\engine\core\sync.h"
 					>
 				</File>
-				<File
-					RelativePath=".\engine\core\timer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\core\timer.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="video"
@@ -847,6 +839,14 @@
 				</File>
 				<File
 					RelativePath=".\engine\logic\logic_system.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\time.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\time.h"
 					>
 				</File>
 			</Filter>

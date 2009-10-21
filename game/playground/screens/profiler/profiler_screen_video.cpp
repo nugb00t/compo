@@ -25,7 +25,7 @@ void ProfilerScreenVideo::update(const float UNUSED(dt)) {
 	static const float SCREEN_WIDTH		= 10.0f;
 	static const float SCREEN_HEIGHT	= 10.0f;
 
-	const float right	= float(Timer::inst().msec() / 100) / 10.f;	// the last full 0.1 sec tick
+	const float right	= float(Time::inst().msec() / 100) / 10.f;	// the last full 0.1 sec tick
 	const float left	= right - 0.1f;
 
 	for (unsigned section = 0; section < Profiler::SECTION_COUNT; ++section) {

@@ -26,13 +26,13 @@ void VideoInterface::operator()() {
 		camera_ = createCamera();
 		assert(camera_);
 
-		kaynine::WaitableTimer timer(unsigned(1000.f / FRAMERATE));
+		kaynine::Timer timer(unsigned(1000.f / FRAMERATE));
 
-		unsigned long last = Timer::inst().msec();
+		unsigned long last = Time::inst().msec();
 
 		while (!exitSignal.isSet()) {
-			const float dt = static_cast<float>(Timer::inst().msec() - last) / 1000.f;
-			last = Timer::inst().msec();
+			const float dt = static_cast<float>(Time::inst().msec() - last) / 1000.f;
+			last = Time::inst().msec();
 
 			{
 				Profiler::StopWatch stopWatch(Profiler::VIDEO_THREAD);

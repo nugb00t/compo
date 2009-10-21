@@ -4,7 +4,7 @@
 #include "message_sink_w51.h"
 
 #include "core/sync.h"
-#include "core/timer.h"
+#include "core/time.h"
 
 #include "input_w51.h"
 
@@ -17,6 +17,9 @@ void MessageSinkW51::operator()() {
 	CHECKED_CALL(window_->create(800, 600, 32, 0, false));
 
 	InputW51::inst();
+	kaynine::Timer timer;
+	bool ok = timer.set(unsigned(1000.f / InputInterface::FRAMERATE), &InputW51::publish);
+	assert(ok);
 
 	MSG	msg;
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
@@ -74,7 +77,7 @@ LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wPa
 			//	break;
 
 		case WM_INPUT:
-			InputW51::inst().handleRawInput(reinterpret_cast<HRAWINPUT>(lParam), Timer::inst().msec());
+			InputW51::inst().processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Time::inst().msec());
 			break;
 
 		case WM_SYSCOMMAND:

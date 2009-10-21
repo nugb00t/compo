@@ -1,6 +1,8 @@
 #ifndef SYNC_INCLUDED
 #define SYNC_INCLUDED
 
+#include "system/input_interface.h"
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,20 +16,26 @@ public:
 	static const unsigned MAX_ENTITIES = 4096;
 
 public:
-	struct LogicToVideo {
+	struct Entities {
 		Entity::Params entities[MAX_ENTITIES];
 		unsigned long age;
 	};
 
-	typedef kaynine::ReadableAccess<LogicToVideo>		LogicToVideoReadable;
-	typedef kaynine::WritableAccess<LogicToVideo>		LogicToVideoWritable;
-	typedef kaynine::FrameBufferAccess<LogicToVideo>	logicToVideoAccess;
+	typedef kaynine::ReadableAccess<Entities>		LogicToVideoReadable;
+	typedef kaynine::WritableAccess<Entities>		LogicToVideoWritable;
+	typedef kaynine::FrameBufferAccess<Entities>	LogicToVideoAccess;
+
+	typedef kaynine::ReadableAccess<InputInterface::Controls>		InputToClientReadable;
+	typedef kaynine::WritableAccess<InputInterface::Controls>		InputToClientWritable;
+	typedef kaynine::FrameBufferAccess<InputInterface::Controls>	InputToClientAccess;
 
 public:
-	logicToVideoAccess& logicToVideo()	{	return logicToVideoFB_;	}
+	LogicToVideoAccess& logicToVideo() { return logicToVideoFB_; }
+	InputToClientAccess& inputToClient() { return inputToClientFB_; }
 
 private:
-	logicToVideoAccess logicToVideoFB_;
+	LogicToVideoAccess logicToVideoFB_;
+	InputToClientAccess inputToClientFB_;
 
 	friend struct kaynine::Singleton<Sync>;
 };

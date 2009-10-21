@@ -9,6 +9,8 @@ namespace engine {
 // May allow for more precise (?) button handling and / or smarter (?) axis interpolation.
 class InputInterface {
 public:
+	static const unsigned FRAMERATE = 60;
+
     // buttons
     static const unsigned BUTTON_COUNT = 256;      // windows VKeys
 

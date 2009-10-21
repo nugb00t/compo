@@ -4,7 +4,7 @@
 #include "logic_component.h"
 
 #include "core/sync.h"
-#include "core/timer.h"
+#include "core/time.h"
 
 using namespace engine;
 
@@ -12,13 +12,13 @@ using namespace engine;
 
 void Logic::operator()() {
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
-	kaynine::WaitableTimer timer(unsigned(1000.f / FRAMERATE));
+	kaynine::Timer timer(unsigned(1000.f / FRAMERATE));
 
-	unsigned long last = Timer::inst().msec();
+	unsigned long last = Time::inst().msec();
 
 	while (!exitSignal.isSet()) {
-		const float dt = static_cast<float>(Timer::inst().msec() - last) / 1000.f;
-		last = Timer::inst().msec();
+		const float dt = static_cast<float>(Time::inst().msec() - last) / 1000.f;
+		last = Time::inst().msec();
 
 		Logic::inst().update(dt);
 
