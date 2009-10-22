@@ -17,6 +17,7 @@ void Logic::operator()() {
 	kaynine::MultipleObjects objects(timer, signal);
 
 	for (unsigned wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
+		assert(wait != WAIT_FAILED);
 		Profiler::StopWatch stopWatch(Profiler::LOGIC_THREAD);
 		update(0);
 	}
