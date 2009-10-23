@@ -22,14 +22,6 @@ InputW51::InputW51() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CALLBACK InputW51::publish(HWND UNUSED(hwnd), UINT UNUSED(message), UINT_PTR UNUSED(event), DWORD UNUSED(time)) {
-	Sync::InputToClient::Writable toClient(Sync::inst().inputToClient());
-
-	//memcpy(&*toClient
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #ifdef USE_BUFFERED_RAW_INPUT
 void InputW51::buffered(const HRAWINPUT handle, const unsigned long now) {
 	/*
@@ -111,7 +103,7 @@ void InputW51::process(const RAWINPUT& raw, const unsigned long now) {
 
 		// and a wheel axis
 		if (flags & RI_MOUSE_WHEEL)
-			controls_.axis[MOUSE_WHEEL].add(now, raw.data.mouse.usButtonData);
+			controls_.axis[MOUSE_WHEEL].add(now, raw.data.mouse.usButtonData);       // TODO: force relative axis data
 	} else if (raw.header.dwType == RIM_TYPEKEYBOARD) {
 		const RAWKEYBOARD& keyboard = raw.data.keyboard;
 

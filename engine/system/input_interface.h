@@ -11,9 +11,10 @@ class InputInterface {
 public:
 	static const unsigned FRAMERATE = 60;
 
-    // buttons
     static const unsigned BUTTON_COUNT = 256;      // windows VKeys
+    static const unsigned AXIS_HISTORY = 4;
 
+    // buttons
     struct ButtonInfo {
         unsigned long pushed;
         unsigned long released;
@@ -29,10 +30,8 @@ public:
     };
 
     struct AxisEvent {
-        unsigned long time;
+        unsigned time;
         int value;
-    private:
-        int padding;
     };
 
     struct AxisEventHistory {
@@ -40,17 +39,28 @@ public:
 
         AxisEvent events[DEPTH];
 
-		void add(const unsigned long time, const int value);
+        void add(const unsigned time, const int value);
     };
 
+    // the whole struct
     struct Controls {
         ButtonInfo buttons[BUTTON_COUNT];
         AxisEventHistory axis[AXIS_COUNT];
 		unsigned long age;
     };
+
+public:
+    InputInterface();
+
+    const Controls& controls() const { return controls_; }
+
+protected:
+    Controls controls_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef kaynine::Holder<InputInterface> Input;
 
 }
 

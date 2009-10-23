@@ -25,8 +25,6 @@ public:
 #endif
 	}
 
-	static void CALLBACK publish(HWND hwnd, UINT message, UINT_PTR timer, DWORD time);
-
 private:
 #ifdef USE_BUFFERED_RAW_INPUT
 	void buffered(const HRAWINPUT handle, const unsigned long now);
@@ -34,9 +32,6 @@ private:
 	void unbuffered(const HRAWINPUT handle, const unsigned long now);
 
 	void process(const RAWINPUT& raw, const unsigned long now);
-
-private:
-	Controls controls_;
 
 	friend struct kaynine::Singleton<InputW51>;
 };

@@ -23,7 +23,8 @@ public:
         ts_[lastUpdated_] = t;
     }
 
-    const TValue& get(const int index) const {
+    // Negative 'index' values will yield previously added values
+    const TValue& get(const int index = 0) const {
         assert(-(int)SIZE < index && index <= 0 && lastUpdated_ != -1);
 		const unsigned requested = (lastUpdated_ + index) % SIZE;
         return ts_[requested];

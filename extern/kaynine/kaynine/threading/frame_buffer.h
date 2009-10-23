@@ -37,7 +37,7 @@ public:
 		~Readable() { release(); }
 		inline void release() { if (initialized_) frameBuffer_.unlockReadable(); }
 
-		inline const TContents& data() { return *frameBuffer_.getReadable(); }
+		inline const TContents& data() { assert(frameBuffer_.getReadable()); return *frameBuffer_.getReadable(); }
 		inline bool boolean_test() const { return initialized_; }
 
 	private:
@@ -62,7 +62,7 @@ public:
 		~Writable() { release(); }
 		inline void release() { if (initialized_) frameBuffer_.unlockWritable(); }
 
-		inline TContents& data() { return *frameBuffer_.getWritable(); }
+		inline TContents& data() { assert(frameBuffer_.getWritable()); return *frameBuffer_.getWritable(); }
 		inline bool boolean_test() const { return initialized_; }
 
 	private:

@@ -6,7 +6,13 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void InputInterface::AxisEventHistory::add(const unsigned long time, const int value) {
+InputInterface::InputInterface() {
+    Input::set(*this);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void InputInterface::AxisEventHistory::add(const unsigned time, const int value) {
 	for (unsigned i = DEPTH; i > 0; --i)
 		events[i] = events[i - 1];
 
