@@ -5,7 +5,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Camera : public IntrusivePtrBase, public Updatable {
+class Camera : public kaynine::IntrusivePtrBase, public Updatable {
 public:
 	virtual const Matrix44& view_projection() const = 0;
 };

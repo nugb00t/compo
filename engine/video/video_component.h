@@ -1,7 +1,6 @@
 #ifndef VIDEO_COMPONENT_INCLUDED
 #define VIDEO_COMPONENT_INCLUDED
 
-#include "utility/registry.h"
 #include "core/sync.h"
 
 namespace engine {
@@ -18,7 +17,7 @@ public:
 
 typedef boost::intrusive_ptr<EntityVideoComponent> EntityVideoComponentPtr;
 
-typedef Registry<EntityVideoComponent, Sync::MAX_ENTITIES> EntityVideoComponentRegistry;
+typedef kaynine::Index<Sync::MAX_ENTITIES>::Registry<EntityVideoComponent> EntityVideoComponentRegistry;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +31,7 @@ public:
 
 typedef boost::intrusive_ptr<ScreenVideoComponent> ScreenVideoComponentPtr;
 
-typedef Registry<ScreenVideoComponent, Sync::MAX_ENTITIES> ScreenVideoComponentRegistry;
+typedef kaynine::Index<Sync::MAX_ENTITIES>::Registry<ScreenVideoComponent> ScreenVideoComponentRegistry;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

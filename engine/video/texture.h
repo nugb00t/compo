@@ -5,7 +5,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Texture : public IntrusivePtrBase {
+class Texture : public kaynine::IntrusivePtrBase {
 public:
 	virtual void activate(const unsigned stage) = 0;
 

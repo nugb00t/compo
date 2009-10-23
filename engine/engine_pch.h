@@ -54,16 +54,15 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <kaynine/utility/singleton.h>
-#include <kaynine/fs_tools/tools.h>
+#include <kaynine/utility/holder.h>
+#include <kaynine/utility/registry.h>
+#include <kaynine/containers/cyclic_buffer.h>
+#include <kaynine/filesystem/tools.h>
+#include <kaynine/memory/intrusive_ptr_base.h>
 #include <kaynine/threading/frame_buffer.h>
-#include <kaynine/threading/frame_buffer_access.h>
-#include <kaynine/threading/sync_wrappers.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "utility/intrusive_ptr_base.h"
-#include "utility/holder.h"
 #include "utility/macros.h"
 #include "utility/math.h"
 

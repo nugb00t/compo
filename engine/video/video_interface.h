@@ -12,7 +12,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoInterface : public Callable, public Updatable, public IntrusivePtrBase {
+class VideoInterface : public Callable, public Updatable, public kaynine::IntrusivePtrBase {
 	static const unsigned FRAMERATE = 60;
 
 public:
@@ -51,7 +51,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef Holder<VideoInterface> Video;
+typedef kaynine::Holder<VideoInterface> Video;
 typedef boost::intrusive_ptr<VideoInterface> VideoPtr;
 
 }

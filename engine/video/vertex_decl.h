@@ -5,7 +5,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VertexDecl : public IntrusivePtrBase {
+class VertexDecl : public kaynine::IntrusivePtrBase {
 public:
 	enum Type {
 		POS_DIFFUSE_TEX,

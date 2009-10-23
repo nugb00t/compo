@@ -1,13 +1,14 @@
-#include "../string_tools/tstring.h"
 #include "tools.h"
 
+#include <kaynine/string_tools/tstring.h>
+
 // win
-#include <windows.h>					// SetCurrentDirectory()
 #include <psapi.h>						// GetModuleFileName()
 #pragma comment(lib, "psapi.lib")
 #include <shlwapi.h>					// PathRemoveFileSpec()
 #pragma comment(lib, "shlwapi.lib")
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool kaynine::setRelativeDirectory(TCHAR* relativePath)
 {
@@ -24,6 +25,8 @@ bool kaynine::setRelativeDirectory(TCHAR* relativePath)
 	return ::SetCurrentDirectory(newPath.c_str()) != 0;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool kaynine::setCurrentDirectory()
 {
 	TCHAR exePath[MAX_PATH + 1];
@@ -33,3 +36,5 @@ bool kaynine::setCurrentDirectory()
 
 	return ::SetCurrentDirectory(exePath) != 0;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

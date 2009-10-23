@@ -1,7 +1,6 @@
 #ifndef LOGIC_COMPONENT_INCLUDED
 #define LOGIC_COMPONENT_INCLUDED
 
-#include "utility/registry.h"
 #include "core/sync.h"
 
 namespace engine {
@@ -20,7 +19,7 @@ public:
 
 typedef boost::intrusive_ptr<LogicComponent> LogicComponentPtr;
 
-typedef Registry<LogicComponent, Sync::MAX_ENTITIES> LogicComponentRegistry;
+typedef kaynine::Index<Sync::MAX_ENTITIES>::Registry<LogicComponent> LogicComponentRegistry;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

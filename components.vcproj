@@ -554,10 +554,10 @@
 				Name="kaynine"
 				>
 				<Filter
-					Name="fs_tools"
+					Name="filesystem"
 					>
 					<File
-						RelativePath=".\extern\kaynine\kaynine\fs_tools\tools.cpp"
+						RelativePath=".\extern\kaynine\kaynine\filesystem\tools.cpp"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -577,7 +577,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath=".\extern\kaynine\kaynine\fs_tools\tools.h"
+						RelativePath=".\extern\kaynine\kaynine\filesystem\tools.h"
 						>
 					</File>
 				</Filter>
@@ -586,10 +586,6 @@
 					>
 					<File
 						RelativePath=".\extern\kaynine\kaynine\threading\frame_buffer.h"
-						>
-					</File>
-					<File
-						RelativePath=".\extern\kaynine\kaynine\threading\frame_buffer_access.h"
 						>
 					</File>
 					<File
@@ -621,7 +617,35 @@
 					Name="utility"
 					>
 					<File
+						RelativePath=".\extern\kaynine\kaynine\utility\holder.h"
+						>
+					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\utility\registry.h"
+						>
+					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\utility\safe_bool.h"
+						>
+					</File>
+					<File
 						RelativePath=".\extern\kaynine\kaynine\utility\singleton.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="containers"
+					>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\containers\cyclic_buffer.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="memory"
+					>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\memory\intrusive_ptr_base.h"
 						>
 					</File>
 				</Filter>
@@ -638,23 +662,7 @@
 				Name="utility"
 				>
 				<File
-					RelativePath=".\engine\utility\cyclic_buffer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\utility\holder.h"
-					>
-				</File>
-				<File
 					RelativePath=".\engine\utility\interfaces.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\utility\intrusive_ptr_base.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\utility\intrusive_ptr_base.h"
 					>
 				</File>
 				<File
@@ -662,31 +670,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\engine\utility\math_wrapper.h"
+					RelativePath=".\engine\utility\math.h"
 					>
 				</File>
 				<File
 					RelativePath=".\engine\utility\profiler_base.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\utility\registrant.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\utility\registry.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\utility\registry_index.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\utility\registry_index.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\utility\safe_bool.h"
 					>
 				</File>
 			</Filter>

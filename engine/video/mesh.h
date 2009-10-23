@@ -5,7 +5,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Mesh : public IntrusivePtrBase, public Drawn {
+class Mesh : public kaynine::IntrusivePtrBase, public Drawn {
 public:
 	virtual void setBuffers(const void* const vertices, const unsigned verticesSize, const unsigned vertexSize, 
 							const short* const indices, const unsigned indicesSize) = 0;

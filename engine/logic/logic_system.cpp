@@ -26,11 +26,11 @@ void Logic::operator()() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Logic::update(const unsigned msec) {
-	Sync::LogicToVideoWritable toVideo(Sync::inst().logicToVideo());
+	Sync::LogicToVideo::Writable toVideo(Sync::inst().logicToVideo());
 
 	for (unsigned i = 0; i < Sync::MAX_ENTITIES; ++i)
 		if (LogicComponentRegistry::inst().valid(i))
-			LogicComponentRegistry::inst().get(i).update(toVideo->entities[i], msec);
+			LogicComponentRegistry::inst().get(i).update(toVideo.data().entities[i], msec);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

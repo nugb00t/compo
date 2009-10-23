@@ -1,7 +1,7 @@
-#ifndef SAFE_BOOL_INCLUDED
-#define SAFE_BOOL_INCLUDED
+#ifndef KN_SAFE_BOOL_INCLUDED
+#define KN_SAFE_BOOL_INCLUDED
 
-namespace engine {
+namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //

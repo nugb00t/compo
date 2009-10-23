@@ -3,7 +3,6 @@
 #ifdef VIDEO_DIRECT3D9
 #include "video_d3d9.h"
 
-#include "utility/registry.h"
 #include "system/window_interface.h"
 
 // directx

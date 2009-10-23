@@ -1,13 +1,13 @@
-#ifndef _KN_SIGLETON_INCLUDED_
-#define _KN_SIGLETON_INCLUDED_
-
+#ifndef KN_SIGLETON_INCLUDED
+#define KN_SIGLETON_INCLUDED
 
 namespace kaynine {
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
 struct Singleton {
-	Singleton() {}
+	Singleton() {}			//< Allows to skip ctor declaration in child classes
 
 	static T& inst() {
 		static T t;
@@ -17,11 +17,10 @@ struct Singleton {
 private:
 	Singleton(const Singleton&);
 	Singleton& operator=(const Singleton&);
-
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-} // namespace kaynine
-
+}
 
 #endif

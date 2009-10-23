@@ -21,21 +21,16 @@ public:
 		unsigned long age;
 	};
 
-	typedef kaynine::ReadableAccess<Entities>		LogicToVideoReadable;
-	typedef kaynine::WritableAccess<Entities>		LogicToVideoWritable;
-	typedef kaynine::FrameBufferAccess<Entities>	LogicToVideoAccess;
-
-	typedef kaynine::ReadableAccess<InputInterface::Controls>		InputToClientReadable;
-	typedef kaynine::WritableAccess<InputInterface::Controls>		InputToClientWritable;
-	typedef kaynine::FrameBufferAccess<InputInterface::Controls>	InputToClientAccess;
+	typedef kaynine::FrameBuffer<Entities>		LogicToVideo;
+	typedef kaynine::FrameBuffer<InputInterface::Controls>		InputToClient;
 
 public:
-	LogicToVideoAccess& logicToVideo() { return logicToVideoFB_; }
-	InputToClientAccess& inputToClient() { return inputToClientFB_; }
+	LogicToVideo& logicToVideo() { return logicToVideoFB_; }
+	InputToClient& inputToClient() { return inputToClientFB_; }
 
 private:
-	LogicToVideoAccess logicToVideoFB_;
-	InputToClientAccess inputToClientFB_;
+	LogicToVideo logicToVideoFB_;
+	InputToClient inputToClientFB_;
 
 	friend struct kaynine::Singleton<Sync>;
 };

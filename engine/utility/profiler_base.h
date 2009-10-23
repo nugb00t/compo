@@ -3,10 +3,7 @@
 
 #include <assert.h>
 
-#include "kaynine/threading/sync_wrappers.h"
-
 #include "core/time.h"
-#include "cyclic_buffer.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,7 +63,7 @@ protected:
 	}
 
 private:
-    CyclicBuffer<Period, THistoryDepth> trackers_[TTrackerCount];
+    kaynine::CyclicBuffer<Period, THistoryDepth> trackers_[TTrackerCount];
 	mutable kaynine::CriticalSection guard_;
 };
 
