@@ -27,20 +27,36 @@ public:
 		Registry() { ::memset(registrants_, NULL, sizeof(TComponent*) * TCapacity); }
 
 	public:
-		inline void add(const unsigned id, TComponent* registrant)	{ assert(id < TCapacity && registrants_[id] == 0);	registrants_[id] = registrant;		}
-		inline void remove(const unsigned id)						{ assert(id < TCapacity);							registrants_[id] = NULL;			}
+		inline void add(const unsigned id, TComponent* registrant) 	{ 
+            assert(id < TCapacity && registrants_[id] == 0);
+            registrants_[id] = registrant;
+        }
 
-		inline TComponent& get(const unsigned id)					{ assert(id < TCapacity && registrants_[id]);		return *registrants_[id];			}
-		inline const TComponent& get(const unsigned id) const		{ assert(id < TCapacity && registrants_[id]);		return *registrants_[id];			}
+		inline void remove(const unsigned id) {
+            assert(id < TCapacity);
+            registrants_[id] = NULL;
+        }
 
-		inline const bool valid(const unsigned id) const			{ assert(id < TCapacity);							return registrants_[id] != NULL;	}
+		inline TComponent& get(const unsigned id) {
+            assert(id < TCapacity && registrants_[id]);
+            return *registrants_[id];
+        }
+
+		inline const TComponent& get(const unsigned id) const {
+            assert(id < TCapacity && registrants_[id]);
+            return *registrants_[id];
+        }
+
+		inline const bool valid(const unsigned id) const {
+            assert(id < TCapacity);
+            return registrants_[id] != NULL;
+        }
 
 	private:
 		TComponent* registrants_[TCapacity];
 
 		friend Singleton<Registry<TComponent> >;
 	};
-
 
 	//-----------------------------------------------------------------------------------------------------------------
 
@@ -60,9 +76,9 @@ public:
 	template <class TComponent1>
 	class Registrant1 : public RegistrantBase {
 	public:
-		Registrant1()	{ Registry<TComponent1>::inst().add(id(), &component1_); }
+        Registrant1()	{ Registry<TComponent1::Type>::inst().add(id(), &component1_); }
 
-		~Registrant1()	{ Registry<TComponent1>::inst().remove(id()); }
+		~Registrant1()	{ Registry<TComponent1::Type>::inst().remove(id()); }
 
 	private:
 		TComponent1 component1_;
@@ -73,11 +89,11 @@ public:
 	template <class TComponent1, class TComponent2>
 	class Registrant2 : public RegistrantBase {
 	public:
-		Registrant2()	{ Registry<TComponent1>::inst().add(id(), &component1_);
-						  Registry<TComponent2>::inst().add(id(), &component2_); }
+		Registrant2()	{ Registry<TComponent1::Type>::inst().add(id(), &component1_);
+						  Registry<TComponent2::Type>::inst().add(id(), &component2_); }
 
-		~Registrant2()	{ Registry<TComponent1>::inst().remove(id());
-						  Registry<TComponent2>::inst().remove(id()); }
+		~Registrant2()	{ Registry<TComponent1::Type>::inst().remove(id());
+						  Registry<TComponent2::Type>::inst().remove(id()); }
 
 	private:
 		TComponent1 component1_;
@@ -89,13 +105,13 @@ public:
 	template <class TComponent1, class TComponent2, class TComponent3>
 	class Registrant3 : public RegistrantBase {
 	public:
-		Registrant3()	{ Registry<TComponent1>::inst().add(id(), &component1_);
-						  Registry<TComponent2>::inst().add(id(), &component2_);
-						  Registry<TComponent3>::inst().add(id(), &component3_); }
+		Registrant3()	{ Registry<TComponent1::Type>::inst().add(id(), &component1_);
+						  Registry<TComponent2::Type>::inst().add(id(), &component2_);
+						  Registry<TComponent3::Type>::inst().add(id(), &component3_); }
 
-		~Registrant3()	{ Registry<TComponent1>::inst().remove(id());
-						  Registry<TComponent2>::inst().remove(id());
-						  Registry<TComponent3>::inst().remove(id()); }
+		~Registrant3()	{ Registry<TComponent1::Type>::inst().remove(id());
+						  Registry<TComponent2::Type>::inst().remove(id());
+						  Registry<TComponent3::Type>::inst().remove(id()); }
 
 	private:
 		TComponent1 component1_;
