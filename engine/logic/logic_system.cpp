@@ -16,11 +16,12 @@ void Logic::operator()() {
 	kaynine::Event signal(EXIT_SIGNAL_NAME);
 	kaynine::MultipleObjects objects(timer, signal);
 
-	for (unsigned wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
-		assert(wait != WAIT_FAILED);
+	unsigned wait;
+	for (wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
 		Profiler::StopWatch stopWatch(Profiler::LOGIC_THREAD);
 		update(0);
 	}
+	assert(wait != WAIT_FAILED);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

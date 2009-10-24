@@ -28,11 +28,12 @@ void VideoInterface::operator()() {
 		kaynine::Event signal(EXIT_SIGNAL_NAME);
 		kaynine::MultipleObjects objects(timer, signal);
 
-		for (unsigned wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
-			assert(wait != WAIT_FAILED);
+		unsigned wait;
+		for (wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
 			Profiler::StopWatch stopWatch(Profiler::VIDEO_THREAD);
 			Video::inst().update(0);
 		}
+		assert(wait != WAIT_FAILED);
 	}
 
 	Video::inst().shutdown();

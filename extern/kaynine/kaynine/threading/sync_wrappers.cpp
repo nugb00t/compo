@@ -117,7 +117,7 @@ WaitableTimer::~WaitableTimer() {
 
 bool WaitableTimer::set(const long period, PTIMERAPCROUTINE func /*= NULL*/, void* arg /*= NULL*/) {
 	LARGE_INTEGER dueTime;
-	dueTime.QuadPart = 0ll;
+	dueTime.QuadPart = -1ll;
 	return ::SetWaitableTimer(handle(), &dueTime, period, func, arg, FALSE) == TRUE;	
 }
 
