@@ -6,7 +6,7 @@ using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameClient::handleControls(const Controls& controls) {
+void GameClient::handleControls(const engine::InputInterface::Controls& /*controls*/) {
 	
 }
 

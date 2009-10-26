@@ -9,7 +9,7 @@ namespace game_playground {
 
 class GameClient : engine::LocalClient {
 protected:
-	virtual void handleControls(const Controls& controls);
+    virtual void handleControls(const engine::InputInterface::Controls& controls);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

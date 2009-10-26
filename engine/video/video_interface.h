@@ -13,7 +13,7 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class VideoInterface : public Callable, public Updatable, public kaynine::IntrusivePtrBase {
-	static const unsigned FRAMERATE = 10;
+	static const unsigned FRAMERATE = 60;
 
 public:
 	VideoInterface();

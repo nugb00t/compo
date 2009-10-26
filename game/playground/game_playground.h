@@ -14,7 +14,7 @@ public:
 
 
 private:
-	GameClient
+	GameClient client;
 	Orb orb_;
 };
 
