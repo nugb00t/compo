@@ -894,6 +894,22 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="clients"
+				>
+				<Filter
+					Name="local"
+					>
+					<File
+						RelativePath=".\engine\clients\local\local_client.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\clients\local\local_client.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="game"
@@ -1003,6 +1019,18 @@
 								>
 							</File>
 						</Filter>
+					</Filter>
+					<Filter
+						Name="client"
+						>
+						<File
+							RelativePath=".\game\client\game_client.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\game\client\game_client.h"
+							>
+						</File>
 					</Filter>
 				</Filter>
 				<Filter

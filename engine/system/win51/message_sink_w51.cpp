@@ -5,6 +5,7 @@
 
 #include "core/sync.h"
 #include "core/time.h"
+#include "clients/local/local_client.h"
 
 #include "input_w51.h"
 
@@ -17,6 +18,8 @@ void MessageSinkW51::operator()() {
 	CHECKED_CALL(window_->create(800, 600, 32, 0, false));
 
 	InputW51::inst();
+
+	kaynine::Timer clientTimer(unsigned(1000.f / LocalClient::FRAMERATE));
 
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
 	MSG	msg;
@@ -37,9 +40,11 @@ void MessageSinkW51::operator()() {
 
 LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
+		//case WM_SIZE: // 0x0005
+		//	pRenderLoop_->reshapeRenderer(LOWORD(lParam), HIWORD(lParam));
+		//	break;
 
-		// TODO: re-add activation event
-		//case WM_ACTIVATE:
+		//case WM_ACTIVATE: // 0x0006
 		//	if (LOWORD(wParam) && !HIWORD(wParam)) {		// activated && not minimized
 		//		assert(pRenderLoop_);
 		//		pRenderLoop_->syncObjects().evAppActive.set();
@@ -51,37 +56,36 @@ LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wPa
 		//	}
 		//	break;
 
-		case WM_CLOSE:
+		//case WM_SETFOCUS: // 0x0007
+		//	setClipCursor(hWnd);
+		//	KN_TRACE(_T(" [engine] focus window\n"));
+		//	break;
+
+		//case WM_KILLFOCUS: // 0x0008
+		//	setClipCursor(hWnd, false);
+		//	KN_TRACE(_T(" [engine] unfocus window\n"));
+		//	break;
+
+		case WM_CLOSE: // 0x0010
 			::PostQuitMessage(0);
 			return 0;
 
-		case WM_ERASEBKGND:
-			return 0;			// disallow
+		case WM_ERASEBKGND: // 0x0014
+			return 0; // disallow
 
-			// TODO: re-add cursor toggling
-			//case WM_KILLFOCUS:
-			//	setClipCursor(hWnd, false);
-			//	KN_TRACE(_T(" [engine] unfocus window\n"));
-			//	break;
-			//case WM_SETFOCUS:
-			//	setClipCursor(hWnd);
-			//	KN_TRACE(_T(" [engine] focus window\n"));
-			//	break;
-
-			// TODO: re-add resizing
-			//case WM_SIZE:
-			//	pRenderLoop_->reshapeRenderer(LOWORD(lParam), HIWORD(lParam));
-			//	break;
-
-		case WM_INPUT:
-			InputW51::inst().processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Time::inst().msec());
-			break;
-
-		case WM_SYSCOMMAND:
+		case WM_SYSCOMMAND: // 0x0112
 			if (wParam == SC_SCREENSAVE || wParam == SC_MONITORPOWER)
 				return 0;
 			else
 				break;
+
+		case WM_TIMER: // 0x0113
+			Client::inst().update();
+			break;
+
+		case WM_INPUT: // 0x00FF
+			InputW51::inst().processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Time::inst().msec());
+			break;
 	}
 
 	return ::DefWindowProc(hWnd, uMsg, wParam, lParam);
