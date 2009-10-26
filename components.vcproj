@@ -502,40 +502,12 @@
 				Name="system"
 				>
 				<File
-					RelativePath=".\engine\system\input_interface.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\system\input_interface.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\system\message_sink_interface.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\engine\system\message_sink_interface.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\system\window_interface.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\system\window_interface.h"
 					>
 				</File>
 				<Filter
 					Name="win51"
 					>
-					<File
-						RelativePath=".\engine\system\win51\input_w51.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\system\win51\input_w51.h"
-						>
-					</File>
 					<File
 						RelativePath=".\engine\system\win51\message_sink_w51.cpp"
 						>
@@ -544,19 +516,15 @@
 						RelativePath=".\engine\system\win51\message_sink_w51.h"
 						>
 					</File>
-					<File
-						RelativePath=".\engine\system\win51\window_w51.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\system\win51\window_w51.h"
-						>
-					</File>
 				</Filter>
 			</Filter>
 			<Filter
 				Name="client"
 				>
+				<File
+					RelativePath=".\engine\client\client_data.h"
+					>
+				</File>
 				<File
 					RelativePath=".\engine\client\local_client_interface.cpp"
 					>
@@ -585,6 +553,50 @@
 					RelativePath=".\engine\server\server.h"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="input"
+				>
+				<File
+					RelativePath=".\engine\input\input_data.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\input\input_interface.h"
+					>
+				</File>
+				<Filter
+					Name="win51"
+					>
+					<File
+						RelativePath=".\engine\input\win51\input_w51.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\input\win51\input_w51.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="window"
+				>
+				<File
+					RelativePath=".\engine\window\window_interface.h"
+					>
+				</File>
+				<Filter
+					Name="win51"
+					>
+					<File
+						RelativePath=".\engine\window\win51\window_w51.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\window\win51\window_w51.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -621,10 +633,6 @@
 			<Filter
 				Name="playground"
 				>
-				<File
-					RelativePath=".\game\playground\playground_game.cpp"
-					>
-				</File>
 				<File
 					RelativePath=".\game\playground\playground_game.h"
 					>

@@ -3,7 +3,7 @@
 #ifdef VIDEO_DIRECT3D9
 #include "video_d3d9.h"
 
-#include "system/window_interface.h"
+#include "window/window_interface.h"
 
 // directx
 #pragma comment(lib, "d3d9.lib")

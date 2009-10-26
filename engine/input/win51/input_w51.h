@@ -1,7 +1,7 @@
 #ifndef INPUT_W51_INCLUDED
 #define INPUT_W51_INCLUDED
 
-#include "system/input_interface.h"
+#include "input/input_interface.h"
 
 //#define USE_BUFFERED_RAW_INPUT
 

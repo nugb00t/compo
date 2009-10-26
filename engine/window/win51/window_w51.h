@@ -1,7 +1,7 @@
 #ifndef WINDOW_W51_INCLUDED
 #define WINDOW_W51_INCLUDED
 
-#include "system/window_interface.h"
+#include "window/window_interface.h"
 
 namespace engine {
 

@@ -4,8 +4,8 @@
 
 #include "core/sync.h"
 #include "core/profiler.h"
-#include "system/window_interface.h"
 #include "video/video_component.h"
+#include "window/window_interface.h"
 
 using namespace engine;
 

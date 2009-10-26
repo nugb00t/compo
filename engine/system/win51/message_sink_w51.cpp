@@ -3,11 +3,11 @@
 #ifdef PLATFORM_WIN51
 #include "message_sink_w51.h"
 
+#include "input/win51/input_w51.h"
+
 #include "core/sync.h"
 #include "core/time.h"
 #include "client/local_client_interface.h"
-
-#include "input_w51.h"
 
 using namespace engine;
 

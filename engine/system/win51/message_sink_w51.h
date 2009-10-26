@@ -3,7 +3,7 @@
 
 #include "system/message_sink_interface.h"
 
-#include "system/win51/window_w51.h"
+#include "window/win51/window_w51.h"
 
 namespace engine {
 

@@ -3,6 +3,8 @@
 #ifdef PLATFORM_WIN51
 #include "input_w51.h"
 
+#include "input/input_data.h"
+
 #include "core/sync.h"
 
 using namespace engine;
@@ -103,7 +105,7 @@ void InputW51::process(const RAWINPUT& raw, const unsigned long now) {
 
 		// and a wheel axis
 		if (flags & RI_MOUSE_WHEEL)
-			controls_.axis[MOUSE_WHEEL].add(now, raw.data.mouse.usButtonData);       // TODO: force relative axis data
+			controls_.axis[InputData::MOUSE_WHEEL].add(now, raw.data.mouse.usButtonData);       // TODO: force relative axis data
 	} else if (raw.header.dwType == RIM_TYPEKEYBOARD) {
 		const RAWKEYBOARD& keyboard = raw.data.keyboard;
 

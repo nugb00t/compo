@@ -5,16 +5,15 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Input system that tracks the time of the input event in addition to the event itself.
-// May allow for more precise (?) button handling and / or smarter (?) axis interpolation.
+typedef kaynine::Holder<class MessageSinkInterface> MessageSink;
+
 class MessageSinkInterface : public Callable, public kaynine::IntrusivePtrBase {
 public:
-	MessageSinkInterface();
+	MessageSinkInterface() { MessageSink::set(*this); }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef kaynine::Holder<MessageSinkInterface> MessageSink;
 typedef boost::intrusive_ptr<MessageSinkInterface> MessageSinkPtr;
 
 }

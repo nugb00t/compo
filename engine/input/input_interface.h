@@ -1,29 +1,28 @@
-#ifndef LOCAL_CLIENT_INTERFACE_INCLUDED
-#define LOCAL_CLIENT_INTERFACE_INCLUDED
+#ifndef INPUT_INTERFACE_INCLUDED
+#define INPUT_INTERFACE_INCLUDED
 
 #include "input/input_data.h"
-#include "client_data.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class LocalClientInterface {
+typedef kaynine::Holder<class InputInterface> Input;
+
+class InputInterface {
 public:
 	static const unsigned FRAMERATE = 60;
 
 public:
-	LocalClientInterface();
+	InputInterface()  { Input::set(*this); }
 
-	void update();
+    const InputData& controls() const { return controls_; }
 
 protected:
-    virtual void handleControls(const InputData& controls) = 0;
+    InputData controls_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef kaynine::Holder<LocalClientInterface> LocalClient;
 
 }
 
