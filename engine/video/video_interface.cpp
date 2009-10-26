@@ -2,7 +2,6 @@
 
 #include "video_interface.h"
 
-#include "core/core.h"
 #include "core/sync.h"
 #include "core/profiler.h"
 #include "system/window_interface.h"

@@ -11,6 +11,10 @@ class LocalClientInterface {
 public:
 	static const unsigned FRAMERATE = 60;
 
+    struct Delta {
+        Vector3 loc;
+    };
+
 public:
 	LocalClientInterface();
 
