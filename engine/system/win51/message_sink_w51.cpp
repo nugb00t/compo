@@ -5,7 +5,7 @@
 
 #include "core/sync.h"
 #include "core/time.h"
-#include "clients/local/local_client.h"
+#include "client/local_client_interface.h"
 
 #include "input_w51.h"
 
@@ -19,7 +19,7 @@ void MessageSinkW51::operator()() {
 
 	InputW51::inst();
 
-	kaynine::Timer clientTimer(unsigned(1000.f / LocalClient::FRAMERATE));
+	kaynine::Timer clientTimer(unsigned(1000.f / LocalClientInterface::FRAMERATE));
 
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
 	MSG	msg;
@@ -80,7 +80,7 @@ LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wPa
 				break;
 
 		case WM_TIMER: // 0x0113
-			Client::inst().update();
+			LocalClient::inst().update();
 			break;
 
 		case WM_INPUT: // 0x00FF

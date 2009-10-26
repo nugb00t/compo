@@ -1,15 +1,18 @@
-#ifndef GAME_CLIENT_INCLUDED
-#define GAME_CLIENT_INCLUDED
+#ifndef PLAYGROUND_GAME_INCLUDED
+#define PLAYGROUND_GAME_INCLUDED
 
-#include "clients/local/local_client.h"
+#include "client/playground_client.h"
+#include "entities/orb/orb.h"
+//#include "screens/profiler/profiler_screen.h"
 
 namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class GameClient : engine::LocalClient {
-protected:
-    virtual void handleControls(const engine::InputInterface::Controls& controls);
+class Game {
+private:
+	GameClient client;
+	Orb orb_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

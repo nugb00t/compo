@@ -1,21 +1,16 @@
-#ifndef GAME_PLAYGROUND_INCLUDED
-#define GAME_PLAYGROUND_INCLUDED
+#ifndef LOGIC_INCLUDED
+#define LOGIC_INCLUDED
 
-#include "client/game_client.h"
-#include "entities/orb/orb.h"
-//#include "screens/profiler/profiler_screen.h"
-
-namespace game_playground {
+namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Game {
+class Logic : public Updatable, public kaynine::Singleton<Logic> {
 public:
+	// interface: Updatable
+	void update(const unsigned msec);
 
-
-private:
-	GameClient client;
-	Orb orb_;
+	friend struct kaynine::Singleton<Logic>;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

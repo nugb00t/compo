@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "game_client.h"
+#include "playground_client.h"
 
 using namespace game_playground;
 

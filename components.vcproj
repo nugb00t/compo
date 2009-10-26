@@ -162,10 +162,6 @@
 				Name="boost"
 				>
 				<File
-					RelativePath=".\extern\boost\boost\intrusive_ptr.hpp"
-					>
-				</File>
-				<File
 					RelativePath=".\extern\boost\lib\libboost_date_time-vc80-mt-1_38.lib"
 					>
 					<FileConfiguration
@@ -212,342 +208,6 @@
 							Name="VCCustomBuildTool"
 						/>
 					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
-				Name="directx"
-				>
-				<File
-					RelativePath=".\extern\directx\include\audiodefs.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\comdecl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D2D1.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D2D1Helper.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D2DBaseTypes.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D2Derr.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3D10.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3D10_1.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3D10_1shader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3D10effect.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3d10misc.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3d10sdklayers.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3D10shader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3D11.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3D11SDKLayers.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3D11Shader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3d9.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3d9caps.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3d9types.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3Dcommon.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3Dcompiler.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DCSX.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DX10.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx10async.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DX10core.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DX10math.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DX10math.inl"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DX10mesh.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DX10tex.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DX11.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DX11async.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DX11core.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\D3DX11tex.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9anim.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9core.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9effect.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9math.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9math.inl"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9mesh.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9shader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9shape.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9tex.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\d3dx9xof.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\Dcommon.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\ddraw.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\dinput.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\dinputd.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\dsconf.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\dsetup.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\dsound.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\dvp.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\DWrite.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\dxdiag.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\DxErr.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\dxfile.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\DXGI.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\DXGIFormat.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\DXGIType.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\dxsdkver.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\gameux.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\multimon.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\PIXPlugin.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\rmxfguid.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\rmxftmpl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\rpcsal.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\X3DAudio.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\xact3.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\xact3d3.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\xact3wb.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\XAPO.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\XAPOBase.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\XAPOFX.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\XAudio2.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\XAudio2fx.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\XDSP.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\XInput.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\xma2defs.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\xnamath.h"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\xnamathconvert.inl"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\xnamathmatrix.inl"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\xnamathmisc.inl"
-					>
-				</File>
-				<File
-					RelativePath=".\extern\directx\include\xnamathvector.inl"
-					>
 				</File>
 			</Filter>
 			<Filter
@@ -818,15 +478,15 @@
 				Name="logic"
 				>
 				<File
+					RelativePath=".\engine\logic\logic.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\logic\logic.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\logic\logic_component.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\logic\logic_system.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\logic\logic_system.h"
 					>
 				</File>
 				<File
@@ -895,20 +555,36 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="clients"
+				Name="client"
 				>
-				<Filter
-					Name="local"
+				<File
+					RelativePath=".\engine\client\local_client_interface.cpp"
 					>
-					<File
-						RelativePath=".\engine\clients\local\local_client.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\clients\local\local_client.h"
-						>
-					</File>
-				</Filter>
+				</File>
+				<File
+					RelativePath=".\engine\client\local_client_interface.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="server"
+				>
+				<File
+					RelativePath=".\engine\server\arbiter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\server\arbiter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\server\server.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\server\server.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -946,101 +622,93 @@
 				Name="playground"
 				>
 				<File
-					RelativePath=".\game\playground\game_playground.cpp"
+					RelativePath=".\game\playground\playground_game.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\game\playground\game_playground.h"
+					RelativePath=".\game\playground\playground_game.h"
 					>
 				</File>
 				<Filter
-					Name="src"
+					Name="effects"
+					>
+					<File
+						RelativePath=".\exec\playground\fx\simple.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="client"
+					>
+					<File
+						RelativePath=".\game\playground\client\playground_client.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\client\playground_client.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="screens"
 					>
 					<Filter
-						Name="screens"
-						>
-						<Filter
-							Name="profiler"
-							>
-							<File
-								RelativePath=".\game\playground\screens\profiler\profiler_screen.h"
-								>
-							</File>
-							<File
-								RelativePath=".\game\playground\screens\profiler\profiler_screen_video.cpp"
-								>
-								<FileConfiguration
-									Name="Debug|Win32"
-									ExcludedFromBuild="true"
-									>
-									<Tool
-										Name="VCCLCompilerTool"
-									/>
-								</FileConfiguration>
-								<FileConfiguration
-									Name="Release|Win32"
-									ExcludedFromBuild="true"
-									>
-									<Tool
-										Name="VCCLCompilerTool"
-									/>
-								</FileConfiguration>
-							</File>
-							<File
-								RelativePath=".\game\playground\screens\profiler\profiler_screen_video.h"
-								>
-							</File>
-						</Filter>
-					</Filter>
-					<Filter
-						Name="entities"
-						>
-						<Filter
-							Name="orb"
-							>
-							<File
-								RelativePath=".\game\playground\entities\orb\orb.h"
-								>
-							</File>
-							<File
-								RelativePath=".\game\playground\entities\orb\orb_logic.cpp"
-								>
-							</File>
-							<File
-								RelativePath=".\game\playground\entities\orb\orb_logic.h"
-								>
-							</File>
-							<File
-								RelativePath=".\game\playground\entities\orb\orb_video.cpp"
-								>
-							</File>
-							<File
-								RelativePath=".\game\playground\entities\orb\orb_video.h"
-								>
-							</File>
-						</Filter>
-					</Filter>
-					<Filter
-						Name="client"
+						Name="profiler"
 						>
 						<File
-							RelativePath=".\game\client\game_client.cpp"
+							RelativePath=".\game\playground\screens\profiler\profiler_screen.h"
 							>
 						</File>
 						<File
-							RelativePath=".\game\client\game_client.h"
+							RelativePath=".\game\playground\screens\profiler\profiler_screen_video.cpp"
+							>
+							<FileConfiguration
+								Name="Debug|Win32"
+								ExcludedFromBuild="true"
+								>
+								<Tool
+									Name="VCCLCompilerTool"
+								/>
+							</FileConfiguration>
+							<FileConfiguration
+								Name="Release|Win32"
+								ExcludedFromBuild="true"
+								>
+								<Tool
+									Name="VCCLCompilerTool"
+								/>
+							</FileConfiguration>
+						</File>
+						<File
+							RelativePath=".\game\playground\screens\profiler\profiler_screen_video.h"
 							>
 						</File>
 					</Filter>
 				</Filter>
 				<Filter
-					Name="data"
+					Name="entities"
 					>
 					<Filter
-						Name="effects"
+						Name="orb"
 						>
 						<File
-							RelativePath=".\exec\playground\fx\simple.h"
+							RelativePath=".\game\playground\entities\orb\orb.h"
+							>
+						</File>
+						<File
+							RelativePath=".\game\playground\entities\orb\orb_logic.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\game\playground\entities\orb\orb_logic.h"
+							>
+						</File>
+						<File
+							RelativePath=".\game\playground\entities\orb\orb_video.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\game\playground\entities\orb\orb_video.h"
 							>
 						</File>
 					</Filter>

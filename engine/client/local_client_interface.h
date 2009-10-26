@@ -1,5 +1,5 @@
-#ifndef LOCAL_CLIENT_INCLUDED
-#define LOCAL_CLIENT_INCLUDED
+#ifndef LOCAL_CLIENT_INTERFACE_INCLUDED
+#define LOCAL_CLIENT_INTERFACE_INCLUDED
 
 #include "system/input_interface.h"
 
@@ -7,12 +7,12 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class LocalClient {
+class LocalClientInterface {
 public:
 	static const unsigned FRAMERATE = 60;
 
 public:
-	LocalClient();
+	LocalClientInterface();
 
 	void update();
 
@@ -22,7 +22,7 @@ protected:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef kaynine::Holder<LocalClient> Client;
+typedef kaynine::Holder<LocalClientInterface> LocalClient;
 
 }
 

@@ -1,21 +1,18 @@
-#ifndef LOGIC_INTERFACE_INCLUDED
-#define LOGIC_INTERFACE_INCLUDED
+#ifndef ARBITER_INCLUDED
+#define ARBITER_INCLUDED
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Logic : public Callable, public Updatable, public kaynine::Singleton<Logic> {
-	static const unsigned FRAMERATE = 20;
+class Arbiter : public Updatable, public kaynine::Singleton<Arbiter> {
+	static const unsigned FRAMERATE = 10;
 
 public:
-	// interface: Callable
-	virtual void operator()();
-
 	// interface: Updatable
 	void update(const unsigned msec);
 
-	friend struct kaynine::Singleton<Logic>;
+	friend struct kaynine::Singleton<Arbiter>;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

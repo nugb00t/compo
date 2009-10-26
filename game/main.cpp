@@ -2,7 +2,7 @@
 
 #include "core/core.h"
 
-#include "playground/game_playground.h"
+#include "playground/playground_game.h"
 
 using namespace engine;
 

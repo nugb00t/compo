@@ -11,7 +11,7 @@
 	#include "video/direct3d9/video_d3d9.h"
 #endif
 
-#include "logic/logic_system.h"
+#include "server/server.h"
 
 using namespace engine;
 
@@ -43,7 +43,7 @@ void Core::run() {
 	// TODO: migrate to win32 threads?
     boost::thread_group threads;
 
-    threads.create_thread(boost::ref(Logic::inst()));
+    threads.create_thread(boost::ref(Server::inst()));
     threads.create_thread(boost::ref(*messageSink_));
     threads.create_thread(boost::ref(*video_));
 

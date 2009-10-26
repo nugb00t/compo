@@ -30,7 +30,7 @@ void VideoInterface::operator()() {
 
 		unsigned wait;
 		for (wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
-			Profiler::StopWatch stopWatch(Profiler::VIDEO_THREAD);
+			Profiler::StopWatch stopWatch(Profiler::VIDEO);
 			Video::inst().update(0);
 		}
 		assert(wait != WAIT_FAILED);

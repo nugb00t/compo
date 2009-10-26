@@ -8,7 +8,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 //
-//	const TheProfiler::Period& period = TheProfiler::inst().getPeriod(LOGIC_THREAD);
+//	const TheProfiler::Period& period = TheProfiler::inst().getPeriod(SERVER);
 //
 template <unsigned TTrackerCount, unsigned THistoryDepth>
 class ProfilerBase : public kaynine::Singleton<ProfilerBase<TTrackerCount, THistoryDepth> > {
