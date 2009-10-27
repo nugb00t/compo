@@ -3,11 +3,11 @@
 #ifdef PLATFORM_WIN51
 #include "message_sink_w51.h"
 
+#include "client/local_client_interface.h"
 #include "input/win51/input_w51.h"
 
 #include "core/sync.h"
 #include "core/time.h"
-#include "client/local_client_interface.h"
 
 using namespace engine;
 
@@ -80,7 +80,7 @@ LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wPa
 				break;
 
 		case WM_TIMER: // 0x0113
-			LocalClient::inst().update();
+			LocalClient::inst().update(Time::inst().msec());
 			break;
 
 		case WM_INPUT: // 0x00FF

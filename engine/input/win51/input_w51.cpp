@@ -75,37 +75,62 @@ void InputW51::unbuffered(const HRAWINPUT handle, const unsigned long now) {
 
 void InputW51::process(const RAWINPUT& raw, const unsigned long now) {
 	if (raw.header.dwType == RIM_TYPEMOUSE) {
-		const unsigned short flags = raw.data.mouse.usButtonFlags;
+		const RAWMOUSE& mouse = raw.data.mouse;
 
 		// 5 mouse buttons
-		if (flags & RI_MOUSE_LEFT_BUTTON_DOWN)
+		if (mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
 			controls_.buttons[VK_LBUTTON].pushed = now;
-		if (flags & RI_MOUSE_LEFT_BUTTON_UP)
+		if (mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP)
 			controls_.buttons[VK_LBUTTON].released = now;
 
-		if (flags & RI_MOUSE_RIGHT_BUTTON_DOWN)
+		if (mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN)
 			controls_.buttons[VK_RBUTTON].pushed = now;
-		if (flags & RI_MOUSE_RIGHT_BUTTON_UP)
+		if (mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP)
 			controls_.buttons[VK_RBUTTON].released = now;
 
-		if (flags & RI_MOUSE_MIDDLE_BUTTON_DOWN)
+		if (mouse.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_DOWN)
 			controls_.buttons[VK_MBUTTON].pushed = now;
-		if (flags & RI_MOUSE_MIDDLE_BUTTON_UP)
+		if (mouse.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP)
 			controls_.buttons[VK_MBUTTON].released = now;
 
-		if (flags & RI_MOUSE_BUTTON_4_DOWN)
+		if (mouse.usButtonFlags & RI_MOUSE_BUTTON_4_DOWN)
 			controls_.buttons[VK_XBUTTON1].pushed = now;
-		if (flags & RI_MOUSE_BUTTON_4_UP)
+		if (mouse.usButtonFlags & RI_MOUSE_BUTTON_4_UP)
 			controls_.buttons[VK_XBUTTON1].released = now;
 
-		if (flags & RI_MOUSE_BUTTON_5_DOWN)
+		if (mouse.usButtonFlags & RI_MOUSE_BUTTON_5_DOWN)
 			controls_.buttons[VK_XBUTTON2].pushed = now;
-		if (flags & RI_MOUSE_BUTTON_5_UP)
+		if (mouse.usButtonFlags & RI_MOUSE_BUTTON_5_UP)
 			controls_.buttons[VK_XBUTTON2].released = now;
 
-		// and a wheel axis
-		if (flags & RI_MOUSE_WHEEL)
-			controls_.axis[InputData::MOUSE_WHEEL].add(now, raw.data.mouse.usButtonData);       // TODO: force relative axis data
+		static int lastX = 0;
+		static int lastY = 0;
+		static int lastWheel = 0;
+
+		// axis
+		if (mouse.usFlags & MOUSE_MOVE_ABSOLUTE) {
+			controls_.axis[InputData::MOUSE_X].add(now, mouse.lLastX - lastX);
+			controls_.axis[InputData::MOUSE_Y].add(now, mouse.lLastY - lastY);
+
+			lastX = mouse.lLastX;
+			lastY = mouse.lLastY;
+
+			if (mouse.usButtonFlags & RI_MOUSE_WHEEL) {
+				controls_.axis[InputData::MOUSE_WHEEL].add(now, mouse.usButtonData - lastWheel);
+				lastWheel = mouse.usButtonData;
+			}
+		} else {
+			controls_.axis[InputData::MOUSE_X].add(now, mouse.lLastX);
+			controls_.axis[InputData::MOUSE_Y].add(now, mouse.lLastY);
+
+			lastX = 0;
+			lastY = 0;
+
+			if (mouse.usButtonFlags & RI_MOUSE_WHEEL) {
+				controls_.axis[InputData::MOUSE_WHEEL].add(now, mouse.usButtonData);
+				lastWheel = 0;
+			}
+		}
 	} else if (raw.header.dwType == RIM_TYPEKEYBOARD) {
 		const RAWKEYBOARD& keyboard = raw.data.keyboard;
 

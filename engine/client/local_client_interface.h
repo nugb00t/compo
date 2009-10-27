@@ -8,17 +8,18 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class LocalClientInterface {
+class LocalClientInterface : public Updatable {
 public:
 	static const unsigned FRAMERATE = 60;
 
 public:
 	LocalClientInterface();
 
-	void update();
+	// interface: Updatable
+	virtual void update(const unsigned msec);
 
 protected:
-    virtual void handleControls(const InputData& controls) = 0;
+    virtual void handleControls(const InputData& controls, ClientData& clientData) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
