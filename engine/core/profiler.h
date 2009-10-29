@@ -12,6 +12,7 @@ struct ProfilerSections {
 		SERVER,
         SERVER_ARBITER,
         SERVER_LOGIC,
+        LOCAL_CLIENT,
 		VIDEO,
 		SECTION_COUNT_
 	};

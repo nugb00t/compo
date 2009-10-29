@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "arbiter.h"
+#include "arbiter_interface.h"
 
 #include "core/profiler.h"
 #include "core/sync.h"
@@ -9,14 +9,12 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Arbiter::update(const unsigned /*msec*/) {
+void ArbiterInterface::update(const unsigned /*msec*/) {
     Profiler::StopWatch stopWatch(Profiler::SERVER_ARBITER);
 
-	Sync::LogicToVideo::Readable fromLogic(Sync::inst().logicToVideo());
-	if (fromLogic) {
-		// read client movement requests
-		fromLogic.data();
-	}
+    Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter());
+	if (fromClient)
+        marshall(fromClient.data());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

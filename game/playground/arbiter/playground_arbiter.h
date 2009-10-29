@@ -1,16 +1,16 @@
-#ifndef PLAYGROUND_CLIENT_INCLUDED
-#define PLAYGROUND_CLIENT_INCLUDED
+#ifndef PLAYGROUND_ARBITER_INCLUDED
+#define PLAYGROUND_ARBITER_INCLUDED
 
-#include "client/local_client_interface.h"
+#include "arbiter/arbiter_interface.h"
 
 namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class GameClient : engine::LocalClientInterface {
+class GameArbiter : engine::ArbiterInterface {
 private:
-    // interface: LocalClientInterface
-    virtual void handleControls(const engine::InputData& controls, engine::ClientData& clientData);
+    // interface: ArbiterInterface
+    virtual void marshall(const engine::ClientData& fromClient);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

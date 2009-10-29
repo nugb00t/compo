@@ -361,6 +361,14 @@
 					RelativePath=".\engine\core\sync.h"
 					>
 				</File>
+				<File
+					RelativePath=".\engine\core\time.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\time.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="video"
@@ -489,14 +497,6 @@
 					RelativePath=".\engine\logic\logic_component.h"
 					>
 				</File>
-				<File
-					RelativePath=".\engine\core\time.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\core\time.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="system"
@@ -537,14 +537,6 @@
 			<Filter
 				Name="server"
 				>
-				<File
-					RelativePath=".\engine\server\arbiter.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\server\arbiter.h"
-					>
-				</File>
 				<File
 					RelativePath=".\engine\server\server.cpp"
 					>
@@ -597,6 +589,18 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="arbiter"
+				>
+				<File
+					RelativePath=".\engine\arbiter\arbiter_interface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\arbiter\arbiter_interface.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -720,6 +724,18 @@
 							>
 						</File>
 					</Filter>
+				</Filter>
+				<Filter
+					Name="arbiter"
+					>
+					<File
+						RelativePath=".\game\playground\arbiter\playground_arbiter.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\arbiter\playground_arbiter.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>

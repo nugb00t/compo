@@ -27,11 +27,11 @@ public:
 
 public:
 	LogicToVideo& logicToVideo() { return logicToVideoFB_; }
-    ClientToArbiter& clientToArbiter() { return clientsToArbiterFB_; }
+    ClientToArbiter& clientToArbiter() { return clientToArbiterFB_; }
 
 private:
 	LogicToVideo logicToVideoFB_;
-    ClientToArbiter clientsToArbiterFB_;
+    ClientToArbiter clientToArbiterFB_;
 
 	friend struct kaynine::Singleton<Sync>;
 };

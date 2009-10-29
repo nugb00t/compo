@@ -2,7 +2,7 @@
 
 #include "server.h"
 
-#include "arbiter.h"
+#include "arbiter/arbiter_interface.h"
 #include "logic/logic.h"
 
 #include "core/profiler.h"
@@ -22,8 +22,8 @@ void Server::operator()() {
 	for (wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
         Profiler::StopWatch stopWatch(Profiler::SERVER);
 
-        Arbiter::inst().update(0);
         Logic::inst().update(0);
+        Arbiter::inst().update(0);
 	}
 	assert(wait != WAIT_FAILED);
 }

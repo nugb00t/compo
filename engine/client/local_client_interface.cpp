@@ -4,19 +4,16 @@
 
 #include "input/input_interface.h"
 
+#include "core/profiler.h"
 #include "core/sync.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-LocalClientInterface::LocalClientInterface() {
-	LocalClient::set(*this);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void LocalClientInterface::update(const unsigned /*msec*/) {
+    Profiler::StopWatch stopWatch(Profiler::LOCAL_CLIENT);
+
 	Sync::ClientToArbiter::Writable toArbiter(Sync::inst().clientToArbiter());
 	if (toArbiter)
 		handleControls(Input::inst().controls(), toArbiter.data());

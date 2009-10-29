@@ -8,23 +8,24 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+typedef kaynine::Holder<class LocalClientInterface> LocalClient;
+
 class LocalClientInterface : public Updatable {
 public:
 	static const unsigned FRAMERATE = 60;
 
 public:
-	LocalClientInterface();
+	LocalClientInterface() { LocalClient::set(*this); }
 
 	// interface: Updatable
 	virtual void update(const unsigned msec);
 
 protected:
+    // own
     virtual void handleControls(const InputData& controls, ClientData& clientData) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef kaynine::Holder<LocalClientInterface> LocalClient;
 
 }
 
