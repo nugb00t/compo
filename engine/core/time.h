@@ -10,11 +10,11 @@ protected:
 	Time();
 
 public:
-	const unsigned long msec() const;
+	const unsigned msec() const;
 	const float now() const;
 
 private:
-	const unsigned long zero_;
+	const unsigned zero_;
 
 	friend struct kaynine::Singleton<Time>;
 };

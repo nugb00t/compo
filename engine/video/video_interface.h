@@ -12,11 +12,16 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+typedef kaynine::Holder<class VideoInterface> Video;
+typedef boost::intrusive_ptr<class VideoInterface> VideoPtr;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class VideoInterface : public Callable, public Updatable, public kaynine::IntrusivePtrBase {
 	static const unsigned FRAMERATE = 60;
 
 public:
-	VideoInterface();
+    VideoInterface::VideoInterface() { Video::set(*this); }
 
 	// interface: Callable
 	virtual void operator()();
@@ -50,9 +55,6 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef kaynine::Holder<VideoInterface> Video;
-typedef boost::intrusive_ptr<VideoInterface> VideoPtr;
 
 }
 

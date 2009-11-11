@@ -13,7 +13,7 @@ public:
 
 public:
 	// interface: LogicComponent
-	virtual void update(engine::Entity::Params& toVideo, const unsigned msec);
+    virtual void update(engine::ServerView::Entity& toVideo, const unsigned msec);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

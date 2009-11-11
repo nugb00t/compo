@@ -17,7 +17,7 @@ class InputW51 : public InputInterface, public kaynine::Singleton<InputW51> {
 public:
 	InputW51();
 
-	inline void processRawInput(const HRAWINPUT handle, const unsigned long now) {
+	inline void processRawInput(const HRAWINPUT handle, const unsigned now) {
 #ifdef USE_BUFFERED_RAW_INPUT
 		unbuffered(handle, now);
 #else
@@ -27,11 +27,11 @@ public:
 
 private:
 #ifdef USE_BUFFERED_RAW_INPUT
-	void buffered(const HRAWINPUT handle, const unsigned long now);
+	void buffered(const HRAWINPUT handle, const unsigned now);
 #endif
-	void unbuffered(const HRAWINPUT handle, const unsigned long now);
+	void unbuffered(const HRAWINPUT handle, const unsigned now);
 
-	void process(const RAWINPUT& raw, const unsigned long now);
+	void process(const RAWINPUT& raw, const unsigned now);
 
 	friend struct kaynine::Singleton<InputW51>;
 };

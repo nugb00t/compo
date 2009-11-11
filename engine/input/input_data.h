@@ -13,8 +13,8 @@ struct InputData {
 
 	// buttons
 	struct ButtonInfo {
-		unsigned long pushed;
-		unsigned long released;
+		unsigned pushed;
+		unsigned released;
 	};
 
 	// axis
@@ -48,7 +48,7 @@ struct InputData {
 	// the whole struct
 	ButtonInfo buttons[BUTTON_COUNT];
 	AxisEventHistory axis[AXIS_COUNT];
-	unsigned long age;
+	unsigned age;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

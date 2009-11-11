@@ -7,6 +7,8 @@ namespace engine {
 
 typedef kaynine::Holder<class MessageSinkInterface> MessageSink;
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class MessageSinkInterface : public Callable, public kaynine::IntrusivePtrBase {
 public:
 	MessageSinkInterface() { MessageSink::set(*this); }

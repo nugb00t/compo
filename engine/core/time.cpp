@@ -14,7 +14,7 @@ Time::Time() : zero_(::timeGetTime()) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const unsigned long Time::msec() const {
+const unsigned Time::msec() const {
 	return ::timeGetTime() - zero_;
 }
 

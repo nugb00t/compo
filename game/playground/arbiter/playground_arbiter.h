@@ -10,7 +10,7 @@ namespace game_playground {
 class GameArbiter : engine::ArbiterInterface {
 private:
     // interface: ArbiterInterface
-    virtual void marshall(const engine::ClientData& fromClient);
+    virtual void marshall(const ServerView& last, const ClientRequest& requests, ServerView& next);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

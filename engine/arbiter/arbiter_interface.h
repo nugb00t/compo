@@ -1,7 +1,8 @@
 #ifndef ARBITER_INTERFACE_INCLUDED
 #define ARBITER_INTERFACE_INCLUDED
 
-#include "client/client_data.h"
+#include "client/client_request.h"
+#include "server/server_view.h"
 
 namespace engine {
 
@@ -9,16 +10,14 @@ namespace engine {
 
 typedef kaynine::Holder<class ArbiterInterface> Arbiter;
 
-class ArbiterInterface : public Updatable {
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class ArbiterInterface {
 public:
     ArbiterInterface() { Arbiter::set(*this); }
 
-	// interface: Updatable
-	virtual void update(const unsigned msec);
-
 protected:
-    // own
-    virtual void marshall(const ClientData& fromClient) = 0;
+    virtual void marshall(const ServerView& last, const ClientRequest& requests, ServerView& next) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

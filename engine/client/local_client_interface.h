@@ -2,13 +2,15 @@
 #define LOCAL_CLIENT_INTERFACE_INCLUDED
 
 #include "input/input_data.h"
-#include "client_data.h"
+#include "client_request.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef kaynine::Holder<class LocalClientInterface> LocalClient;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class LocalClientInterface : public Updatable {
 public:
@@ -22,7 +24,7 @@ public:
 
 protected:
     // own
-    virtual void handleControls(const InputData& controls, ClientData& clientData) = 0;
+    virtual void handleControls(const InputData& controls, ClientRequest& clientData) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -25,7 +25,7 @@ InputW51::InputW51() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef USE_BUFFERED_RAW_INPUT
-void InputW51::buffered(const HRAWINPUT handle, const unsigned long now) {
+void InputW51::buffered(const HRAWINPUT handle, const unsigned now) {
 	/*
 	unsigned ret = ::GetRawInputBuffer(NULL, &size, sizeof(RAWINPUTHEADER));
 	assert(ret == 0);
@@ -53,7 +53,7 @@ void InputW51::buffered(const HRAWINPUT handle, const unsigned long now) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void InputW51::unbuffered(const HRAWINPUT handle, const unsigned long now) {
+void InputW51::unbuffered(const HRAWINPUT handle, const unsigned now) {
 	//unsigned size;
 
 	//// inquire on the space requested
@@ -73,7 +73,7 @@ void InputW51::unbuffered(const HRAWINPUT handle, const unsigned long now) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void InputW51::process(const RAWINPUT& raw, const unsigned long now) {
+void InputW51::process(const RAWINPUT& raw, const unsigned now) {
 	if (raw.header.dwType == RIM_TYPEMOUSE) {
 		const RAWMOUSE& mouse = raw.data.mouse;
 

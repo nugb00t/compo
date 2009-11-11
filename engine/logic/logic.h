@@ -5,10 +5,9 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Logic : public Updatable, public kaynine::Singleton<Logic> {
+class Logic : public kaynine::Singleton<Logic> {
 public:
-	// interface: Updatable
-	void update(const unsigned msec);
+	void decide(const ServerView& last, ClientRequest& requests);
 
 	friend struct kaynine::Singleton<Logic>;
 };

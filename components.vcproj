@@ -522,7 +522,7 @@
 				Name="client"
 				>
 				<File
-					RelativePath=".\engine\client\client_data.h"
+					RelativePath=".\engine\client\client_request.h"
 					>
 				</File>
 				<File
@@ -543,6 +543,10 @@
 				</File>
 				<File
 					RelativePath=".\engine\server\server.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\server\server_view.h"
 					>
 				</File>
 			</Filter>

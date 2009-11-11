@@ -28,17 +28,17 @@ public:
 
     private:
         unsigned id_;
-        unsigned long start_;
+        unsigned start_;
     };
 
     struct Period {
         Period() {};
-        Period(const unsigned long start_, const unsigned long end_) : begin(start_), end(end_) {}
-		const unsigned long length() const { return end - begin; }
-		const unsigned long middle() const { return (end + begin) / 2; }
+        Period(const unsigned start_, const unsigned end_) : begin(start_), end(end_) {}
+		const unsigned length() const { return end - begin; }
+		const unsigned middle() const { return (end + begin) / 2; }
 
-        unsigned long begin;
-        unsigned long end;
+        unsigned begin;
+        unsigned end;
     };
 
 public:
@@ -55,7 +55,7 @@ public:
     }
 
 protected:
-	void track(const unsigned id, const unsigned long begin, const unsigned long end) {
+	void track(const unsigned id, const unsigned begin, const unsigned end) {
 		assert(id < TTrackerCount);
 
 		kaynine::AutoLock<> lock(guard_);

@@ -11,12 +11,6 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoInterface::VideoInterface() {
-	Video::set(*this);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void VideoInterface::operator()() {
 	if (Video::inst().startup()) {
 		// TODO: move camera to its own entity
@@ -46,14 +40,14 @@ void VideoInterface::update(const unsigned msec) {
 	if (begin()) {
 		camera_->update(msec);
 
-		Sync::LogicToVideo::Readable fromLogic(Sync::inst().logicToVideo());
+		Sync::ClientToVideo::Readable fromLogic(Sync::inst().clientToVideo());
 
 		if (fromLogic)
-			for (unsigned i = 0; i < Sync::MAX_ENTITIES; ++i)
+			for (unsigned i = 0; i < ServerView::MAX_ENTITIES; ++i)
 				if (EntityVideoComponentRegistry::inst().valid(i))
 					EntityVideoComponentRegistry::inst().get(i).update(fromLogic.data().entities[i], msec);
 
-		for (unsigned i = 0; i < Sync::MAX_ENTITIES; ++i)
+		for (unsigned i = 0; i < ServerView::MAX_ENTITIES; ++i)
 			if (ScreenVideoComponentRegistry::inst().valid(i))
 				ScreenVideoComponentRegistry::inst().get(i).update(msec);
 

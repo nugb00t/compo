@@ -1,7 +1,8 @@
 #ifndef SYNC_INCLUDED
 #define SYNC_INCLUDED
 
-#include "client/client_data.h"
+#include "client/client_request.h"
+#include "server/server_view.h"
 
 namespace engine {
 
@@ -13,25 +14,19 @@ const TCHAR EXIT_SIGNAL_NAME[] = _T("COMPONENTS_EXIT_SIGNAL");
 
 class Sync : public kaynine::Singleton<Sync> {
 public:
-	static const unsigned MAX_ENTITIES = 4096;
-    static const unsigned MAX_CLIENTS = 4;
+    typedef kaynine::FrameBuffer<ClientRequest> ClientToArbiter;
+    typedef kaynine::FrameBuffer<ServerView> ArbiterToClient;
+    typedef kaynine::FrameBuffer<ServerView> ClientToVideo;
 
 public:
-	struct Entities {
-		Entity::Params entities[MAX_ENTITIES];
-		unsigned long age;
-	};
-
-	typedef kaynine::FrameBuffer<Entities> LogicToVideo;
-    typedef kaynine::FrameBuffer<ClientData> ClientToArbiter;
-
-public:
-	LogicToVideo& logicToVideo() { return logicToVideoFB_; }
     ClientToArbiter& clientToArbiter() { return clientToArbiterFB_; }
+    ArbiterToClient& arbiterToClient() { return arbiterToClientFB_; }
+    ClientToVideo& clientToVideo() { return clientToVideoFB_; }
 
 private:
-	LogicToVideo logicToVideoFB_;
+    ArbiterToClient arbiterToClientFB_;
     ClientToArbiter clientToArbiterFB_;
+    ClientToVideo clientToVideoFB_;
 
 	friend struct kaynine::Singleton<Sync>;
 };
