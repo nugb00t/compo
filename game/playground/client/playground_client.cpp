@@ -6,7 +6,7 @@ using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameClient::handleControls(const engine::InputData& controls, engine::ClientRequest& clientRequest) {
+void GameClient::handleControls(const engine::InputData& controls, engine::ServerRequests::Client& clientRequest) {
 	const int x = controls.axis[engine::InputData::MOUSE_X].events[0].value;
 	const int y = controls.axis[engine::InputData::MOUSE_Y].events[0].value;
 

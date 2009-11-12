@@ -2,6 +2,7 @@
 #define PLAYGROUND_ARBITER_INCLUDED
 
 #include "arbiter/arbiter_interface.h"
+#include "server/server_data.h"
 
 namespace game_playground {
 
@@ -10,7 +11,7 @@ namespace game_playground {
 class GameArbiter : engine::ArbiterInterface {
 private:
     // interface: ArbiterInterface
-    virtual void marshall(const ServerView& last, const ClientRequest& requests, ServerView& next);
+    virtual void marshall(const engine::ServerState& last, const engine::ServerRequests& requests, engine::ServerState& next);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

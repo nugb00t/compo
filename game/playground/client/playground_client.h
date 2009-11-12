@@ -10,7 +10,7 @@ namespace game_playground {
 class GameClient : engine::LocalClientInterface {
 private:
     // interface: LocalClientInterface
-    virtual void handleControls(const engine::InputData& controls, engine::ClientRequest& clientRequest);
+    virtual void handleControls(const engine::InputData& controls, engine::ServerRequests::Client& clientRequest);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

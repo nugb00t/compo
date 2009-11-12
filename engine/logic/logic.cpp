@@ -9,14 +9,12 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Logic::decide(const ServerView& last, ClientRequest& requests) {
+void Logic::decide(const ServerState& last, ServerRequests& requests) {
     Profiler::StopWatch stopWatch(Profiler::SERVER_LOGIC);
 
-	Sync::ClientToVideo::Writable toVideo(Sync::inst().clientToVideo());
-
-	for (unsigned i = 0; i < ServerView::MAX_ENTITIES; ++i)
+	for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 		if (LogicComponentRegistry::inst().valid(i))
-			LogicComponentRegistry::inst().get(i).update(toVideo.data().entities[i], msec);
+			LogicComponentRegistry::inst().get(i).decide(last, requests.entities[i]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

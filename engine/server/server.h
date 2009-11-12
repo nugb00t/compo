@@ -1,7 +1,7 @@
 #ifndef SERVER_INCLUDED
 #define SERVER_INCLUDED
 
-#include "server/server_view.h"
+#include "server/server_data.h"
 
 namespace engine {
 
@@ -16,7 +16,7 @@ public:
 	virtual void operator()();
 
 private:
-    kaynine::CyclicBuffer<ServerView, HISTORY_DEPTH> states_;
+    kaynine::CyclicBuffer<ServerState, HISTORY_DEPTH> states_;
 
 	friend struct kaynine::Singleton<Server>;
 };

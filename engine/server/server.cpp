@@ -30,7 +30,7 @@ void Server::operator()() {
 
         // TODO: send updated views to the clients
 
-        Logic::inst().update(0);
+        Logic::inst().decide(0);
 
 
         Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter());

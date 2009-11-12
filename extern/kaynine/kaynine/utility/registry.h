@@ -124,13 +124,13 @@ public:
 protected:
 	Index()
 		: firstFree_(0), size_(0), guard_(CriticalSection::UNLOCKED) {
-			for (unsigned i = 0; i < ServerView::MAX_ENTITIES; ++i)
+			for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 				ids_[i] = i + 1;
 	}
 
 public:
 	inline const unsigned enlist() {
-		assert(size_ <= ServerView::MAX_ENTITIES);
+		assert(size_ <= ServerState::MAX_ENTITIES);
 
 		AutoLock<> lock(guard_);
 
@@ -144,7 +144,7 @@ public:
 	}
 
 	inline void dismiss(const unsigned id) {
-		assert(id <= ServerView::MAX_ENTITIES);
+		assert(id <= ServerState::MAX_ENTITIES);
 		assert(size_ >= 0);
 
 		AutoLock<> lock(guard_);

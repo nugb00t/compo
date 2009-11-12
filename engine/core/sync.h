@@ -1,8 +1,7 @@
 #ifndef SYNC_INCLUDED
 #define SYNC_INCLUDED
 
-#include "client/client_request.h"
-#include "server/server_view.h"
+#include "server/server_data.h"
 
 namespace engine {
 
@@ -14,9 +13,9 @@ const TCHAR EXIT_SIGNAL_NAME[] = _T("COMPONENTS_EXIT_SIGNAL");
 
 class Sync : public kaynine::Singleton<Sync> {
 public:
-    typedef kaynine::FrameBuffer<ClientRequest> ClientToArbiter;
-    typedef kaynine::FrameBuffer<ServerView> ArbiterToClient;
-    typedef kaynine::FrameBuffer<ServerView> ClientToVideo;
+    typedef kaynine::FrameBuffer<ServerRequests::Client> ClientToArbiter;
+    typedef kaynine::FrameBuffer<ServerState> ArbiterToClient;
+    typedef kaynine::FrameBuffer<ServerState> ClientToVideo;
 
 public:
     ClientToArbiter& clientToArbiter() { return clientToArbiterFB_; }

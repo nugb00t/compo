@@ -1,8 +1,7 @@
 #ifndef ARBITER_INTERFACE_INCLUDED
 #define ARBITER_INTERFACE_INCLUDED
 
-#include "client/client_request.h"
-#include "server/server_view.h"
+#include "server/server_data.h"
 
 namespace engine {
 
@@ -17,7 +16,7 @@ public:
     ArbiterInterface() { Arbiter::set(*this); }
 
 protected:
-    virtual void marshall(const ServerView& last, const ClientRequest& requests, ServerView& next) = 0;
+    virtual void marshall(const ServerState& last, const ServerRequests& requests, ServerState& next) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -12,14 +12,14 @@ public:
 	typedef engine::LogicComponent Type;
 
 public:
-    virtual void update(ServerView::Entity& toVideo, const unsigned msec) = 0;
+    virtual void decide(const ServerState& last, ServerRequests::Entity& request) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef boost::intrusive_ptr<LogicComponent> LogicComponentPtr;
 
-typedef kaynine::Index<ServerView::MAX_ENTITIES>::Registry<LogicComponent> LogicComponentRegistry;
+typedef kaynine::Index<ServerState::MAX_ENTITIES>::Registry<LogicComponent> LogicComponentRegistry;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -2,11 +2,12 @@
 
 #include "playground_arbiter.h"
 
+using namespace engine;
 using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameArbiter::marshall(const ServerView& /*last*/, const ClientRequest& /*requests*/, ServerView& /*next*/) {
+void GameArbiter::marshall(const ServerState& /*last*/, const ServerRequests& /*requests*/, ServerState& /*next*/) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

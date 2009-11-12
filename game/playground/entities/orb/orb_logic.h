@@ -2,6 +2,7 @@
 #define ORB_LOGIC_INCLUDED
 
 #include "logic/logic_component.h"
+#include "server/server_data.h"
 
 namespace game_playground {
 
@@ -13,7 +14,7 @@ public:
 
 public:
 	// interface: LogicComponent
-    virtual void update(engine::ServerView::Entity& toVideo, const unsigned msec);
+    virtual void decide(const engine::ServerState& last, engine::ServerRequests::Entity& request);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

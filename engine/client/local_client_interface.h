@@ -2,7 +2,7 @@
 #define LOCAL_CLIENT_INTERFACE_INCLUDED
 
 #include "input/input_data.h"
-#include "client_request.h"
+#include "server/server_data.h"
 
 namespace engine {
 
@@ -24,7 +24,7 @@ public:
 
 protected:
     // own
-    virtual void handleControls(const InputData& controls, ClientRequest& clientData) = 0;
+    virtual void handleControls(const InputData& controls, ServerRequests::Client& clientData) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

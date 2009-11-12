@@ -1,19 +1,19 @@
-#ifndef SERVER_VIEW
-#define SERVER_VIEW
+#ifndef SERVER_DATA
+#define SERVER_DATA
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct ServerView {
+struct ServerState {
     static const unsigned MAX_ENTITIES = 4096;
     static const unsigned MAX_CLIENTS = 4;
 
     struct Entity {
         Vector3 position;
         Vector3 positionalVelocity;
-        Quaternion direction;
-        Quaternion directionalVelocity;
+        Quaternion rotation;
+        Quaternion rotationalVelocity;
 
         bool active;
     };
@@ -23,6 +23,22 @@ struct ServerView {
 
     Entity entities[MAX_ENTITIES];
     Client clients[MAX_CLIENTS];
+
+    unsigned time;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct ServerRequests {
+    struct Entity {
+        Vector3 positionalVelocity;
+        Quaternion rotationalVelocity;
+    };
+
+    struct Client : Entity {};
+
+    Entity entities[ServerState::MAX_ENTITIES];
+    Client clients[ServerState::MAX_CLIENTS];
 
     unsigned time;
 };

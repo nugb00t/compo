@@ -160,7 +160,7 @@ void VideoOGL::operator()() {
 				break;
 
 			// TODO: correct dt
-			Registry<EntityVideoComponent, ServerView::MAX_ENTITIES>::update(/* correct dt */ 0);
+			Registry<EntityVideoComponent, ServerState::MAX_ENTITIES>::update(/* correct dt */ 0);
 
 			Video::inst().drawTest();
 

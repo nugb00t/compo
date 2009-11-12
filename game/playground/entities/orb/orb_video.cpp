@@ -39,7 +39,7 @@ OrbVideo::OrbVideo()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void OrbVideo::update(const ServerView::Entity& fromLogic, const unsigned UNUSED(msec)) {
+void OrbVideo::update(const ServerState::Entity& fromLogic, const unsigned UNUSED(msec)) {
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 
@@ -51,8 +51,8 @@ void OrbVideo::update(const ServerView::Entity& fromLogic, const unsigned UNUSED
 		mesh_->setBuffers(vertices_, sizeof(vertices_), sizeof(Vertex), indices_, sizeof(indices_));
 	}
 
-    // TODO: calculate matrix44 from position and direction
-    Matrix44 transform = fromLogic.;
+    // TODO: calculate matrix44 from position and rotation
+    Matrix44 transform = fromLogic.position;
     transform *= Video::inst().camera().view_projection();
 	mesh_->draw(transform);
 }

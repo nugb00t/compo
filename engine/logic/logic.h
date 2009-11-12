@@ -1,13 +1,15 @@
 #ifndef LOGIC_INCLUDED
 #define LOGIC_INCLUDED
 
+#include "server/server_data.h"
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Logic : public kaynine::Singleton<Logic> {
 public:
-	void decide(const ServerView& last, ClientRequest& requests);
+	void decide(const ServerState& last, ServerRequests& requests);
 
 	friend struct kaynine::Singleton<Logic>;
 };

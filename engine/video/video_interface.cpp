@@ -43,11 +43,11 @@ void VideoInterface::update(const unsigned msec) {
 		Sync::ClientToVideo::Readable fromLogic(Sync::inst().clientToVideo());
 
 		if (fromLogic)
-			for (unsigned i = 0; i < ServerView::MAX_ENTITIES; ++i)
+			for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 				if (EntityVideoComponentRegistry::inst().valid(i))
 					EntityVideoComponentRegistry::inst().get(i).update(fromLogic.data().entities[i], msec);
 
-		for (unsigned i = 0; i < ServerView::MAX_ENTITIES; ++i)
+		for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 			if (ScreenVideoComponentRegistry::inst().valid(i))
 				ScreenVideoComponentRegistry::inst().get(i).update(msec);
 
