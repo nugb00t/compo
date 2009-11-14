@@ -15,7 +15,7 @@ class ArbiterInterface {
 public:
     ArbiterInterface() { Arbiter::set(*this); }
 
-protected:
+	// interface: Own
     virtual void marshall(const ServerState& last, const ServerRequests& requests, ServerState& next) = 0;
 };
 

@@ -40,12 +40,11 @@ void VideoInterface::update(const unsigned msec) {
 	if (begin()) {
 		camera_->update(msec);
 
-		Sync::ClientToVideo::Readable fromLogic(Sync::inst().clientToVideo());
-
-		if (fromLogic)
+		Sync::ClientToVideo::Readable fromClient(Sync::inst().clientToVideo());
+		if (fromClient)
 			for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 				if (EntityVideoComponentRegistry::inst().valid(i))
-					EntityVideoComponentRegistry::inst().get(i).update(fromLogic.data().entities[i], msec);
+					EntityVideoComponentRegistry::inst().get(i).update(fromClient.data().entities[i], msec);
 
 		for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 			if (ScreenVideoComponentRegistry::inst().valid(i))

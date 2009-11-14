@@ -23,10 +23,10 @@ class OrbVideo : public engine::EntityVideoComponent {
 #pragma pack(pop)
 
 public:
-    OrbVideo();
+    OrbVideo() : mesh_(NULL), effect_(NULL) {}
 
 	// interface: EntityVideoComponent
-	virtual void update(const engine::ServerState::Entity& fromLogic, const unsigned msec);
+	virtual void update(const engine::ServerState::Entity& fromClient, const unsigned msec);
 
 private:
 	static const Vertex vertices_[];

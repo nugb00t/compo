@@ -17,6 +17,11 @@ void LocalClientInterface::update(const unsigned /*msec*/) {
 	Sync::ClientToArbiter::Writable toArbiter(Sync::inst().clientToArbiter());
 	if (toArbiter)
 		handleControls(Input::inst().controls(), toArbiter.data());
+
+	Sync::ArbiterToClient::Readable fromArbiter(Sync::inst().arbiterToClient());
+	Sync::ClientToVideo::Writable toVideo(Sync::inst().clientToVideo());
+	if (fromArbiter && toVideo)
+		showWorld(fromArbiter.data(), toVideo.data());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

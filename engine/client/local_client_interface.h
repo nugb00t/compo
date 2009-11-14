@@ -24,7 +24,8 @@ public:
 
 protected:
     // own
-    virtual void handleControls(const InputData& controls, ServerRequests::Client& clientData) = 0;
+	virtual void handleControls(const InputData& controls, ServerRequests::Client& request) = 0;
+	virtual void showWorld(const ServerState& fromArbiter, ServerState& toVideo) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

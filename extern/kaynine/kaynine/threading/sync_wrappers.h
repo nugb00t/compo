@@ -131,7 +131,7 @@ public:
 
 class Timer {
 public:
-	Timer(const unsigned period, TIMERPROC func = NULL, HWND wnd = NULL, unsigned timer = 0) 
+	Timer(const unsigned period, HWND wnd = NULL, TIMERPROC func = NULL, unsigned timer = 0) 
 		: wnd_(wnd), timer_(::SetTimer(wnd, timer, period, func)) {
 			assert(timer_);
 	}

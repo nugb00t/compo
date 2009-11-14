@@ -22,20 +22,20 @@ void Server::operator()() {
 	for (wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
         Profiler::StopWatch stopWatch(Profiler::SERVER);
 
-        // TODO: gather logic requests
+		states_.advance(States::CLEAR_FRAME);
+		requests_.advance(Requests::CLEAR_FRAME);
 
-        // TODO: gather client requests
+		Logic::inst().decide(states_.get(-1), requests_.get());
 
-        // TODO: let arbiter sort 'em out
+		Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter());
+		if (fromClient)
+			requests_.get().clients[0] = fromClient.data();
 
-        // TODO: send updated views to the clients
+		Arbiter::inst().marshall(states_.get(-1), requests_.get(), states_.get());
 
-        Logic::inst().decide(0);
-
-
-        Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter());
-        if (fromClient)
-            Arbiter::inst().marshall(fromClient.data());
+		Sync::ArbiterToClient::Writable toClient(Sync::inst().arbiterToClient());
+		if (toClient)
+			toClient.data() = states_.get();
 	}
 	assert(wait != WAIT_FAILED);
 }

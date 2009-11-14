@@ -7,7 +7,13 @@ using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameArbiter::marshall(const ServerState& /*last*/, const ServerRequests& /*requests*/, ServerState& /*next*/) {
+void GameArbiter::marshall(const ServerState& last, const ServerRequests& requests, ServerState& next) {
+	// TODO: move clients
+
+	for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i) {
+		next.entities[i].rotation = last.entities[i].rotation * requests.entities[i].rotationalVelocity;
+		next.entities[i].position = last.entities[i].position + requests.entities[i].positionalVelocity;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,6 +8,7 @@
 
 #include "core/sync.h"
 #include "core/time.h"
+#include "window/window_interface.h"
 
 using namespace engine;
 
@@ -19,7 +20,9 @@ void MessageSinkW51::operator()() {
 
 	InputW51::inst();
 
-	kaynine::Timer clientTimer(unsigned(1000.f / LocalClientInterface::FRAMERATE));
+	// this needs a proper sync
+	assert(Window::inst().handle());
+	kaynine::Timer clientTimer(unsigned(1000.f / LocalClientInterface::FRAMERATE), Window::inst().handle());
 
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
 	MSG	msg;

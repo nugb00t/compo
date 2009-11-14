@@ -29,9 +29,7 @@ MeshD3D9::~MeshD3D9() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void MeshD3D9::draw(const Matrix44& transform) {
-	assert(effect_);
-	assert(effect_);
-	assert(effect_);
+	assert(vertexBuffer_ && indexBuffer_ && verticesCapacity_ && indicesCapacity_ && effect_);
 
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetStreamSource(0, vertexBuffer_, 0, vertexSize_));
 	CHECKED_D3D_CALL(VideoDX::inst().device().SetIndices(indexBuffer_));
@@ -48,10 +46,7 @@ void MeshD3D9::draw(const Matrix44& transform) {
 
 void MeshD3D9::setBuffers(const void* const vertices, const unsigned verticesSize, const unsigned vertexSize, 
 						const short* const indices, const unsigned indicesSize) {
-	assert(vertices);
-	assert(indices);
-	assert(verticesSize);
-	assert(indicesSize);
+	assert(vertices && indices && verticesSize && indicesSize);
 
 	// vertex buffer
 	if (vertexBuffer_ && verticesSize > verticesCapacity_)

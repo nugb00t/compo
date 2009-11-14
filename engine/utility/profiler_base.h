@@ -59,7 +59,8 @@ protected:
 		assert(id < TTrackerCount);
 
 		kaynine::AutoLock<> lock(guard_);
-		trackers_[id].add(Period(begin, end));
+		trackers_[id].advance();
+		trackers_[id].get() = Period(begin, end);
 	}
 
 private:
