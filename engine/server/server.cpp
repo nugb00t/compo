@@ -27,6 +27,7 @@ void Server::operator()() {
         Profiler::StopWatch stopWatch(Profiler::SERVER);
 
 		states_.advance(States::CLEAR_FRAME);
+		memset(&requests, 0, sizeof(requests));
 
 		Logic::inst().decide(states_.get(-1), requests);
 
@@ -48,8 +49,11 @@ void Server::operator()() {
 void Server::spawn() {
 	states_.get().entities[0].rotation.identity();
 	states_.get().entities[0].rotationalVelocity.identity();
-
 	states_.get().entities[0].active = true;
+
+	states_.get().clients[0].rotation.identity();
+	states_.get().clients[0].rotationalVelocity.identity();
+	states_.get().clients[0].active = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

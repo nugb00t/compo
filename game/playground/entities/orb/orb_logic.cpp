@@ -11,7 +11,7 @@ void OrbLogic::decide(const ServerState& /*last*/, ServerRequests::Entity& reque
 	request.positionalVelocity.zero();
 
 	request.rotationalVelocity.identity();
-	cml::quaternion_rotation_euler(request.rotationalVelocity, 0.3f, 0.f, 0.f, cml::euler_order_xyz);
+	cml::quaternion_rotation_euler(request.rotationalVelocity, 0.f, 0.f, 0.3f, cml::euler_order_xyz);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
