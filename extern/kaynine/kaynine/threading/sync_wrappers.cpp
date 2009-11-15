@@ -20,22 +20,6 @@ CriticalSection::~CriticalSection() {
 	::DeleteCriticalSection(&cs_);	
 }
 
-bool CriticalSection::tryLock() {	
-	return ::TryEnterCriticalSection(&cs_) == TRUE;	
-}
-
-void CriticalSection::lock() {	
-	::EnterCriticalSection(&cs_);
-}
-
-void CriticalSection::unlock() {	
-	::LeaveCriticalSection(&cs_);
-}
-
-bool CriticalSection::isLocked() {	
-	return cs_.LockCount >= 0;
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Handle::Handle(const HANDLE handle, const bool takeOwnership)

@@ -8,8 +8,10 @@ using namespace game_playground;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void OrbLogic::decide(const ServerState& /*last*/, ServerRequests::Entity& request) {
+	request.positionalVelocity.zero();
+
 	request.rotationalVelocity.identity();
-	cml::quaternion_rotation_euler(request.rotationalVelocity, 0.1f, 0.f, 0.f, cml::euler_order_xyz);
+	cml::quaternion_rotation_euler(request.rotationalVelocity, 0.3f, 0.f, 0.f, cml::euler_order_xyz);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -66,7 +66,7 @@ void InputW51::unbuffered(const HRAWINPUT handle, const unsigned now) {
 	// read raw input
 	unsigned size = sizeof(raw);
 	const unsigned read = ::GetRawInputData(handle, RID_INPUT, &raw, &size, sizeof(RAWINPUTHEADER));
-	assert(read == size);
+	assert(read <= size);
 
 	process(raw, now);
 }

@@ -46,11 +46,11 @@ public:
 	explicit CriticalSection(const LOCK_STATE state = UNLOCKED);
 	~CriticalSection();
 
-	bool tryLock();
-	void lock();
-	void unlock();
+	inline bool tryLock() { return ::TryEnterCriticalSection(&cs_) == TRUE; }
+	inline void lock() { ::EnterCriticalSection(&cs_); }
+	inline void unlock() { ::LeaveCriticalSection(&cs_); }
 
-	bool isLocked();
+	inline bool isLocked() { return cs_.LockCount >= 0; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

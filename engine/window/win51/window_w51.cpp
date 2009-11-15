@@ -144,7 +144,7 @@ bool WindowW51::create(const unsigned width,
 	::ShowWindow(window_, SW_SHOW);
 	::SetForegroundWindow(window_);
 	::SetFocus(window_);
-	::ShowCursor(FALSE);
+	//::ShowCursor(FALSE);
 
 	context_ = ::GetDC(window_);
 	return context_ != 0;

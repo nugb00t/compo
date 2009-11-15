@@ -12,15 +12,16 @@ class Server : public Callable, public kaynine::Singleton<Server> {
     static const unsigned HISTORY_DEPTH = 4;
 
 	typedef kaynine::CyclicBuffer<ServerState, HISTORY_DEPTH> States;
-	typedef kaynine::CyclicBuffer<ServerRequests, HISTORY_DEPTH> Requests;
 
 public:
 	// interface: Callable
 	virtual void operator()();
 
+protected:
+	void spawn();
+
 private:
 	States states_;
-	Requests requests_;
 
 	friend struct kaynine::Singleton<Server>;
 };
