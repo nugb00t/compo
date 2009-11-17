@@ -77,30 +77,28 @@ public:
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 private:
-	enum CONSTANTS {
-		FRAME_INVALID = -1,
-		NUM_FRAMES = 3,
-	};
+	static const int INVALID_FRAME = -1;
+	static const int FRAME_COUNT = 3;
 
 public:
 	FrameBuffer();
 
 private:
-	bool lockWritable();
+	const bool lockWritable();
 	TContents* getWritable();
 	void unlockWritable();
 
-	bool lockReadable() const;
+	const bool lockReadable() const;
 	const TContents* getReadable() const;
 	void unlockReadable() const;
 
 private:
 	// shared data
-	TContents	contents_[NUM_FRAMES];
-	int			timeline_[NUM_FRAMES];		//< Timeline array holds frame indexes from newest to oldest order.
-	bool		initialized_[NUM_FRAMES];
-	mutable int	reading_;
+	TContents			contents_[FRAME_COUNT];
+
 	int			writing_;
+	mutable int fresh_;
+	mutable int	reading_;
 
 	mutable CriticalSection		guard_;
 };
@@ -109,33 +107,24 @@ private:
 
 template <class TContents>
 FrameBuffer<TContents>::FrameBuffer()
-	: reading_(FRAME_INVALID), writing_(FRAME_INVALID) {
-		for (int i = 0; i < NUM_FRAMES; ++i) {
-			timeline_[i] = i;
-			initialized_[i] = false;
-		}
-}
+	: writing_(INVALID_FRAME), fresh_(INVALID_FRAME), reading_(INVALID_FRAME) {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class TContents>
-bool FrameBuffer<TContents>::lockWritable() {
+const bool FrameBuffer<TContents>::lockWritable() {
 	AutoLock<> lock(guard_);
 
-	// writing in progress
-	if (writing_ != FRAME_INVALID)
-		return false;
+	assert(writing_ == INVALID_FRAME);
 
 	// pick oldest frame
-	for (int iTime = NUM_FRAMES - 1; iTime >= 0; --iTime)
-		if (timeline_[iTime] != reading_) {
-			writing_ = timeline_[iTime];
+	for (int i = 0; i < FRAME_COUNT; ++i)
+		if (i != reading_ && i != fresh_) {
+			writing_ = i;
 			break;
 		}
 
-	assert(0 <= writing_ && writing_ < NUM_FRAMES);
-
-	return writing_ != FRAME_INVALID;
+	return writing_ != INVALID_FRAME;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,12 +133,9 @@ template <class TContents>
 TContents* FrameBuffer<TContents>::getWritable() {
 	AutoLock<> lock(guard_);
 
-	assert(0 <= writing_ && writing_ < NUM_FRAMES);
+	assert(0 <= writing_ && writing_ < FRAME_COUNT);
 
-	if (writing_ == FRAME_INVALID)
-		return NULL;
-	else
-		return &contents_[writing_];
+	return &contents_[writing_];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,42 +144,24 @@ template <class TContents>
 void FrameBuffer<TContents>::unlockWritable() {
 	AutoLock<> lock(guard_);
 
-	assert(0 <= timeline_[0] && timeline_[0] < NUM_FRAMES);
+	assert(0 <= writing_ && writing_ < FRAME_COUNT);
 
-	if (writing_ != FRAME_INVALID) {
-		// find age index
-		int iTime;
-		for (iTime = 0; iTime < NUM_FRAMES; ++iTime)
-			if (timeline_[iTime] == writing_)
-				break;
-
-		// shift other frames' ages
-		for (int i = iTime - 1; i >= 0; --i)
-			timeline_[i + 1] = timeline_[i];
-
-		timeline_[0] = writing_;
-		initialized_[writing_] = true;
-		writing_ = FRAME_INVALID;
-	}
+	fresh_ = writing_;
+	writing_ = INVALID_FRAME;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class TContents>
-bool FrameBuffer<TContents>::lockReadable() const {
+const bool FrameBuffer<TContents>::lockReadable() const {
 	AutoLock<> lock(guard_);
 
-	if (reading_ != FRAME_INVALID)
-		return false;
+	assert(reading_ == INVALID_FRAME);
 
-	// pick newest
-	for (int iTime = 0; iTime < NUM_FRAMES; ++iTime)
-		if (timeline_[iTime] != writing_ && initialized_[timeline_[iTime]]) {
-			reading_ = timeline_[iTime];
-			break;
-		}
+	reading_ = fresh_;
+	fresh_ = INVALID_FRAME;
 
-	return reading_ != FRAME_INVALID;
+	return reading_ != INVALID_FRAME;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,10 +170,9 @@ template <class TContents>
 const TContents* FrameBuffer<TContents>::getReadable() const {
 	AutoLock<> lock(guard_);
 
-	if (reading_ == FRAME_INVALID)
-		return NULL;
-	else
-		return &contents_[reading_];
+	assert(0 <= reading_ && reading_ < FRAME_COUNT);
+
+	return &contents_[reading_];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -214,7 +181,9 @@ template <class TContents>
 void FrameBuffer<TContents>::unlockReadable() const {
 	AutoLock<> lock(guard_);
 
-	reading_ = FRAME_INVALID;
+	assert(0 <= reading_ && reading_ < FRAME_COUNT);
+
+	reading_ = INVALID_FRAME;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
