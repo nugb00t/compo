@@ -29,9 +29,9 @@ void MessageSinkW51::operator()() {
 
 	while (!exitSignal.isSet())
 		while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-			if (msg.message == WM_QUIT) {
+			if (msg.message == WM_QUIT)
 				exitSignal.set();
-			} else {
+			else {
 				::TranslateMessage(&msg);
 				::DispatchMessage(&msg);
 			}
