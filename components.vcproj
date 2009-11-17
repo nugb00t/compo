@@ -354,10 +354,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\engine\core\sync.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\engine\core\sync.h"
 					>
 				</File>
@@ -593,10 +589,6 @@
 			<Filter
 				Name="arbiter"
 				>
-				<File
-					RelativePath=".\engine\arbiter\arbiter_interface.cpp"
-					>
-				</File>
 				<File
 					RelativePath=".\engine\arbiter\arbiter_interface.h"
 					>

@@ -16,23 +16,20 @@ using namespace engine;
 void Server::operator()() {
 	kaynine::WaitableTimer timer(unsigned(1000.f / FRAMERATE));
 	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
-	kaynine::MultipleObjects objects(timer, exitSignal);
+	kaynine::MultipleObjects objects(exitSignal, timer);
 
 	states_.advance(States::CLEAR_FRAME);
 	spawn();
 
 	unsigned wait;
 	ServerRequests requests;
-	for (wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
-		if (exitSignal.isSet())
-			break;
-
+	for (wait = WAIT_OBJECT_0 + 1; wait != WAIT_OBJECT_0; wait = objects.waitAny()) {
         Profiler::StopWatch stopWatch(Profiler::SERVER);
 
 		states_.advance(States::CLEAR_FRAME);
 		memset(&requests, 0, sizeof(requests));
 
-		Logic::inst().decide(states_.get(-1), requests);
+		Logic::inst().decide(states_.get(-1), requests.entities);
 
 		Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter());
 		if (fromClient)

@@ -9,7 +9,7 @@ namespace engine {
 
 class Logic : public kaynine::Singleton<Logic> {
 public:
-	void decide(const ServerState& last, ServerRequests& requests);
+	void decide(const ServerState& last, ServerRequests::Entity entities[ServerState::MAX_ENTITIES]);
 
 	friend struct kaynine::Singleton<Logic>;
 };

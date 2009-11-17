@@ -33,6 +33,8 @@ struct ServerRequests {
     struct Entity {
         Vector3 positionalVelocity;
         Quaternion rotationalVelocity;
+
+		bool valid;
     };
 
     struct Client : Entity {};

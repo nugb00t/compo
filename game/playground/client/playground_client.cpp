@@ -12,10 +12,14 @@ namespace {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameClient::handleControls(const InputData& controls, ServerRequests::Client& request) {
+	assert(!request.valid);
+
 	const float x = (float)controls.axis[InputData::MOUSE_X].events[0].value / AXIS_SCALE;
 	const float y = (float)controls.axis[InputData::MOUSE_Y].events[0].value / AXIS_SCALE;
 
 	request.positionalVelocity = Vector3(x, y, 0.f);
+
+	request.valid = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

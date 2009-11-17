@@ -9,12 +9,12 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Logic::decide(const ServerState& last, ServerRequests& requests) {
+void Logic::decide(const ServerState& last, ServerRequests::Entity entities[ServerState::MAX_ENTITIES]) {
     Profiler::StopWatch stopWatch(Profiler::SERVER_LOGIC);
 
 	for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 		if (LogicComponentRegistry::inst().valid(i))
-			LogicComponentRegistry::inst().get(i).decide(last, requests.entities[i]);
+			LogicComponentRegistry::inst().get(i).decide(last, entities[i]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

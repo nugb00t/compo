@@ -19,13 +19,10 @@ void VideoInterface::operator()() {
 
 		kaynine::WaitableTimer timer(unsigned(1000.f / FRAMERATE));
 		kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
-		kaynine::MultipleObjects objects(timer, exitSignal);
+		kaynine::MultipleObjects objects(exitSignal, timer);
 
 		unsigned wait;
-		for (wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
-			if (exitSignal.isSet())
-				break;
-
+		for (wait = WAIT_OBJECT_0 + 1; wait != WAIT_OBJECT_0; wait = objects.waitAny()) {
 			Profiler::StopWatch stopWatch(Profiler::VIDEO);
 			Video::inst().update(0);
 		}

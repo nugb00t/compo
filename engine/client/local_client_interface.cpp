@@ -15,8 +15,10 @@ void LocalClientInterface::update(const unsigned /*msec*/) {
     Profiler::StopWatch stopWatch(Profiler::LOCAL_CLIENT);
 
 	Sync::ClientToArbiter::Writable toArbiter(Sync::inst().clientToArbiter());
-	if (toArbiter)
+	if (toArbiter) {
+		memset(&toArbiter.data(), 0, sizeof(toArbiter.data()));
 		handleControls(Input::inst().controls(), toArbiter.data());
+	}
 
 	Sync::ArbiterToClient::Readable fromArbiter(Sync::inst().arbiterToClient());
 	Sync::ClientToVideo::Writable toVideo(Sync::inst().clientToVideo());
