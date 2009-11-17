@@ -18,11 +18,14 @@ void VideoInterface::operator()() {
 		assert(camera_);
 
 		kaynine::WaitableTimer timer(unsigned(1000.f / FRAMERATE));
-		kaynine::Event signal(EXIT_SIGNAL_NAME);
-		kaynine::MultipleObjects objects(timer, signal);
+		kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
+		kaynine::MultipleObjects objects(timer, exitSignal);
 
 		unsigned wait;
 		for (wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
+			if (exitSignal.isSet())
+				break;
+
 			Profiler::StopWatch stopWatch(Profiler::VIDEO);
 			Video::inst().update(0);
 		}

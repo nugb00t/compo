@@ -15,8 +15,8 @@ using namespace engine;
 
 void Server::operator()() {
 	kaynine::WaitableTimer timer(unsigned(1000.f / FRAMERATE));
-	kaynine::Event signal(EXIT_SIGNAL_NAME);
-	kaynine::MultipleObjects objects(timer, signal);
+	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
+	kaynine::MultipleObjects objects(timer, exitSignal);
 
 	states_.advance(States::CLEAR_FRAME);
 	spawn();
@@ -24,6 +24,9 @@ void Server::operator()() {
 	unsigned wait;
 	ServerRequests requests;
 	for (wait = WAIT_OBJECT_0; wait == WAIT_OBJECT_0; wait = objects.waitAny()) {
+		if (exitSignal.isSet())
+			break;
+
         Profiler::StopWatch stopWatch(Profiler::SERVER);
 
 		states_.advance(States::CLEAR_FRAME);

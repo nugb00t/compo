@@ -170,20 +170,20 @@ public:
 	}
 
 	MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2, const Handle& h3)
-		: count_(3) {
+		: count_(4) {
 			handles_[0] = h0.handle();
 			handles_[1] = h1.handle();
 			handles_[2] = h2.handle();
 			handles_[3] = h3.handle();
 	}
 
-	unsigned waitAll(unsigned msec = INFINITE) { return ::WaitForMultipleObjects(count_, handles_, TRUE, msec); }
-	unsigned waitAny(unsigned msec = INFINITE) { return ::WaitForMultipleObjects(count_, handles_, FALSE, msec); }
+	inline unsigned waitAll(unsigned msec = INFINITE) { return ::WaitForMultipleObjects(count_, handles_, TRUE, msec); }
+	inline unsigned waitAny(unsigned msec = INFINITE) { return ::WaitForMultipleObjects(count_, handles_, FALSE, msec); }
 
-	unsigned areSetAll() { return waitAll(0); }
-	unsigned areSetAny() { return waitAny(0); }
+	inline unsigned areSetAll() { return waitAll(0); }
+	inline unsigned areSetAny() { return waitAny(0); }
 
-	HANDLE operator[] (const unsigned i) {
+	const HANDLE operator[] (const unsigned i) const {
 		assert(i < count_);
 		return handles_[i];
 	}
