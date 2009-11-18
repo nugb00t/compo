@@ -28,9 +28,6 @@ public:
 
 	class Readable : public safe_bool<> {
 	public:
-		typedef TContents CONTENTS_TYPE;
-
-	public:
 		explicit Readable(const FrameBuffer& frameBuffer)
 			: frameBuffer_(frameBuffer), initialized_(frameBuffer_.lockReadable()) {}
 
@@ -52,9 +49,6 @@ public:
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	class Writable : public safe_bool<>  {
-	public:
-		typedef TContents CONTENTS_TYPE;
-
 	public:
 		explicit Writable(FrameBuffer& frameBuffer) 
 			: frameBuffer_(frameBuffer), initialized_(frameBuffer_.lockWritable()) {}
@@ -123,6 +117,8 @@ const bool FrameBuffer<TContents>::lockWritable() {
 			writing_ = i;
 			break;
 		}
+
+	assert(writing_ != INVALID_FRAME);
 
 	return writing_ != INVALID_FRAME;
 }
