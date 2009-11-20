@@ -19,7 +19,7 @@ InputW51::InputW51() {
 		{ 0x01, 0x06, RIDEV_NOLEGACY, NULL }		// keyboard
 	};
 
-	CHECKED_WIN_CALL(::RegisterRawInputDevices(rid, 2, sizeof(rid[0])));
+	CHECKED_CALL(::RegisterRawInputDevices(rid, 2, sizeof(rid[0])));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

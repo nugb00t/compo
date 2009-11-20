@@ -31,13 +31,13 @@ MeshD3D9::~MeshD3D9() {
 void MeshD3D9::draw(const Matrix44& transform) {
 	assert(vertexBuffer_ && indexBuffer_ && verticesCapacity_ && indicesCapacity_ && effect_);
 
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetStreamSource(0, vertexBuffer_, 0, vertexSize_));
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetIndices(indexBuffer_));
+	CHECKED_D3D_CALL(VideoD3D9::inst().device().SetStreamSource(0, vertexBuffer_, 0, vertexSize_));
+	CHECKED_D3D_CALL(VideoD3D9::inst().device().SetIndices(indexBuffer_));
 
     effect_->setTransform(transform);
 	effect_->begin();
 
-	CHECKED_D3D_CALL(VideoDX::inst().device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, verticesSize_ / vertexSize_, 0, indicesSize_ / (3 * sizeof(short))));
+	CHECKED_D3D_CALL(VideoD3D9::inst().device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, verticesSize_ / vertexSize_, 0, indicesSize_ / (3 * sizeof(short))));
 
 	effect_->end();
 }
@@ -53,7 +53,7 @@ void MeshD3D9::setBuffers(const void* const vertices, const unsigned verticesSiz
 		vertexBuffer_->Release();
 
 	if (!vertexBuffer_) {
-		CHECKED_D3D_CALL(VideoDX::inst().device().CreateVertexBuffer(verticesSize, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &vertexBuffer_, NULL));
+		CHECKED_D3D_CALL(VideoD3D9::inst().device().CreateVertexBuffer(verticesSize, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &vertexBuffer_, NULL));
 		verticesCapacity_ = verticesSize;
 	}
 
@@ -69,7 +69,7 @@ void MeshD3D9::setBuffers(const void* const vertices, const unsigned verticesSiz
 		indexBuffer_->Release();
 
 	if (!indexBuffer_) {
-		CHECKED_D3D_CALL(VideoDX::inst().device().CreateIndexBuffer(indicesSize, 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &indexBuffer_, NULL));
+		CHECKED_D3D_CALL(VideoD3D9::inst().device().CreateIndexBuffer(indicesSize, 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &indexBuffer_, NULL));
 		indicesCapacity_ = indicesSize;
 	}
 

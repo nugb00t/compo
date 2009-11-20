@@ -86,8 +86,8 @@ public:
 
 	Handle& operator =(const HANDLE handle);
 
-	bool isSet() const;
-	unsigned wait(unsigned dwMilliseconds = INFINITE);
+	const bool isSet() const;
+	const unsigned wait(unsigned dwMilliseconds = INFINITE) const;
 
 protected:
 	const HANDLE handle() const;
@@ -120,10 +120,10 @@ public:
 class WaitableTimer : public Handle {
 public:
 	WaitableTimer();
-	WaitableTimer(const long period, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
+	WaitableTimer(const unsigned period, const unsigned delay = 1, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
 	~WaitableTimer();
 
-	bool set(const long period, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
+	bool set(const unsigned period, const unsigned delay = 1, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
 	bool cancel();
 };
 
@@ -136,9 +136,7 @@ public:
 			assert(timer_);
 	}
 
-	~Timer() {
-		::KillTimer(wnd_, timer_);
-	}
+	~Timer() { ::KillTimer(wnd_, timer_); }
 
 private:
 	HWND wnd_;
@@ -147,49 +145,49 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class MultipleObjects {
-	MultipleObjects& operator=(const MultipleObjects&);
+class Handles {
+    static const unsigned HANDLE_COUNT = 4;
 
 public:
-	MultipleObjects(const Handle& h0) 
-		: count_(1) {
-			handles_[0] = h0.handle();
-	}
+    Handles(const HANDLE h0);
+    Handles(const HANDLE h0, const HANDLE h1);
+    Handles(const HANDLE h0, const HANDLE h1, const HANDLE h2);
+    Handles(const HANDLE h0, const HANDLE h1, const HANDLE h2, const HANDLE h3);
 
-	MultipleObjects(const Handle& h0, const Handle& h1)
-		: count_(2) {
-			handles_[0] = h0.handle();
-			handles_[1] = h1.handle();
-	}
-
-	MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2)
-		: count_(3) {
-			handles_[0] = h0.handle();
-			handles_[1] = h1.handle();
-			handles_[2] = h2.handle();
-	}
-
-	MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2, const Handle& h3)
-		: count_(4) {
-			handles_[0] = h0.handle();
-			handles_[1] = h1.handle();
-			handles_[2] = h2.handle();
-			handles_[3] = h3.handle();
-	}
-
-	inline unsigned waitAll(unsigned msec = INFINITE) { return ::WaitForMultipleObjects(count_, handles_, TRUE, msec); }
-	inline unsigned waitAny(unsigned msec = INFINITE) { return ::WaitForMultipleObjects(count_, handles_, FALSE, msec); }
-
-	inline unsigned areSetAll() { return waitAll(0); }
-	inline unsigned areSetAny() { return waitAny(0); }
-
-	const HANDLE operator[] (const unsigned i) const {
-		assert(i < count_);
-		return handles_[i];
-	}
+    ~Handles();
 
 private:
-	HANDLE handles_[4];
+    Handles& operator=(const Handles&);
+
+public:
+    inline const unsigned waitAll(unsigned msec = INFINITE) const { return ::WaitForMultipleObjects(count_, handles_, TRUE, msec); }
+    inline const unsigned waitAny(unsigned msec = INFINITE) const { return ::WaitForMultipleObjects(count_, handles_, FALSE, msec); }
+
+private:
+    HANDLE handles_[HANDLE_COUNT];
+    const unsigned count_;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class MultipleObjects {
+    static const unsigned HANDLE_COUNT = 4;
+
+public:
+	MultipleObjects(const Handle& h0);
+	MultipleObjects(const Handle& h0, const Handle& h1);
+	MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2);
+	MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2, const Handle& h3);
+
+private:
+    MultipleObjects& operator=(const MultipleObjects&);
+
+public:
+	inline const unsigned waitAll(unsigned msec = INFINITE) const { return ::WaitForMultipleObjects(count_, handles_, TRUE, msec); }
+	inline const unsigned waitAny(unsigned msec = INFINITE) const { return ::WaitForMultipleObjects(count_, handles_, FALSE, msec); }
+
+private:
+	HANDLE handles_[HANDLE_COUNT];
 	const unsigned count_;
 };
 

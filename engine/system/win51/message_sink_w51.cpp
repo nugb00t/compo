@@ -14,29 +14,33 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MessageSinkW51::operator()() {
-	window_ = new WindowW51(&MessageSinkW51::messageHandler);
+DWORD WINAPI MessageSinkW51::threadFunc(void* something) {
+    assert(something);
+    Params* params = reinterpret_cast<Params*>(something);
+
+    WindowW51Ptr window_ = new WindowW51(&MessageSinkW51::messageHandler);
 	CHECKED_CALL(window_->create(800, 600, 32, 0, false));
 
 	InputW51::inst();
 
 	// this needs a proper sync
 	assert(Window::inst().handle());
-	kaynine::Timer clientTimer(unsigned(1000.f / LocalClientInterface::FRAMERATE), Window::inst().handle());
+	kaynine::Timer clientTimer(params->period, Window::inst().handle());
 
-	kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
 	MSG	msg;
 
-	while (!exitSignal.isSet())
+	while (!params->signal.isSet())
 		while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			if (msg.message == WM_QUIT)
-				exitSignal.set();
+				params->signal.set();
 			else {
 				::TranslateMessage(&msg);
 				::DispatchMessage(&msg);
 			}
 
 	window_->destroy();
+
+    return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,7 +87,7 @@ LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wPa
 				break;
 
 		case WM_TIMER: // 0x0113
-			LocalClient::inst().update(Time::inst().msec());
+			LocalClient::inst().update();
 			break;
 
 		case WM_INPUT: // 0x00FF

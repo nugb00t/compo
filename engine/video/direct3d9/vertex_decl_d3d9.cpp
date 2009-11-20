@@ -43,7 +43,7 @@ VertexDeclPtr VertexDeclD3D9::get(const Type type) {
 
 VertexDeclD3D9::VertexDeclD3D9(const Type type)
 : vertexDecl_(NULL) {
-	CHECKED_D3D_CALL(VideoDX::inst().device().CreateVertexDeclaration(ELEMENTS[type], &vertexDecl_));
+	CHECKED_D3D_CALL(VideoD3D9::inst().device().CreateVertexDeclaration(ELEMENTS[type], &vertexDecl_));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ VertexDeclD3D9::~VertexDeclD3D9() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VertexDeclD3D9::activate() {
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetVertexDeclaration(vertexDecl_));
+	CHECKED_D3D_CALL(VideoD3D9::inst().device().SetVertexDeclaration(vertexDecl_));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

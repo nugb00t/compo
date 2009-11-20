@@ -272,6 +272,10 @@
 						RelativePath=".\extern\kaynine\kaynine\threading\sync_wrappers.h"
 						>
 					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\threading\thread.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="utility"
@@ -306,6 +310,14 @@
 					>
 					<File
 						RelativePath=".\extern\kaynine\kaynine\memory\intrusive_ptr_base.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="debug"
+					>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\debug\macros.h"
 						>
 					</File>
 				</Filter>
@@ -497,10 +509,6 @@
 			<Filter
 				Name="system"
 				>
-				<File
-					RelativePath=".\engine\system\message_sink_interface.h"
-					>
-				</File>
 				<Filter
 					Name="win51"
 					>

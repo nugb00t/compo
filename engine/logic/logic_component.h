@@ -1,7 +1,7 @@
 #ifndef LOGIC_COMPONENT_INCLUDED
 #define LOGIC_COMPONENT_INCLUDED
 
-#include "core/sync.h"
+#include "server/server_data.h"
 
 namespace engine {
 

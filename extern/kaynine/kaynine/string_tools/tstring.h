@@ -42,14 +42,6 @@ typedef std::basic_ofstream<TCHAR>		tofstream;
 typedef std::basic_string<TCHAR>		tstring;
 
 
-// DEBUG macros
-#ifdef _DEBUG
-# define DEBUG_ONLY(f)      (f)
-#else
-# define DEBUG_ONLY(f)		((void)0)
-#endif
-
-
 #endif //_KN_TCHAR_INCLUDED_
 
 

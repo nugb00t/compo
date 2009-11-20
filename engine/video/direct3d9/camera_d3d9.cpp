@@ -32,7 +32,7 @@ CameraD3D9::CameraD3D9()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CameraD3D9::update(const unsigned UNUSED(msec)) {
+void CameraD3D9::update() {
 	D3DXMatrixLookAtLH(view_projection_.d3dMatrix(), &pos_, &lookAt_, &up_);
 
 	Matrix44 projection;

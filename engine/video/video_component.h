@@ -12,12 +12,12 @@ public:
 	typedef engine::EntityVideoComponent Type;
 
 public:
-    virtual void update(const ServerState::Entity& fromLogic, const unsigned msec) = 0;
+    virtual void update(const ServerState::Entity& fromLogic) = 0;
 };
 
 typedef boost::intrusive_ptr<EntityVideoComponent> EntityVideoComponentPtr;
 
-typedef kaynine::Index<ServerState::MAX_ENTITIES>::Registry<EntityVideoComponent> EntityVideoComponentRegistry;
+typedef kaynine::Index<ServerState::MAX_ENTITIES>::Registry<EntityVideoComponent> VideoComponentRegistry;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +26,7 @@ public:
 	typedef engine::ScreenVideoComponent Type;
 
 public:
-	virtual void update(const unsigned msec) = 0;
+	virtual void update() = 0;
 };
 
 typedef boost::intrusive_ptr<ScreenVideoComponent> ScreenVideoComponentPtr;

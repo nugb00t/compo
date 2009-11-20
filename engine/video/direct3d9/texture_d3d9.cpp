@@ -13,7 +13,7 @@ TextureD3D9::TextureD3D9(const TCHAR* const path)
 : texture_(NULL), path_(path) {
 	assert(path);
 
-	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&VideoDX::inst().device(), path, &texture_));
+	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&VideoD3D9::inst().device(), path, &texture_));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ TextureD3D9::~TextureD3D9() {
 void TextureD3D9::activate(const unsigned stage) {
 	assert(texture_);
 
-	CHECKED_D3D_CALL(VideoDX::inst().device().SetTexture(stage, texture_));
+	CHECKED_D3D_CALL(VideoD3D9::inst().device().SetTexture(stage, texture_));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

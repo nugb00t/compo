@@ -12,7 +12,7 @@ public:
 	CameraD3D9();
 
 	// interface: Updatable
-	virtual void update(const unsigned msec);
+	virtual void update();
 
 	// interface: Camera
 	virtual const Matrix44& view_projection() const;

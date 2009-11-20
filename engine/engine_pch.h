@@ -54,12 +54,14 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <kaynine/debug/macros.h>
 #include <kaynine/utility/holder.h>
 #include <kaynine/utility/registry.h>
 #include <kaynine/containers/cyclic_buffer.h>
 #include <kaynine/filesystem/tools.h>
 #include <kaynine/memory/intrusive_ptr_base.h>
 #include <kaynine/threading/frame_buffer.h>
+#include <kaynine/threading/thread.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

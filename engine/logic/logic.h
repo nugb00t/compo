@@ -1,7 +1,7 @@
 #ifndef LOGIC_INCLUDED
 #define LOGIC_INCLUDED
 
-#include "server/server_data.h"
+#include "logic_component.h"
 
 namespace engine {
 
@@ -12,6 +12,9 @@ public:
 	void decide(const ServerState& last, ServerRequests::Entity entities[ServerState::MAX_ENTITIES]);
 
 	friend struct kaynine::Singleton<Logic>;
+
+private:
+    LogicComponentRegistry registry_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

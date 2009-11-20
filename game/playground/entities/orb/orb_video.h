@@ -26,7 +26,7 @@ public:
     OrbVideo() : mesh_(NULL), effect_(NULL) {}
 
 	// interface: EntityVideoComponent
-	virtual void update(const engine::ServerState::Entity& fromClient, const unsigned msec);
+	virtual void update(const engine::ServerState::Entity& fromClient);
 
 private:
 	static const Vertex vertices_[];

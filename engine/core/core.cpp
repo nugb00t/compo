@@ -15,39 +15,37 @@
 
 using namespace engine;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+namespace {
+    const TCHAR* EXIT_SIGNAL_NAME = _T("COMPONENTS_EXIT_SIGNAL");
 
-void Core::create(Platform platform, Video video) {
-    switch (platform) {
-#ifdef PLATFORM_WIN51
-        case Windows51:
-            messageSink_ = new MessageSinkW51;
-            break;
-#endif
-    }
+    // in milliseconds
+    const unsigned CLIENT_PERIOD = 16;
+    const unsigned SERVER_PERIOD = 16;
+    const unsigned VIDEO_PERIOD  = 16;
 
-    switch (video) {
-#ifdef VIDEO_DIRECT3D9
-        case Direct3D9:
-            video_ = new VideoD3D9;
-            break;
-#endif
-    }
+    // in 100 nanoseconds
+    const unsigned SERVER_DELAY  = 4 * 10;
+    const unsigned VIDEO_DELAY   = 4 * 10;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Core::run() {
-	Profiler::inst();
+Core::Core() 
+:   signal_(EXIT_SIGNAL_NAME), 
+    threads_(
+#ifdef PLATFORM_WIN51
+        kaynine::thread<MessageSinkW51>(MessageSinkW51::Params(signal_, CLIENT_PERIOD)),
+#endif
+        kaynine::PulseThread<Server>::create(signal_, SERVER_PERIOD, SERVER_DELAY),
+#ifdef VIDEO_DIRECT3D9
+        kaynine::PulseThread<VideoD3D9>::create(signal_, VIDEO_PERIOD,  VIDEO_DELAY)
+#endif
+        ) {}
 
-	// TODO: migrate to win32 threads?
-    boost::thread_group threads;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    threads.create_thread(boost::ref(Server::inst()));
-    threads.create_thread(boost::ref(*messageSink_));
-    threads.create_thread(boost::ref(*video_));
-
-	threads.join_all();
+Core::~Core() {
+    threads_.waitAll();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

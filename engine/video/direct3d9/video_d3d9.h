@@ -14,16 +14,11 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef kaynine::Holder<class VideoD3D9> VideoDX;
+class VideoD3D9 : public VideoInterface, public kaynine::Singleton<VideoD3D9> {
+    VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL) {}
+    ~VideoD3D9();
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class VideoD3D9 : public VideoInterface {
 public:
-    VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL) { VideoDX::set(*this); }
-
-	~VideoD3D9();
-
 	// interface: VideoInterface
 	virtual bool startup();
 	virtual void shutdown();
@@ -52,6 +47,8 @@ private:
 private:
 	IDirect3D9* d3d_;
 	IDirect3DDevice9* device_;
+
+    friend struct kaynine::Singleton<VideoD3D9>;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

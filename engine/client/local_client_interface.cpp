@@ -11,7 +11,7 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void LocalClientInterface::update(const unsigned /*msec*/) {
+void LocalClientInterface::update() {
     Profiler::StopWatch stopWatch(Profiler::LOCAL_CLIENT);
 
 	Sync::ClientToArbiter::Writable toArbiter(Sync::inst().clientToArbiter());

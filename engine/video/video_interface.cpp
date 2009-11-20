@@ -11,49 +11,35 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoInterface::operator()() {
-	if (Video::inst().startup()) {
-		// TODO: move camera to its own entity
-		camera_ = createCamera();
-		assert(camera_);
-
-		kaynine::WaitableTimer timer(unsigned(1000.f / FRAMERATE));
-		kaynine::Event exitSignal(EXIT_SIGNAL_NAME);
-		kaynine::MultipleObjects objects(exitSignal, timer);
-
-		unsigned wait;
-		for (wait = WAIT_OBJECT_0 + 1; wait != WAIT_OBJECT_0; wait = objects.waitAny()) {
-			Profiler::StopWatch stopWatch(Profiler::VIDEO);
-			Video::inst().update(0);
-		}
-		assert(wait != WAIT_FAILED);
-	}
-
-	Video::inst().shutdown();
+bool VideoInterface::initialize() {
+    camera_ = createCamera();
+    return Video::inst().startup(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoInterface::update(const unsigned msec) {
+bool VideoInterface::update() {
 	clear();
 
 	if (begin()) {
-		camera_->update(msec);
+		camera_->update();
 
 		Sync::ClientToVideo::Readable fromClient(Sync::inst().clientToVideo());
 		if (fromClient)
 			for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
-				if (EntityVideoComponentRegistry::inst().valid(i))
-					EntityVideoComponentRegistry::inst().get(i).update(fromClient.data().entities[i], msec);
+				if (VideoComponentRegistry::inst().valid(i))
+					VideoComponentRegistry::inst().get(i).update(fromClient.data().entities[i]);
 
 		for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 			if (ScreenVideoComponentRegistry::inst().valid(i))
-				ScreenVideoComponentRegistry::inst().get(i).update(msec);
+				ScreenVideoComponentRegistry::inst().get(i).update();
 
 		end();
 	}
 	
 	present();
+
+    return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

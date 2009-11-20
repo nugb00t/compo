@@ -7,15 +7,16 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Server : public Callable, public kaynine::Singleton<Server> {
-	static const unsigned FRAMERATE = 60;
+class Server : public kaynine::Singleton<Server> {
     static const unsigned HISTORY_DEPTH = 4;
 
 	typedef kaynine::CyclicBuffer<ServerState, HISTORY_DEPTH> States;
 
 public:
-	// interface: Callable
-	virtual void operator()();
+    // kaynine::thread meta-interface
+    bool initialize();
+    bool update();
+    void terminate() {}
 
 protected:
 	void spawn();

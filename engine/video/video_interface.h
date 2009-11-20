@@ -8,26 +8,23 @@
 #include "texture.h"
 #include "vertex_decl.h"
 
-namespace engine {
+#include "video_component.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+namespace engine {
 
 typedef kaynine::Holder<class VideoInterface> Video;
 typedef boost::intrusive_ptr<class VideoInterface> VideoPtr;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoInterface : public Callable, public Updatable, public kaynine::IntrusivePtrBase {
-	static const unsigned FRAMERATE = 60;
-
+class VideoInterface : public kaynine::IntrusivePtrBase {
 public:
     VideoInterface::VideoInterface() { Video::set(*this); }
 
-	// interface: Callable
-	virtual void operator()();
-
-	// interface: Updatable
-	virtual void update(const unsigned msec);
+    // kaynine::thread meta-interface
+    bool initialize();
+    bool update();
+    void terminate() { Video::inst().shutdown(); }
 
 	// startup / shutdown
 	virtual bool startup() = 0;
@@ -52,6 +49,7 @@ public:
 
 private:
 	CameraPtr camera_;
+    VideoComponentRegistry registry_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -34,7 +34,7 @@ const Effect::TextureUniform OrbVideo::texUniforms_[] = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void OrbVideo::update(const ServerState::Entity& fromClient, const unsigned UNUSED(msec)) {
+void OrbVideo::update(const ServerState::Entity& fromClient) {
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 

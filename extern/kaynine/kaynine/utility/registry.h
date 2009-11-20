@@ -18,13 +18,15 @@ public:
 	//-----------------------------------------------------------------------------------------------------------------
 
 	template <class TComponent>
-	class Registry : public Singleton<Registry<TComponent> > {
+	class Registry : public Holder<Registry<TComponent> > {
 	public:
 		typedef TComponent COMPONENT_TYPE;
 		static const unsigned CAPACITY = TCapacity;
 
-	protected:
-		Registry() { ::memset(registrants_, NULL, sizeof(TComponent*) * TCapacity); }
+		Registry() { 
+            set(*this); 
+            memset(registrants_, NULL, sizeof(TComponent*) * TCapacity); 
+        }
 
 	public:
 		inline void add(const unsigned id, TComponent* registrant) 	{ 
@@ -54,8 +56,6 @@ public:
 
 	private:
 		TComponent* registrants_[TCapacity];
-
-		friend Singleton<Registry<TComponent> >;
 	};
 
 	//-----------------------------------------------------------------------------------------------------------------
