@@ -1,4 +1,8 @@
-extern
+extern/boost
+extern/cml
+extern/directx
+extern/glew
+extern/opengl
 exec/*.dll
 exec/*.exe
 exec/*.ilk
