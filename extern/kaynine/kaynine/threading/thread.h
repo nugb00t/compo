@@ -27,34 +27,35 @@ namespace kaynine {
 
 template <class TObject>
 class Thread {
-    struct ArgPack {
+    struct Pack {
+		TObject* object;
         typename TObject::Params& params;
         Event& quit;
 
-        ArgPack(typename TObject::Params& params_, Event& quit_)
-            : params(params_), quit(quit_) {}
+        Pack(TObject* object_, typename TObject::Params& params_, Event& quit_)
+            : object_(object), params(params_), quit(quit_) {}
     };
 
 public:
     static DWORD WINAPI func(void* something) {
-        ArgPack& argPack = *reinterpret_cast<ArgPack*>(something);
+        Pack& pack = *reinterpret_cast<Pack*>(something);
 
-        if (argPack.quit.isSet() || !TObject::inst().initialize(&argPack.params))
+        if (pack.quit.isSet() || !pack.object.initialize(&pack.params))
             return (DWORD)-1;
 
-        while (!argPack.quit.isSet())
-            if (!TObject::inst().update())
-                argPack.quit.set();
+        while (!pack.quit.isSet())
+            if (!pack.object.update())
+                pack.quit.set();
 
-        TObject::inst().terminate();
+        pack.object.terminate();
 
         return 0;
     }
 
-    static HANDLE create(typename TObject::Params params, Event& quit) {
-        static ArgPack argPack(params, quit);
+    static HANDLE create(TObject* object, typename TObject::Params params, Event& quit) {
+        static Pack pack(object, params, quit);
 
-        return ::CreateThread(NULL, 0, &func, &argPack, 0, NULL);
+        return ::CreateThread(NULL, 0, &func, &pack, 0, NULL);
     };
 };
 
@@ -71,42 +72,43 @@ public:
 
 template <class TObject>
 class PulseThread {
-    struct ArgPack {
+    struct Pack {
+		TObject* object;
         typename TObject::Params& params;
         Event& quit;
         const unsigned period;
         const unsigned delay;
 
-        ArgPack(typename TObject::Params& params_, Event& quit_, const unsigned period_, const unsigned delay_)
-            : params(params_), quit(quit_), period(period_), delay(delay_) {}
+        Pack(TObject* object_, typename TObject::Params& params_, Event& quit_, const unsigned period_, const unsigned delay_)
+            : object_(object), params(params_), quit(quit_), period(period_), delay(delay_) {}
     };
 
 public:
     static DWORD WINAPI func(void* something) {
-        ArgPack& argPack = *reinterpret_cast<ArgPack*>(something);
+        Pack& pack = *reinterpret_cast<Pack*>(something);
 
-        if (argPack.quit.isSet() || !TObject::inst().initialize(&argPack.params))
+        if (pack.quit.isSet() || !pack.object.initialize(&pack.params))
             return (DWORD)-1;
 
-        WaitableTimer timer(argPack.period, argPack.delay);
-        MultipleObjects events(argPack.quit, timer);
+        WaitableTimer timer(pack.period, pack.delay);
+        MultipleObjects events(pack.quit, timer);
 
-        const unsigned waitPeriod = 2 * argPack.period;
+        const unsigned waitPeriod = 2 * pack.period;
         unsigned wait;
         for (wait = events.waitAny(waitPeriod); wait != WAIT_OBJECT_0; wait = events.waitAny(waitPeriod))
-            if (!TObject::inst().update())
-                argPack.quit.set();
+            if (!pack.object.update())
+                pack.quit.set();
         assert(wait != WAIT_FAILED && wait != WAIT_ABANDONED);
 
-        TObject::inst().terminate();
+        pack.object.terminate();
 
         return 0;
     }
 
-    static HANDLE create(typename TObject::Params params, Event& quit, const unsigned period, const unsigned delay = 0) {
-        static ArgPack argPack(params, quit, period, delay);
+    static HANDLE create(TObject* object, typename TObject::Params params, Event& quit, const unsigned period, const unsigned delay = 0) {
+        static Pack pack(object, params, quit, period, delay);
 
-        return ::CreateThread(NULL, 0, &func, &argPack, 0, NULL);
+        return ::CreateThread(NULL, 0, &func, &pack, 0, NULL);
     };
 };
 

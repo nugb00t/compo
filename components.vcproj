@@ -158,58 +158,6 @@
 			Name="extern"
 			>
 			<Filter
-				Name="boost"
-				>
-				<File
-					RelativePath=".\extern\boost\lib\libboost_date_time-vc80-mt-1_38.lib"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\extern\boost\lib\libboost_date_time-vc80-mt-gd-1_38.lib"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\extern\boost\lib\libboost_thread-vc80-mt-1_38.lib"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\extern\boost\lib\libboost_thread-vc80-mt-gd-1_38.lib"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
 				Name="kaynine"
 				>
 				<Filter
@@ -508,6 +456,10 @@
 			<Filter
 				Name="system"
 				>
+				<File
+					RelativePath=".\engine\system\system_interface.h"
+					>
+				</File>
 				<Filter
 					Name="win51"
 					>
