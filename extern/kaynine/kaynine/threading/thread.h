@@ -15,21 +15,55 @@
 namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  struct Threaded {
+//  class Threaded {
+//  public:
 //      struct Params {};
-//      static DWORD WINAPI threadFunc(void*)
+//  public:
+//      bool initialize(TObject::Params);
+//      bool update();
+//      void terminate();
 //  };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class TObject>
-HANDLE thread(typename TObject::Params params_) {
-    static TObject::Params params(params_);
-    return ::CreateThread(NULL, 0, &TObject::threadFunc, &params, 0, NULL);
-}
+class Thread {
+    struct ArgPack {
+        typename TObject::Params& params;
+        Event& quit;
+
+        ArgPack(typename TObject::Params& params_, Event& quit_)
+            : params(params_), quit(quit_) {}
+    };
+
+public:
+    static DWORD WINAPI func(void* something) {
+        ArgPack& argPack = *reinterpret_cast<ArgPack*>(something);
+
+        if (argPack.quit.isSet() || !TObject::inst().initialize(&argPack.params))
+            return (DWORD)-1;
+
+        while (!argPack.quit.isSet())
+            if (!TObject::inst().update())
+                argPack.quit.set();
+
+        TObject::inst().terminate();
+
+        return 0;
+    }
+
+    static HANDLE create(typename TObject::Params params, Event& quit) {
+        static ArgPack argPack(params, quit);
+
+        return ::CreateThread(NULL, 0, &func, &argPack, 0, NULL);
+    };
+};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  struct PulseThreaded {
-//      bool initialize();
+//  class PulseThreaded {
+//  public:
+//      struct Params {};
+//  public:
+//      bool initialize(TObject::Params);
 //      bool update();
 //      void terminate();
 //  };
@@ -37,33 +71,31 @@ HANDLE thread(typename TObject::Params params_) {
 
 template <class TObject>
 class PulseThread {
-    struct Joint {
-        Event& signal;
+    struct ArgPack {
+        typename TObject::Params& params;
+        Event& quit;
         const unsigned period;
         const unsigned delay;
 
-        Joint(Event& signal_, const unsigned period_, const unsigned delay_)
-            : signal(signal_), period(period_), delay(delay_) {}
+        ArgPack(typename TObject::Params& params_, Event& quit_, const unsigned period_, const unsigned delay_)
+            : params(params_), quit(quit_), period(period_), delay(delay_) {}
     };
 
 public:
     static DWORD WINAPI func(void* something) {
-        Joint* params = reinterpret_cast<Joint*>(something);
+        ArgPack& argPack = *reinterpret_cast<ArgPack*>(something);
 
-        if (params->signal.isSet())
+        if (argPack.quit.isSet() || !TObject::inst().initialize(&argPack.params))
             return (DWORD)-1;
 
-        if (!TObject::inst().initialize())
-            return (DWORD)-1;
+        WaitableTimer timer(argPack.period, argPack.delay);
+        MultipleObjects events(argPack.quit, timer);
 
-        WaitableTimer timer(params->period, params->delay);
-        MultipleObjects events(params->signal, timer);
-
-        const unsigned waitPeriod = 2 * params->period;
+        const unsigned waitPeriod = 2 * argPack.period;
         unsigned wait;
         for (wait = events.waitAny(waitPeriod); wait != WAIT_OBJECT_0; wait = events.waitAny(waitPeriod))
             if (!TObject::inst().update())
-                params->signal.set();
+                argPack.quit.set();
         assert(wait != WAIT_FAILED && wait != WAIT_ABANDONED);
 
         TObject::inst().terminate();
@@ -71,10 +103,10 @@ public:
         return 0;
     }
 
-    static HANDLE create(Event& signal, const unsigned period, const unsigned delay = 0) {
-        static Joint joint(signal, period, delay);
+    static HANDLE create(typename TObject::Params params, Event& quit, const unsigned period, const unsigned delay = 0) {
+        static ArgPack argPack(params, quit, period, delay);
 
-        return ::CreateThread(NULL, 0, &func, &joint, 0, NULL);
+        return ::CreateThread(NULL, 0, &func, &argPack, 0, NULL);
     };
 };
 

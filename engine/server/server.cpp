@@ -13,7 +13,10 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Server::initialize() {
+bool Server::initialize(Params* params) {
+    assert(params && params->registry);
+    Logic::inst().initialize(params->registry);
+
     states_.advance(States::CLEAR_FRAME);
 
 	states_.get().entities[0].rotation.identity();

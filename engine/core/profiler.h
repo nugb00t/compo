@@ -9,6 +9,7 @@ namespace engine {
 
 struct ProfilerSections {
 	enum SectionID {
+        SYSTEM,
 		SERVER,
         SERVER_ARBITER,
         SERVER_LOGIC,

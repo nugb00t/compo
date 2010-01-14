@@ -6,6 +6,7 @@
 #include "client/local_client_interface.h"
 #include "input/win51/input_w51.h"
 
+#include "core/profiler.h"
 #include "core/sync.h"
 #include "core/time.h"
 #include "window/window_interface.h"
@@ -14,33 +15,40 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-DWORD WINAPI MessageSinkW51::threadFunc(void* something) {
-    assert(something);
-    Params* params = reinterpret_cast<Params*>(something);
+bool MessageSinkW51::initialize(Params* params) {
+    assert(!params_);
+    params_ = params;
 
-    WindowW51Ptr window_ = new WindowW51(&MessageSinkW51::messageHandler);
-	CHECKED_CALL(window_->create(800, 600, 32, 0, false));
+    terminate();
 
-	InputW51::inst();
+    window_ = new WindowW51(&MessageSinkW51::messageHandler);
+    if (!window_->create(800, 600, 32, 0, false))
+        return false;
 
-	// this needs a proper sync
-	assert(Window::inst().handle());
-	kaynine::Timer clientTimer(params->period, Window::inst().handle());
+    InputW51::inst();
 
-	MSG	msg;
+    // this needs a proper sync
+    assert(Window::inst().handle());
+    timer_.set(params_->period, Window::inst().handle());
 
-	while (!params->signal.isSet())
-		while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-			if (msg.message == WM_QUIT)
-				params->signal.set();
-			else {
-				::TranslateMessage(&msg);
-				::DispatchMessage(&msg);
-			}
+    return true;
+}
 
-	window_->destroy();
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    return 0;
+bool MessageSinkW51::update() {
+    Profiler::StopWatch stopWatch(Profiler::SYSTEM);
+
+    MSG	msg;
+    while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        if (msg.message == WM_QUIT)
+            return false;
+        else {
+            ::TranslateMessage(&msg);
+            ::DispatchMessage(&msg);
+        }
+
+    return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

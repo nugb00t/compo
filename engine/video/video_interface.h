@@ -19,10 +19,17 @@ typedef boost::intrusive_ptr<class VideoInterface> VideoPtr;
 
 class VideoInterface : public kaynine::IntrusivePtrBase {
 public:
-    VideoInterface::VideoInterface() { Video::set(*this); }
+    struct Params {
+        VideoComponentRegistry* registry;
+
+        Params(VideoComponentRegistry* registry_) : registry(registry_) {}
+    };
+
+public:
+    VideoInterface::VideoInterface() : registry_(NULL) { Video::set(*this); }
 
     // kaynine::thread meta-interface
-    bool initialize();
+    bool initialize(Params* params);
     bool update();
     void terminate() { Video::inst().shutdown(); }
 
@@ -49,7 +56,7 @@ public:
 
 private:
 	CameraPtr camera_;
-    VideoComponentRegistry registry_;
+    VideoComponentRegistry* registry_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

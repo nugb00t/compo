@@ -131,10 +131,19 @@ public:
 
 class Timer {
 public:
-	Timer(const unsigned period, HWND wnd = NULL, TIMERPROC func = NULL, unsigned timer = 0) 
-		: wnd_(wnd), timer_(::SetTimer(wnd, timer, period, func)) {
-			assert(timer_);
+    Timer() : wnd_(NULL), timer_(NULL) {}
+
+    Timer(const unsigned period, HWND wnd = NULL, TIMERPROC func = NULL, unsigned existing = 0) {
+        set(period, wnd, func, existing);
+        assert(timer_);
 	}
+
+    bool set(const unsigned period, HWND wnd = NULL, TIMERPROC func = NULL, unsigned existing = 0)  {
+        wnd_ = wnd;
+        timer_ = ::SetTimer(wnd, existing, period, func);
+
+        return timer_ != NULL;
+    }
 
 	~Timer() { ::KillTimer(wnd_, timer_); }
 

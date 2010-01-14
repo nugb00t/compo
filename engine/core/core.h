@@ -11,7 +11,7 @@ public:
 	~Core();
 
 private:
-    kaynine::Event signal_;
+    kaynine::Event quit_;
     kaynine::Handles threads_;
 };
 

@@ -1,8 +1,5 @@
 #include "stdafx.h"
 
-#include "core.h"
-#include "profiler.h"
-
 #ifdef PLATFORM_WIN51
 	#include "system/win51/message_sink_w51.h"
 #endif
@@ -12,6 +9,10 @@
 #endif
 
 #include "server/server.h"
+#include "logic/logic_component.h"
+
+#include "profiler.h"
+#include "core.h"
 
 using namespace engine;
 
@@ -31,14 +32,14 @@ namespace {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Core::Core() 
-:   signal_(EXIT_SIGNAL_NAME), 
+:   quit_(EXIT_SIGNAL_NAME), 
     threads_(
 #ifdef PLATFORM_WIN51
-        kaynine::thread<MessageSinkW51>(MessageSinkW51::Params(signal_, CLIENT_PERIOD)),
+    kaynine::Thread<MessageSinkW51>::create(MessageSinkW51::Params(CLIENT_PERIOD), quit_),
 #endif
-        kaynine::PulseThread<Server>::create(signal_, SERVER_PERIOD, SERVER_DELAY),
+    kaynine::PulseThread<Server>::create(Server::Params(&LogicComponentRegistry::inst()), quit_, SERVER_PERIOD, SERVER_DELAY),
 #ifdef VIDEO_DIRECT3D9
-        kaynine::PulseThread<VideoD3D9>::create(signal_, VIDEO_PERIOD,  VIDEO_DELAY)
+    kaynine::PulseThread<VideoD3D9>::create(VideoD3D9::Params(&VideoComponentRegistry::inst()), quit_, VIDEO_PERIOD,  VIDEO_DELAY)
 #endif
         ) {}
 

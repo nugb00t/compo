@@ -1,7 +1,7 @@
 #ifndef SERVER_INCLUDED
 #define SERVER_INCLUDED
 
-#include "server/server_data.h"
+#include "logic/logic_component.h"
 
 namespace engine {
 
@@ -13,8 +13,15 @@ class Server : public kaynine::Singleton<Server> {
 	typedef kaynine::CyclicBuffer<ServerState, HISTORY_DEPTH> States;
 
 public:
+    struct Params {
+        LogicComponentRegistry* registry;
+
+        Params(LogicComponentRegistry* registry_) : registry(registry_) {}
+    };
+
+public:
     // kaynine::thread meta-interface
-    bool initialize();
+    bool initialize(Params* params);
     bool update();
     void terminate() {}
 
@@ -23,6 +30,7 @@ protected:
 
 private:
 	States states_;
+    Params* params_;
 
 	friend struct kaynine::Singleton<Server>;
 };

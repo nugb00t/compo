@@ -7,21 +7,32 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class MessageSinkW51 {
+class MessageSinkW51 : public kaynine::Singleton<MessageSinkW51> {
 public:
     struct Params {
-        kaynine::Event& signal;
-        const unsigned period;
+        unsigned period;
 
-        Params(kaynine::Event& signal_, const unsigned period_) : signal(signal_), period(period_) {}
-        Params(const Params& other) : signal(other.signal), period(other.period) {}
+        Params(const unsigned period_) : period(period_) {}
     };
 
+private:
+    MessageSinkW51() : params_(NULL) {}
+
 public:
-    static DWORD WINAPI threadFunc(void* something);
+    // kaynine::thread meta-interface
+    bool initialize(Params* params);
+    bool update();
+    void terminate() { if (window_) window_->destroy(); }
 
 private:
     static LRESULT CALLBACK messageHandler(HWND, UINT, WPARAM, LPARAM);
+
+private:
+    Params* params_;
+    WindowW51Ptr window_;
+    kaynine::Timer timer_;
+
+    friend struct kaynine::Singleton<MessageSinkW51>;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
