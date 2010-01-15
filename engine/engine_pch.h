@@ -62,6 +62,7 @@
 #include <kaynine/memory/intrusive_ptr_base.h>
 #include <kaynine/threading/frame_buffer.h>
 #include <kaynine/threading/thread.h>
+#include <kaynine/threading/threaded.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,20 +1,18 @@
-#ifndef CORE_INCLUDED
-#define CORE_INCLUDED
+#ifndef SYSTEM_LOOP_INCLUDED
+#define SYSTEM_LOOP_INCLUDED
 
-#include "game.h"
+#include "window/window_interface.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Core {
+class SystemLoop : public kaynine::Threaded {
 public:
-    Core(Game game);
-	~Core();
+    SystemLoop(WindowInterface* window) : window_(window) {}
 
-private:
-    kaynine::Event quit_;
-    kaynine::Handles threads_;
+protected:
+    WindowInterface* window_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

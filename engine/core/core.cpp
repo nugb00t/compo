@@ -31,15 +31,15 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Core::Core() 
+Core::Core(Game game) 
 :   quit_(EXIT_SIGNAL_NAME), 
     threads_(
 #ifdef PLATFORM_WIN51
-    kaynine::Thread<MessageSinkW51>::create(MessageSinkW51::Params(CLIENT_PERIOD), quit_),
+    kaynine::Thread::create(game., , quit_),
 #endif
-    kaynine::PulseThread<Server>::create(Server::Params(&LogicComponentRegistry::inst()), quit_, SERVER_PERIOD, SERVER_DELAY),
+    kaynine::PulseThread::create(Server::Params(&LogicComponentRegistry::inst()), quit_, SERVER_PERIOD, SERVER_DELAY),
 #ifdef VIDEO_DIRECT3D9
-    kaynine::PulseThread<VideoD3D9>::create(VideoD3D9::Params(&VideoComponentRegistry::inst()), quit_, VIDEO_PERIOD,  VIDEO_DELAY)
+    kaynine::PulseThread::create(VideoD3D9::Params(&VideoComponentRegistry::inst()), quit_, VIDEO_PERIOD,  VIDEO_DELAY)
 #endif
         ) {}
 

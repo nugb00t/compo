@@ -3,8 +3,6 @@
 #ifdef PLATFORM_WIN51
 #include "input_w51.h"
 
-#include "input/input_data.h"
-
 #include "core/sync.h"
 
 using namespace engine;

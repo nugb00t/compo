@@ -1,20 +1,15 @@
-#ifndef CORE_INCLUDED
-#define CORE_INCLUDED
+#ifndef KN_THREADED_INCLUDED
+#define KN_THREADED_INCLUDED
 
-#include "game.h"
-
-namespace engine {
+namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Core {
+class Threaded {
 public:
-    Core(Game game);
-	~Core();
-
-private:
-    kaynine::Event quit_;
-    kaynine::Handles threads_;
+    bool initialize();
+    bool update();
+    void terminate();
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

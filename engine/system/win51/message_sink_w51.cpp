@@ -3,33 +3,24 @@
 #ifdef PLATFORM_WIN51
 #include "message_sink_w51.h"
 
-#include "client/local_client_interface.h"
-#include "input/win51/input_w51.h"
+#include "client/local_client.h"
 
 #include "core/profiler.h"
 #include "core/sync.h"
 #include "core/time.h"
-#include "window/window_interface.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool MessageSinkW51::initialize(Params* params) {
-    assert(!params_);
-    params_ = params;
-
-    terminate();
-
+bool MessageSinkW51::initialize() {
     window_ = new WindowW51(&MessageSinkW51::messageHandler);
     if (!window_->create(800, 600, 32, 0, false))
         return false;
 
-    InputW51::inst();
-
     // this needs a proper sync
-    assert(Window::inst().handle());
-    timer_.set(params_->period, Window::inst().handle());
+    assert(window_->handle());
+    timer_.set(PERIOD, window_->handle());
 
     return true;
 }
@@ -99,7 +90,7 @@ LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wPa
 			break;
 
 		case WM_INPUT: // 0x00FF
-			InputW51::inst().processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Time::inst().msec());
+			input_.processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Time::inst().msec());
 			break;
 	}
 

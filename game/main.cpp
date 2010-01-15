@@ -11,8 +11,7 @@ using namespace engine;
 int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
 	CHECKED_CALL(kaynine::setCurrentDirectory());
 
-    Core core;
-	game_playground::Game game;
+    Core core(game_playground::Game());
 
 	return 0;
 }

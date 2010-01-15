@@ -1,20 +1,20 @@
-#ifndef CORE_INCLUDED
-#define CORE_INCLUDED
+#ifndef GAME_INCLUDED
+#define GAME_INCLUDED
 
-#include "game.h"
+#include "arbiter/arbiter.h"
+#include "client/local_client.h"
+#include "system/"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Core {
+class Game {
 public:
-    Core(Game game);
-	~Core();
+    virtual Arbiter* createArbiter() = 0;
+    virtual LocalClient* createLocalClient() = 0;
 
-private:
-    kaynine::Event quit_;
-    kaynine::Handles threads_;
+    virtual ~Game() = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

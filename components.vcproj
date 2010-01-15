@@ -220,7 +220,31 @@
 						>
 					</File>
 					<File
+						RelativePath=".\extern\kaynine\kaynine\threading\thread.cpp"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
 						RelativePath=".\extern\kaynine\kaynine\threading\thread.h"
+						>
+					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\threading\threaded.h"
 						>
 					</File>
 				</Filter>
@@ -275,6 +299,10 @@
 			>
 			<File
 				RelativePath=".\engine\engine_pch.h"
+				>
+			</File>
+			<File
+				RelativePath=".\engine\game.h"
 				>
 			</File>
 			<Filter
@@ -457,7 +485,7 @@
 				Name="system"
 				>
 				<File
-					RelativePath=".\engine\system\system_interface.h"
+					RelativePath=".\engine\system\system_loop.h"
 					>
 				</File>
 				<Filter
@@ -477,11 +505,11 @@
 				Name="client"
 				>
 				<File
-					RelativePath=".\engine\client\local_client_interface.cpp"
+					RelativePath=".\engine\client\local_client.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\engine\client\local_client_interface.h"
+					RelativePath=".\engine\client\local_client.h"
 					>
 				</File>
 			</Filter>
@@ -505,11 +533,11 @@
 				Name="input"
 				>
 				<File
-					RelativePath=".\engine\input\input_data.h"
+					RelativePath=".\engine\input\input.h"
 					>
 				</File>
 				<File
-					RelativePath=".\engine\input\input_interface.h"
+					RelativePath=".\engine\input\input_data.h"
 					>
 				</File>
 				<Filter
@@ -549,7 +577,7 @@
 				Name="arbiter"
 				>
 				<File
-					RelativePath=".\engine\arbiter\arbiter_interface.h"
+					RelativePath=".\engine\arbiter\arbiter.h"
 					>
 				</File>
 			</Filter>
@@ -588,6 +616,10 @@
 			<Filter
 				Name="playground"
 				>
+				<File
+					RelativePath=".\game\playground\playground_game.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\game\playground\playground_game.h"
 					>

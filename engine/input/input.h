@@ -1,21 +1,17 @@
-#ifndef INPUT_INTERFACE_INCLUDED
-#define INPUT_INTERFACE_INCLUDED
+#ifndef INPUT_INCLUDED
+#define INPUT_INCLUDED
 
-#include "input/input_data.h"
+#include "input_data.h"
 
 namespace engine {
 
-typedef kaynine::Holder<class InputInterface> Input;
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class InputInterface {
+class Input {
 public:
 	static const unsigned FRAMERATE = 60;
 
 public:
-	InputInterface()  { Input::set(*this); }
-
     const InputData& controls() const { return controls_; }
 
 protected:
@@ -23,6 +19,8 @@ protected:
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef boost::scoped_ptr<Input> InputPtr;
 
 }
 

@@ -1,7 +1,7 @@
 #ifndef INPUT_W51_INCLUDED
 #define INPUT_W51_INCLUDED
 
-#include "input/input_interface.h"
+#include "input/input.h"
 
 //#define USE_BUFFERED_RAW_INPUT
 
@@ -9,7 +9,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class InputW51 : public InputInterface, public kaynine::Singleton<InputW51> {
+class InputW51 : public Input {
 #ifdef USE_BUFFERED_RAW_INPUT
 	static const unsigned RAW_INPUT_BUFFER_COUNT = 16;
 #endif
@@ -32,8 +32,6 @@ private:
 	void unbuffered(const HRAWINPUT handle, const unsigned now);
 
 	void process(const RAWINPUT& raw, const unsigned now);
-
-	friend struct kaynine::Singleton<InputW51>;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
