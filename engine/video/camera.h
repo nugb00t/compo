@@ -7,6 +7,8 @@ namespace engine {
 
 class Camera : public kaynine::IntrusivePtrBase, public Updatable {
 public:
+	virtual ~Camera() = 0;
+
 	virtual const Matrix44& view_projection() const = 0;
 };
 

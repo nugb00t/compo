@@ -9,7 +9,7 @@ namespace engine {
 
 class Core {
 public:
-    Core(Game game);
+    Core();
 	~Core();
 
 private:

@@ -1,13 +1,13 @@
 #ifndef LOGIC_INCLUDED
 #define LOGIC_INCLUDED
 
-#include "logic_component.h"
+#include "server/server_data.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Logic : public kaynine::Singleton<Logic> {
+class Logic {
 public:
 	void decide(const ServerState& last, ServerRequests::Entity entities[ServerState::MAX_ENTITIES]);
 };

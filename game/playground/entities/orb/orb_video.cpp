@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "video/video_interface.h"
+#include "engine.h"
 
 #include "orb_video.h"
 
@@ -38,11 +38,11 @@ void OrbVideo::update(const ServerState::Entity& fromClient) {
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 
-        effect_ = Video::inst().createEffect(_T("playground/fx/simple.h"), Video::inst().getVertexDecl(VertexDecl::POS_DIFFUSE_TEX));
+        effect_ = g_engine.video->createEffect(_T("playground/fx/simple.h"), g_engine.video->getVertexDecl(VertexDecl::POS_DIFFUSE_TEX));
         effect_->setUniforms(uniforms_);
         effect_->setTexUniforms(texUniforms_);
 
-        mesh_ = Video::inst().createMesh(effect_);
+        mesh_ = g_engine.video->createMesh(effect_);
 		mesh_->setBuffers(vertices_, sizeof(vertices_), sizeof(Vertex), indices_, sizeof(indices_));
 	}
 
@@ -51,7 +51,7 @@ void OrbVideo::update(const ServerState::Entity& fromClient) {
 	cml::matrix_rotation_quaternion(transform, fromClient.rotation);
 	cml::matrix_set_translation(transform, fromClient.position);
 
-    transform *= Video::inst().camera().view_projection();
+    transform *= g_engine.video->camera().view_projection();
 	mesh_->draw(transform);
 }
 

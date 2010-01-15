@@ -1,23 +1,24 @@
 #ifndef GAME_INCLUDED
 #define GAME_INCLUDED
 
-#include "arbiter/arbiter.h"
 #include "client/local_client.h"
-#include "system/"
+
+#include "arbiter/arbiter.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Game {
-public:
-    virtual Arbiter* createArbiter() = 0;
-    virtual LocalClient* createLocalClient() = 0;
+struct Game {
+	const boost::scoped_ptr<LocalClient> localClient;
+	const boost::scoped_ptr<Arbiter> arbiter;
 
-    virtual ~Game() = 0;
+	Game(LocalClient* localClient_, Arbiter* arbiter_) : localClient(localClient_), arbiter(arbiter_) {}
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+extern Game g_game;
 
 }
 

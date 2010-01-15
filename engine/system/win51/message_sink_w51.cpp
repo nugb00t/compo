@@ -3,7 +3,10 @@
 #ifdef PLATFORM_WIN51
 #include "message_sink_w51.h"
 
-#include "client/local_client.h"
+#include "engine.h"
+#include "game.h"
+
+#include "input/win51/input_w51.h"
 
 #include "core/profiler.h"
 #include "core/sync.h"
@@ -14,13 +17,12 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool MessageSinkW51::initialize() {
-    window_ = new WindowW51(&MessageSinkW51::messageHandler);
-    if (!window_->create(800, 600, 32, 0, false))
+    if (!g_engine.window->create(MessageSinkW51::wndProc, 800, 600, 32, 0, false))
         return false;
 
     // this needs a proper sync
-    assert(window_->handle());
-    timer_.set(PERIOD, window_->handle());
+    assert(g_engine.window->handle());
+    timer_.set(PERIOD, g_engine.window->handle());
 
     return true;
 }
@@ -44,7 +46,14 @@ bool MessageSinkW51::update() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+void MessageSinkW51::terminate() {
+	if (g_engine.window) 
+		g_engine.window->destroy(); 
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+LRESULT CALLBACK MessageSinkW51::wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
 		//case WM_SIZE: // 0x0005
 		//	pRenderLoop_->reshapeRenderer(LOWORD(lParam), HIWORD(lParam));
@@ -86,11 +95,11 @@ LRESULT CALLBACK MessageSinkW51::messageHandler(HWND hWnd, UINT uMsg, WPARAM wPa
 				break;
 
 		case WM_TIMER: // 0x0113
-			LocalClient::inst().update();
+			g_game.localClient->update();
 			break;
 
 		case WM_INPUT: // 0x00FF
-			input_.processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Time::inst().msec());
+			g_engine.inputW51->processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Time::inst().msec());
 			break;
 	}
 

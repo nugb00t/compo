@@ -4,12 +4,9 @@
 	#include "system/win51/message_sink_w51.h"
 #endif
 
-#ifdef VIDEO_DIRECT3D9
-	#include "video/direct3d9/video_d3d9.h"
-#endif
+#include "engine.h"
 
 #include "server/server.h"
-#include "logic/logic_component.h"
 
 #include "profiler.h"
 #include "core.h"
@@ -31,16 +28,16 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Core::Core(Game game) 
+Core::Core() 
 :   quit_(EXIT_SIGNAL_NAME), 
     threads_(
+		kaynine::Thread::create(
 #ifdef PLATFORM_WIN51
-    kaynine::Thread::create(game., , quit_),
+			new MessageSinkW51,
 #endif
-    kaynine::PulseThread::create(Server::Params(&LogicComponentRegistry::inst()), quit_, SERVER_PERIOD, SERVER_DELAY),
-#ifdef VIDEO_DIRECT3D9
-    kaynine::PulseThread::create(VideoD3D9::Params(&VideoComponentRegistry::inst()), quit_, VIDEO_PERIOD,  VIDEO_DELAY)
-#endif
+		quit_),
+		kaynine::PulseThread::create(new Server, quit_, SERVER_PERIOD, SERVER_DELAY),
+		kaynine::PulseThread::create(g_engine.video, quit_, VIDEO_PERIOD,  VIDEO_DELAY)
         ) {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

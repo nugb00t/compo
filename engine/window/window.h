@@ -3,17 +3,13 @@
 
 namespace engine {
 
-typedef kaynine::Holder<class WindowInterface> Window;
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class WindowInterface
+class Window
 {
 public:
-	WindowInterface() { Window::set(*this); }
-
-	// own: WindowInterface
 	virtual bool create(
+		const WNDPROC wndProc,
 		const unsigned width, 
 		const unsigned height, 
 		const unsigned colorBits, 

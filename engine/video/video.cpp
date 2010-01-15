@@ -1,26 +1,17 @@
 #include "stdafx.h"
 
-#include "video_interface.h"
+#include "video.h"
+
+#include "window/window.h"
 
 #include "core/sync.h"
 #include "core/profiler.h"
-#include "window/window_interface.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool VideoInterface::initialize(Params* params) {
-    assert(params && params->registry);
-    registry_ = params->registry;
-
-    camera_ = createCamera();
-    return Video::inst().startup(); 
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool VideoInterface::update() {
+bool Video::update() {
 	clear();
 
 	if (begin()) {

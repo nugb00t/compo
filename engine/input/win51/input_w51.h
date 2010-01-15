@@ -1,6 +1,7 @@
 #ifndef INPUT_W51_INCLUDED
 #define INPUT_W51_INCLUDED
 
+#ifdef PLATFORM_WIN51
 #include "input/input.h"
 
 //#define USE_BUFFERED_RAW_INPUT
@@ -38,4 +39,5 @@ private:
 
 }
 
+#endif
 #endif

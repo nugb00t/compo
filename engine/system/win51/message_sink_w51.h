@@ -1,28 +1,24 @@
 #ifndef MESSAGE_SINK_W51_INCLUDED
 #define MESSAGE_SINK_W51_INCLUDED
 
-#include "system/system_loop.h"
-#include "input/win51/input_w51.h"
-
+#ifdef PLATFORM_WIN51
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class MessageSinkW51 : public SystemLoop {
+class MessageSinkW51 : public kaynine::ThreadBase {
     static const unsigned PERIOD = 10;
 
 public:
-    // interface: kaynine::Threaded
+    // interface: kaynine::ThreadBase
     virtual bool initialize();
     virtual bool update();
-    virtual void terminate() { if (window_) window_->destroy(); }
+    virtual void terminate();
 
 private:
-    static LRESULT CALLBACK messageHandler(HWND, UINT, WPARAM, LPARAM);
+    static LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
 private:
-    InputW51 input_;
-
     kaynine::Timer timer_;
 };
 
@@ -30,4 +26,5 @@ private:
 
 }
 
+#endif
 #endif

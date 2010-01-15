@@ -1,7 +1,9 @@
 #include "stdafx.h"
 
 #ifdef VIDEO_DIRECT3D9
-#include "video_d3d9.h"
+#include "vertex_decl_d3d9.h"
+
+#include "engine.h"
 
 using namespace engine;
 
@@ -43,7 +45,7 @@ VertexDeclPtr VertexDeclD3D9::get(const Type type) {
 
 VertexDeclD3D9::VertexDeclD3D9(const Type type)
 : vertexDecl_(NULL) {
-	CHECKED_D3D_CALL(VideoD3D9::inst().device().CreateVertexDeclaration(ELEMENTS[type], &vertexDecl_));
+	CHECKED_D3D_CALL(g_engine.videoD3D9->device().CreateVertexDeclaration(ELEMENTS[type], &vertexDecl_));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +58,7 @@ VertexDeclD3D9::~VertexDeclD3D9() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VertexDeclD3D9::activate() {
-	CHECKED_D3D_CALL(VideoD3D9::inst().device().SetVertexDeclaration(vertexDecl_));
+	CHECKED_D3D_CALL(g_engine.videoD3D9->device().SetVertexDeclaration(vertexDecl_));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

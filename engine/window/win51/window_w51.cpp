@@ -12,9 +12,8 @@ const TCHAR	WindowW51::WND_TITLE[]	= _T("Components");
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-WindowW51::WindowW51(WNDPROC messageHandler)
-:	messageHandler_(messageHandler),
-    window_(0),
+WindowW51::WindowW51()
+:	window_(0),
 	context_(0),
 	format_(0),
 	width_(0),
@@ -58,15 +57,18 @@ bool WindowW51::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool WindowW51::create(const unsigned width, 
-							 const unsigned height, 
-							 const unsigned colorBits, 
-							 const unsigned frequency, 
-							 const bool fullscreen)
+bool WindowW51::create(const WNDPROC wndProc,
+					   const unsigned width, 
+					   const unsigned height, 
+					   const unsigned colorBits, 
+					   const unsigned frequency, 
+					   const bool fullscreen)
 {
+	assert(!window_ && !context_ && !format_ && wndProc && width && height && colorBits && frequency);
+
 	WNDCLASS wc;
 	wc.style			= CS_OWNDC;
-	wc.lpfnWndProc		= messageHandler_;
+	wc.lpfnWndProc		= wndProc;
 	wc.cbClsExtra		= 0;
 	wc.cbWndExtra		= 0;
 	wc.hInstance		= GetModuleHandle(NULL);
@@ -77,7 +79,7 @@ bool WindowW51::create(const unsigned width,
 	wc.lpszClassName	= CLASS_NAME;
 
 	if (!::RegisterClass(&wc)) {
-		::MessageBox(NULL, _T("Failed To Register The WindowInterface Class."), _T("ERROR"), MB_OK | MB_ICONEXCLAMATION);
+		::MessageBox(NULL, _T("Failed To Register The Window Class."), _T("ERROR"), MB_OK | MB_ICONEXCLAMATION);
 		return false;
 	}
 
@@ -137,7 +139,7 @@ bool WindowW51::create(const unsigned width,
 							 0);
 	if (!window_) {
 		destroy();
-		::MessageBox(NULL, _T("WindowInterface Creation Error."), _T("ERROR"), MB_OK | MB_ICONEXCLAMATION);
+		::MessageBox(NULL, _T("Window Creation Error."), _T("ERROR"), MB_OK | MB_ICONEXCLAMATION);
 		return false;
 	}
 

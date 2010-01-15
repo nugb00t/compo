@@ -2,8 +2,8 @@
 
 #include "server.h"
 
-#include "arbiter/arbiter_interface.h"
-#include "logic/logic.h"
+#include "engine.h"
+#include "game.h"
 
 #include "core/profiler.h"
 #include "core/sync.h"
@@ -13,10 +13,7 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Server::initialize(Params* params) {
-    assert(params && params->registry);
-    Logic::inst().initialize(params->registry);
-
+bool Server::initialize() {
     states_.advance(States::CLEAR_FRAME);
 
 	states_.get().entities[0].rotation.identity();
@@ -40,13 +37,13 @@ bool Server::update() {
     ServerRequests requests;
     memset(&requests, 0, sizeof(requests));
 
-    Logic::inst().decide(states_.get(-1), requests.entities);
+    g_engine.logic->decide(states_.get(-1), requests.entities);
 
     Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter());
     if (fromClient)
         requests.clients[0] = fromClient.data();
 
-    Arbiter::inst().marshall(states_.get(-1), requests, states_.get());
+    g_game.arbiter->marshall(states_.get(-1), requests, states_.get());
 
     Sync::ArbiterToClient::Writable toClient(Sync::inst().arbiterToClient());
     if (toClient)

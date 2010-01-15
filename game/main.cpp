@@ -2,8 +2,6 @@
 
 #include "core/core.h"
 
-#include "playground/playground_game.h"
-
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -11,7 +9,7 @@ using namespace engine;
 int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
 	CHECKED_CALL(kaynine::setCurrentDirectory());
 
-    Core core(game_playground::Game());
+    Core core;
 
 	return 0;
 }

@@ -7,7 +7,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoOGL : public VideoInterface {
+class VideoOGL : public Video {
 public:
 	VideoOGL();
 	~VideoOGL();
@@ -15,7 +15,7 @@ public:
 	// interface: Callable
 	virtual void operator()();
 
-	// interface: VideoInterface
+	// interface: Video
 	virtual bool startup();
 	virtual void shutdown();
 

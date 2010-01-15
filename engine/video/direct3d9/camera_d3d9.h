@@ -10,6 +10,7 @@ namespace engine {
 class CameraD3D9 : public Camera {
 public:
 	CameraD3D9();
+	virtual ~CameraD3D9() {}
 
 	// interface: Updatable
 	virtual void update();

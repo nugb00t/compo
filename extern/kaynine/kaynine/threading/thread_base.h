@@ -1,11 +1,11 @@
-#ifndef KN_THREADED_INCLUDED
-#define KN_THREADED_INCLUDED
+#ifndef KN_THREAD_BASE_INCLUDED
+#define KN_THREAD_BASE_INCLUDED
 
 namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Threaded {
+class ThreadBase {
 public:
     bool initialize();
     bool update();

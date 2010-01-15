@@ -14,7 +14,6 @@ public:
 	static const unsigned FRAMERATE = 60;
 
 public:
-    LocalClient();
     virtual ~LocalClient() = 0;
 
 public:
@@ -24,9 +23,6 @@ public:
 protected:
 	virtual void handleControls(const InputData& controls, ServerRequests::Client& request) = 0;
 	virtual void showWorld(const ServerState& fromArbiter, ServerState& toVideo) = 0;
-
-private:
-    InputPtr input_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

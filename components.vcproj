@@ -244,7 +244,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\extern\kaynine\kaynine\threading\threaded.h"
+						RelativePath=".\extern\kaynine\kaynine\threading\thread_base.h"
 						>
 					</File>
 				</Filter>
@@ -297,6 +297,14 @@
 		<Filter
 			Name="engine"
 			>
+			<File
+				RelativePath=".\engine\engine.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\engine\engine.h"
+				>
+			</File>
 			<File
 				RelativePath=".\engine\engine_pch.h"
 				>
@@ -381,15 +389,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\video\video.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\video\video.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\video_component.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\video\video_interface.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\video\video_interface.h"
 					>
 				</File>
 				<Filter
@@ -484,10 +492,6 @@
 			<Filter
 				Name="system"
 				>
-				<File
-					RelativePath=".\engine\system\system_loop.h"
-					>
-				</File>
 				<Filter
 					Name="win51"
 					>
@@ -557,7 +561,7 @@
 				Name="window"
 				>
 				<File
-					RelativePath=".\engine\window\window_interface.h"
+					RelativePath=".\engine\window\window.h"
 					>
 				</File>
 				<Filter
@@ -616,14 +620,6 @@
 			<Filter
 				Name="playground"
 				>
-				<File
-					RelativePath=".\game\playground\playground_game.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\game\playground\playground_game.h"
-					>
-				</File>
 				<Filter
 					Name="effects"
 					>

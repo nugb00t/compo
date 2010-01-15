@@ -3,7 +3,8 @@
 #ifdef VIDEO_DIRECT3D9
 #include "video_d3d9.h"
 
-#include "window/window_interface.h"
+#include "engine.h"
+#include "game.h"
 
 // directx
 #pragma comment(lib, "d3d9.lib")
@@ -23,26 +24,12 @@ namespace {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 VideoD3D9::~VideoD3D9() {
-	shutdown();
+	terminate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoD3D9::shutdown() {
-	if (d3d_) {
-		d3d_->Release();
-		d3d_ = 0;
-	}
-
-	if (device_) {
-		device_->Release();
-		device_ = 0;
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool VideoD3D9::startup() {
+bool VideoD3D9::initialize() {
 	d3d_ = Direct3DCreate9(D3D_SDK_VERSION);
 	if (!d3d_)
 		return false;
@@ -55,7 +42,27 @@ bool VideoD3D9::startup() {
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 
-	return SUCCEEDED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window::inst().handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(& D3DCREATE_PUREDEVICE), &d3dpp, &device_));
+	const bool ok = SUCCEEDED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_engine.window->handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(& D3DCREATE_PUREDEVICE), &d3dpp, &device_));
+	if (!ok)
+		return false;
+
+	camera_.reset(createCamera());
+
+	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void VideoD3D9::terminate() {
+	if (d3d_) {
+		d3d_->Release();
+		d3d_ = 0;
+	}
+
+	if (device_) {
+		device_->Release();
+		device_ = 0;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

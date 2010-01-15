@@ -10,21 +10,22 @@
 #ifndef KN_THREAD_INCLUDED
 #define KN_THREAD_INCLUDED
 
-#include "windows.h"
+#include <windows.h>
+#include <boost/scoped_ptr.hpp>
 
 namespace kaynine {
 
-class Threaded;
+class ThreadBase;
 class Event;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Thread {
     struct Pack {
-		Threaded* object;
-        Event* quit;
+		boost::scoped_ptr<ThreadBase> object;
+        Event& quit;
 
-        Pack(Threaded* object_, Event* quit_)
+        Pack(ThreadBase* object_, Event& quit_)
             : object(object_), quit(quit_) {}
 
     private:
@@ -33,19 +34,19 @@ class Thread {
 
 public:
     static DWORD WINAPI func(void* something);
-    static HANDLE create(Threaded* object, Event* quit);
+    static HANDLE create(ThreadBase* object, Event& quit);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class PulseThread {
     struct Pack {
-		Threaded* object;
-        Event* quit;
+		boost::scoped_ptr<ThreadBase> object;
+        Event& quit;
         const unsigned period;
         const unsigned delay;
 
-        Pack(Threaded* object_, Event* quit_, const unsigned period_, const unsigned delay_)
+        Pack(ThreadBase* object_, Event& quit_, const unsigned period_, const unsigned delay_)
             : object(object_), quit(quit_), period(period_), delay(delay_) {}
 
     private:
@@ -54,7 +55,7 @@ class PulseThread {
 
 public:
     static DWORD WINAPI func(void* something);
-    static HANDLE create(Threaded* object, Event* quit, const unsigned period, const unsigned delay = 0);
+    static HANDLE create(ThreadBase* object, Event& quit, const unsigned period, const unsigned delay = 0);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
