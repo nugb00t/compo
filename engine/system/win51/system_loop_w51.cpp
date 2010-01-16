@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #ifdef PLATFORM_WIN51
-#include "message_sink_w51.h"
+#include "system_loop_w51.h"
 
 #include "engine.h"
 #include "game.h"
@@ -16,8 +16,8 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool MessageSinkW51::initialize() {
-    if (!g_engine.window->create(MessageSinkW51::wndProc, 800, 600, 32, 0, false))
+bool SystemLoopW51::initialize() {
+    if (!g_engine.window->create(SystemLoopW51::wndProc, 800, 600, 32, 0, false))
         return false;
 
     // this needs a proper sync
@@ -29,7 +29,7 @@ bool MessageSinkW51::initialize() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool MessageSinkW51::update() {
+bool SystemLoopW51::update() {
     Profiler::StopWatch stopWatch(Profiler::SYSTEM);
 
     MSG	msg;
@@ -46,14 +46,14 @@ bool MessageSinkW51::update() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MessageSinkW51::terminate() {
+void SystemLoopW51::terminate() {
 	if (g_engine.window) 
 		g_engine.window->destroy(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CALLBACK MessageSinkW51::wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK SystemLoopW51::wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
 		//case WM_SIZE: // 0x0005
 		//	pRenderLoop_->reshapeRenderer(LOWORD(lParam), HIWORD(lParam));

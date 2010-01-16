@@ -10,7 +10,7 @@ namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class OrbVideo : public engine::EntityVideoComponent {
+class OrbVideo : public engine::VideoComponent {
 
 #pragma pack(push, 4)
 	struct Vertex {
@@ -25,8 +25,8 @@ class OrbVideo : public engine::EntityVideoComponent {
 public:
     OrbVideo() : mesh_(NULL), effect_(NULL) {}
 
-	// interface: EntityVideoComponent
-	virtual void update(const engine::ServerState::Entity& fromClient);
+	// interface: VideoComponent
+	virtual void draw(const engine::ServerState::Entity& fromClient);
 
 private:
 	static const Vertex vertices_[];

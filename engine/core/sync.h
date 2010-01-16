@@ -3,27 +3,26 @@
 
 #include "server/server_data.h"
 
+namespace {
+	const TCHAR* QUIT_SIGNAL_NAME = _T("COMPONENTS_EXIT_SIGNAL");
+}
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Sync : public kaynine::Singleton<Sync> {
-public:
+struct Sync {
     typedef kaynine::FrameBuffer<ServerRequests::Client> ClientToArbiter;
     typedef kaynine::FrameBuffer<ServerState> ArbiterToClient;
     typedef kaynine::FrameBuffer<ServerState> ClientToVideo;
 
-public:
-    ClientToArbiter& clientToArbiter() { return clientToArbiterFB_; }
-    ArbiterToClient& arbiterToClient() { return arbiterToClientFB_; }
-    ClientToVideo& clientToVideo() { return clientToVideoFB_; }
+    ArbiterToClient arbiterToClient;
+    ClientToArbiter clientToArbiter;
+    ClientToVideo clientToVideo;
 
-private:
-    ArbiterToClient arbiterToClientFB_;
-    ClientToArbiter clientToArbiterFB_;
-    ClientToVideo clientToVideoFB_;
+	kaynine::Event quit;
 
-	friend struct kaynine::Singleton<Sync>;
+	Sync() : quit(QUIT_SIGNAL_NAME) {}
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -13,7 +13,6 @@ public:
 	~Core();
 
 private:
-    kaynine::Event quit_;
     kaynine::Handles threads_;
 };
 

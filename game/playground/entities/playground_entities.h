@@ -1,15 +1,14 @@
-#ifndef LOGIC_COMPONENT_INCLUDED
-#define LOGIC_COMPONENT_INCLUDED
+#ifndef PLAYGROUND_ENTITIES_INCLUDED
+#define PLAYGROUND_ENTITIES_INCLUDED
 
-#include "server/server_data.h"
-
-namespace engine {
+namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class LogicComponent {
-public:
-    virtual void decide(const ServerState& last, ServerRequests::Entity& request) = 0;
+enum GameEntities {
+	ENTITY_ORB,
+
+	_ENTITY_COUNT
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

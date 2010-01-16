@@ -20,7 +20,7 @@ public:
     ~VideoD3D9();
 
 public:
-	// interface: kaynine::ThreadBase
+	// interface: kaynine::ThreadObject
 	virtual bool initialize();
 	virtual void terminate();
 

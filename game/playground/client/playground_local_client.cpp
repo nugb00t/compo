@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "playground_client.h"
+#include "playground_local_client.h"
 
 using namespace engine;
 using namespace game_playground;
@@ -11,7 +11,7 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameClient::handleControls(const InputData& controls, ServerRequests::Client& request) {
+void GameLocalClient::handleControls(const InputData& controls, ServerRequests::Client& request) {
 	assert(!request.valid);
 
 	const float x = (float)controls.axis[InputData::MOUSE_X].events[0].value / AXIS_SCALE;
@@ -24,7 +24,7 @@ void GameClient::handleControls(const InputData& controls, ServerRequests::Clien
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameClient::showWorld(const ServerState& fromArbiter, ServerState& toVideo) {
+void GameLocalClient::showWorld(const ServerState& fromArbiter, ServerState& toVideo) {
 	memcpy(&toVideo, &fromArbiter, sizeof(toVideo));
 }
 

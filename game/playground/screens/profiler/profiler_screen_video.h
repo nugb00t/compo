@@ -13,7 +13,7 @@ class ProfilerScreenVideo : public engine::ScreenVideoComponent {
 public:
     ProfilerScreenVideo();
 
-	// interface: EntityVideoComponent
+	// interface: VideoComponent
 	virtual void update(const unsigned msec);
 
 private:

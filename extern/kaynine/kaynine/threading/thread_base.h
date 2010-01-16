@@ -1,15 +1,27 @@
 #ifndef KN_THREAD_BASE_INCLUDED
 #define KN_THREAD_BASE_INCLUDED
 
+#include "sync_wrappers.h"
+
 namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class ThreadBase {
+class ThreadObject {
 public:
-    bool initialize();
-    bool update();
-    void terminate();
+    virtual bool initialize() = 0;
+    virtual bool update() = 0;
+    virtual void terminate() = 0;
+
+	virtual Event& quit() = 0;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class PulseThreadObject : public ThreadObject {
+public:
+	virtual const unsigned period() const = 0;	// *1 milliseconds
+	virtual const unsigned delay() const = 0;	// *100 nanoseconds
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

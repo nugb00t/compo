@@ -306,11 +306,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\engine\engine_hub.h"
+				>
+			</File>
+			<File
 				RelativePath=".\engine\engine_pch.h"
 				>
 			</File>
 			<File
+				RelativePath=".\engine\entity_factory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\engine\game.h"
+				>
+			</File>
+			<File
+				RelativePath=".\engine\game_hub.h"
 				>
 			</File>
 			<Filter
@@ -492,15 +504,23 @@
 			<Filter
 				Name="system"
 				>
+				<File
+					RelativePath=".\engine\system\system_loop.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\system\system_loop.h"
+					>
+				</File>
 				<Filter
 					Name="win51"
 					>
 					<File
-						RelativePath=".\engine\system\win51\message_sink_w51.cpp"
+						RelativePath=".\engine\system\win51\system_loop_w51.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\system\win51\message_sink_w51.h"
+						RelativePath=".\engine\system\win51\system_loop_w51.h"
 						>
 					</File>
 				</Filter>
@@ -620,6 +640,10 @@
 			<Filter
 				Name="playground"
 				>
+				<File
+					RelativePath=".\game\playground\playground_game.cpp"
+					>
+				</File>
 				<Filter
 					Name="effects"
 					>
@@ -632,11 +656,11 @@
 					Name="client"
 					>
 					<File
-						RelativePath=".\game\playground\client\playground_client.cpp"
+						RelativePath=".\game\playground\client\playground_local_client.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\game\playground\client\playground_client.h"
+						RelativePath=".\game\playground\client\playground_local_client.h"
 						>
 					</File>
 				</Filter>
@@ -679,13 +703,21 @@
 				<Filter
 					Name="entities"
 					>
+					<File
+						RelativePath=".\game\playground\entities\playground_entities.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\entities\playground_entity_factory.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\entities\playground_entity_factory.h"
+						>
+					</File>
 					<Filter
 						Name="orb"
 						>
-						<File
-							RelativePath=".\game\playground\entities\orb\orb.h"
-							>
-						</File>
 						<File
 							RelativePath=".\game\playground\entities\orb\orb_logic.cpp"
 							>

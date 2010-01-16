@@ -7,31 +7,17 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class EntityVideoComponent {
+class VideoComponent {
 public:
-	typedef engine::EntityVideoComponent Type;
-
-public:
-    virtual void update(const ServerState::Entity& fromLogic) = 0;
+    virtual void draw(const ServerState::Entity& fromLogic) = 0;
 };
-
-typedef boost::intrusive_ptr<EntityVideoComponent> EntityVideoComponentPtr;
-
-typedef kaynine::Index<ServerState::MAX_ENTITIES>::Registry<EntityVideoComponent> VideoComponentRegistry;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class ScreenVideoComponent {
 public:
-	typedef engine::ScreenVideoComponent Type;
-
-public:
-	virtual void update() = 0;
+	virtual void draw() = 0;
 };
-
-typedef boost::intrusive_ptr<ScreenVideoComponent> ScreenVideoComponentPtr;
-
-typedef kaynine::Index<ServerState::MAX_ENTITIES>::Registry<ScreenVideoComponent> ScreenVideoComponentRegistry;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

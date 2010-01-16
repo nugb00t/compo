@@ -9,7 +9,12 @@ namespace engine {
 
 class Logic {
 public:
+	Logic();
+
 	void decide(const ServerState& last, ServerRequests::Entity entities[ServerState::MAX_ENTITIES]);
+
+private:
+	class LogicComponent* registry_[ServerState::MAX_ENTITIES];
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

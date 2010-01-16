@@ -1,16 +1,17 @@
-#ifndef ORB_INCLUDED
-#define ORB_INCLUDED
+#ifndef SYSTEM_LOOP_INCLUDED
+#define SYSTEM_LOOP_INCLUDED
 
-#include "core/sync.h"
 
-#include "orb_logic.h"
-#include "orb_video.h"
-
-namespace game_playground {
+namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Orb : public kaynine::Index<engine::ServerState::MAX_ENTITIES>::Registrant2<OrbLogic, OrbVideo> {};
+class SystemLoop : public kaynine::ThreadObject {
+	static const unsigned PERIOD = 10;
+
+public:
+	virtual kaynine::Event& quit();
+};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

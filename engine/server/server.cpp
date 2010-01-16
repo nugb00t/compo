@@ -13,6 +13,12 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+kaynine::Event& Server::quit() { 
+	return g_engine.sync->quit; 
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool Server::initialize() {
     states_.advance(States::CLEAR_FRAME);
 
@@ -39,13 +45,13 @@ bool Server::update() {
 
     g_engine.logic->decide(states_.get(-1), requests.entities);
 
-    Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter());
+    Sync::ClientToArbiter::Readable fromClient(g_engine.sync->clientToArbiter);
     if (fromClient)
         requests.clients[0] = fromClient.data();
 
     g_game.arbiter->marshall(states_.get(-1), requests, states_.get());
 
-    Sync::ArbiterToClient::Writable toClient(Sync::inst().arbiterToClient());
+    Sync::ArbiterToClient::Writable toClient(g_engine.sync->arbiterToClient);
     if (toClient)
         toClient.data() = states_.get();
 

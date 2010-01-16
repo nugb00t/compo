@@ -64,7 +64,7 @@ bool WindowW51::create(const WNDPROC wndProc,
 					   const unsigned frequency, 
 					   const bool fullscreen)
 {
-	assert(!window_ && !context_ && !format_ && wndProc && width && height && colorBits && frequency);
+	assert(!window_ && !context_ && !format_ && wndProc && width && height && colorBits);
 
 	WNDCLASS wc;
 	wc.style			= CS_OWNDC;

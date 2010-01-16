@@ -14,7 +14,7 @@ public:
 	static const unsigned FRAMERATE = 60;
 
 public:
-    virtual ~LocalClient() = 0;
+	virtual ~LocalClient() {}
 
 public:
 	// interface: Updatable

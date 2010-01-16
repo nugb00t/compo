@@ -1,16 +1,18 @@
-#ifndef MESSAGE_SINK_W51_INCLUDED
-#define MESSAGE_SINK_W51_INCLUDED
+#ifndef SYSTEM_LOOP_W51_INCLUDED
+#define SYSTEM_LOOP_W51_INCLUDED
 
 #ifdef PLATFORM_WIN51
+#include "system/system_loop.h"
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class MessageSinkW51 : public kaynine::ThreadBase {
+class SystemLoopW51 : public SystemLoop {
     static const unsigned PERIOD = 10;
 
 public:
-    // interface: kaynine::ThreadBase
+    // interface: kaynine::ThreadObject
     virtual bool initialize();
     virtual bool update();
     virtual void terminate();

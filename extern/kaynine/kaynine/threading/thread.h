@@ -15,47 +15,23 @@
 
 namespace kaynine {
 
-class ThreadBase;
-class Event;
+class ThreadObject;
+class PulseThreadObject;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Thread {
-    struct Pack {
-		boost::scoped_ptr<ThreadBase> object;
-        Event& quit;
-
-        Pack(ThreadBase* object_, Event& quit_)
-            : object(object_), quit(quit_) {}
-
-    private:
-        Pack& operator =(const Pack&);
-    };
-
 public:
     static DWORD WINAPI func(void* something);
-    static HANDLE create(ThreadBase* object, Event& quit);
+	static HANDLE create(ThreadObject* object) { return ::CreateThread(NULL, 0, &func, object, 0, NULL); }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class PulseThread {
-    struct Pack {
-		boost::scoped_ptr<ThreadBase> object;
-        Event& quit;
-        const unsigned period;
-        const unsigned delay;
-
-        Pack(ThreadBase* object_, Event& quit_, const unsigned period_, const unsigned delay_)
-            : object(object_), quit(quit_), period(period_), delay(delay_) {}
-
-    private:
-        Pack& operator =(const Pack&);
-    };
-
 public:
     static DWORD WINAPI func(void* something);
-    static HANDLE create(ThreadBase* object, Event& quit, const unsigned period, const unsigned delay = 0);
+	static HANDLE create(PulseThreadObject* object) { return ::CreateThread(NULL, 0, &func, object, 0, NULL); }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

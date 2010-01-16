@@ -9,7 +9,7 @@ namespace engine {
 
 class Arbiter {
 public:
-    virtual ~Arbiter() = 0;
+	virtual ~Arbiter() {}
 
 public:
     virtual void marshall(const ServerState& last, const ServerRequests& requests, ServerState& next) = 0;
