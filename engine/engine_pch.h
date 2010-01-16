@@ -17,8 +17,8 @@
 
 #pragma warning (disable: 4244)		// conversion from 'int' to 'unsigned short', possible loss of data
 #include <boost/intrusive_ptr.hpp>
-#include <boost/static_assert.hpp>
 #include <boost/scoped_ptr.hpp>
+#include <boost/static_assert.hpp>
 #pragma warning (default: 4244)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,10 +54,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <kaynine/debug/macros.h>
-#include <kaynine/utility/holder.h>
-#include <kaynine/utility/registry.h>
 #include <kaynine/containers/cyclic_buffer.h>
+#include <kaynine/debug/macros.h>
 #include <kaynine/filesystem/tools.h>
 #include <kaynine/memory/intrusive_ptr_base.h>
 #include <kaynine/threading/frame_buffer.h>

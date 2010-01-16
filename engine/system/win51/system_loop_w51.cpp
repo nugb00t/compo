@@ -99,7 +99,7 @@ LRESULT CALLBACK SystemLoopW51::wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 			break;
 
 		case WM_INPUT: // 0x00FF
-			g_engine.inputW51->processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Time::inst().msec());
+			g_engine.inputW51->processRawInput(reinterpret_cast<HRAWINPUT>(lParam), g_engine.time->msec());
 			break;
 	}
 

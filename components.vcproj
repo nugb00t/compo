@@ -256,10 +256,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\extern\kaynine\kaynine\utility\registry.h"
-						>
-					</File>
-					<File
 						RelativePath=".\extern\kaynine\kaynine\utility\safe_bool.h"
 						>
 					</File>
@@ -340,10 +336,6 @@
 					RelativePath=".\engine\utility\math.h"
 					>
 				</File>
-				<File
-					RelativePath=".\engine\utility\profiler_base.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="core"
@@ -354,6 +346,10 @@
 				</File>
 				<File
 					RelativePath=".\engine\core\core.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\profiler.cpp"
 					>
 				</File>
 				<File

@@ -19,7 +19,9 @@
 #endif
 
 #include "logic/logic.h"
+#include "core/profiler.h"
 #include "core/sync.h"
+#include "core/time.h"
 
 namespace engine {
 
@@ -46,7 +48,9 @@ public:
 	Window* const window;
 
 	const boost::scoped_ptr<Logic> logic;
+	const boost::scoped_ptr<Profiler> profiler;
 	const boost::scoped_ptr<Sync> sync;
+	const boost::scoped_ptr<Time> time;
 
 public:
 	Engine() :
@@ -63,7 +67,9 @@ public:
 		window(windowW51.get()),
 #endif
 		logic(new Logic),
-		sync(new Sync)
+		profiler(new Profiler),
+		sync(new Sync),
+		time(new Time)
 		{}
 
 #ifdef PLATFORM_WIN51
