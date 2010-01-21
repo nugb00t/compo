@@ -48,12 +48,14 @@ bool Server::update() {
     Sync::ClientToArbiter::Readable fromClient(g_engine.sync->clientToArbiter);
     if (fromClient)
         requests.clients[0] = fromClient.data();
+	DEBUG_ONLY(else ::OutputDebugString(_T("Server::update(): failed to open Arbiter package\n")));
 
     g_game.arbiter->marshall(states_.get(-1), requests, states_.get());
 
     Sync::ArbiterToClient::Writable toClient(g_engine.sync->arbiterToClient);
-    if (toClient)
-        toClient.data() = states_.get();
+    assert(toClient);
+	
+	toClient.data() = states_.get();
 
     return true;
 }

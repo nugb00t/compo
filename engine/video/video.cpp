@@ -37,10 +37,12 @@ bool Video::update() {
 		camera_->update();
 
 		Sync::ClientToVideo::Readable fromClient(g_engine.sync->clientToVideo);
-		if (fromClient)
+		if (fromClient) {
 			for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 				if (registry_[i])
 					registry_[i]->draw(fromClient.data().entities[i]);
+		} 
+		DEBUG_ONLY(else ::OutputDebugString(_T("Video::update(): failed to open Client package\n")));
 
 		//for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 		//	if (ScreenVideoComponentRegistry::inst().valid(i))
