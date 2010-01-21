@@ -125,7 +125,8 @@ WaitableTimer::WaitableTimer()
 
 WaitableTimer::WaitableTimer(const unsigned period, const unsigned delay /*= 1*/, PTIMERAPCROUTINE func /*= NULL*/, void* arg /*= NULL*/)
 : Handle(::CreateWaitableTimer(NULL, FALSE, NULL)) {
-	bool ok = set(period, delay, func, arg);
+	DEBUG_ONLY(bool ok =)
+		set(period, delay, func, arg);
 	assert(ok);
 }
 

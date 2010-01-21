@@ -63,7 +63,8 @@ void InputW51::unbuffered(const HRAWINPUT handle, const unsigned now) {
 
 	// read raw input
 	unsigned size = sizeof(raw);
-	const unsigned read = ::GetRawInputData(handle, RID_INPUT, &raw, &size, sizeof(RAWINPUTHEADER));
+	DEBUG_ONLY(const unsigned read =)
+		::GetRawInputData(handle, RID_INPUT, &raw, &size, sizeof(RAWINPUTHEADER));
 	assert(read <= size);
 
 	process(raw, now);
@@ -107,25 +108,25 @@ void InputW51::process(const RAWINPUT& raw, const unsigned now) {
 
 		// axis
 		if (mouse.usFlags & MOUSE_MOVE_ABSOLUTE) {
-			controls_.axis[InputData::MOUSE_X].add(now, mouse.lLastX - lastX);
-			controls_.axis[InputData::MOUSE_Y].add(now, mouse.lLastY - lastY);
+			controls_.axis[InputData::MOUSE_X].add(InputData::AxisEvent(now, mouse.lLastX - lastX));
+			controls_.axis[InputData::MOUSE_Y].add(InputData::AxisEvent(now, mouse.lLastY - lastY));
 
 			lastX = mouse.lLastX;
 			lastY = mouse.lLastY;
 
 			if (mouse.usButtonFlags & RI_MOUSE_WHEEL) {
-				controls_.axis[InputData::MOUSE_WHEEL].add(now, mouse.usButtonData - lastWheel);
+				controls_.axis[InputData::MOUSE_WHEEL].add(InputData::AxisEvent(now, mouse.usButtonData - lastWheel));
 				lastWheel = mouse.usButtonData;
 			}
 		} else {
-			controls_.axis[InputData::MOUSE_X].add(now, mouse.lLastX);
-			controls_.axis[InputData::MOUSE_Y].add(now, mouse.lLastY);
+			controls_.axis[InputData::MOUSE_X].add(InputData::AxisEvent(now, mouse.lLastX));
+			controls_.axis[InputData::MOUSE_Y].add(InputData::AxisEvent(now, mouse.lLastY));
 
 			lastX = 0;
 			lastY = 0;
 
 			if (mouse.usButtonFlags & RI_MOUSE_WHEEL) {
-				controls_.axis[InputData::MOUSE_WHEEL].add(now, mouse.usButtonData);
+				controls_.axis[InputData::MOUSE_WHEEL].add(InputData::AxisEvent(now, mouse.usButtonData));
 				lastWheel = 0;
 			}
 		}

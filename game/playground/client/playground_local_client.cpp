@@ -2,11 +2,14 @@
 
 #include "playground_local_client.h"
 
+#include "engine.h"
+
 using namespace engine;
 using namespace game_playground;
 
 namespace {
-	const float AXIS_SCALE = 10.f;
+	const float AXIS_SCALE = .1f;
+	const float AXIS_FALLOFF = 10.f;	// msec
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,10 +17,17 @@ namespace {
 void GameLocalClient::handleControls(const InputData& controls, ServerRequests::Client& request) {
 	assert(!request.valid);
 
-	const float x = (float)controls.axis[InputData::MOUSE_X].events[0].value / AXIS_SCALE;
-	const float y = (float)controls.axis[InputData::MOUSE_Y].events[0].value / AXIS_SCALE;
+	const unsigned now = g_engine.time->msec();
 
-	request.positionalVelocity = Vector3(x, y, 0.f);
+	const InputData::AxisEvent& x = controls.axis[InputData::MOUSE_X].get();
+	const unsigned ageX = now - x.time;
+	const InputData::AxisEvent& y = controls.axis[InputData::MOUSE_Y].get();
+	const unsigned ageY = now - y.time;
+
+	request.positionalVelocity = Vector3(
+		ageX < AXIS_FALLOFF ? (float)x.value * AXIS_SCALE * (AXIS_FALLOFF - ageX) / AXIS_FALLOFF : 0.f, 
+		ageY < AXIS_FALLOFF ? (float)y.value * AXIS_SCALE * (AXIS_FALLOFF - ageY) / AXIS_FALLOFF : 0.f, 
+		0.f);
 
 	request.valid = true;
 }

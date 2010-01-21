@@ -29,25 +29,17 @@ struct InputData {
 	struct AxisEvent {
 		unsigned time;
 		int value;
-	};
 
-	struct AxisEventHistory {
-		static const unsigned DEPTH = 4;
+		AxisEvent(const unsigned time_, const int value_) 
+			: time(time_), value(value_) {}
 
-		AxisEvent events[DEPTH];
-
-		void add(const unsigned time, const int value)  {
-			for (unsigned i = DEPTH; i > 0; --i)
-				events[i] = events[i - 1];
-
-			events[0].time = time;
-			events[0].value = value;
-		}
+		AxisEvent() 
+			: time(0), value(0) {}
 	};
 
 	// the whole struct
 	ButtonInfo buttons[BUTTON_COUNT];
-	AxisEventHistory axis[AXIS_COUNT];
+	kaynine::CyclicBuffer<AxisEvent, AXIS_HISTORY> axis[AXIS_COUNT];
 	unsigned age;
 };
 

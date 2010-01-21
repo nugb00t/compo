@@ -3,13 +3,15 @@
 
 #include <assert.h>
 
+#include "../debug/macros.h"
+
 namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // usage:
 // buffer.get(-2).field
-template <class TValue, unsigned TSize>
+template <class TValue, unsigned TSize = 4>
 class CyclicBuffer {
 public:
 	typedef TValue VALUE_TYPE;
@@ -27,11 +29,16 @@ public:
 		lastUpdated_ = (lastUpdated_ + 1) % SIZE;
 	}
 
-	void advance(Mode mode) {
+	void advance(Mode DEBUG_ONLY(mode)) {
 		assert(mode == CLEAR_FRAME);
 
 		advance();
 		memset(&ts_[lastUpdated_], 0, sizeof(ts_[lastUpdated_]));
+	}
+
+	void add(const TValue& value) {
+		advance();
+		ts_[lastUpdated_] = value;
 	}
 
     // Negative 'index' values will yield previously added values

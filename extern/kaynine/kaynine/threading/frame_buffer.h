@@ -155,7 +155,6 @@ const bool FrameBuffer<TContents>::lockReadable() const {
 	assert(reading_ == INVALID_FRAME);
 
 	reading_ = fresh_;
-	fresh_ = INVALID_FRAME;
 
 	return reading_ != INVALID_FRAME;
 }
