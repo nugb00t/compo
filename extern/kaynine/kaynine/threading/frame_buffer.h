@@ -37,6 +37,8 @@ public:
 		inline const TContents& data() { assert(frameBuffer_.getReadable()); return *frameBuffer_.getReadable(); }
 		inline bool boolean_test() const { return initialized_; }
 
+		inline const unsigned age() const { return frameBuffer_.age(); }
+
 	private:
 		Readable(const Readable&);				// prohibited
 		Readable operator =(const Readable&);	// prohibited
@@ -86,6 +88,8 @@ private:
 	const TContents* getReadable() const;
 	void unlockReadable() const;
 
+	inline const unsigned age() const { return age_; }
+
 private:
 	// shared data
 	TContents			contents_[FRAME_COUNT];
@@ -93,6 +97,7 @@ private:
 	int			writing_;
 	mutable int fresh_;
 	mutable int	reading_;
+	mutable unsigned age_;
 
 	mutable CriticalSection		guard_;
 };
@@ -101,7 +106,7 @@ private:
 
 template <class TContents>
 FrameBuffer<TContents>::FrameBuffer()
-	: writing_(INVALID_FRAME), fresh_(INVALID_FRAME), reading_(INVALID_FRAME) {}
+	: writing_(INVALID_FRAME), fresh_(INVALID_FRAME), reading_(INVALID_FRAME), age_(0) {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -143,6 +148,7 @@ void FrameBuffer<TContents>::unlockWritable() {
 	assert(0 <= writing_ && writing_ < FRAME_COUNT);
 
 	fresh_ = writing_;
+	age_ = 0;
 	writing_ = INVALID_FRAME;
 }
 
@@ -155,6 +161,7 @@ const bool FrameBuffer<TContents>::lockReadable() const {
 	assert(reading_ == INVALID_FRAME);
 
 	reading_ = fresh_;
+	++age_;
 
 	return reading_ != INVALID_FRAME;
 }

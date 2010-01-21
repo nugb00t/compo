@@ -25,12 +25,14 @@ void LocalClient::update() {
 	handleControls(g_engine.input->controls(), toArbiter.data());
 
 	Sync::ArbiterToClient::Readable fromArbiter(g_engine.sync->arbiterToClient);
+	if (fromArbiter && fromArbiter.age())
+		::OutputDebugString(_T("LocalClient::update(): failed to open Arbiter package\n"));
+
 	Sync::ClientToVideo::Writable toVideo(g_engine.sync->clientToVideo);
 	assert(toVideo);
 
 	if (fromArbiter)
 		showWorld(fromArbiter.data(), toVideo.data());
-	DEBUG_ONLY(else ::OutputDebugString(_T("LocalClient::update(): failed to open Arbiter package\n")));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
