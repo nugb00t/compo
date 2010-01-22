@@ -7,8 +7,6 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class SystemLoop : public kaynine::ThreadObject {
-	static const unsigned PERIOD = 10;
-
 public:
 	virtual kaynine::Event& quit();
 };

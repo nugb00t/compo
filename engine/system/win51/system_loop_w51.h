@@ -9,7 +9,7 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class SystemLoopW51 : public SystemLoop {
-    static const unsigned PERIOD = 10;
+    static const unsigned PERIOD = 16;
 
 public:
     // interface: kaynine::ThreadObject
