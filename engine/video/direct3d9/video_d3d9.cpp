@@ -46,6 +46,8 @@ bool VideoD3D9::initialize() {
 	if (!ok)
 		return false;
 
+	vertexDecls_.initialize();
+
 	camera_.reset(createCamera());
 
 	return true;

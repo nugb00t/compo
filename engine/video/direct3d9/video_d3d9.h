@@ -8,7 +8,7 @@
 #include "mesh_d3d9.h"
 #include "effect_d3d9.h"
 #include "texture_d3d9.h"
-#include "vertex_decl_d3d9.h"
+#include "vertex_decls_d3d9.h"
 
 namespace engine {
 
@@ -33,10 +33,10 @@ public:
 	// object factory
 	virtual Camera* createCamera() { return new CameraD3D9; }
 	virtual Mesh* createMesh(EffectPtr effect) { return new MeshD3D9(effect); }
-	virtual Effect* createEffect(const TCHAR* const path, const VertexDeclPtr vertexDecl) { return new EffectD3D9(path, vertexDecl); }
+	virtual Effect* createEffect(const TCHAR* const path, const VertexDecls::Type vertexDecl) { return new EffectD3D9(path, vertexDecl); }
 	virtual Texture* createTexture(const TCHAR* const path) { return new TextureD3D9(path); }
 
-	virtual VertexDeclPtr getVertexDecl(const VertexDecl::Type type) { return VertexDeclD3D9::get(type); }
+	virtual void activateVertexDecl(const VertexDecls::Type type) { vertexDecls_.activate(type); }
 
 public:
 	// own
@@ -48,6 +48,8 @@ public:
 private:
 	IDirect3D9* d3d_;
 	IDirect3DDevice9* device_;
+
+	VertexDeclsD3D9 vertexDecls_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

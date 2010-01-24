@@ -1,24 +1,26 @@
-#ifndef PROFILER_SCREEN_VIDEO_INCLUDED
-#define PROFILER_SCREEN_VIDEO_INCLUDED
+#ifndef THREAD_PROFILER_VIDEO_INCLUDED
+#define THREAD_PROFILER_VIDEO_INCLUDED
 
 #include "core/profiler.h"
 #include "video/video_component.h"
+
+#include "video/effect.h"
 #include "video/mesh.h"
 
 namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class ProfilerScreenVideo : public engine::ScreenVideoComponent {
+class ThreadProfilerVideo : public engine::ScreenVideoComponent {
 public:
-    ProfilerScreenVideo();
+    ThreadProfilerVideo() : effect_(NULL), mesh_(NULL) {}
 
 	// interface: VideoComponent
-	virtual void update(const unsigned msec);
+	virtual void draw();
 
 private:
-	engine::MeshPtr meshes_[engine::Profiler::SECTION_COUNT][engine::ProfilerSections::HISTORY_DEPTH];
-    engine::EffectPtr effect_;
+	engine::EffectPtr effect_;
+	engine::MeshPtr mesh_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

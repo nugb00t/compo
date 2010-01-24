@@ -310,7 +310,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\engine\entity_factory.h"
+				RelativePath=".\engine\factories.h"
 				>
 			</File>
 			<File
@@ -393,7 +393,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\engine\video\vertex_decl.h"
+					RelativePath=".\engine\video\vertex_decls.h"
 					>
 				</File>
 				<File
@@ -464,11 +464,11 @@
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\direct3d9\vertex_decl_d3d9.cpp"
+						RelativePath=".\engine\video\direct3d9\vertex_decls_d3d9.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\direct3d9\vertex_decl_d3d9.h"
+						RelativePath=".\engine\video\direct3d9\vertex_decls_d3d9.h"
 						>
 					</File>
 					<File
@@ -637,6 +637,14 @@
 				Name="playground"
 				>
 				<File
+					RelativePath=".\game\playground\playground_factories.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\game\playground\playground_factories.h"
+					>
+				</File>
+				<File
 					RelativePath=".\game\playground\playground_game.cpp"
 					>
 				</File>
@@ -664,34 +672,14 @@
 					Name="screens"
 					>
 					<Filter
-						Name="profiler"
+						Name="thread_profiler"
 						>
 						<File
-							RelativePath=".\game\playground\screens\profiler\profiler_screen.h"
+							RelativePath=".\game\playground\screens\thread_profiler\thread_profiler_video.cpp"
 							>
 						</File>
 						<File
-							RelativePath=".\game\playground\screens\profiler\profiler_screen_video.cpp"
-							>
-							<FileConfiguration
-								Name="Debug|Win32"
-								ExcludedFromBuild="true"
-								>
-								<Tool
-									Name="VCCLCompilerTool"
-								/>
-							</FileConfiguration>
-							<FileConfiguration
-								Name="Release|Win32"
-								ExcludedFromBuild="true"
-								>
-								<Tool
-									Name="VCCLCompilerTool"
-								/>
-							</FileConfiguration>
-						</File>
-						<File
-							RelativePath=".\game\playground\screens\profiler\profiler_screen_video.h"
+							RelativePath=".\game\playground\screens\thread_profiler\thread_profiler_video.h"
 							>
 						</File>
 					</Filter>
@@ -699,18 +687,6 @@
 				<Filter
 					Name="entities"
 					>
-					<File
-						RelativePath=".\game\playground\entities\playground_entities.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\playground\entities\playground_entity_factory.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\game\playground\entities\playground_entity_factory.h"
-						>
-					</File>
 					<Filter
 						Name="orb"
 						>

@@ -38,7 +38,7 @@ void OrbVideo::draw(const ServerState::Entity& fromClient) {
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 
-        effect_ = g_engine.video->createEffect(_T("playground/fx/simple.h"), g_engine.video->getVertexDecl(VertexDecl::POS_DIFFUSE_TEX));
+        effect_ = g_engine.video->createEffect(_T("playground/fx/simple.h"), VertexDecls::POS_DIFFUSE_TEX);
         effect_->setUniforms(uniforms_);
         effect_->setTexUniforms(texUniforms_);
 

@@ -80,7 +80,7 @@ public:
 	friend class EffectD3D9;
 	friend class MeshD3D9;
 	friend class TextureD3D9;
-	friend class VertexDeclD3D9;
+	friend class VertexDeclsD3D9;
 #endif
 };
 

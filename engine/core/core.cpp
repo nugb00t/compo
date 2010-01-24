@@ -1,15 +1,14 @@
 #include "stdafx.h"
 
+#include "core.h"
 #ifdef PLATFORM_WIN51
 	#include "system/win51/system_loop_w51.h"
 #endif
 
 #include "engine.h"
+#include "profiler.h"
 
 #include "server/server.h"
-
-#include "profiler.h"
-#include "core.h"
 
 using namespace engine;
 

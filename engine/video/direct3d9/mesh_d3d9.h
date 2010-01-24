@@ -18,20 +18,20 @@ public:
 	virtual void draw(const Matrix44& view_proj);
 
 	// interface: Mesh
-	virtual void setBuffers(const void* const vertices, const unsigned verticesSize, const unsigned vertexSize,
-							const short* const indices, const unsigned indicesSize);
+	virtual void setBuffers(const void* const vertices, const unsigned vertexCount, const unsigned vertexSize,
+							const short* const indices, const unsigned indexCount);
 
 private:
 	// Direct3D
 	IDirect3DVertexBuffer9* vertexBuffer_;
 	IDirect3DIndexBuffer9* indexBuffer_;
 
-	unsigned verticesCapacity_;
-	unsigned verticesSize_;
+	unsigned vertexCount_;
 	unsigned vertexSize_;
+	unsigned verticesCapacity_;
 
+	unsigned indexCount_;
 	unsigned indicesCapacity_;
-	unsigned indicesSize_;
 
 	engine::EffectPtr effect_;
 };

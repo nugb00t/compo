@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #ifdef VIDEO_DIRECT3D9
-#include "vertex_decl_d3d9.h"
+#include "vertex_decls_d3d9.h"
 
 #include "engine.h"
 
@@ -9,17 +9,23 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const D3DVERTEXELEMENT9 VertexDeclD3D9::ELEMENTS[Type_COUNT][MAX_ELEMENTS] = {
+const D3DVERTEXELEMENT9 VertexDeclsD3D9::ELEMENTS[COUNT][MAX_ELEMENTS] = {
 		// stream, offset, type, method, usage, usage index
 
-	{	//POS_DIFFUSE_TEX
+	{	// POS_DIFFUSE
+		{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,	0},
+		{ 0, 12, D3DDECLTYPE_D3DCOLOR,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,		0},
+		D3DDECL_END()
+	},
+
+	{	// POS_DIFFUSE_TEX
 		{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,	0},
 		{ 0, 12, D3DDECLTYPE_D3DCOLOR,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,		0},
 		{ 0, 16, D3DDECLTYPE_FLOAT2,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,	0},
 		D3DDECL_END()
-	},
+		},
 
-	//{	//POS_NORMAL_TEX
+	//{	// POS_NORMAL_TEX
 	//	{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,	0},
 	//	{ 0, 12, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,		0},
 	//	{ 0, 24, D3DDECLTYPE_FLOAT2,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,	0},
@@ -27,40 +33,29 @@ const D3DVERTEXELEMENT9 VertexDeclD3D9::ELEMENTS[Type_COUNT][MAX_ELEMENTS] = {
 	//},
 };
 
-
-VertexDeclPtr VertexDeclD3D9::vertexDecls_[Type_COUNT];
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VertexDeclPtr VertexDeclD3D9::get(const Type type) {
-	assert(type < Type_COUNT);
-
-	if (!vertexDecls_[type])
-		vertexDecls_[type] = VertexDeclPtr(new VertexDeclD3D9(type));
-
-	return vertexDecls_[type];
+VertexDeclsD3D9::~VertexDeclsD3D9() {
+	for (unsigned i = 0; i < COUNT; ++i)
+		if (vertexDecls_[i])
+			vertexDecls_[i]->Release();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VertexDeclD3D9::VertexDeclD3D9(const Type type)
-: vertexDecl_(NULL) {
-	CHECKED_D3D_CALL(g_engine.videoD3D9->device().CreateVertexDeclaration(ELEMENTS[type], &vertexDecl_));
+void VertexDeclsD3D9::initialize() {
+	for (unsigned i = 0; i < COUNT; ++i)
+		CHECKED_D3D_CALL(g_engine.videoD3D9->device().CreateVertexDeclaration(ELEMENTS[i], &vertexDecls_[i]));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VertexDeclD3D9::~VertexDeclD3D9() {
-	if (vertexDecl_)
-		vertexDecl_->Release();
+void VertexDeclsD3D9::activate(const Type type) {
+	assert(0 <= type && type < COUNT);
+
+	CHECKED_D3D_CALL(g_engine.videoD3D9->device().SetVertexDeclaration(vertexDecls_[type]));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VertexDeclD3D9::activate() {
-	CHECKED_D3D_CALL(g_engine.videoD3D9->device().SetVertexDeclaration(vertexDecl_));
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#endif // VIDEO_DIRECT3D9
+#endif

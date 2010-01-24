@@ -8,7 +8,7 @@
 #include "mesh.h"
 #include "effect.h"
 #include "texture.h"
-#include "vertex_decl.h"
+#include "vertex_decls.h"
 
 namespace engine {
 
@@ -38,10 +38,10 @@ public:
 	// object factory
 	virtual Camera* createCamera() = 0;
 	virtual Mesh* createMesh(EffectPtr effect) = 0;
-	virtual Effect* createEffect(const TCHAR* const path, const VertexDeclPtr vertexDecl) = 0;
+	virtual Effect* createEffect(const TCHAR* const path, const VertexDecls::Type vertexDeclType) = 0;
 	virtual Texture* createTexture(const TCHAR* const path) = 0;
 
-	virtual VertexDeclPtr getVertexDecl(const VertexDecl::Type type) = 0;
+	virtual void activateVertexDecl(const VertexDecls::Type type) = 0;
 
 	virtual Camera& camera() { assert(camera_); return *camera_; }
 
@@ -49,6 +49,7 @@ protected:
 	boost::scoped_ptr<Camera> camera_;
 
 	class VideoComponent* registry_[ServerState::MAX_ENTITIES];
+	class ScreenVideoComponent* screen_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

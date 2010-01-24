@@ -10,7 +10,7 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-EffectD3D9::EffectD3D9(const TCHAR* const path, const VertexDeclPtr vertexDecl)
+EffectD3D9::EffectD3D9(const TCHAR* const path, const VertexDecls::Type vertexDecl)
 : effect_(NULL), errors_(NULL), vertexDecl_(vertexDecl), uniforms_(&Uniform::TERMINATOR) {
 	assert(path);
 	assert(vertexDecl_);
@@ -68,7 +68,7 @@ unsigned EffectD3D9::begin() {
 	assert(effect_);
     assert(uniforms_);
 
-	vertexDecl_->activate();
+	g_engine.video->activateVertexDecl(vertexDecl_);
 
 	D3DXHANDLE techHandle = effect_->GetTechniqueByName("TransformTech");
 	CHECKED_D3D_CALL(effect_->SetTechnique(techHandle));

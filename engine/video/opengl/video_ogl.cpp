@@ -162,7 +162,7 @@ void VideoOGL::operator()() {
 			// TODO: correct dt
 			Registry<VideoComponent, ServerState::MAX_ENTITIES>::update(/* correct dt */ 0);
 
-			Video::inst().drawTest();
+			g_engine.video->drawTest();
 
 			flush();
 			Window::inst().swapBuffers();

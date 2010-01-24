@@ -2,7 +2,7 @@
 #define EFFECT_D3D9_INCLUDED
 
 #include "video/direct3d9/texture_d3d9.h"
-#include "video/direct3d9/vertex_decl_d3d9.h"
+#include "video/direct3d9/vertex_decls_d3d9.h"
 
 #include "video/effect.h"
 
@@ -12,7 +12,7 @@ namespace engine {
 
 class EffectD3D9 : public Effect {
 public:
-	EffectD3D9(const TCHAR* const path, const VertexDeclPtr vertexDecl);
+	EffectD3D9(const TCHAR* const path, const VertexDecls::Type vertexDecl);
 	~EffectD3D9();
 
 	// interface: Effect
@@ -34,7 +34,7 @@ private:
 	ID3DXEffect* effect_;
 	ID3DXBuffer* errors_;
 
-	VertexDeclPtr vertexDecl_;
+	const VertexDecls::Type vertexDecl_;
 
     TextureDXPtr textures_[Effect::MAX_TEXTURES];
     const Uniform* uniforms_;
