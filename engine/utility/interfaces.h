@@ -7,6 +7,7 @@ namespace engine {
 
 class Drawn {
 public:
+    virtual ~Drawn() {}
 	virtual void draw(const Matrix44& transform) = 0;
 };
 

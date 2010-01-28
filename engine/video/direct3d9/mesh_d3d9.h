@@ -11,29 +11,29 @@ namespace engine {
 
 class MeshD3D9 : public Mesh {
 public:
-	MeshD3D9(EffectPtr effect);
-	~MeshD3D9();
+	MeshD3D9(EffectPtr effect, const unsigned vertexSize, 
+             const unsigned maxVertexCount, const unsigned maxIndexCount);
+	virtual ~MeshD3D9();
 
 	// interface: Drawn
 	virtual void draw(const Matrix44& view_proj);
 
 	// interface: Mesh
-	virtual void setBuffers(const void* const vertices, const unsigned vertexCount, const unsigned vertexSize,
-							const short* const indices, const unsigned indexCount);
+    virtual void load(const void* const vertices, const unsigned vertexCount, 
+                      const short* const indices, const unsigned indexCount);
 
 private:
+    const engine::Effect* effect_;
+    const unsigned vertexSize_;
+    const unsigned vertexCapacity_;
+    const unsigned indexCapacity_;
+
+	unsigned vertexCount_;
+	unsigned indexCount_;
+
 	// Direct3D
 	IDirect3DVertexBuffer9* vertexBuffer_;
 	IDirect3DIndexBuffer9* indexBuffer_;
-
-	unsigned vertexCount_;
-	unsigned vertexSize_;
-	unsigned verticesCapacity_;
-
-	unsigned indexCount_;
-	unsigned indicesCapacity_;
-
-	engine::EffectPtr effect_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

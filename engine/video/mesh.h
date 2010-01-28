@@ -5,10 +5,13 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Mesh : public kaynine::IntrusivePtrBase, public Drawn {
+class Mesh : public Drawn {
+private:
+    Mesh();
+
 public:
-	virtual void setBuffers(const void* const vertices, const unsigned verticesSize, const unsigned vertexSize, 
-							const short* const indices, const unsigned indicesSize) = 0;
+	virtual void load(const void* const vertices, const unsigned vertexCount, 
+                            const short* const indices, const unsigned indexCount) = 0;
 };
 
 typedef boost::intrusive_ptr<Mesh> MeshPtr;
