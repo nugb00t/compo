@@ -385,6 +385,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\video\mesh.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\mesh.h"
 					>
 				</File>

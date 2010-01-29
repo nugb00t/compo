@@ -23,7 +23,7 @@ public:
 	virtual void flush();
 
 	virtual void setOrthogonalView();
-	virtual void draw(const Mesh& mesh);
+	virtual void draw(const DynamicMesh& mesh);
 	virtual void drawTest();
 
 	// window

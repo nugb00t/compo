@@ -37,7 +37,9 @@ public:
 
 	// object factory
 	virtual Camera* createCamera() = 0;
-	virtual Mesh* createMesh(EffectPtr effect) = 0;
+
+	virtual DynamicMesh* createMesh(engine::Effect* effect, const unsigned vertexSize, const unsigned vertexCapacity, const unsigned indexCapacity) = 0;
+
 	virtual Effect* createEffect(const TCHAR* const path, const VertexDecls::Type vertexDeclType) = 0;
 	virtual Texture* createTexture(const TCHAR* const path) = 0;
 

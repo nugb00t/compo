@@ -32,7 +32,9 @@ public:
 
 	// object factory
 	virtual Camera* createCamera() { return new CameraD3D9; }
-	virtual Mesh* createMesh(EffectPtr effect) { return new MeshD3D9(effect); }
+
+	virtual DynamicMesh* createMesh(engine::Effect* effect, const unsigned vertexSize, const unsigned vertexCapacity, const unsigned indexCapacity) { return new DynamicMeshD3D9(effect, vertexSize, vertexCapacity, indexCapacity); }
+
 	virtual Effect* createEffect(const TCHAR* const path, const VertexDecls::Type vertexDecl) { return new EffectD3D9(path, vertexDecl); }
 	virtual Texture* createTexture(const TCHAR* const path) { return new TextureD3D9(path); }
 

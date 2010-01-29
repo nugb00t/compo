@@ -1,36 +1,24 @@
 #ifndef MESH_D3D9_INCLUDED
 #define MESH_D3D9_INCLUDED
 
-#include "video/effect.h"
-
 #include "video/mesh.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class MeshD3D9 : public Mesh {
+class DynamicMeshD3D9 : public DynamicMesh {
 public:
-	MeshD3D9(EffectPtr effect, const unsigned vertexSize, 
-             const unsigned maxVertexCount, const unsigned maxIndexCount);
-	virtual ~MeshD3D9();
+    DynamicMeshD3D9(engine::Effect* const effect, const unsigned vertexSize, const unsigned vertexCapacity, const unsigned indexCapacity);
+    ~DynamicMeshD3D9();
 
-	// interface: Drawn
-	virtual void draw(const Matrix44& view_proj);
+    // interface: MeshImpl
+    virtual void lock();
+    virtual void unlock();
 
-	// interface: Mesh
-    virtual void load(const void* const vertices, const unsigned vertexCount, 
-                      const short* const indices, const unsigned indexCount);
+    virtual void streamBuffers(const unsigned vertexCount, const unsigned primCount);
 
 private:
-    const engine::Effect* effect_;
-    const unsigned vertexSize_;
-    const unsigned vertexCapacity_;
-    const unsigned indexCapacity_;
-
-	unsigned vertexCount_;
-	unsigned indexCount_;
-
 	// Direct3D
 	IDirect3DVertexBuffer9* vertexBuffer_;
 	IDirect3DIndexBuffer9* indexBuffer_;

@@ -7,7 +7,10 @@ namespace engine {
 
 class VertexDecls {
 public:
-	enum Type {
+
+    //-----------------------------------------------------------------------------------------------------------------
+
+    enum Type {
 		POS_DIFFUSE,
 		POS_DIFFUSE_TEX,
 		//POS_NORMAL_TEX,
@@ -15,7 +18,10 @@ public:
 		COUNT
 	};
 
+#pragma pack(push, 4)
 	struct PosDiffuse {
+        static const Type type = POS_DIFFUSE;
+
 		Vector3 pos;
 		unsigned diffuse;
 
@@ -25,6 +31,8 @@ public:
 	};
 
 	struct PosDiffuseTex {
+        static const Type type = POS_DIFFUSE_TEX;
+
 		Vector3 pos;
 		unsigned diffuse;
 		Vector2 tex;
@@ -33,6 +41,9 @@ public:
 		PosDiffuseTex(const Vector3 pos_, const unsigned diffuse_, const Vector2 tex_)
 			: pos(pos_), diffuse(diffuse_), tex(tex_) {}
 	};
+#pragma pack(pop)
+
+    //-----------------------------------------------------------------------------------------------------------------
 
 public:
 	virtual void initialize() = 0;

@@ -5,22 +5,14 @@
 #include "video/effect.h"
 #include "video/mesh.h"
 #include "video/texture.h"
+#include "video/vertex_decls.h"
 
 namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class OrbVideo : public engine::VideoComponent {
-
-#pragma pack(push, 4)
-	struct Vertex {
-		Vector3	xyz;
-		unsigned diffuse;
-		Vector2	uv;
-
-		Vector2 dummy;
-	};
-#pragma pack(pop)
+    typedef engine::VertexDecls::PosDiffuseTex Vertex;
 
 public:
     OrbVideo() : mesh_(NULL), effect_(NULL) {}
@@ -30,13 +22,13 @@ public:
 
 private:
 	static const Vertex vertices_[];
-	static const short indices_[];
+	static const unsigned short indices_[];
 
     static const engine::Effect::Uniform uniforms_[];
     static const engine::Effect::TextureUniform texUniforms_[];
 
-	engine::MeshPtr mesh_;
-    engine::EffectPtr effect_;
+    boost::scoped_ptr<engine::DynamicMesh> mesh_;
+    boost::scoped_ptr<engine::Effect> effect_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

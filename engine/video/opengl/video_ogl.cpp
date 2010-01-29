@@ -71,7 +71,7 @@ bool VideoOGL::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoOGL::draw(const Mesh& mesh) {
+void VideoOGL::draw(const DynamicMesh& mesh) {
 	// tmp
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);

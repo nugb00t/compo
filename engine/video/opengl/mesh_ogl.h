@@ -19,13 +19,13 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Mesh /*: public kaynine::Serializable*/ {
+class DynamicMesh /*: public kaynine::Serializable*/ {
 public:
 	typedef std::vector<Vertice> Vertices;
 	typedef std::vector<unsigned> Indices;
 
 public:
-	Mesh(const unsigned verticeCount = 4, const unsigned indexCount = 4);
+	DynamicMesh(const unsigned verticeCount = 4, const unsigned indexCount = 4);
 
 	inline void addIndex(const unsigned index)			{ indices_.push_back(index); }
 	inline unsigned addVertice(const Vertice& vertice)	{ vertices_.push_back(vertice); return vertices_.size() - 1; }
@@ -44,7 +44,7 @@ public:
 	//bool serializeWith(kaynine::Archive& archive);
 
 private:
-	Mesh& operator= (const Mesh& /*original*/);
+	DynamicMesh& operator= (const DynamicMesh& /*original*/);
 
 private:
 	Vertices		vertices_;

@@ -31,22 +31,25 @@ namespace {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ThreadProfilerVideo::draw() {
-	static VertexDecls::PosDiffuse vertices[MAX_VERTICES];
-	static short indices[MAX_INDICES];
+	static Vertex vertices[MAX_VERTICES];
+	static unsigned short indices[MAX_INDICES];
 
 	memset(vertices, 0, sizeof(vertices));
 	memset(indices, 0, sizeof(indices));
 
 	if (!effect_)
-		effect_ = g_engine.video->createEffect(_T("playground/fx/simple.h"), VertexDecls::POS_DIFFUSE_TEX);
+		effect_ = g_engine.video->createEffect(_T("playground/fx/simple.h"), Vertex::type);
 
 	if (!mesh_)
-		mesh_ = g_engine.video->createMesh(effect_);
+        mesh_.reset(g_engine.video->createMesh(effect_, 
+                                               sizeof(Vertex), 
+                                               Profiler::HISTORY_DEPTH * Profiler::SECTION_COUNT * 4,
+                                               Profiler::HISTORY_DEPTH * Profiler::SECTION_COUNT * 6));
 
 	const unsigned timeWindowBegin	= g_engine.time->msec() / TIME_WINDOW_WIDTH - 1;	// the last full 0.1 sec tick
 
-	short nextVertex = 0;
-	unsigned nextIndex = 0;
+	unsigned short vertexCount = 0;
+	unsigned indexCount = 0;
 
 	for (unsigned section = 0; section < Profiler::SECTION_COUNT; ++section)
 		for (int age = 0; age < Profiler::HISTORY_DEPTH; ++age) {
@@ -62,22 +65,23 @@ void ThreadProfilerVideo::draw() {
 			const float bottom	= top - BAR_HEIGHT;
 
 			// fill-up vertex / index arrays
-			assert(nextIndex < MAX_INDICES - 6);
-			indices[nextIndex++] = nextVertex;
-			indices[nextIndex++] = nextVertex + 2;
-			indices[nextIndex++] = nextVertex + 1;
-			indices[nextIndex++] = nextVertex + 3;
-			indices[nextIndex++] = nextVertex + 2;
-			indices[nextIndex++] = nextVertex;
+			assert(indexCount < MAX_INDICES - 6);
+			indices[indexCount++] = vertexCount;
+			indices[indexCount++] = vertexCount + 2;
+			indices[indexCount++] = vertexCount + 1;
+			indices[indexCount++] = vertexCount + 3;
+			indices[indexCount++] = vertexCount + 2;
+			indices[indexCount++] = vertexCount;
 
-			assert(nextVertex < MAX_VERTICES - 4);
-			vertices[nextVertex++] = VertexDecls::PosDiffuse(Vector3(left, bottom, SCREEN_DEPTH), BAR_COLOR);
-			vertices[nextVertex++] = VertexDecls::PosDiffuse(Vector3(left, top, SCREEN_DEPTH), BAR_COLOR);
-			vertices[nextVertex++] = VertexDecls::PosDiffuse(Vector3(right, top, SCREEN_DEPTH), BAR_COLOR);
-			vertices[nextVertex++] = VertexDecls::PosDiffuse(Vector3(right, bottom, SCREEN_DEPTH), BAR_COLOR);
+			assert(vertexCount < MAX_VERTICES - 4);
+			vertices[vertexCount++] = Vertex(Vector3(left, bottom, SCREEN_DEPTH), BAR_COLOR);
+			vertices[vertexCount++] = Vertex(Vector3(left, top, SCREEN_DEPTH), BAR_COLOR);
+			vertices[vertexCount++] = Vertex(Vector3(right, top, SCREEN_DEPTH), BAR_COLOR);
+			vertices[vertexCount++] = Vertex(Vector3(right, bottom, SCREEN_DEPTH), BAR_COLOR);
 		}
 
-	mesh_->setBuffers(vertices, nextVertex, sizeof(VertexDecls::PosDiffuse), indices, nextIndex);
+    DynamicMesh::BufferAccess access(*mesh_);
+    access.setBuffers(vertices, vertexCount, indices, indexCount);
 
 	//Matrix44 transform = transformFromRect(SCREEN_LEFT, SCREEN_TOP, SCREEN_RIGHT, SCREEN_BOTTOM, SCREEN_DEPTH);
 	//transform *= g_engine.video->camera().view_projection();

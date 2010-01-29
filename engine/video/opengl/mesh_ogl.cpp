@@ -11,14 +11,14 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Mesh::Mesh(const unsigned verticeCount, const unsigned indexCount) {
+DynamicMesh::DynamicMesh(const unsigned verticeCount, const unsigned indexCount) {
 	vertices_.reserve(verticeCount);
 	indices_.reserve(indexCount);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned Mesh::optimize() {
+unsigned DynamicMesh::optimize() {
 	unsigned removed = 0;
 
 	for (unsigned iwalkvertex = 0; iwalkvertex < vertices_.size() - 1; ++iwalkvertex)
@@ -43,7 +43,7 @@ unsigned Mesh::optimize() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//bool Mesh::serializeWith(kaynine::Archive& archive) {
+//bool DynamicMesh::serializeWith(kaynine::Archive& archive) {
 //	return archive.serializeAsInt(type_) &&
 //		archive.serializePODSequence(vertices_) &&
 //		archive.serializePODSequence(indices_);

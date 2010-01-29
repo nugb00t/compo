@@ -10,13 +10,13 @@ using namespace game_playground;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const OrbVideo::Vertex OrbVideo::vertices_[] = {
-	{ Vector3(-.5f, -.5f, 0.f), 0x0fff0000, Vector2(0.f, 1.f), Vector2(0.f, 0.f) },
-	{ Vector3(-.5f,  .5f, 0.f), 0xff00ffff, Vector2(0.f, 0.f), Vector2(0.f, 0.f) },
-	{ Vector3( .5f,  .5f, 0.f), 0x0f00ff00, Vector2(1.f, 0.f), Vector2(0.f, 0.f) },
-	{ Vector3( .5f, -.5f, 0.f), 0xff00ffff, Vector2(1.f, 1.f), Vector2(0.f, 0.f) },
+	Vertex(Vector3(-.5f, -.5f, 0.f), 0x0fff0000, Vector2(0.f, 1.f)),
+	Vertex(Vector3(-.5f,  .5f, 0.f), 0xff00ffff, Vector2(0.f, 0.f)),
+	Vertex(Vector3( .5f,  .5f, 0.f), 0x0f00ff00, Vector2(1.f, 0.f)),
+	Vertex(Vector3( .5f, -.5f, 0.f), 0xff00ffff, Vector2(1.f, 1.f)),
 };
 
-const short OrbVideo::indices_[] = {
+const unsigned short OrbVideo::indices_[] = {
 	//0, 1, 2,
 	//2, 3, 0
 	0, 2, 1,
@@ -38,12 +38,17 @@ void OrbVideo::draw(const ServerState::Entity& fromClient) {
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 
-        effect_ = g_engine.video->createEffect(_T("playground/fx/simple.h"), VertexDecls::POS_DIFFUSE_TEX);
+        effect_.reset(g_engine.video->createEffect(_T("playground/fx/simple.h"), Vertex::type));
         effect_->setUniforms(uniforms_);
         effect_->setTexUniforms(texUniforms_);
 
-        mesh_ = g_engine.video->createMesh(effect_);
-		mesh_->setBuffers(vertices_, sizeof(vertices_), sizeof(Vertex), indices_, sizeof(indices_));
+        mesh_.reset(g_engine.video->createMesh(effect_.get(), 
+                                               sizeof(Vertex), 
+                                               sizeof(vertices_) / sizeof(Vertex), 
+                                               sizeof(indices_) / sizeof(unsigned short)));
+
+        DynamicMesh::BufferAccess access(*mesh_);
+		access.setBuffers(vertices_, sizeof(vertices_), indices_, sizeof(indices_));
 	}
 
     Matrix44 transform;

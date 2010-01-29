@@ -13,7 +13,6 @@ using namespace engine;
 EffectD3D9::EffectD3D9(const TCHAR* const path, const VertexDecls::Type vertexDecl)
 : effect_(NULL), errors_(NULL), vertexDecl_(vertexDecl), uniforms_(&Uniform::TERMINATOR) {
 	assert(path);
-	assert(vertexDecl_);
 
 	HRESULT hr = D3DXCreateEffectFromFile(&g_engine.videoD3D9->device(), path, 0, 0, D3DXSHADER_DEBUG, 0, &effect_, &errors_);
 	if (hr != D3D_OK)  {

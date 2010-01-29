@@ -6,12 +6,15 @@
 
 #include "video/effect.h"
 #include "video/mesh.h"
+#include "video/vertex_decls.h"
 
 namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class ThreadProfilerVideo : public engine::ScreenVideoComponent {
+    typedef engine::VertexDecls::PosDiffuse Vertex;
+
 public:
     ThreadProfilerVideo() : effect_(NULL), mesh_(NULL) {}
 
@@ -19,8 +22,8 @@ public:
 	virtual void draw();
 
 private:
-	engine::EffectPtr effect_;
-	engine::MeshPtr mesh_;
+	engine::Effect* effect_;
+    boost::scoped_ptr<engine::DynamicMesh> mesh_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
