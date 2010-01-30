@@ -36,7 +36,8 @@ public:
 	virtual void present() = 0;
 
 	// object factory
-	virtual Camera* createCamera() = 0;
+	virtual ProjCamera* createProjCamera() = 0;
+	virtual OrthoCamera* createOrthoCamera() = 0;
 
 	virtual DynamicMesh* createMesh(engine::Effect* effect, const unsigned vertexSize, const unsigned vertexCapacity, const unsigned indexCapacity) = 0;
 
@@ -45,10 +46,12 @@ public:
 
 	virtual void activateVertexDecl(const VertexDecls::Type type) = 0;
 
-	virtual Camera& camera() { assert(camera_); return *camera_; }
+	virtual ProjCamera& projCamera() { assert(projCamera_); return *projCamera_; }
+	virtual OrthoCamera& orthoCamera() { assert(orthoCamera_); return *orthoCamera_; }
 
 protected:
-	boost::scoped_ptr<Camera> camera_;
+	boost::scoped_ptr<ProjCamera> projCamera_;
+	boost::scoped_ptr<OrthoCamera> orthoCamera_;
 
 	class VideoComponent* registry_[ServerState::MAX_ENTITIES];
 	class ScreenVideoComponent* screen_;

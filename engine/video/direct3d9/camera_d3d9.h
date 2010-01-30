@@ -7,16 +7,15 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class CameraD3D9 : public Camera {
+class ProjectionCameraD3D9 : public ProjCamera {
 public:
-	CameraD3D9();
-	virtual ~CameraD3D9() {}
+	ProjectionCameraD3D9();
 
 	// interface: Updatable
 	virtual void update();
 
-	// interface: Camera
-	virtual const Matrix44& view_projection() const;
+	// interface: ProjCamera
+	virtual const Matrix44& view_projection() const { return view_projection_; }
 
 private:
 	// view
@@ -27,6 +26,31 @@ private:
 	// projection
 	float fov_;
 	float aspect_;
+
+	Matrix44 view_projection_;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class OrthoCameraD3D9 : public OrthoCamera {
+public:
+	OrthoCameraD3D9();
+
+	// interface: Updatable
+	virtual void update();
+
+	// interface: OrthoCamera
+	virtual const Matrix44& view_projection() const { return view_projection_; }
+
+private:
+	// view
+	D3DXVECTOR3 pos_;
+	D3DXVECTOR3 lookAt_;
+	D3DXVECTOR3 up_;
+
+	// projection
+	float width_;
+	float height_;
 
 	Matrix44 view_projection_;
 };

@@ -39,14 +39,12 @@ bool Video::update() {
 	clear();
 
 	if (begin()) {
-		camera_->update();
+		orthoCamera_->update();
+		projCamera_->update();
 
 		screen_->draw();
 
 		Sync::ClientToVideo::Readable fromClient(g_engine.sync->clientToVideo);
-		//if (fromClient && fromClient.age())
-		//	::OutputDebugString(_T("Video::update(): failed to open Client package\n"));
-
 		if (fromClient)
 			for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
 				if (registry_[i])

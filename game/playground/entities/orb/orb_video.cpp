@@ -17,10 +17,8 @@ const OrbVideo::Vertex OrbVideo::vertices_[] = {
 };
 
 const unsigned short OrbVideo::indices_[] = {
-	//0, 1, 2,
-	//2, 3, 0
-	0, 2, 1,
-	3, 2, 0
+	0, 1, 2,
+	2, 3, 0
 };
 
 const Effect::Uniform OrbVideo::uniforms_[] = {
@@ -56,7 +54,7 @@ void OrbVideo::draw(const ServerState::Entity& fromClient) {
 	cml::matrix_rotation_quaternion(transform, fromClient.rotation);
 	cml::matrix_set_translation(transform, fromClient.position);
 
-    transform *= g_engine.video->camera().view_projection();
+    transform *= g_engine.video->projCamera().view_projection();
 	mesh_->draw(transform);
 }
 

@@ -5,9 +5,18 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Camera : public Updatable {
+class ProjCamera : public Updatable {
 public:
-	virtual ~Camera() {}
+	virtual ~ProjCamera() {}
+
+	virtual const Matrix44& view_projection() const = 0;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class OrthoCamera : public Updatable {
+public:
+	virtual ~OrthoCamera() {}
 
 	virtual const Matrix44& view_projection() const = 0;
 };

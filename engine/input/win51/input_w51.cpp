@@ -108,19 +108,19 @@ void InputW51::process(const RAWINPUT& raw, const unsigned now) {
 
 		// axis
 		if (mouse.usFlags & MOUSE_MOVE_ABSOLUTE) {
-			controls_.axis[InputData::MOUSE_X].add(InputData::AxisEvent(now, mouse.lLastX - lastX));
-			controls_.axis[InputData::MOUSE_Y].add(InputData::AxisEvent(now, mouse.lLastY - lastY));
+			controls_.axis[InputData::MOUSE_X].add(InputData::AxisEvent(now,  mouse.lLastX - lastX));
+			controls_.axis[InputData::MOUSE_Y].add(InputData::AxisEvent(now, -mouse.lLastY - lastY));
 
-			lastX = mouse.lLastX;
-			lastY = mouse.lLastY;
+			lastX =  mouse.lLastX;
+			lastY = -mouse.lLastY;
 
 			if (mouse.usButtonFlags & RI_MOUSE_WHEEL) {
 				controls_.axis[InputData::MOUSE_WHEEL].add(InputData::AxisEvent(now, mouse.usButtonData - lastWheel));
 				lastWheel = mouse.usButtonData;
 			}
 		} else {
-			controls_.axis[InputData::MOUSE_X].add(InputData::AxisEvent(now, mouse.lLastX));
-			controls_.axis[InputData::MOUSE_Y].add(InputData::AxisEvent(now, mouse.lLastY));
+			controls_.axis[InputData::MOUSE_X].add(InputData::AxisEvent(now,  mouse.lLastX));
+			controls_.axis[InputData::MOUSE_Y].add(InputData::AxisEvent(now, -mouse.lLastY));
 
 			lastX = 0;
 			lastY = 0;

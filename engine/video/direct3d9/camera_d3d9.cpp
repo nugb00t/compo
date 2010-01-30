@@ -8,31 +8,26 @@
 using namespace engine;
 
 namespace {
-	const float FOV = D3DX_PI / 3;
-	const float ASPECT = 4.0f / 3.0f;
+	const float PROJ_FOV = D3DX_PI / 3;
+	const float PROJ_ASPECT = 4.0f / 3.0f;
 	const float Z_NEAR = 1.0f;
 	const float Z_FAR = 500.0f;
 
-	const D3DXVECTOR3 CAMERA_POS	= D3DXVECTOR3(0.0f,  0.0f, 10.0f);
-	const D3DXVECTOR3 CAMERA_LOOKAT	= D3DXVECTOR3(0.0f,  0.0f,  0.0f);
-	const D3DXVECTOR3 CAMERA_UP		= D3DXVECTOR3(0.0f, -1.0f,  0.0f);
+	const D3DXVECTOR3 CAMERA_POS	= D3DXVECTOR3(0.0f, 0.0f,-10.0f);
+	const D3DXVECTOR3 CAMERA_LOOKAT	= D3DXVECTOR3(0.0f, 0.0f,  0.0f);
+	const D3DXVECTOR3 CAMERA_UP		= D3DXVECTOR3(0.0f, 1.0f,  0.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CameraD3D9::CameraD3D9()
-:	pos_(CAMERA_POS),
-	lookAt_(CAMERA_LOOKAT),
-	up_(CAMERA_UP),
-	fov_(FOV),
-	aspect_(ASPECT)
-		 {
-			 view_projection_.identity();
-}
+ProjectionCameraD3D9::ProjectionCameraD3D9()
+:	pos_(CAMERA_POS), lookAt_(CAMERA_LOOKAT), up_(CAMERA_UP),
+	fov_(PROJ_FOV), aspect_(PROJ_ASPECT) {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CameraD3D9::update() {
+void ProjectionCameraD3D9::update() {
+	view_projection_.identity();
 	D3DXMatrixLookAtLH(view_projection_.d3dMatrix(), &pos_, &lookAt_, &up_);
 
 	Matrix44 projection;
@@ -44,8 +39,20 @@ void CameraD3D9::update() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const Matrix44& CameraD3D9::view_projection() const {
-	return view_projection_;
+OrthoCameraD3D9::OrthoCameraD3D9()
+:	pos_(CAMERA_POS), lookAt_(CAMERA_LOOKAT), up_(CAMERA_UP),
+	width_(PROJ_ASPECT), height_(1.f) {}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void OrthoCameraD3D9::update() {
+	view_projection_.identity();
+	D3DXMatrixLookAtLH(view_projection_.d3dMatrix(), &pos_, &lookAt_, &up_);
+
+	Matrix44 projection;
+	D3DXMatrixOrthoLH(projection.d3dMatrix(), width_, height_, Z_NEAR, Z_FAR);
+
+	view_projection_ *= projection;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

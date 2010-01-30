@@ -11,14 +11,14 @@ using namespace engine;
 using namespace game_playground;
 
 namespace {
-	static const unsigned TIME_WINDOW_WIDTH	= 16;		// msec
+	static const unsigned TIME_WINDOW_WIDTH	= 32;		// msec
 
-	static const float SCREEN_LEFT		= -1.0f;
-	static const float SCREEN_RIGHT		=  1.0f;
+	static const float SCREEN_LEFT		= -0.5f;
+	static const float SCREEN_RIGHT		=  0.5f;
 	static const float TIME_FRAME		=  (SCREEN_RIGHT - SCREEN_LEFT) / TIME_WINDOW_WIDTH;
 
-	static const float SCREEN_TOP		=  1.0f;
-	static const float SCREEN_BOTTOM	= -1.0f;
+	static const float SCREEN_TOP		=  0.5f;
+	static const float SCREEN_BOTTOM	= -0.5f;
 
 	static const float SCREEN_DEPTH		=  1.0f;
 
@@ -56,10 +56,10 @@ void ThreadProfilerVideo::draw() {
 		access.appendVertex(Vertex(Vector3(SCREEN_RIGHT, bottom, SCREEN_DEPTH), BAR_COLOR));
 
 		access.appendIndex(firstVertex);
-		access.appendIndex(firstVertex + 2);
 		access.appendIndex(firstVertex + 1);
-		access.appendIndex(firstVertex + 3);
 		access.appendIndex(firstVertex + 2);
+		access.appendIndex(firstVertex + 2);
+		access.appendIndex(firstVertex + 3);
 		access.appendIndex(firstVertex);
 	}
 
@@ -85,10 +85,10 @@ void ThreadProfilerVideo::draw() {
 			access.appendVertex(Vertex(Vector3(right, bottom, SCREEN_DEPTH), color));
 
 			access.appendIndex(firstVertex);
-			access.appendIndex(firstVertex + 2);
 			access.appendIndex(firstVertex + 1);
-			access.appendIndex(firstVertex + 3);
 			access.appendIndex(firstVertex + 2);
+			access.appendIndex(firstVertex + 2);
+			access.appendIndex(firstVertex + 3);
 			access.appendIndex(firstVertex);
 		}
 	}
@@ -104,14 +104,14 @@ void ThreadProfilerVideo::draw() {
 		access.appendVertex(Vertex(Vector3(SCREEN_RIGHT, bottom, SCREEN_DEPTH), BAR_COLOR));
 
 		access.appendIndex(firstVertex);
-		access.appendIndex(firstVertex + 2);
 		access.appendIndex(firstVertex + 1);
-		access.appendIndex(firstVertex + 3);
 		access.appendIndex(firstVertex + 2);
+		access.appendIndex(firstVertex + 2);
+		access.appendIndex(firstVertex + 3);
 		access.appendIndex(firstVertex);
 	}
 
-	mesh_->draw(g_engine.video->camera().view_projection());
+	mesh_->draw(g_engine.video->orthoCamera().view_projection());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

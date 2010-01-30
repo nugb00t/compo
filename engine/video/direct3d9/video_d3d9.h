@@ -31,7 +31,8 @@ public:
 	virtual void present();
 
 	// object factory
-	virtual Camera* createCamera() { return new CameraD3D9; }
+	virtual ProjCamera* createProjCamera() { return new ProjectionCameraD3D9; }
+	virtual OrthoCamera* createOrthoCamera() { return new OrthoCameraD3D9; }
 
 	virtual DynamicMesh* createMesh(engine::Effect* effect, const unsigned vertexSize, const unsigned vertexCapacity, const unsigned indexCapacity) { return new DynamicMeshD3D9(effect, vertexSize, vertexCapacity, indexCapacity); }
 
