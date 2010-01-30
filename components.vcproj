@@ -665,14 +665,6 @@
 					>
 				</File>
 				<Filter
-					Name="effects"
-					>
-					<File
-						RelativePath=".\exec\playground\fx\simple.h"
-						>
-					</File>
-				</Filter>
-				<Filter
 					Name="client"
 					>
 					<File

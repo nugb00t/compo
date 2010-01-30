@@ -16,7 +16,7 @@ namespace engine {
 
 class Video : public kaynine::PulseThreadObject {
 	static const unsigned PERIOD = 16;
-	static const unsigned DELAY = 4 * 10;
+	static const unsigned DELAY = 8 * 10;
 
 public:
 	Video();

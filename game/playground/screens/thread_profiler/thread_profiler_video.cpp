@@ -15,8 +15,11 @@ namespace {
 
 	static const float SCREEN_LEFT		= -1.0f;
 	static const float SCREEN_RIGHT		=  1.0f;
+	static const float TIME_FRAME		=  (SCREEN_RIGHT - SCREEN_LEFT) / TIME_WINDOW_WIDTH;
+
 	static const float SCREEN_TOP		=  1.0f;
 	static const float SCREEN_BOTTOM	= -1.0f;
+
 	static const float SCREEN_DEPTH		=  1.0f;
 
 	static const float BAR_HEIGHT		=  0.1f;
@@ -31,20 +34,14 @@ namespace {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ThreadProfilerVideo::draw() {
-	drawDiagram();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void ThreadProfilerVideo::drawDiagram() {
 	if (!effect_)
 		effect_ = g_engine.video->createEffect(Vertex::type);
 
 	if (!mesh_)
 		mesh_.reset(g_engine.video->createMesh(effect_, 
 		sizeof(Vertex), 
-		Profiler::HISTORY_DEPTH * Profiler::SECTION_COUNT * 4,
-		Profiler::HISTORY_DEPTH * Profiler::SECTION_COUNT * 6));
+		(Profiler::HISTORY_DEPTH * Profiler::SECTION_COUNT + 2) * 4,
+		(Profiler::HISTORY_DEPTH * Profiler::SECTION_COUNT + 2) * 6));
 
 	DynamicMesh::BufferAccess access(*mesh_);
 	access.reset();
@@ -66,30 +63,34 @@ void ThreadProfilerVideo::drawDiagram() {
 		access.appendIndex(firstVertex);
 	}
 
+	const unsigned timeBegin = g_engine.profiler->get(Profiler::VIDEO, -2).begin - 8;
+
 	unsigned section;
 	for (section = 0; section < Profiler::SECTION_COUNT; ++section) {
-		const Profiler::Period& period = g_engine.profiler->get((Profiler::Section)section, -1);
+		for (int age = 0; age < Profiler::HISTORY_DEPTH; ++age) {
+			const Profiler::Period& period = g_engine.profiler->get((Profiler::Section)section, -age);
 
-		const float left	= SCREEN_LEFT;
-		const float right	= SCREEN_LEFT + (float)(period.end - period.begin) / TIME_WINDOW_WIDTH * (SCREEN_RIGHT - SCREEN_LEFT);
+			const float left	= SCREEN_LEFT + ((float)period.begin - timeBegin - 0.5f) * TIME_FRAME;
+			const float right	= SCREEN_LEFT + ((float)period.end   - timeBegin + 0.5f) * TIME_FRAME;
 
-		const float top		= SCREEN_TOP - BAR_OFFSET * (section + 1);
-		const float bottom	= top - BAR_HEIGHT;
+			const float top		= SCREEN_TOP - BAR_OFFSET * (section + 1);
+			const float bottom	= top - BAR_HEIGHT;
 
-		const unsigned color = Profiler::SECTION_COLORS[section];
+			const unsigned color = Profiler::SECTION_COLORS[section];
 
-		// fill-up vertex / index arrays
-		const short firstVertex = access.appendVertex(Vertex(Vector3(left, bottom, SCREEN_DEPTH), color));
-		access.appendVertex(Vertex(Vector3(left, top, SCREEN_DEPTH), color));
-		access.appendVertex(Vertex(Vector3(right, top, SCREEN_DEPTH), color));
-		access.appendVertex(Vertex(Vector3(right, bottom, SCREEN_DEPTH), color));
+			// fill-up vertex / index arrays
+			const short firstVertex = access.appendVertex(Vertex(Vector3(left, bottom, SCREEN_DEPTH), color));
+			access.appendVertex(Vertex(Vector3(left, top, SCREEN_DEPTH), color));
+			access.appendVertex(Vertex(Vector3(right, top, SCREEN_DEPTH), color));
+			access.appendVertex(Vertex(Vector3(right, bottom, SCREEN_DEPTH), color));
 
-		access.appendIndex(firstVertex);
-		access.appendIndex(firstVertex + 2);
-		access.appendIndex(firstVertex + 1);
-		access.appendIndex(firstVertex + 3);
-		access.appendIndex(firstVertex + 2);
-		access.appendIndex(firstVertex);
+			access.appendIndex(firstVertex);
+			access.appendIndex(firstVertex + 2);
+			access.appendIndex(firstVertex + 1);
+			access.appendIndex(firstVertex + 3);
+			access.appendIndex(firstVertex + 2);
+			access.appendIndex(firstVertex);
+		}
 	}
 
 	// bottom ruler
@@ -109,58 +110,6 @@ void ThreadProfilerVideo::drawDiagram() {
 		access.appendIndex(firstVertex + 2);
 		access.appendIndex(firstVertex);
 	}
-
-	mesh_->draw(g_engine.video->camera().view_projection());
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void ThreadProfilerVideo::drawGrid() {
-	if (!effect_)
-		effect_ = g_engine.video->createEffect(Vertex::type);
-
-	if (!mesh_)
-        mesh_.reset(g_engine.video->createMesh(effect_, 
-                                               sizeof(Vertex), 
-                                               Profiler::HISTORY_DEPTH * Profiler::SECTION_COUNT * 4,
-                                               Profiler::HISTORY_DEPTH * Profiler::SECTION_COUNT * 6));
-
-	const unsigned timeWindowBegin = g_engine.profiler->get(Profiler::VIDEO, -2).end / TIME_WINDOW_WIDTH;
-	//const unsigned timeWindowBegin = g_engine.time->msec() / TIME_WINDOW_WIDTH;
-
-	DynamicMesh::BufferAccess access(*mesh_);
-	access.reset();
-
-	for (unsigned section = 0; section < Profiler::SECTION_COUNT; ++section)
-		for (int age = 0; age < Profiler::HISTORY_DEPTH; ++age) {
-			const Profiler::Period& period = g_engine.profiler->get((Profiler::Section)section, -age);
-
-			if (!period.begin || !period.end)
-				continue;
-
-			const float left	= SCREEN_LEFT + (float)period.begin / TIME_WINDOW_WIDTH - timeWindowBegin;
-			const float right	= SCREEN_LEFT + (float)period.end   / TIME_WINDOW_WIDTH - timeWindowBegin;
-
-			const float top		= SCREEN_TOP - BAR_OFFSET * section;
-			const float bottom	= top - BAR_HEIGHT;
-
-			// fill-up vertex / index arrays
-			const short firstVertex = access.appendVertex(Vertex(Vector3(left, bottom, SCREEN_DEPTH), BAR_COLOR));
-			access.appendVertex(Vertex(Vector3(left, top, SCREEN_DEPTH), BAR_COLOR));
-			access.appendVertex(Vertex(Vector3(right, top, SCREEN_DEPTH), BAR_COLOR));
-			access.appendVertex(Vertex(Vector3(right, bottom, SCREEN_DEPTH), BAR_COLOR));
-
-			access.appendIndex(firstVertex);
-			access.appendIndex(firstVertex + 2);
-			access.appendIndex(firstVertex + 1);
-			access.appendIndex(firstVertex + 3);
-			access.appendIndex(firstVertex + 2);
-			access.appendIndex(firstVertex);
-		}
-
-	//Matrix44 transform = transformFromRect(SCREEN_LEFT, SCREEN_TOP, SCREEN_RIGHT, SCREEN_BOTTOM, SCREEN_DEPTH);
-	//transform *= g_engine.video->camera().view_projection();
-	//mesh_->draw(transform);
 
 	mesh_->draw(g_engine.video->camera().view_projection());
 }
