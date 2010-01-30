@@ -41,6 +41,8 @@ bool VideoD3D9::initialize() {
 	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+	//d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
+	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
 	const bool ok = SUCCEEDED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_engine.window->handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(& D3DCREATE_PUREDEVICE), &d3dpp, &device_));
 	if (!ok)

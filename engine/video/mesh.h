@@ -42,8 +42,8 @@ public:
             assert(mesh_.vertices_);
             assert(sizeof(TVertex) == mesh_.vertexSize_ && mesh_.vertexCount_ < mesh_.vertexCapacity_);
 
-            reinterpret_cast<TVertex*>(mesh_.vertices_)[mesh_.vertexCount_++] = vertex;
-            return vertexCount_;
+            reinterpret_cast<TVertex*>(mesh_.vertices_)[mesh_.vertexCount_] = vertex;
+            return mesh_.vertexCount_++;
         }
 
         inline void appendIndex(const unsigned short index) {
@@ -53,9 +53,9 @@ public:
             mesh_.indices_[mesh_.indexCount_++] = index;
         }
 
-        inline void setBuffers(const void* vertices, const unsigned vertexCount, const unsigned short* indices, const unsigned indexCount) {
+        inline void setBuffers(const void* vertices, const unsigned short vertexCount, const unsigned short* indices, const unsigned indexCount) {
             assert(mesh_.vertices_ && mesh_.indices_ && vertices && vertexCount && indices && indexCount);
-            assert(vertexCount <= mesh_.indexCapacity_ && indexCount < mesh_.indexCapacity_);
+            assert(vertexCount <= mesh_.vertexCapacity_ && indexCount <= mesh_.indexCapacity_);
 
             memcpy(mesh_.vertices_, vertices, vertexCount * mesh_.vertexSize_);
             memcpy(mesh_.indices_, indices, indexCount * sizeof(unsigned short));
@@ -95,7 +95,7 @@ protected:
     void* vertices_;
     unsigned short* indices_;
 
-    unsigned vertexCount_;
+    unsigned short vertexCount_;
     unsigned indexCount_;
 };
 

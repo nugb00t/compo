@@ -38,7 +38,7 @@ void OrbVideo::draw(const ServerState::Entity& fromClient) {
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 
-        effect_.reset(g_engine.video->createEffect(_T("playground/fx/simple.h"), Vertex::type));
+		effect_.reset(g_engine.video->createEffect(Vertex::type));
         effect_->setUniforms(uniforms_);
         effect_->setTexUniforms(texUniforms_);
 
@@ -48,7 +48,7 @@ void OrbVideo::draw(const ServerState::Entity& fromClient) {
                                                sizeof(indices_) / sizeof(unsigned short)));
 
         DynamicMesh::BufferAccess access(*mesh_);
-		access.setBuffers(vertices_, sizeof(vertices_), indices_, sizeof(indices_));
+		access.setBuffers(vertices_, sizeof(vertices_) / sizeof(Vertex), indices_, sizeof(indices_) / sizeof(unsigned short));
 	}
 
     Matrix44 transform;

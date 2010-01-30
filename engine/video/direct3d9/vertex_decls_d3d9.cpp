@@ -33,6 +33,11 @@ const D3DVERTEXELEMENT9 VertexDeclsD3D9::ELEMENTS[COUNT][MAX_ELEMENTS] = {
 	//},
 };
 
+const TCHAR* VertexDeclsD3D9::PATHS[COUNT] = {
+	_T("fx/pos_diffuse.h"),
+	_T("fx/pos_diffuse_tex.h"),
+};
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 VertexDeclsD3D9::~VertexDeclsD3D9() {

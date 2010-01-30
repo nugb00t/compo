@@ -13,6 +13,9 @@ class VertexDeclsD3D9 : public VertexDecls {
 	static const D3DVERTEXELEMENT9 ELEMENTS[COUNT][MAX_ELEMENTS];
 
 public:
+	static const TCHAR* PATHS[COUNT];
+
+public:
 	VertexDeclsD3D9() { memset(&vertexDecls_[0], 0, sizeof(vertexDecls_)); }
 
 	~VertexDeclsD3D9();

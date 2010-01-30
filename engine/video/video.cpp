@@ -34,21 +34,23 @@ bool Video::update() {
 		screen_ = g_game.screenFactory->createVideoComponent(0);		// 0 is a hack!
 	// TEMP
 
+	Profiler::StopWatch stopWatch(Profiler::VIDEO);
+
 	clear();
 
 	if (begin()) {
 		camera_->update();
 
-		Sync::ClientToVideo::Readable fromClient(g_engine.sync->clientToVideo);
-		if (fromClient && fromClient.age())
-			::OutputDebugString(_T("Video::update(): failed to open Client package\n"));
-
-		//if (fromClient)
-		//	for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
-		//		if (registry_[i])
-		//			registry_[i]->draw(fromClient.data().entities[i]);
-
 		screen_->draw();
+
+		Sync::ClientToVideo::Readable fromClient(g_engine.sync->clientToVideo);
+		//if (fromClient && fromClient.age())
+		//	::OutputDebugString(_T("Video::update(): failed to open Client package\n"));
+
+		if (fromClient)
+			for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
+				if (registry_[i])
+					registry_[i]->draw(fromClient.data().entities[i]);
 
 		end();
 	}

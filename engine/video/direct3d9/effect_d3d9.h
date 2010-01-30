@@ -12,7 +12,7 @@ namespace engine {
 
 class EffectD3D9 : public Effect {
 public:
-	EffectD3D9(const TCHAR* const path, const VertexDecls::Type vertexDecl);
+	EffectD3D9(const VertexDecls::Type vertexDecl);
 	~EffectD3D9();
 
 	// interface: Effect

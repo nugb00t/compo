@@ -483,6 +483,18 @@
 						RelativePath=".\engine\video\direct3d9\video_d3d9.h"
 						>
 					</File>
+					<Filter
+						Name="fx"
+						>
+						<File
+							RelativePath=".\exec\fx\pos_diffuse.h"
+							>
+						</File>
+						<File
+							RelativePath=".\exec\fx\pos_diffuse_tex.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 			<Filter

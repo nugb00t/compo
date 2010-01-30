@@ -46,13 +46,16 @@ bool Server::update() {
     g_engine.logic->decide(states_.get(-1), requests.entities);
 
     Sync::ClientToArbiter::Readable fromClient(g_engine.sync->clientToArbiter);
-	if (fromClient && fromClient.age())
-		::OutputDebugString(_T("Server::update(): failed to open Arbiter package\n"));
+	//if (fromClient && fromClient.age())
+	//	::OutputDebugString(_T("Server::update(): failed to open Arbiter package\n"));
 
     if (fromClient)
         requests.clients[0] = fromClient.data();
 
-    g_game.arbiter->marshall(states_.get(-1), requests, states_.get());
+	{
+		Profiler::StopWatch stopWatch(Profiler::SERVER_ARBITER);
+	    g_game.arbiter->marshall(states_.get(-1), requests, states_.get());
+	}
 
     Sync::ArbiterToClient::Writable toClient(g_engine.sync->arbiterToClient);
     assert(toClient);

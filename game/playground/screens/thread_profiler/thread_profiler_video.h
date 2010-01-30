@@ -22,6 +22,10 @@ public:
 	virtual void draw();
 
 private:
+	void drawGrid();
+	void drawDiagram();
+
+private:
 	engine::Effect* effect_;
     boost::scoped_ptr<engine::DynamicMesh> mesh_;
 };

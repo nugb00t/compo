@@ -37,8 +37,7 @@ OutputVS TransformVS(float3 posL    : POSITION0,
 
 // Pixel shader
 float4 TransformPS(OutputVS outVS) : COLOR {
-	//return tex2D(TexS, outVS.tex0);
-	return outVS.color;
+	return tex2D(TexS, outVS.tex0);
 }
 
 // Techniques

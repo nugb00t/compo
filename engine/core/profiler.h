@@ -20,6 +20,7 @@ public:
 		SECTION_COUNT
 	};
 
+	static const unsigned SECTION_COLORS[SECTION_COUNT];
 	static const unsigned HISTORY_DEPTH = 16;
 
 public:

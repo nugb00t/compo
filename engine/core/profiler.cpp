@@ -6,6 +6,15 @@
 
 using namespace engine;
 
+const unsigned Profiler::SECTION_COLORS[SECTION_COUNT] = {
+	0x08ffffff,		// SYSTEM
+	0x08ff0000,		// SERVER
+	0x08ffff00,		// SERVER_ARBITER
+	0x08ff00ff,		// SERVER_LOGIC
+	0x0800ffff,		// LOCAL_CLIENT
+	0x0800ff00 		// VIDEO
+};
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Profiler::StopWatch::StopWatch(const Section section)

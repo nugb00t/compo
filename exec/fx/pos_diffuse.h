@@ -1,26 +1,14 @@
 // Uniforms
 uniform extern float4x4 transform;
-uniform extern texture tex_diffuse;
-
-// Samplers
-sampler TexS = sampler_state {
-    Texture = <tex_diffuse>;
-    MinFilter = LINEAR;
-    MagFilter = LINEAR;
-    MipFilter = LINEAR;
-};
 
 // Structure
 struct OutputVS {
 	float4 posH		: POSITION0;
 	float4 color	: COLOR0;
-    float2 tex0     : TEXCOORD0;
 };
 
 // Vertex shader
-OutputVS TransformVS(float3 posL    : POSITION0, 
-                     float4 c       : COLOR0,
-                     float2 tex0    : TEXCOORD0) {
+OutputVS TransformVS(float3 posL : POSITION0, float4 c : COLOR0) {
 	// Zero out our output
 	OutputVS outVS = (OutputVS)0;
 
@@ -29,7 +17,6 @@ OutputVS TransformVS(float3 posL    : POSITION0,
 
 	// Just pass the vertex color into the pixel shader.
     outVS.color = c;
-    outVS.tex0 = tex0;
 
 	// Done--return the output.
 	return outVS;
@@ -37,7 +24,6 @@ OutputVS TransformVS(float3 posL    : POSITION0,
 
 // Pixel shader
 float4 TransformPS(OutputVS outVS) : COLOR {
-	//return tex2D(TexS, outVS.tex0);
 	return outVS.color;
 }
 
