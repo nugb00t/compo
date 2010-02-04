@@ -18,8 +18,8 @@ enum GameEntities {
 class GameEntityFactory : public engine::EntityFactory {
 public:
 	// interface: EntityFactory
-	virtual engine::LogicComponent* createLogicComponent(const unsigned type);
-	virtual engine::VideoComponent* createVideoComponent(const unsigned type);
+	virtual engine::LogicComponent* createLogicComponent(const uint type);
+	virtual engine::VideoComponent* createVideoComponent(const uint type);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,8 +35,8 @@ enum GameScreens {
 class GameScreenFactory : public engine::ScreenFactory {
 public:
 	// interface: EntityFactory
-	//virtual engine::LogicComponent* createLogicComponent(const unsigned type);
-	virtual engine::ScreenVideoComponent* createVideoComponent(const unsigned type);
+	//virtual engine::LogicComponent* createLogicComponent(const uint type);
+	virtual engine::ScreenVideoComponent* createVideoComponent(const uint type);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

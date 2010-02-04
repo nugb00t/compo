@@ -8,7 +8,7 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class VertexDeclsD3D9 : public VertexDecls {
-	static const unsigned MAX_ELEMENTS = 8;
+	static const uint MAX_ELEMENTS = 8;
 
 	static const D3DVERTEXELEMENT9 ELEMENTS[COUNT][MAX_ELEMENTS];
 

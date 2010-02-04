@@ -23,10 +23,10 @@ public:
         static const Type type = POS_DIFFUSE;
 
 		Vector3 pos;
-		unsigned diffuse;
+		uint diffuse;
 
 		PosDiffuse() {}
-		PosDiffuse(const Vector3 pos_, const unsigned diffuse_)
+		PosDiffuse(const Vector3 pos_, const uint diffuse_)
 			: pos(pos_), diffuse(diffuse_) {}
 	};
 
@@ -34,11 +34,11 @@ public:
         static const Type type = POS_DIFFUSE_TEX;
 
 		Vector3 pos;
-		unsigned diffuse;
+		uint diffuse;
 		Vector2 tex;
 
 		PosDiffuseTex() {}
-		PosDiffuseTex(const Vector3 pos_, const unsigned diffuse_, const Vector2 tex_)
+		PosDiffuseTex(const Vector3 pos_, const uint diffuse_, const Vector2 tex_)
 			: pos(pos_), diffuse(diffuse_), tex(tex_) {}
 	};
 #pragma pack(pop)

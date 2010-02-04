@@ -11,11 +11,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <algorithm>
+#include <fstream>
 #include <map>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma warning (disable: 4244)		// conversion from 'int' to 'unsigned short', possible loss of data
+#pragma warning (disable: 4244)		// conversion from 'int' to 'u16', possible loss of data
 #include <boost/intrusive_ptr.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/static_assert.hpp>
@@ -66,6 +67,7 @@
 
 #include "utility/macros.h"
 #include "utility/math.h"
+#include "utility/types.h"
 
 #include "utility/interfaces.h"
 

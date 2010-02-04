@@ -25,7 +25,7 @@ void Logic::decide(const ServerState& last, ServerRequests::Entity entities[Serv
 		registry_[0] = g_game.entityFactory->createLogicComponent(0);
 	// TEMP
 
-	for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i)
+	for (uint i = 0; i < ServerState::MAX_ENTITIES; ++i)
 		if (registry_[i])
 			registry_[i]->decide(last, entities[i]);
 }

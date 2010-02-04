@@ -34,7 +34,7 @@ public:
 	virtual ProjCamera* createProjCamera() { return new ProjectionCameraD3D9; }
 	virtual OrthoCamera* createOrthoCamera() { return new OrthoCameraD3D9; }
 
-	virtual DynamicMesh* createMesh(engine::Effect* effect, const unsigned vertexSize, const unsigned vertexCapacity, const unsigned indexCapacity) { return new DynamicMeshD3D9(effect, vertexSize, vertexCapacity, indexCapacity); }
+	virtual DynamicMesh* createMesh(engine::Effect* effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) { return new DynamicMeshD3D9(effect, vertexSize, vertexCapacity, indexCapacity); }
 
 	virtual Effect* createEffect(const VertexDecls::Type vertexDecl) { return new EffectD3D9(vertexDecl); }
 	virtual Texture* createTexture(const TCHAR* const path) { return new TextureD3D9(path); }
@@ -46,7 +46,7 @@ public:
 	IDirect3DDevice9& device() { return *device_; }
 
 	// window
-	void reshape(const unsigned width, const unsigned height);
+	void reshape(const uint width, const uint height);
 
 private:
 	IDirect3D9* d3d_;

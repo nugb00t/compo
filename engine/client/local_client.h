@@ -11,7 +11,7 @@ namespace engine {
 
 class LocalClient : public Updatable {
 public:
-	static const unsigned FRAMERATE = 60;
+	static const uint FRAMERATE = 60;
 
 public:
 	virtual ~LocalClient() {}

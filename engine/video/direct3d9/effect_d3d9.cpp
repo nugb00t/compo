@@ -38,7 +38,7 @@ void EffectD3D9::setTexUniforms(const TextureUniform* const texUniforms) {
 
     texUniforms_ = texUniforms;
 
-    unsigned i = 0;
+    uint i = 0;
     for (; i < MAX_TEXTURES; ++i) {
         if (!texUniforms_[i].name || !texUniforms_[i].path) {
             assert(!texUniforms_[i].name && !texUniforms_[i].path);
@@ -61,7 +61,7 @@ void EffectD3D9::setTransform(const Matrix44& transform) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned EffectD3D9::begin() {
+uint EffectD3D9::begin() {
 	assert(effect_);
     assert(uniforms_);
 
@@ -71,7 +71,7 @@ unsigned EffectD3D9::begin() {
 	CHECKED_D3D_CALL(effect_->SetTechnique(techHandle));
 
     // textures
-    for (unsigned i = 0; i < MAX_TEXTURES && textures_[i]; ++i) {
+    for (uint i = 0; i < MAX_TEXTURES && textures_[i]; ++i) {
         textures_[i]->activate(0);
 
         D3DXHANDLE handle = effect_->GetParameterByName(NULL, texUniforms_[i].name);
@@ -80,13 +80,13 @@ unsigned EffectD3D9::begin() {
     }
 
     // uniforms
-    for (unsigned i = 0; uniforms_[i].name; ++i) {
+    for (uint i = 0; uniforms_[i].name; ++i) {
         D3DXHANDLE handle = effect_->GetParameterByName(NULL, uniforms_[i].name);
         assert(handle);
         effect_->SetValue(handle, uniforms_[i].value, D3DX_DEFAULT);
     }
 
-	unsigned passes = 0;
+	uint passes = 0;
 	CHECKED_D3D_CALL(effect_->Begin(&passes, D3DXFX_DONOTSAVESTATE));
 	CHECKED_D3D_CALL(effect_->BeginPass(0));
 

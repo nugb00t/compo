@@ -16,7 +16,7 @@ const OrbVideo::Vertex OrbVideo::vertices_[] = {
 	Vertex(Vector3( .5f, -.5f, 0.f), 0xff00ffff, Vector2(1.f, 1.f)),
 };
 
-const unsigned short OrbVideo::indices_[] = {
+const u16 OrbVideo::indices_[] = {
 	0, 1, 2,
 	2, 3, 0
 };
@@ -43,10 +43,10 @@ void OrbVideo::draw(const ServerState::Entity& fromClient) {
         mesh_.reset(g_engine.video->createMesh(effect_.get(), 
                                                sizeof(Vertex), 
                                                sizeof(vertices_) / sizeof(Vertex), 
-                                               sizeof(indices_) / sizeof(unsigned short)));
+                                               sizeof(indices_) / sizeof(u16)));
 
         DynamicMesh::BufferAccess access(*mesh_);
-		access.setBuffers(vertices_, sizeof(vertices_) / sizeof(Vertex), indices_, sizeof(indices_) / sizeof(unsigned short));
+		access.setBuffers(vertices_, sizeof(vertices_) / sizeof(Vertex), indices_, sizeof(indices_) / sizeof(u16));
 	}
 
     Matrix44 transform;

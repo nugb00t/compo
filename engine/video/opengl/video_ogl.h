@@ -27,7 +27,7 @@ public:
 	virtual void drawTest();
 
 	// window
-	void reshape(const unsigned width, const unsigned height);
+	void reshape(const uint width, const uint height);
 
 private:
     bool init();

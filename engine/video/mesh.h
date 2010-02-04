@@ -38,7 +38,7 @@ public:
         }
 
         template <class TVertex>
-        inline unsigned short appendVertex(const TVertex& vertex) {
+        inline u16 appendVertex(const TVertex& vertex) {
             assert(mesh_.vertices_);
             assert(sizeof(TVertex) == mesh_.vertexSize_ && mesh_.vertexCount_ < mesh_.vertexCapacity_);
 
@@ -46,19 +46,19 @@ public:
             return mesh_.vertexCount_++;
         }
 
-        inline void appendIndex(const unsigned short index) {
+        inline void appendIndex(const u16 index) {
             assert(mesh_.indices_);
             assert(mesh_.indexCount_ < mesh_.indexCapacity_);
 
             mesh_.indices_[mesh_.indexCount_++] = index;
         }
 
-        inline void setBuffers(const void* vertices, const unsigned short vertexCount, const unsigned short* indices, const unsigned indexCount) {
+        inline void setBuffers(const void* vertices, const u16 vertexCount, const u16* indices, const uint indexCount) {
             assert(mesh_.vertices_ && mesh_.indices_ && vertices && vertexCount && indices && indexCount);
             assert(vertexCount <= mesh_.vertexCapacity_ && indexCount <= mesh_.indexCapacity_);
 
             memcpy(mesh_.vertices_, vertices, vertexCount * mesh_.vertexSize_);
-            memcpy(mesh_.indices_, indices, indexCount * sizeof(unsigned short));
+            memcpy(mesh_.indices_, indices, indexCount * sizeof(u16));
 
             mesh_.vertexCount_ = vertexCount;
             mesh_.indexCount_ = indexCount;
@@ -71,7 +71,7 @@ public:
     //-----------------------------------------------------------------------------------------------------------------
 
 protected:
-    DynamicMesh(engine::Effect* effect, const unsigned vertexSize, const unsigned vertexCapacity, const unsigned indexCapacity) 
+    DynamicMesh(engine::Effect* effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) 
         : effect_(effect), vertexSize_(vertexSize), vertexCapacity_(vertexCapacity), indexCapacity_(indexCapacity), vertexCount_(0), indexCount_(0) {}
 
 public:
@@ -82,21 +82,21 @@ public:
     virtual void lock() = 0;
     virtual void unlock() = 0;
 
-    virtual void streamBuffers(const unsigned vertexCount, const unsigned primCount) = 0;
+    virtual void streamBuffers(const uint vertexCount, const uint primCount) = 0;
 
 protected:
     engine::Effect* const effect_;
 
-    const unsigned vertexSize_;
-    const unsigned vertexCapacity_;
-    const unsigned indexCapacity_;
+    const uint vertexSize_;
+    const uint vertexCapacity_;
+    const uint indexCapacity_;
 
     // state vars
     void* vertices_;
-    unsigned short* indices_;
+    u16* indices_;
 
-    unsigned short vertexCount_;
-    unsigned indexCount_;
+    u16 vertexCount_;
+    uint indexCount_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

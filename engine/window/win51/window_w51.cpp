@@ -58,10 +58,10 @@ bool WindowW51::choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool WindowW51::create(const WNDPROC wndProc,
-					   const unsigned width, 
-					   const unsigned height, 
-					   const unsigned colorBits, 
-					   const unsigned frequency, 
+					   const uint width, 
+					   const uint height, 
+					   const uint colorBits, 
+					   const uint frequency, 
 					   const bool fullscreen)
 {
 	assert(!window_ && !context_ && !format_ && wndProc && width && height && colorBits);

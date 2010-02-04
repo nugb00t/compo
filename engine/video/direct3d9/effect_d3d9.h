@@ -23,7 +23,7 @@ public:
 
     virtual void setTransform(const Matrix44& transform);
 
-	virtual unsigned begin();
+	virtual uint begin();
     virtual void next();
 	virtual void end();
 

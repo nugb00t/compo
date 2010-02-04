@@ -9,14 +9,14 @@ namespace engine {
 
 class DynamicMeshD3D9 : public DynamicMesh {
 public:
-    DynamicMeshD3D9(engine::Effect* const effect, const unsigned vertexSize, const unsigned vertexCapacity, const unsigned indexCapacity);
+    DynamicMeshD3D9(engine::Effect* const effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity);
     ~DynamicMeshD3D9();
 
     // interface: MeshImpl
     virtual void lock();
     virtual void unlock();
 
-    virtual void streamBuffers(const unsigned vertexCount, const unsigned primCount);
+    virtual void streamBuffers(const uint vertexCount, const uint primCount);
 
 private:
 	// Direct3D

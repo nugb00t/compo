@@ -336,6 +336,10 @@
 					RelativePath=".\engine\utility\math.h"
 					>
 				</File>
+				<File
+					RelativePath=".\engine\utility\types.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="core"
@@ -382,6 +386,14 @@
 				</File>
 				<File
 					RelativePath=".\engine\video\effect.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\video\font.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\video\font.h"
 					>
 				</File>
 				<File
@@ -483,18 +495,6 @@
 						RelativePath=".\engine\video\direct3d9\video_d3d9.h"
 						>
 					</File>
-					<Filter
-						Name="fx"
-						>
-						<File
-							RelativePath=".\exec\fx\pos_diffuse.h"
-							>
-						</File>
-						<File
-							RelativePath=".\exec\fx\pos_diffuse_tex.h"
-							>
-						</File>
-					</Filter>
 				</Filter>
 			</Filter>
 			<Filter
@@ -729,6 +729,46 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="exec"
+				>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="engine_data"
+			>
+			<Filter
+				Name="fx"
+				>
+				<File
+					RelativePath=".\exec\fx\pos_diffuse.h"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fx\pos_diffuse_tex.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="fonts"
+				>
+				<File
+					RelativePath=".\exec\fonts\ocr_a_ext.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fonts\sling.fnt"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="tools"
+			>
+			<File
+				RelativePath=".\tools\cook_font.py"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

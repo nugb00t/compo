@@ -12,7 +12,7 @@ using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-LogicComponent* GameEntityFactory::createLogicComponent(const unsigned type) {
+LogicComponent* GameEntityFactory::createLogicComponent(const uint type) {
 	switch (type) {
 		case ENTITY_ORB:
 			return new OrbLogic;
@@ -25,7 +25,7 @@ LogicComponent* GameEntityFactory::createLogicComponent(const unsigned type) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoComponent* GameEntityFactory::createVideoComponent(const unsigned type) {
+VideoComponent* GameEntityFactory::createVideoComponent(const uint type) {
 	switch (type) {
 		case ENTITY_ORB:
 			return new OrbVideo;
@@ -38,7 +38,7 @@ VideoComponent* GameEntityFactory::createVideoComponent(const unsigned type) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//LogicComponent* GameScreenFactory::createLogicComponent(const unsigned type) {
+//LogicComponent* GameScreenFactory::createLogicComponent(const uint type) {
 //	switch (type) {
 //		case SCREEN_THREAD_PROFILER:
 //			return NULL;
@@ -51,7 +51,7 @@ VideoComponent* GameEntityFactory::createVideoComponent(const unsigned type) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ScreenVideoComponent* GameScreenFactory::createVideoComponent(const unsigned type) {
+ScreenVideoComponent* GameScreenFactory::createVideoComponent(const uint type) {
 	switch (type) {
 		case SCREEN_THREAD_PROFILER:
 			return new ThreadProfilerVideo;

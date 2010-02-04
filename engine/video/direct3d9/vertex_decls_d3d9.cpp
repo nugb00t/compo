@@ -41,7 +41,7 @@ const TCHAR* VertexDeclsD3D9::PATHS[COUNT] = {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 VertexDeclsD3D9::~VertexDeclsD3D9() {
-	for (unsigned i = 0; i < COUNT; ++i)
+	for (uint i = 0; i < COUNT; ++i)
 		if (vertexDecls_[i])
 			vertexDecls_[i]->Release();
 }
@@ -49,7 +49,7 @@ VertexDeclsD3D9::~VertexDeclsD3D9() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VertexDeclsD3D9::initialize() {
-	for (unsigned i = 0; i < COUNT; ++i)
+	for (uint i = 0; i < COUNT; ++i)
 		CHECKED_D3D_CALL(g_engine.videoD3D9->device().CreateVertexDeclaration(ELEMENTS[i], &vertexDecls_[i]));
 }
 

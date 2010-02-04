@@ -8,13 +8,13 @@ namespace engine {
 // Track the time of the input event in addition to the event itself.
 // May allow for more precise (?) button handling and / or smarter (?) axis interpolation.
 struct InputData {
-	static const unsigned BUTTON_COUNT = 256;      // windows VKeys
-	static const unsigned AXIS_HISTORY = 4;
+	static const uint BUTTON_COUNT = 256;      // windows VKeys
+	static const uint AXIS_HISTORY = 4;
 
 	// buttons
 	struct ButtonInfo {
-		unsigned pushed;
-		unsigned released;
+		uint pushed;
+		uint released;
 	};
 
 	// axis
@@ -27,10 +27,10 @@ struct InputData {
 	};
 
 	struct AxisEvent {
-		unsigned time;
+		uint time;
 		int value;
 
-		AxisEvent(const unsigned time_, const int value_) 
+		AxisEvent(const uint time_, const int value_) 
 			: time(time_), value(value_) {}
 
 		AxisEvent() 
@@ -40,7 +40,7 @@ struct InputData {
 	// the whole struct
 	ButtonInfo buttons[BUTTON_COUNT];
 	kaynine::CyclicBuffer<AxisEvent, AXIS_HISTORY> axis[AXIS_COUNT];
-	unsigned age;
+	uint age;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

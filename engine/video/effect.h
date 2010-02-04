@@ -21,7 +21,7 @@ public:
         const TCHAR* path;
     };
 
-    static const unsigned MAX_TEXTURES = 8;
+    static const uint MAX_TEXTURES = 8;
 
 public:
  	virtual const char* errors() const = 0;
@@ -31,7 +31,7 @@ public:
 
     virtual void setTransform(const Matrix44& transform) = 0;
 
-	virtual unsigned begin() = 0;
+	virtual uint begin() = 0;
     virtual void next() = 0;
 	virtual void end() = 0;
 };

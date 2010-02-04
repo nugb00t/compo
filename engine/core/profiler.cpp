@@ -6,7 +6,7 @@
 
 using namespace engine;
 
-const unsigned Profiler::SECTION_COLORS[SECTION_COUNT] = {
+const uint Profiler::SECTION_COLORS[SECTION_COUNT] = {
 	0x08ffffff,		// SYSTEM
 	0x08ff0000,		// SERVER
 	0x08ffff00,		// SERVER_ARBITER
@@ -30,7 +30,7 @@ Profiler::StopWatch::~StopWatch() {
 
 Profiler::Profiler() {
 	// avoid uninitialized section counters by placing dummy periods in the beginning
-	for (unsigned section = 0; section < SECTION_COUNT; ++section)
+	for (uint section = 0; section < SECTION_COUNT; ++section)
 		track((Section)section, 0, 0);
 }
 
@@ -44,7 +44,7 @@ const Profiler::Period& Profiler::get(const Section section, const int age) cons
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Profiler::track(const Section section, const unsigned begin, const unsigned end) {
+void Profiler::track(const Section section, const uint begin, const uint end) {
 	assert(section < SECTION_COUNT);
 
 	kaynine::AutoLock<> lock(guard_);

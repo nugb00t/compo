@@ -7,7 +7,7 @@ namespace engine {
 
 class Texture : public kaynine::IntrusivePtrBase {
 public:
-	virtual void activate(const unsigned stage) = 0;
+	virtual void activate(const uint stage) = 0;
 
     virtual const TCHAR* path() const = 0;
 };

@@ -10,10 +10,10 @@ class Window
 public:
 	virtual bool create(
 		const WNDPROC wndProc,
-		const unsigned width, 
-		const unsigned height, 
-		const unsigned colorBits, 
-		const unsigned frequency, 
+		const uint width, 
+		const uint height, 
+		const uint colorBits, 
+		const uint frequency, 
 		const bool fullscreen) = 0;
 
 	virtual bool choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits, BYTE stencilBits) = 0;
@@ -26,8 +26,8 @@ public:
 
 	virtual int format() const = 0;
 
-	//virtual const unsigned width() const = 0;
-	//virtual const unsigned height() const = 0;
+	//virtual const uint width() const = 0;
+	//virtual const uint height() const = 0;
 
 	virtual void swapBuffers() = 0;
 };

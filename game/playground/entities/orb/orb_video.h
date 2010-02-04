@@ -22,7 +22,7 @@ public:
 
 private:
 	static const Vertex vertices_[];
-	static const unsigned short indices_[];
+	static const u16 indices_[];
 
     static const engine::Effect::Uniform uniforms_[];
     static const engine::Effect::TextureUniform texUniforms_[];

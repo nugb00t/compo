@@ -20,10 +20,10 @@ public:
 
 	// interface: Window
 	virtual bool create(const WNDPROC wndProc,
-						const unsigned width,
-						const unsigned height, 
-						const unsigned colorBits, 
-						const unsigned frequency, 
+						const uint width,
+						const uint height, 
+						const uint colorBits, 
+						const uint frequency, 
 						const bool fullscreen = true);
 
 	virtual bool choosePixelFormat(BYTE colorBits, BYTE alphaBits, BYTE depthBits, BYTE stencilBits);

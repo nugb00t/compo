@@ -11,7 +11,7 @@ using namespace engine;
 using namespace game_playground;
 
 namespace {
-	static const unsigned TIME_WINDOW_WIDTH	= 32;		// msec
+	static const uint TIME_WINDOW_WIDTH	= 32;		// msec
 
 	static const float SCREEN_LEFT		= -0.5f;
 	static const float SCREEN_RIGHT		=  0.5f;
@@ -24,11 +24,11 @@ namespace {
 
 	static const float BAR_HEIGHT		=  0.1f;
 	static const float BAR_OFFSET		=  0.15f;
-	static const unsigned BAR_COLOR		=  0x88ffffff;
-	//static const unsigned BAR_COLOR		=  0x80808080;
+	static const uint BAR_COLOR		=  0x88ffffff;
+	//static const uint BAR_COLOR		=  0x80808080;
 
-	static const unsigned MAX_VERTICES	= 1024;
-	static const unsigned MAX_INDICES	= 1024;
+	static const uint MAX_VERTICES	= 1024;
+	static const uint MAX_INDICES	= 1024;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,9 +63,9 @@ void ThreadProfilerVideo::draw() {
 		access.appendIndex(firstVertex);
 	}
 
-	const unsigned timeBegin = g_engine.profiler->get(Profiler::VIDEO, -2).begin - 8;
+	const uint timeBegin = g_engine.profiler->get(Profiler::VIDEO, -2).begin - 8;
 
-	unsigned section;
+	uint section;
 	for (section = 0; section < Profiler::SECTION_COUNT; ++section) {
 		for (int age = 0; age < Profiler::HISTORY_DEPTH; ++age) {
 			const Profiler::Period& period = g_engine.profiler->get((Profiler::Section)section, -age);
@@ -76,7 +76,7 @@ void ThreadProfilerVideo::draw() {
 			const float top		= SCREEN_TOP - BAR_OFFSET * (section + 1);
 			const float bottom	= top - BAR_HEIGHT;
 
-			const unsigned color = Profiler::SECTION_COLORS[section];
+			const uint color = Profiler::SECTION_COLORS[section];
 
 			// fill-up vertex / index arrays
 			const short firstVertex = access.appendVertex(Vertex(Vector3(left, bottom, SCREEN_DEPTH), color));

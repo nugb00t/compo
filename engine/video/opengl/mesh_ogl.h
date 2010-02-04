@@ -22,23 +22,23 @@ namespace engine {
 class DynamicMesh /*: public kaynine::Serializable*/ {
 public:
 	typedef std::vector<Vertice> Vertices;
-	typedef std::vector<unsigned> Indices;
+	typedef std::vector<uint> Indices;
 
 public:
-	DynamicMesh(const unsigned verticeCount = 4, const unsigned indexCount = 4);
+	DynamicMesh(const uint verticeCount = 4, const uint indexCount = 4);
 
-	inline void addIndex(const unsigned index)			{ indices_.push_back(index); }
-	inline unsigned addVertice(const Vertice& vertice)	{ vertices_.push_back(vertice); return vertices_.size() - 1; }
+	inline void addIndex(const uint index)			{ indices_.push_back(index); }
+	inline uint addVertice(const Vertice& vertice)	{ vertices_.push_back(vertice); return vertices_.size() - 1; }
 
 	inline void clear()									{ vertices_.clear(); indices_.clear(); } 
 
-	inline const unsigned* indices() const				{ assert(indices_.size()); return &(indices_[0]); }
-	inline const unsigned indexCount() const			{ return indices_.size(); }
+	inline const uint* indices() const				{ assert(indices_.size()); return &(indices_[0]); }
+	inline const uint indexCount() const			{ return indices_.size(); }
 
 	inline const Vertice* vertices() const				{ assert(vertices_.size()); return &(vertices_[0]); }
-	inline const unsigned verticeCount() const			{ return vertices_.size(); }
+	inline const uint verticeCount() const			{ return vertices_.size(); }
 
-	unsigned optimize();
+	uint optimize();
 
 	// kaynine::Serializable
 	//bool serializeWith(kaynine::Archive& archive);

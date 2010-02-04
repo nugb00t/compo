@@ -8,7 +8,7 @@ using namespace game_playground;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameArbiter::marshall(const ServerState& last, const ServerRequests& requests, ServerState& next) {
-	for (unsigned i = 0; i < ServerState::MAX_CLIENTS; ++i) {
+	for (uint i = 0; i < ServerState::MAX_CLIENTS; ++i) {
 		next.clients[i].active = last.clients[i].active;
 
 		if (requests.clients[i].valid) {
@@ -25,7 +25,7 @@ void GameArbiter::marshall(const ServerState& last, const ServerRequests& reques
 		}
 	}
 
-	for (unsigned i = 0; i < ServerState::MAX_ENTITIES; ++i) {
+	for (uint i = 0; i < ServerState::MAX_ENTITIES; ++i) {
 		next.entities[i].active = last.entities[i].active;
 
 		if (requests.entities[i].valid) {

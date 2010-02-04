@@ -10,9 +10,9 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DynamicMeshD3D9::DynamicMeshD3D9(engine::Effect* const effect, 
-                                 const unsigned vertexSize, 
-                                 const unsigned vertexCapacity, 
-                                 const unsigned indexCapacity)
+                                 const uint vertexSize, 
+                                 const uint vertexCapacity, 
+                                 const uint indexCapacity)
 :   DynamicMesh(effect, vertexSize, vertexCapacity, indexCapacity),
     vertexBuffer_(NULL), indexBuffer_(NULL)
 {
@@ -48,7 +48,7 @@ void DynamicMeshD3D9::unlock() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DynamicMeshD3D9::streamBuffers(const unsigned vertexCount, const unsigned primCount) {
+void DynamicMeshD3D9::streamBuffers(const uint vertexCount, const uint primCount) {
 	assert(vertexBuffer_ && indexBuffer_ && vertexCount && primCount);
 
 	CHECKED_D3D_CALL(g_engine.videoD3D9->device().SetStreamSource(0, vertexBuffer_, 0, vertexSize_));

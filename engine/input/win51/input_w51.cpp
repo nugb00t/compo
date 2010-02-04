@@ -23,18 +23,18 @@ InputW51::InputW51() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef USE_BUFFERED_RAW_INPUT
-void InputW51::buffered(const HRAWINPUT handle, const unsigned now) {
+void InputW51::buffered(const HRAWINPUT handle, const uint now) {
 	/*
-	unsigned ret = ::GetRawInputBuffer(NULL, &size, sizeof(RAWINPUTHEADER));
+	uint ret = ::GetRawInputBuffer(NULL, &size, sizeof(RAWINPUTHEADER));
 	assert(ret == 0);
 	assert(size < sizeof(RAWINPUT) * RAW_INPUT_BUFFER_COUNT);
 	*/
 
 	static RAWINPUT buffers[RAW_INPUT_BUFFER_COUNT];
 
-	unsigned size = sizeof(buffers); 
+	uint size = sizeof(buffers); 
 	while (true) {
-		const unsigned count = ::GetRawInputBuffer(buffers, &size, sizeof(RAWINPUTHEADER));
+		const uint count = ::GetRawInputBuffer(buffers, &size, sizeof(RAWINPUTHEADER));
 		if (!count)
 			break;
 
@@ -51,19 +51,19 @@ void InputW51::buffered(const HRAWINPUT handle, const unsigned now) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void InputW51::unbuffered(const HRAWINPUT handle, const unsigned now) {
-	//unsigned size;
+void InputW51::unbuffered(const HRAWINPUT handle, const uint now) {
+	//uint size;
 
 	//// inquire on the space requested
-	//const unsigned ret = ::GetRawInputData(handle, RID_INPUT, NULL, &size, sizeof(RAWINPUTHEADER));
+	//const uint ret = ::GetRawInputData(handle, RID_INPUT, NULL, &size, sizeof(RAWINPUTHEADER));
 	//assert(!ret);
 	//assert(size == sizeof(RAWINPUT));
 
 	RAWINPUT raw;
 
 	// read raw input
-	unsigned size = sizeof(raw);
-	DEBUG_ONLY(const unsigned read =)
+	uint size = sizeof(raw);
+	DEBUG_ONLY(const uint read =)
 		::GetRawInputData(handle, RID_INPUT, &raw, &size, sizeof(RAWINPUTHEADER));
 	assert(read <= size);
 
@@ -72,7 +72,7 @@ void InputW51::unbuffered(const HRAWINPUT handle, const unsigned now) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void InputW51::process(const RAWINPUT& raw, const unsigned now) {
+void InputW51::process(const RAWINPUT& raw, const uint now) {
 	if (raw.header.dwType == RIM_TYPEMOUSE) {
 		const RAWMOUSE& mouse = raw.data.mouse;
 

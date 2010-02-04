@@ -13,7 +13,7 @@ public:
 	~TextureD3D9();
 
 	// interface: Texture
-	virtual void activate(const unsigned stage);
+	virtual void activate(const uint stage);
 
     virtual const TCHAR* path() const { return path_; }
 

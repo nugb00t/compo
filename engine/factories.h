@@ -10,8 +10,8 @@ namespace engine {
 
 class EntityFactory {
 public:
-	virtual LogicComponent* createLogicComponent(const unsigned type) = 0;
-	virtual VideoComponent* createVideoComponent(const unsigned type) = 0;
+	virtual LogicComponent* createLogicComponent(const uint type) = 0;
+	virtual VideoComponent* createVideoComponent(const uint type) = 0;
 };
 
 
@@ -19,8 +19,8 @@ public:
 
 class ScreenFactory {
 public:
-	//virtual LogicComponent* createLogicComponent(const unsigned type) = 0;
-	virtual ScreenVideoComponent* createVideoComponent(const unsigned type) = 0;
+	//virtual LogicComponent* createLogicComponent(const uint type) = 0;
+	virtual ScreenVideoComponent* createVideoComponent(const uint type) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

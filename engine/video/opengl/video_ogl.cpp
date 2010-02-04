@@ -175,7 +175,7 @@ void VideoOGL::operator()() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoOGL::reshape(const unsigned width, const unsigned height) {
+void VideoOGL::reshape(const uint width, const uint height) {
 	glViewport(0, 0, width, height);
 	aspect_ = static_cast<float>(width) / height;
 	assert(glGetError() == GL_NO_ERROR);

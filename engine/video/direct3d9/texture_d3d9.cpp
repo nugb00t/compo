@@ -25,7 +25,7 @@ TextureD3D9::~TextureD3D9() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void TextureD3D9::activate(const unsigned stage) {
+void TextureD3D9::activate(const uint stage) {
 	assert(texture_);
 
 	CHECKED_D3D_CALL(g_engine.videoD3D9->device().SetTexture(stage, texture_));

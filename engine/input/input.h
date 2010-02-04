@@ -9,7 +9,7 @@ namespace engine {
 
 class Input {
 public:
-	static const unsigned FRAMERATE = 60;
+	static const uint FRAMERATE = 60;
 
 public:
     const InputData& controls() const { return controls_; }

@@ -6,8 +6,8 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct ServerState {
-    static const unsigned MAX_ENTITIES = 4096;
-    static const unsigned MAX_CLIENTS = 4;
+    static const uint MAX_ENTITIES = 4096;
+    static const uint MAX_CLIENTS = 4;
 
     struct Entity {
         Vector3 position;
@@ -24,7 +24,7 @@ struct ServerState {
     Entity entities[MAX_ENTITIES];
     Client clients[MAX_CLIENTS];
 
-    unsigned time;
+    uint time;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ struct ServerRequests {
     Entity entities[ServerState::MAX_ENTITIES];
     Client clients[ServerState::MAX_CLIENTS];
 
-    unsigned time;
+    uint time;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

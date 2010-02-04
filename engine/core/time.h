@@ -9,11 +9,11 @@ class Time {
 public:
 	Time();
 
-	const unsigned msec() const;
+	const uint msec() const;
 	const float now() const;
 
 private:
-	const unsigned zero_;
+	const uint zero_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

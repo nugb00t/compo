@@ -11,23 +11,23 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-DynamicMesh::DynamicMesh(const unsigned verticeCount, const unsigned indexCount) {
+DynamicMesh::DynamicMesh(const uint verticeCount, const uint indexCount) {
 	vertices_.reserve(verticeCount);
 	indices_.reserve(indexCount);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned DynamicMesh::optimize() {
-	unsigned removed = 0;
+uint DynamicMesh::optimize() {
+	uint removed = 0;
 
-	for (unsigned iwalkvertex = 0; iwalkvertex < vertices_.size() - 1; ++iwalkvertex)
-		for (unsigned itestvertex = iwalkvertex + 1; itestvertex < vertices_.size(); ++itestvertex) 
+	for (uint iwalkvertex = 0; iwalkvertex < vertices_.size() - 1; ++iwalkvertex)
+		for (uint itestvertex = iwalkvertex + 1; itestvertex < vertices_.size(); ++itestvertex) 
 			if (vertices_[iwalkvertex] == vertices_[itestvertex]) 
 			{
 				vertices_.erase(vertices_.begin() + itestvertex);
 
-				for (unsigned iindex = 0; iindex < indices_.size(); ++iindex) {
+				for (uint iindex = 0; iindex < indices_.size(); ++iindex) {
 					if (indices_[iindex] == itestvertex)
 						indices_[iindex] = iwalkvertex;
 
