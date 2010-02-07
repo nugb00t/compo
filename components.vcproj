@@ -389,14 +389,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\engine\video\font.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\video\font.h"
-					>
-				</File>
-				<File
 					RelativePath=".\engine\video\mesh.cpp"
 					>
 				</File>
@@ -493,6 +485,26 @@
 					</File>
 					<File
 						RelativePath=".\engine\video\direct3d9\video_d3d9.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="fonts"
+					>
+					<File
+						RelativePath=".\engine\video\fonts\fonts.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\fonts\fonts.h"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\fonts\sling_font.h"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\fonts\sling_font_data.h"
 						>
 					</File>
 				</Filter>
@@ -765,10 +777,22 @@
 		<Filter
 			Name="tools"
 			>
-			<File
-				RelativePath=".\tools\cook_font.py"
+			<Filter
+				Name="cook_font"
 				>
-			</File>
+				<File
+					RelativePath=".\tools\cook_font\cook_font.py"
+					>
+				</File>
+				<File
+					RelativePath=".\tools\cook_font\template_font.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tools\cook_font\template_font_data.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
