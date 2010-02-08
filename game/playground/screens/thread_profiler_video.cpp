@@ -5,8 +5,6 @@
 #include "engine.h"
 #include "core/time.h"
 
-#include "video/vertex_decls.h"
-
 using namespace engine;
 using namespace game_playground;
 
@@ -38,13 +36,10 @@ void ThreadProfilerVideo::draw() {
 		effect_ = g_engine.video->createEffect(Vertex::type);
 
 	if (!mesh_)
-		mesh_.reset(g_engine.video->createMesh(effect_, 
-		sizeof(Vertex), 
-		(Profiler::HISTORY_DEPTH * Profiler::SECTION_COUNT + 2) * 4,
-		(Profiler::HISTORY_DEPTH * Profiler::SECTION_COUNT + 2) * 6));
+		mesh_.reset(g_engine.video->createMesh(effect_, sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
 
+	mesh_->clear();
 	DynamicMesh::BufferAccess access(*mesh_);
-	access.reset();
 
 	// top ruler
 	{
@@ -115,4 +110,3 @@ void ThreadProfilerVideo::draw() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-

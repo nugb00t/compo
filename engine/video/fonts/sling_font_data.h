@@ -1,5 +1,5 @@
 
-const Font::Glyph SlingFont::GLYPH_DATA[] = {
+const engine::Font::Glyph engine::SlingFont::GLYPH_DATA[] = {
 	{ 0.984375f, 0.000000f, 0.992188f, 0.007813f, 0, 15, 5, 0 },
 	{ 0.953125f, 0.132813f, 0.992188f, 0.234375f, 1, 2, 8, 0 },
 	{ 0.953125f, 0.781250f, 0.992188f, 0.828125f, 1, 2, 8, 0 },
@@ -102,7 +102,7 @@ const Font::Glyph SlingFont::GLYPH_DATA[] = {
 	{ 0.976563f, 0.429688f, 0.992188f, 0.445313f, 2, 8, 5, 0 },
 };
 
-const Font::Glyph* const SlingFont::GLYPHS[GLYPH_COUNT] = {
+const engine::Font::Glyph* const engine::SlingFont::GLYPHS[GLYPH_COUNT] = {
 	&GLYPH_DATA[32],
 	&GLYPH_DATA[33],
 	&GLYPH_DATA[34],
@@ -257,7 +257,7 @@ const Font::Glyph* const SlingFont::GLYPHS[GLYPH_COUNT] = {
 	&GLYPH_DATA[183],
 };
 
-const i8 SlingFont::KERN_DATA[][KERN_MAP_COUNT] = {
+const i8 engine::SlingFont::KERN_DATA[][KERN_MAP_COUNT] = {
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0,  },
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0,  },
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0,  },
@@ -330,7 +330,7 @@ const i8 SlingFont::KERN_DATA[][KERN_MAP_COUNT] = {
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 0, -2, 0, 0, 0, 0, -2, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0,  },
 };
 
-const i8* const SlingFont::KERNINGS[KERN_COUNT] = {
+const i8* const engine::SlingFont::KERNINGS[KERN_COUNT] = {
 	KERN_DATA[34],
 	NULL,
 	NULL,
@@ -421,6 +421,6 @@ const i8* const SlingFont::KERNINGS[KERN_COUNT] = {
 	KERN_DATA[121],
 };
 
-const Font::Info SlingFont::INFO = {
+const engine::Font::Info engine::SlingFont::INFO = {
 	20, 15, 128, 128
 };

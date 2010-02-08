@@ -2,10 +2,10 @@
 
 #include "playground_factories.h"
 
-#include "entities/orb/orb_logic.h"
-#include "entities/orb/orb_video.h"
+#include "entities/orb_logic.h"
+#include "entities/orb_video.h"
 
-#include "screens/thread_profiler/thread_profiler_video.h"
+#include "screens/thread_profiler_video.h"
 
 using namespace engine;
 using namespace game_playground;

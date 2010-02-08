@@ -691,42 +691,42 @@
 				<Filter
 					Name="screens"
 					>
-					<Filter
-						Name="thread_profiler"
+					<File
+						RelativePath=".\game\playground\screens\hud_video.cpp"
 						>
-						<File
-							RelativePath=".\game\playground\screens\thread_profiler\thread_profiler_video.cpp"
-							>
-						</File>
-						<File
-							RelativePath=".\game\playground\screens\thread_profiler\thread_profiler_video.h"
-							>
-						</File>
-					</Filter>
+					</File>
+					<File
+						RelativePath=".\game\playground\screens\hud_video.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\screens\thread_profiler_video.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\screens\thread_profiler_video.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="entities"
 					>
-					<Filter
-						Name="orb"
+					<File
+						RelativePath=".\game\playground\entities\orb_logic.cpp"
 						>
-						<File
-							RelativePath=".\game\playground\entities\orb\orb_logic.cpp"
-							>
-						</File>
-						<File
-							RelativePath=".\game\playground\entities\orb\orb_logic.h"
-							>
-						</File>
-						<File
-							RelativePath=".\game\playground\entities\orb\orb_video.cpp"
-							>
-						</File>
-						<File
-							RelativePath=".\game\playground\entities\orb\orb_video.h"
-							>
-						</File>
-					</Filter>
+					</File>
+					<File
+						RelativePath=".\game\playground\entities\orb_logic.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\entities\orb_video.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\entities\orb_video.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="arbiter"

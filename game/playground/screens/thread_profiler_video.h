@@ -14,6 +14,8 @@ namespace game_playground {
 
 class ThreadProfilerVideo : public engine::ScreenVideoComponent {
     typedef engine::VertexDecls::PosDiffuse Vertex;
+	static const uint MAX_VERTICES = (engine::Profiler::HISTORY_DEPTH * engine::Profiler::SECTION_COUNT + 2) * 4;
+	static const uint MAX_INDICES = MAX_VERTICES / 4 * 6;
 
 public:
     ThreadProfilerVideo() : effect_(NULL), mesh_(NULL) {}

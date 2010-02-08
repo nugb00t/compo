@@ -11,17 +11,13 @@ public:
 #pragma pack(push, 4)
     struct Glyph {
         float u0, v0, u1, v1;
-        int xOffset, yOffset;
-        int xAdvance;
+        int xOffset, yOffset, xAdvance;
 		uint page;
     };
 #pragma pack(pop)
 
 	struct Info {
-		uint lineHeight;
-		uint base;
-		uint width;
-		uint height;
+		uint lineHeight, base, width, height;
 	};
 
 public:
@@ -30,20 +26,20 @@ public:
 		const i8* const* kernings, const uint minKern, const uint maxKern, const uint minKernMap, const uint maxKernMap) 
 		:	info_(info), 
 			glyphs_(glyphs), minGlyph_(minGlyph), maxGlyph_(maxGlyph),
-			kernings_(kernings), minKern_(minKern), maxKern_(maxKern), minKernMap_(minKernMap), maxKernMap_(maxKernMap) {}
+			kernings_(kernings), minKern_(minKern), maxKern_(maxKern), minKernMap_(minKernMap), maxKernMap_(maxKernMap)
+	{}
+
+	void print(class DynamicMesh* mesh, const char* const string, const float x, const float y, const float scale) const;
 
 private:
 	const Info& info_;
 
 	const Glyph* const* glyphs_;
-	const uint minGlyph_;
-	const uint maxGlyph_;
+	const uint minGlyph_, maxGlyph_;
 
 	const i8* const* kernings_;
-	const uint minKern_;
-	const uint maxKern_;
-	const uint minKernMap_;
-	const uint maxKernMap_;
+	const uint minKern_, maxKern_;
+	const uint minKernMap_, maxKernMap_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
