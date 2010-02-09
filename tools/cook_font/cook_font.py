@@ -121,13 +121,15 @@ def main():
 	keys.sort()
 	for key in keys:
 		glyph = glyphs[key]
-		glyph_data += '\t{ %ff, %ff, %ff, %ff, %d, %d, %d, %d },\n' % (
+		glyph_data += '\t{ { %ff, %ff, %ff, %ff }, { % d, % d, %d, %d }, %d, %d },\n' % (
 			float(glyph['x']) / width,						# u0
 			float(glyph['y']) / height,						# v0
 			float(glyph['x'] + glyph['width']) / width,		# u1
 			float(glyph['y'] + glyph['height']) / height,	# v1
-			int(glyph['xoffset']),							# xOffset
-			int(glyph['yoffset']),							# yOffset
+			int(glyph['xoffset']),							# x0
+			int(glyph['yoffset']),							# y0
+			int(glyph['width']),							# width
+			int(glyph['height']),							# height
 			int(glyph['xadvance']),							# xAdvance
 			int(0))											# page
 	
@@ -146,7 +148,7 @@ def main():
 		kerning = kernings[first]
 		for second in range(min_kern_map, max_kern_map + 1):
 			if second in kerning.keys():
-				kern_data += '%d, ' % (kerning[second])
+				kern_data += '% 0d, ' % (kerning[second])
 			else:
 				kern_data += '0, '
 		kern_data += ' },\n'

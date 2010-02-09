@@ -1,20 +1,38 @@
 #ifndef FONT_INCLUDED
 #define FONT_INCLUDED
 
+#include "video/vertex_decls.h"
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Font {
 public:
+	typedef engine::VertexDecls::PosDiffuseTex Vertex;
+
+public:
+
+	//-----------------------------------------------------------------------------------------------------------------
 
 #pragma pack(push, 4)
     struct Glyph {
-        float u0, v0, u1, v1;
-        int xOffset, yOffset, xAdvance;
-		uint page;
+		struct source {
+			float u0, v0, u1, v1;
+		};
+#pragma pack(push, 2)
+		struct destination {
+			i16 x0, y0;
+			u16 width, height;
+		};
+#pragma pack(pop)
+		source src;
+		destination dest;
+		int xAdvance, page;
     };
 #pragma pack(pop)
+
+	//-----------------------------------------------------------------------------------------------------------------
 
 	struct Info {
 		uint lineHeight, base, width, height;
@@ -29,7 +47,7 @@ public:
 			kernings_(kernings), minKern_(minKern), maxKern_(maxKern), minKernMap_(minKernMap), maxKernMap_(maxKernMap)
 	{}
 
-	void print(class DynamicMesh* mesh, const char* const string, const float x, const float y, const float scale) const;
+	void print(class DynamicMesh& mesh, const wchar_t* const string, const Vector3 pos, const float scale, const u32 color) const;
 
 private:
 	const Info& info_;

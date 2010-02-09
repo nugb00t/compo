@@ -3,17 +3,14 @@
 
 #include "video/video_component.h"
 
-//#include "video/effect.h"
 #include "video/fonts/fonts.h"
 #include "video/mesh.h"
-#include "video/vertex_decls.h"
 
 namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class HUDVideo : public engine::ScreenVideoComponent {
-    typedef engine::VertexDecls::PosDiffuseTex Vertex;
 	static const uint MAX_VERTICES = 1024;
 	static const uint MAX_INDICES = MAX_VERTICES / 4 * 6;
 
