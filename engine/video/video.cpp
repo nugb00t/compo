@@ -13,7 +13,7 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Video::Video() : screen_(NULL) { 
+Video::Video() : screen_(NULL), hud_(NULL) { 
 	memset(&registry_, 0, sizeof(registry_));
 }
 
@@ -32,6 +32,9 @@ bool Video::update() {
 	
 	if (!screen_)
 		screen_ = g_game.screenFactory->createVideoComponent(0);		// 0 is a hack!
+
+	if (!hud_)
+		hud_ = g_game.screenFactory->createVideoComponent(1);		// 0 is a hack!
 	// TEMP
 
 	Profiler::StopWatch stopWatch(Profiler::VIDEO);
@@ -42,7 +45,8 @@ bool Video::update() {
 		orthoCamera_->update();
 		projCamera_->update();
 
-		screen_->draw();
+		//screen_->draw();
+		hud_->draw();
 
 		Sync::ClientToVideo::Readable fromClient(g_engine.sync->clientToVideo);
 		if (fromClient)

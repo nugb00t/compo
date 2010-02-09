@@ -26,6 +26,7 @@ public:
 
 enum GameScreens {
 	SCREEN_THREAD_PROFILER,
+	SCREEN_HUD,
 
 	_SCREEN_COUNT
 };

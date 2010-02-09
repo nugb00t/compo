@@ -14,6 +14,9 @@ class HUDVideo : public engine::ScreenVideoComponent {
 	static const uint MAX_VERTICES = 1024;
 	static const uint MAX_INDICES = MAX_VERTICES / 4 * 6;
 
+	// TODO: move this to 'template_font.h'
+	static const engine::Effect::TextureUniform TEX_UNIFORMS[];
+
 public:
     HUDVideo() : effect_(NULL), mesh_(NULL) {}
 

@@ -6,6 +6,7 @@
 #include "entities/orb_video.h"
 
 #include "screens/thread_profiler_video.h"
+#include "screens/hud_video.h"
 
 using namespace engine;
 using namespace game_playground;
@@ -55,6 +56,9 @@ ScreenVideoComponent* GameScreenFactory::createVideoComponent(const uint type) {
 	switch (type) {
 		case SCREEN_THREAD_PROFILER:
 			return new ThreadProfilerVideo;
+			break;
+		case SCREEN_HUD:
+			return new HUDVideo;
 			break;
 		default:
 			assert(false);

@@ -11,53 +11,55 @@ class Font {
 public:
 	typedef engine::VertexDecls::PosDiffuseTex Vertex;
 
-public:
-
 	//-----------------------------------------------------------------------------------------------------------------
 
 #pragma pack(push, 4)
     struct Glyph {
-		struct source {
-			float u0, v0, u1, v1;
-		};
+		struct TexCoords {
+			float u0, v0;
+			float u1, v1;
+		} tex;
 #pragma pack(push, 2)
-		struct destination {
-			i16 x0, y0;
+		struct Markup {
+			i16 x, y;
 			u16 width, height;
-		};
+		} markup;
 #pragma pack(pop)
-		source src;
-		destination dest;
-		int xAdvance, page;
+		int xAdvance;
+		uint page;
     };
 #pragma pack(pop)
 
 	//-----------------------------------------------------------------------------------------------------------------
 
 	struct Info {
-		uint lineHeight, base, width, height;
+		uint lineHeight;
+		uint base;
+		uint width, height;
 	};
+
+	//-----------------------------------------------------------------------------------------------------------------
 
 public:
 	Font(const Info& info, 
-		const Glyph* const* glyphs, const uint minGlyph, const uint maxGlyph,
-		const i8* const* kernings, const uint minKern, const uint maxKern, const uint minKernMap, const uint maxKernMap) 
+		const Glyph* const* glyphs, const uint glyphFirst, const uint glyphCount,
+		const i8* const* kernings, const uint kernFirst, const uint kernCount, const uint kernMapFirst, const uint kernMapCount) 
 		:	info_(info), 
-			glyphs_(glyphs), minGlyph_(minGlyph), maxGlyph_(maxGlyph),
-			kernings_(kernings), minKern_(minKern), maxKern_(maxKern), minKernMap_(minKernMap), maxKernMap_(maxKernMap)
+			glyphs_(glyphs), glyphFirst_(glyphFirst), glyphCount_(glyphCount),
+			kernings_(kernings), kernFirst_(kernFirst), kernCount_(kernCount), kernMapFirst_(kernMapFirst), kernMapCount_(kernMapCount)
 	{}
 
-	void print(class DynamicMesh& mesh, const wchar_t* const string, const Vector3 pos, const float scale, const u32 color) const;
+	void print(class DynamicMesh& mesh, const wchar_t* const string, const Vector3 pos, const float size, const u32 color) const;
 
 private:
 	const Info& info_;
 
 	const Glyph* const* glyphs_;
-	const uint minGlyph_, maxGlyph_;
+	const uint glyphFirst_, glyphCount_;
 
 	const i8* const* kernings_;
-	const uint minKern_, maxKern_;
-	const uint minKernMap_, maxKernMap_;
+	const uint kernFirst_, kernCount_;
+	const uint kernMapFirst_, kernMapCount_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

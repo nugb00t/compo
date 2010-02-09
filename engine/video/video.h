@@ -61,7 +61,7 @@ protected:
 
 	class VideoComponent* registry_[ServerState::MAX_ENTITIES];
 	class ScreenVideoComponent* screen_;
-
+	class ScreenVideoComponent* hud_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

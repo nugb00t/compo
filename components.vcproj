@@ -741,10 +741,6 @@
 					</File>
 				</Filter>
 			</Filter>
-			<Filter
-				Name="exec"
-				>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="engine_data"

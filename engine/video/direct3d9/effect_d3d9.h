@@ -36,7 +36,7 @@ private:
 
 	const VertexDecls::Type vertexDecl_;
 
-    TextureDXPtr textures_[Effect::MAX_TEXTURES];
+	boost::scoped_ptr<TextureD3D9> textures_[Effect::MAX_TEXTURES];
     const Uniform* uniforms_;
     const TextureUniform* texUniforms_;
 };

@@ -91,31 +91,32 @@ def main():
 		min_kern_map = min(min_kern_map, min(kerning.keys()))
 		max_kern_map = max(max_kern_map, max(kerning.keys()))
  
-	# output .h
+	# output <font>_font.h
 	template_h_file = open(TEMPLATE_H)
 	template_h = string.Template(template_h_file.read())
 	template_h_file.close()
 	
 	mapping_h = {
-		'font_name_up':	font_name.upper(),
-		'font_name':	font_name,
-		'min_glyph':	str(min(glyphs.keys())),
-		'max_glyph':	str(max(glyphs.keys())),
-		'min_kern':		str(min(kernings.keys())),
-		'max_kern':		str(max(kernings.keys())),
-		'min_kern_map':	str(min_kern_map),
-		'max_kern_map':	str(max_kern_map),
+		'font_name_up':		font_name.upper(),
+		'font_name':		font_name,
+		'glyph_first':		str(min(glyphs.keys())),
+		'glyph_count':		str(max(glyphs.keys()) - min(glyphs.keys()) + 1),
+		'kern_first':		str(min(kernings.keys())),
+		'kern_count':		str(max(kernings.keys()) - min(kernings.keys()) + 1),
+		'kern_map_first':	str(min_kern_map),
+		'kern_map_count':	str(max_kern_map - min_kern_map + 1),
 	}
 	
 	file_h = open(os.path.join(OUTPUT_PATH, font_name.lower() + '_font.h'), 'w')
 	file_h.write(template_h.substitute(mapping_h))
 	file_h.close()
 	
-	# output data.h
+	# output <font>_font_data.h
 	template_data_h_file = open(TEMPLATE_DATA_H)
 	template_data_h = string.Template(template_data_h_file.read())
 	template_data_h_file.close()
 	
+	# glyph data
 	glyph_data = ''
 	keys = glyphs.keys()
 	keys.sort()
@@ -133,6 +134,7 @@ def main():
 			int(glyph['xadvance']),							# xAdvance
 			int(0))											# page
 	
+	# glyph index
 	glyph_index = ''
 	for key in range(min(glyphs.keys()), max(glyphs.keys()) + 1):
 		if key in glyphs.keys():
@@ -140,6 +142,7 @@ def main():
 		else:
 			glyph_index += '\tNULL,\n' 
 	
+	# kerning data
 	kern_data = ''
 	keys = kernings.keys()
 	keys.sort()
@@ -153,6 +156,7 @@ def main():
 				kern_data += '0, '
 		kern_data += ' },\n'
 	
+	# kerning index
 	kern_index = ''
 	for key in range(min(kernings.keys()), max(kernings.keys()) + 1):
 		if key in kernings.keys():

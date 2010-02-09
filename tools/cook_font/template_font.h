@@ -10,28 +10,28 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class ${font_name}Font : public Font {
-	static const uint MIN_GLYPH = ${min_glyph};
-	static const uint MAX_GLYPH = ${max_glyph};
-	static const uint GLYPH_COUNT = MAX_GLYPH - MIN_GLYPH + 1;
+	static const uint GLYPH_FIRST = ${glyph_first};
+	static const uint GLYPH_COUNT = ${glyph_count};
 
-	static const uint MIN_KERN = ${min_kern};
-	static const uint MAX_KERN = ${max_kern};
-	static const uint KERN_COUNT = MAX_KERN - MIN_KERN + 1;
+	static const uint KERN_FIRST = ${kern_first};
+	static const uint KERN_COUNT = ${kern_count};
 
-	static const uint MIN_KERN_MAP = ${min_kern_map};
-	static const uint MAX_KERN_MAP = ${max_kern_map};
-	static const uint KERN_MAP_COUNT = MAX_KERN_MAP - MIN_KERN_MAP + 1;
+	static const uint KERN_MAP_FIRST = ${kern_map_first};
+	static const uint KERN_MAP_COUNT = ${kern_map_count};
 
 	static const Font::Glyph GLYPH_DATA[];
-	static const i8 KERN_DATA[][KERN_MAP_COUNT];
-
 	static const Font::Glyph* const GLYPHS[GLYPH_COUNT];
+
+	static const i8 KERN_DATA[][KERN_MAP_COUNT];
 	static const i8* const KERNINGS[KERN_COUNT];
 
 	static const Font::Info INFO;
 
 public:
-	${font_name}Font() : Font(INFO, GLYPHS, MIN_GLYPH, MAX_GLYPH, KERNINGS, MIN_KERN, MAX_KERN, MIN_KERN_MAP, MAX_KERN_MAP) {}
+	${font_name}Font() : Font(INFO, 
+							  GLYPHS, GLYPH_FIRST, GLYPH_FIRST + GLYPH_COUNT, 
+							  KERNINGS, KERN_FIRST, KERN_FIRST + KERN_COUNT, KERN_MAP_FIRST, KERN_MAP_FIRST + KERN_MAP_COUNT)
+	{}
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

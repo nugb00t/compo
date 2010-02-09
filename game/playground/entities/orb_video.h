@@ -24,7 +24,6 @@ private:
 	static const Vertex vertices_[];
 	static const u16 indices_[];
 
-    static const engine::Effect::Uniform uniforms_[];
     static const engine::Effect::TextureUniform texUniforms_[];
 
     boost::scoped_ptr<engine::DynamicMesh> mesh_;
