@@ -138,7 +138,7 @@ def main():
 	glyph_index = ''
 	for key in range(min(glyphs.keys()), max(glyphs.keys()) + 1):
 		if key in glyphs.keys():
-			glyph_index += '\t&GLYPH_DATA[%d],\n' % (key)
+			glyph_index += '\t&GLYPH_DATA[%d],\n' % (key - min(glyphs.keys()))
 		else:
 			glyph_index += '\tNULL,\n' 
 	
@@ -160,7 +160,7 @@ def main():
 	kern_index = ''
 	for key in range(min(kernings.keys()), max(kernings.keys()) + 1):
 		if key in kernings.keys():
-			kern_index += '\tKERN_DATA[%d],\n' % (key)
+			kern_index += '\tKERN_DATA[%d],\n' % (key - min(kernings.keys()))
 		else:
 			kern_index += '\tNULL,\n' 
 	

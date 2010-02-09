@@ -14,8 +14,6 @@ using namespace engine;
 void Font::print(DynamicMesh& mesh, const wchar_t* const string, const Vector3 pos, const float size, const u32 color) const {
 	assert(string);
 
-	// info_.lineHeight;
-
 	DynamicMesh::BufferAccess access(mesh);
 
 	const float scale = size / info_.lineHeight;
@@ -43,10 +41,10 @@ void Font::print(DynamicMesh& mesh, const wchar_t* const string, const Vector3 p
 
 		// fill-up vertex / index arrays
 		const Glyph::TexCoords& tex = glyph->tex;
-		const short firstVertex = access.appendVertex(Vertex(Vector3(left, bottom, pos[2]), color, Vector2(tex.u0, tex.v0)));
-		access.appendVertex(Vertex(Vector3(left, top, pos[2]), color, Vector2(tex.u0, tex.v1)));
-		access.appendVertex(Vertex(Vector3(right, top, pos[2]), color, Vector2(tex.u1, tex.v1)));
-		access.appendVertex(Vertex(Vector3(right, bottom, pos[2]), color, Vector2(tex.u1, tex.v0)));
+		const short firstVertex = access.appendVertex(Vertex(Vector3(left, bottom, pos[2]), color, Vector2(tex.u0, tex.v1)));
+		access.appendVertex(Vertex(Vector3(left, top, pos[2]), color, Vector2(tex.u0, tex.v0)));
+		access.appendVertex(Vertex(Vector3(right, top, pos[2]), color, Vector2(tex.u1, tex.v0)));
+		access.appendVertex(Vertex(Vector3(right, bottom, pos[2]), color, Vector2(tex.u1, tex.v1)));
 
 		access.appendIndex(firstVertex);
 		access.appendIndex(firstVertex + 1);
