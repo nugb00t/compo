@@ -34,7 +34,7 @@ VertexOut TransformVS(float3 posL : POSITION0, float4 color : COLOR0, float2 tex
 // Pixel shader
 float4 TransformPS(VertexOut vertex) : COLOR {
 	float4 color = tex2D(TEX_DIFFUSE_SAMPLER, vertex.tex);
-	//color.xyz *= vertex.color.xyz;
+	color.xyz *= vertex.color.xyz;
 	return color;
 }
 
@@ -43,7 +43,10 @@ float4 TransformPS(VertexOut vertex) : COLOR {
 // Techniques
 technique TransformTech {
 	pass P0 {
-		// Specify the vertex and pixel shader associated with this pass
+		AlphaBlendEnable = true;
+		SrcBlend = srcalpha;
+		DestBlend = invsrcColor;
+
 		vertexShader = compile vs_3_0 TransformVS();
 		pixelShader  = compile ps_3_0 TransformPS();
 	}

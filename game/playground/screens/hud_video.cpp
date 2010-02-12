@@ -9,7 +9,7 @@ using namespace game_playground;
 
 // TODO: move this to 'template_font.h'
 const Effect::TextureUniform HUDVideo::TEX_UNIFORMS[] = {
-	{ "TEX_DIFFUSE", _T("fonts/sling_16_o.dds") },
+	{ "TEX_DIFFUSE", _T("fonts/sling_16_o_0.dds") },
 	Effect::TextureUniform::TERMINATOR
 };
 
@@ -26,7 +26,7 @@ void HUDVideo::draw() {
 
 	mesh_->clear();
 
-	font_.print(*mesh_, L"Heya :)", Vector3(.1f, .1f, .1f), .1f, 0x0800ffff);
+	font_.print(*mesh_, L"Heya :)", Vector3(.1f, .1f, .1f), .05f, 0xff00ffff);
 
 	mesh_->draw(g_engine.video->orthoCamera().view_projection());
 }

@@ -53,7 +53,7 @@ void Font::print(DynamicMesh& mesh, const wchar_t* const string, const Vector3 p
 		access.appendIndex(firstVertex + 3);
 		access.appendIndex(firstVertex);
 
-		int advance = glyph->xAdvance;
+		int advance = markup.width;
 
 		// kernings
 		if (kernFirst_ <= chr && chr < kernCount_) {
