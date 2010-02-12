@@ -56,7 +56,7 @@ void EffectD3D9::setTexUniforms(const TextureUniform* const texUniforms) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectD3D9::setTransform(const Matrix44& transform) {
-    D3DXHANDLE handle = effect_->GetParameterByName(0, "transform");
+    D3DXHANDLE handle = effect_->GetParameterByName(0, "TRANSFORM");
     assert(handle);
     CHECKED_D3D_CALL(effect_->SetMatrix(handle, transform.d3dMatrix()));
 }

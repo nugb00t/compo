@@ -761,11 +761,7 @@
 				Name="fonts"
 				>
 				<File
-					RelativePath=".\exec\fonts\ocr_a_ext.fnt"
-					>
-				</File>
-				<File
-					RelativePath=".\exec\fonts\sling.fnt"
+					RelativePath=".\exec\fonts\sling_16_o.fnt"
 					>
 				</File>
 			</Filter>

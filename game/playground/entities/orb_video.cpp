@@ -21,8 +21,8 @@ const u16 OrbVideo::indices_[] = {
 	2, 3, 0
 };
 
-const Effect::TextureUniform OrbVideo::texUniforms_[] = {
-    { "tex_diffuse", _T("playground/textures/myself.bmp") },
+const Effect::TextureUniform OrbVideo::TEX_UNIFORMS[] = {
+    { "TEX_DIFFUSE", _T("playground/textures/myself.bmp") },
     Effect::TextureUniform::TERMINATOR
 };
 
@@ -33,7 +33,7 @@ void OrbVideo::draw(const ServerState::Entity& fromClient) {
         assert(!mesh_ && !effect_);
 
 		effect_.reset(g_engine.video->createEffect(Vertex::type));
-        effect_->setTexUniforms(texUniforms_);
+        effect_->setTexUniforms(TEX_UNIFORMS);
 
         mesh_.reset(g_engine.video->createMesh(effect_.get(), 
                                                sizeof(Vertex), 

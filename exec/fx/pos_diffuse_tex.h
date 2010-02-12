@@ -1,44 +1,44 @@
-// Uniforms
-uniform extern float4x4 transform;
-uniform extern texture tex_diffuse;
+uniform extern float4x4 TRANSFORM;
+uniform extern texture TEX_DIFFUSE;
 
-// Samplers
-sampler TexS = sampler_state {
-    Texture = <tex_diffuse>;
+sampler TEX_DIFFUSE_SAMPLER = sampler_state {
+    Texture = <TEX_DIFFUSE>;
     MinFilter = LINEAR;
     MagFilter = LINEAR;
     MipFilter = LINEAR;
 };
 
-// Structure
-struct OutputVS {
+struct VertexOut {
 	float4 posH		: POSITION0;
 	float4 color	: COLOR0;
-    float2 tex0     : TEXCOORD0;
+    float2 tex		: TEXCOORD0;
 };
 
-// Vertex shader
-OutputVS TransformVS(float3 posL    : POSITION0, 
-                     float4 c       : COLOR0,
-                     float2 tex0    : TEXCOORD0) {
-	// Zero out our output
-	OutputVS outVS = (OutputVS)0;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+VertexOut TransformVS(float3 posL : POSITION0, float4 color : COLOR0, float2 tex : TEXCOORD0) {
+	VertexOut vertex = (VertexOut)0;
 
 	// Transform to homogeneous clip space
-	outVS.posH = mul(float4(posL, 1.0f), transform);
+	vertex.posH = mul(float4(posL, 1.0f), TRANSFORM);
 
 	// Just pass the vertex color into the pixel shader.
-    outVS.color = c;
-    outVS.tex0 = tex0;
+    vertex.color = color;
+    vertex.tex = tex;
 
-	// Done--return the output.
-	return outVS;
+	return vertex;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Pixel shader
-float4 TransformPS(OutputVS outVS) : COLOR {
-	return tex2D(TexS, outVS.tex0);
+float4 TransformPS(VertexOut vertex) : COLOR {
+	float4 color = tex2D(TEX_DIFFUSE_SAMPLER, vertex.tex);
+	//color.xyz *= vertex.color.xyz;
+	return color;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Techniques
 technique TransformTech {

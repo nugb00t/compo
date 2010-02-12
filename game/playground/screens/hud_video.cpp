@@ -9,7 +9,7 @@ using namespace game_playground;
 
 // TODO: move this to 'template_font.h'
 const Effect::TextureUniform HUDVideo::TEX_UNIFORMS[] = {
-	{ "tex_diffuse", _T("fonts/sling_0.tga") },
+	{ "TEX_DIFFUSE", _T("fonts/sling_16_o.dds") },
 	Effect::TextureUniform::TERMINATOR
 };
 

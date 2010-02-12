@@ -11,7 +11,7 @@ namespace engine {
 
 class SlingFont : public Font {
 	static const uint GLYPH_FIRST = 32;
-	static const uint GLYPH_COUNT = 152;
+	static const uint GLYPH_COUNT = 184;
 
 	static const uint KERN_FIRST = 34;
 	static const uint KERN_COUNT = 88;
@@ -29,8 +29,8 @@ class SlingFont : public Font {
 
 public:
 	SlingFont() : Font(INFO, 
-							  GLYPHS, GLYPH_FIRST, GLYPH_FIRST + GLYPH_COUNT, 
-							  KERNINGS, KERN_FIRST, KERN_FIRST + KERN_COUNT, KERN_MAP_FIRST, KERN_MAP_FIRST + KERN_MAP_COUNT)
+					   GLYPHS, GLYPH_FIRST, GLYPH_FIRST + GLYPH_COUNT, 
+					   KERNINGS, KERN_FIRST, KERN_FIRST + KERN_COUNT, KERN_MAP_FIRST, KERN_MAP_FIRST + KERN_MAP_COUNT)
 	{}
 };
 
