@@ -15,5 +15,6 @@ const i8* const engine::${font_name}Font::KERNINGS[KERN_COUNT] = {
 ${kern_index}};
 
 const engine::Font::Info engine::${font_name}Font::INFO = {
-${info}
+	${info}
 };
+

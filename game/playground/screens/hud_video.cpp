@@ -26,7 +26,7 @@ void HUDVideo::draw() {
 
 	mesh_->clear();
 
-	font_.print(*mesh_, L"Heya :)", Vector3(.1f, .1f, .1f), .05f, 0xff00ffff);
+	font_.print(*mesh_, L"Heya :)", Vector3(.1f, .1f, .1f), .1f, 0xffffffff);
 
 	mesh_->draw(g_engine.video->orthoCamera().view_projection());
 }

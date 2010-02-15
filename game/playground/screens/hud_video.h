@@ -3,7 +3,7 @@
 
 #include "video/video_component.h"
 
-#include "video/fonts/fonts.h"
+#include "video/font.h"
 #include "video/mesh.h"
 
 namespace game_playground {

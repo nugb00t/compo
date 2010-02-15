@@ -389,6 +389,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\engine\video\font.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\video\font.h"
+					>
+				</File>
+				<File
 					RelativePath=".\engine\video\mesh.cpp"
 					>
 				</File>
@@ -492,11 +500,19 @@
 					Name="fonts"
 					>
 					<File
-						RelativePath=".\engine\video\fonts\fonts.cpp"
+						RelativePath=".\engine\video\fonts\candara_font.h"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\fonts\fonts.h"
+						RelativePath=".\engine\video\fonts\candara_font_data.h"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\fonts\ocr_a_extended_font.h"
+						>
+					</File>
+					<File
+						RelativePath=".\engine\video\fonts\ocr_a_extended_font_data.h"
 						>
 					</File>
 					<File
@@ -741,6 +757,10 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="playground-data"
+				>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="engine_data"
@@ -761,6 +781,14 @@
 				Name="fonts"
 				>
 				<File
+					RelativePath=".\exec\fonts\candara_24_o.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fonts\ocr-a-ext_18_o.fnt"
+					>
+				</File>
+				<File
 					RelativePath=".\exec\fonts\sling_16_o.fnt"
 					>
 				</File>
@@ -777,11 +805,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\tools\cook_font\template_data.h"
+					>
+				</File>
+				<File
 					RelativePath=".\tools\cook_font\template_font.h"
 					>
 				</File>
 				<File
-					RelativePath=".\tools\cook_font\template_font_data.h"
+					RelativePath=".\tools\cook_font\template_kerned_data.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tools\cook_font\template_kerned_font.h"
 					>
 				</File>
 			</Filter>
