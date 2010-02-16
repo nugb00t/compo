@@ -45,10 +45,13 @@ public:
 	Font(const Info& info, const Glyph* const* glyphs, const uint glyphFirst, const uint glyphCount) 
 		:	info_(info), glyphs_(glyphs), glyphFirst_(glyphFirst), glyphCount_(glyphCount) {}
 
-	void print(DynamicMesh& mesh, const wchar_t* const string, const Vector3 pos, const float size, const u32 color) const;
+	// interface: own
+	virtual void print(DynamicMesh& mesh, const wchar_t* const string, const Vector3 pos, const float pixelSize, const u32 color) const;
+
+	const Info& info() const { return info_; }
 
 protected:
-	inline const uint printChar(DynamicMesh::BufferAccess& access, const wchar_t chr, const Vector3 cursor, const float scale, const u32 color) const;
+	inline const uint printChar(DynamicMesh::BufferAccess& access, const wchar_t chr, const Vector3 cursor, const float pixelSize, const u32 color) const;
 
 protected:
 	const Info& info_;
@@ -67,7 +70,8 @@ public:
 		kernings_(kernings), kernFirst_(kernFirst), kernCount_(kernCount), kernMapFirst_(kernMapFirst), kernMapCount_(kernMapCount)
 	{}
 
-	void print(DynamicMesh& mesh, const wchar_t* const string, const Vector3 pos, const float size, const u32 color) const;
+	// interface: Font
+	virtual void print(DynamicMesh& mesh, const wchar_t* const string, const Vector3 pos, const float pixelSize, const u32 color) const;
 
 private:
 	const i8* const* kernings_;
@@ -77,7 +81,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const uint Font::printChar(class DynamicMesh::BufferAccess& access, const wchar_t chr, const Vector3 cursor, const float scale, const u32 color) const {
+const uint Font::printChar(class DynamicMesh::BufferAccess& access, const wchar_t chr, const Vector3 cursor, const float pixelSize, const u32 color) const {
 	if (chr < glyphFirst_ || glyphCount_ <= chr) {
 		assert(false);
 		return 0;
@@ -91,10 +95,10 @@ const uint Font::printChar(class DynamicMesh::BufferAccess& access, const wchar_
 
 	// markup
 	const Glyph::Markup& markup = glyph->markup;
-	const float left	= cursor[0] + scale * markup.x;
-	const float right	= cursor[0] + scale * (markup.x + markup.width);
-	const float top		= cursor[1] - scale * markup.y;
-	const float bottom	= cursor[1] - scale * (markup.y + markup.height);
+	const float left	= cursor[0] + pixelSize * markup.x;
+	const float right	= cursor[0] + pixelSize * (markup.x + markup.width);
+	const float top		= cursor[1] - pixelSize * markup.y;
+	const float bottom	= cursor[1] - pixelSize * (markup.y + markup.height);
 
 	// fill-up vertex / index arrays
 	const Glyph::TexCoords& tex = glyph->tex;
@@ -110,15 +114,11 @@ const uint Font::printChar(class DynamicMesh::BufferAccess& access, const wchar_
 	access.appendIndex(firstVertex + 3);
 	access.appendIndex(firstVertex);
 	
-	return markup.width;
+	return glyph->xAdvance;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#include "fonts/candara_font.h"
-#include "fonts/ocr_a_extended_font.h"
-#include "fonts/sling_font.h"
 
 #endif

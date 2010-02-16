@@ -3,7 +3,7 @@
 
 	@brief	Targe-dependent macros
 
-    @author Andrew S. Gresyk
+    @author Andrew Gresyk
 
     @date	18.11.2009
 *//********************************************************/
@@ -18,7 +18,7 @@
 #define RELEASE_ONLY(x)
 #endif
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #define DEBUG_ONLY(x) x
 #else
 #define DEBUG_ONLY(x)

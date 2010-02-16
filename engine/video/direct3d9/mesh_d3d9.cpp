@@ -9,14 +9,11 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-DynamicMeshD3D9::DynamicMeshD3D9(engine::Effect* const effect, 
-                                 const uint vertexSize, 
-                                 const uint vertexCapacity, 
-                                 const uint indexCapacity)
+DynamicMeshD3D9::DynamicMeshD3D9(Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity)
 :   DynamicMesh(effect, vertexSize, vertexCapacity, indexCapacity),
     vertexBuffer_(NULL), indexBuffer_(NULL)
 {
-	assert(effect_ && vertexSize && vertexCapacity && indexCapacity);
+	assert(vertexSize && vertexCapacity && indexCapacity);
 
     CHECKED_D3D_CALL(g_engine.videoD3D9->device().CreateVertexBuffer(vertexSize_ * vertexCapacity_, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &vertexBuffer_, NULL));
     CHECKED_D3D_CALL(g_engine.videoD3D9->device().CreateIndexBuffer(sizeof(short) * indexCapacity_, 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &indexBuffer_, NULL));

@@ -37,7 +37,7 @@ public:
     //-----------------------------------------------------------------------------------------------------------------
 
 protected:
-    DynamicMesh(engine::Effect* effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) 
+    DynamicMesh(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) 
         : effect_(effect), vertexSize_(vertexSize), vertexCapacity_(vertexCapacity), indexCapacity_(indexCapacity), vertexCount_(0), indexCount_(0) {}
 
 public:
@@ -53,7 +53,7 @@ public:
     void clear() { vertexCount_ = 0; indexCount_ = 0; }
 
 protected:
-    engine::Effect* const effect_;
+    engine::Effect& effect_;
 
     const uint vertexSize_;
     const uint vertexCapacity_;

@@ -1,9 +1,9 @@
 /*******************************************************//**
 	@file
 
-	@brief	Shared memory area template
+	@brief	Shared memory buffer
 
-	@author Andrew S. Gresyk
+	@author Andrew Gresyk
 
 	@date	28.09.2005
 *//********************************************************/
@@ -17,6 +17,30 @@
 namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+	Purpose:
+	Facility for sending data (in one direction) without delivery control.
+	Delivery validation (if needed) should be done using data package identification or similar mechanism.
+
+	Usage:
+
+	// some place visible from both threads:
+	FrameBuffer<ServerState> sharedBuffer;
+
+	// sender thread's main loop:
+	{
+		FrameBuffer<ServerState>::Writable toBeSent(sharedBuffer);
+		fillIn(toBeSent.data());
+	}
+
+	// receiver thread's main loop:
+	{
+		FrameBuffer<ServerState>::Readable received(sharedBuffer);
+		assert(received);													//< should never fail with triple buffering..
+		process(received.data());
+	}
+*/
 
 template <class TContents>
 class FrameBuffer {
@@ -116,7 +140,7 @@ const bool FrameBuffer<TContents>::lockWritable() {
 
 	assert(writing_ == INVALID_FRAME);
 
-	// pick oldest frame
+	// pick the oldest frame
 	for (int i = 0; i < FRAME_COUNT; ++i)
 		if (i != reading_ && i != fresh_) {
 			writing_ = i;

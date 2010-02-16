@@ -20,14 +20,14 @@ void DynamicMesh::BufferAccess::setBuffers(const void* vertices, const u16 verte
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DynamicMesh::draw(const Matrix44& transform) {
-    assert(effect_ && vertexCapacity_ && indexCapacity_);
+    assert(vertexCapacity_ && indexCapacity_);
 
-    effect_->setTransform(transform);
-    effect_->begin();
+    effect_.setTransform(transform);
+    effect_.begin();
 
     streamBuffers(vertexCount_, indexCount_ / 3);
 
-    effect_->end();
+    effect_.end();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

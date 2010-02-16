@@ -3,7 +3,7 @@
 
 	@brief	Win32 API synchronization objects' wrappers
 
-	@author Andrew S. Gresyk
+	@author Andrew Gresyk
 
 	@date	10.10.2005
 *//********************************************************/

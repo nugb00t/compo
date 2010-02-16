@@ -41,7 +41,7 @@ public:
     // TEMP
 
 	// object factory
-	virtual DynamicMesh* createMesh(engine::Effect* effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) = 0;
+	virtual DynamicMesh* createMesh(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) = 0;
 
 	virtual Effect* createEffect(const VertexDecls::Type vertexDeclType) = 0;
 	virtual Texture* createTexture(const TCHAR* const path) = 0;

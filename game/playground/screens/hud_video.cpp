@@ -7,9 +7,8 @@
 using namespace engine;
 using namespace game_playground;
 
-// TODO: move this to 'template_font.h'
-const Effect::TextureUniform HUDVideo::TEX_UNIFORMS[] = {
-	{ "TEX_DIFFUSE", _T("fonts/sling_16_o_0.dds") },
+const Effect::TextureUniform HUDVideo::FONT_TEX[2] = {
+	{ "TEX_DIFFUSE", _T("fonts/bureau_20_o_0.dds") },
 	Effect::TextureUniform::TERMINATOR
 };
 
@@ -17,17 +16,14 @@ const Effect::TextureUniform HUDVideo::TEX_UNIFORMS[] = {
 
 void HUDVideo::draw() {
 	if (!effect_) {
-		effect_ = g_engine.video->createEffect(Font::Vertex::type);
-		effect_->setTexUniforms(TEX_UNIFORMS);
+		assert(!mesh_);
+		effect_.reset(g_engine.video->createEffect(Font::Vertex::type));
+		effect_->setTexUniforms(FONT_TEX);
+		mesh_.reset(g_engine.video->createMesh(*effect_, sizeof(Font::Vertex), MAX_VERTICES, MAX_INDICES));
 	}
 
-	if (!mesh_)
-		mesh_.reset(g_engine.video->createMesh(effect_, sizeof(Font::Vertex), MAX_VERTICES, MAX_INDICES));
-
 	mesh_->clear();
-
-	font_.print(*mesh_, L"Heya :)", Vector3(.1f, .1f, .1f), .1f, 0xffffffff);
-
+	font_.print(*mesh_, L"Hula: Critical! ;)", Vector3(.1f, .05f, .1f), 1.f / 600.f, 0xffffffff);
 	mesh_->draw(g_engine.video->orthoCamera().view_projection());
 }
 

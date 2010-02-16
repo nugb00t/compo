@@ -5,11 +5,11 @@
 #ifndef ${font_name_up}_FONT_INCLUDED
 #define ${font_name_up}_FONT_INCLUDED
 
-namespace engine {
+namespace game {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class ${font_name}Font : public Font {
+class ${font_name}Font : public engine::Font {
 	static const uint GLYPH_FIRST = ${glyph_first};
 	static const uint GLYPH_COUNT = ${glyph_count};
 

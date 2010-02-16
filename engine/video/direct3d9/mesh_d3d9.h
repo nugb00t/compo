@@ -9,7 +9,7 @@ namespace engine {
 
 class DynamicMeshD3D9 : public DynamicMesh {
 public:
-    DynamicMeshD3D9(engine::Effect* const effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity);
+    DynamicMeshD3D9(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity);
     ~DynamicMeshD3D9();
 
     // interface: MeshImpl

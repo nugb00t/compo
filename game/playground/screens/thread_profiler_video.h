@@ -28,7 +28,7 @@ private:
 	void drawDiagram();
 
 private:
-	engine::Effect* effect_;
+	boost::scoped_ptr<engine::Effect> effect_;
     boost::scoped_ptr<engine::DynamicMesh> mesh_;
 };
 

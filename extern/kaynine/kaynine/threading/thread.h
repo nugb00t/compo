@@ -3,7 +3,7 @@
 
     @brief	Shared memry area template
 
-    @author Andrew S. Gresyk
+    @author Andrew Gresyk
 
     @date	18.11.2009
 *//********************************************************/

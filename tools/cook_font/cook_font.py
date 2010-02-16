@@ -25,8 +25,8 @@ TEMPLATE_DATA_H         = 'tools/cook_font/template_data.h'
 TEMPLATE_KERNED_FONT_H  = 'tools/cook_font/template_kerned_font.h'
 TEMPLATE_KERNED_DATA_H  = 'tools/cook_font/template_kerned_data.h'
 
-FOLDER_IN   = 'exec/fonts'
-FOLDER_OUT  = 'engine/video/fonts'
+FOLDER_IN   = 'game/playground-data/fonts'
+FOLDER_OUT  = 'game/playground/fonts'
  
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,6 +38,7 @@ def cook(file_in, dir_out):
 	# line 1 - 'info'
 	font_name = INFO_RE.search(fnt_data).group('face')
 	font_name = '_'.join(font_name.split())
+	font_name = '_'.join(font_name.split('-'))
 	class_name = '%sFont' % (font_name)
 	
 	# line 2 - 'common'
@@ -172,9 +173,11 @@ def generate_data_h(font_name, info, glyphs, kernings, min_kern_map, max_kern_ma
 	# glyph index
 	print '  - generating glyph index'
 	glyph_index = ''
+	glyph_data_id = 0
 	for key in range(min(glyphs.keys()), max(glyphs.keys()) + 1):
 		if key in glyphs.keys():
-			glyph_index += '\t&GLYPH_DATA[%d],\n' % (key - min(glyphs.keys()))
+			glyph_index += '\t&GLYPH_DATA[%d],\n' % (glyph_data_id)
+			glyph_data_id = glyph_data_id + 1
 		else:
 			glyph_index += '\tNULL,\n' 
 	
@@ -206,9 +209,11 @@ def generate_data_h(font_name, info, glyphs, kernings, min_kern_map, max_kern_ma
 		# kerning index
 		print '  - generating kerning index'
 		kern_index = ''
+		kern_data_id = 0
 		for key in range(min(kernings.keys()), max(kernings.keys()) + 1):
 			if key in kernings.keys():
-				kern_index += '\tKERN_DATA[%d],\n' % (key - min(kernings.keys()))
+				kern_index += '\tKERN_DATA[%d],\n' % (kern_data_id)
+				kern_data_id = kern_data_id + 1
 			else:
 				kern_index += '\tNULL,\n' 
 		
@@ -226,14 +231,18 @@ def generate_data_h(font_name, info, glyphs, kernings, min_kern_map, max_kern_ma
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 def main():
+	font_h_paths = []
+	data_h_paths = []
 	for file_name in os.listdir(FOLDER_IN):
 		if file_name.find('.fnt') == -1:
 			continue
 		file_path = os.path.join(FOLDER_IN, file_name)
 		if (os.path.isfile(file_path)):
 			print '\n+ processing ' + file_name
-			cook(file_path, FOLDER_OUT)
-        
+			font_h_path, data_h_path = cook(file_path, FOLDER_OUT)
+			font_h_paths.append(font_h_path)
+			data_h_paths.append(data_h_path)
+	
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 main()

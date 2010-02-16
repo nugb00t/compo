@@ -41,7 +41,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs;extern/directx/include"
+				AdditionalIncludeDirectories="engine;game;game/playground;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs;extern/directx/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;KN_USE_TRACE"
 				RuntimeLibrary="3"
 			/>
@@ -108,7 +108,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="engine;game;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs;extern/directx/include"
+				AdditionalIncludeDirectories="engine;game;game/playground;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs;extern/directx/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;KN_USE_TRACE"
 				RuntimeLibrary="2"
 			/>
@@ -496,34 +496,6 @@
 						>
 					</File>
 				</Filter>
-				<Filter
-					Name="fonts"
-					>
-					<File
-						RelativePath=".\engine\video\fonts\candara_font.h"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\video\fonts\candara_font_data.h"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\video\fonts\ocr_a_extended_font.h"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\video\fonts\ocr_a_extended_font_data.h"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\video\fonts\sling_font.h"
-						>
-					</File>
-					<File
-						RelativePath=".\engine\video\fonts\sling_font_data.h"
-						>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="logic"
@@ -689,6 +661,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\game\playground\playground_fonts.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\game\playground\playground_game.cpp"
 					>
 				</File>
@@ -756,6 +732,50 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="fonts"
+					>
+					<File
+						RelativePath=".\game\playground\fonts\bureau_font.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\fonts\bureau_font_data.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\fonts\ocr_onectt_font.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\fonts\ocr_onectt_font_data.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\fonts\palatino_linotype_font.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\fonts\palatino_linotype_font_data.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\fonts\pristina_font.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\fonts\pristina_font_data.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\fonts\russellsquare_font.h"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\fonts\russellsquare_font_data.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="playground-data"
@@ -781,15 +801,47 @@
 				Name="fonts"
 				>
 				<File
-					RelativePath=".\exec\fonts\candara_24_o.fnt"
+					RelativePath=".\exec\fonts\bankir-retro_30_o.fnt"
 					>
 				</File>
 				<File
-					RelativePath=".\exec\fonts\ocr-a-ext_18_o.fnt"
+					RelativePath=".\exec\fonts\bureau_20_o.fnt"
 					>
 				</File>
 				<File
-					RelativePath=".\exec\fonts\sling_16_o.fnt"
+					RelativePath=".\exec\fonts\candara_18_o.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fonts\legendum_14_o.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fonts\malibu_20_o.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fonts\missiva_88_o.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fonts\ocr_one_16_o.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fonts\palatino_linotype_24_o.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fonts\pristina_24_en_o.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fonts\russelsquare_14_o.fnt"
+					>
+				</File>
+				<File
+					RelativePath=".\exec\fonts\sling_18_o.fnt"
 					>
 				</File>
 			</Filter>

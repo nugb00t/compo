@@ -35,7 +35,7 @@ void OrbVideo::draw(const ServerState::Entity& fromClient) {
 		effect_.reset(g_engine.video->createEffect(Vertex::type));
         effect_->setTexUniforms(TEX_UNIFORMS);
 
-        mesh_.reset(g_engine.video->createMesh(effect_.get(), 
+        mesh_.reset(g_engine.video->createMesh(*effect_, 
                                                sizeof(Vertex), 
                                                sizeof(vertices_) / sizeof(Vertex), 
                                                sizeof(indices_) / sizeof(u16)));
@@ -46,7 +46,7 @@ void OrbVideo::draw(const ServerState::Entity& fromClient) {
 
     Matrix44 transform;
 	transform.identity();
-	cml::matrix_rotation_quaternion(transform, fromClient.rotation);
+	//cml::matrix_rotation_quaternion(transform, fromClient.rotation);
 	cml::matrix_set_translation(transform, fromClient.position);
 
     transform *= g_engine.video->projCamera().view_projection();

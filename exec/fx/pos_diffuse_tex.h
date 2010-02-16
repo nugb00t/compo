@@ -3,9 +3,12 @@ uniform extern texture TEX_DIFFUSE;
 
 sampler TEX_DIFFUSE_SAMPLER = sampler_state {
     Texture = <TEX_DIFFUSE>;
-    MinFilter = LINEAR;
-    MagFilter = LINEAR;
-    MipFilter = LINEAR;
+	//MinFilter = POINT;
+	//MagFilter = POINT;
+	//MipFilter = POINT;
+	MinFilter = LINEAR;
+	MagFilter = LINEAR;
+	MipFilter = LINEAR;
 };
 
 struct VertexOut {
@@ -51,3 +54,5 @@ technique TransformTech {
 		pixelShader  = compile ps_3_0 TransformPS();
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
