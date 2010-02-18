@@ -743,43 +743,7 @@
 						RelativePath=".\game\playground\fonts\bureau_font_data.h"
 						>
 					</File>
-					<File
-						RelativePath=".\game\playground\fonts\ocr_onectt_font.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\playground\fonts\ocr_onectt_font_data.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\playground\fonts\palatino_linotype_font.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\playground\fonts\palatino_linotype_font_data.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\playground\fonts\pristina_font.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\playground\fonts\pristina_font_data.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\playground\fonts\russellsquare_font.h"
-						>
-					</File>
-					<File
-						RelativePath=".\game\playground\fonts\russellsquare_font_data.h"
-						>
-					</File>
 				</Filter>
-			</Filter>
-			<Filter
-				Name="playground-data"
-				>
 			</Filter>
 		</Filter>
 		<Filter
