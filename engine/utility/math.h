@@ -1,5 +1,4 @@
-#ifndef MATH_INCLUDED
-#define MATH_INCLUDED
+#pragma once
 
 #define CML_USE_GENERATED_MATRIX_ASSIGN_OP
 #include <cml/cml.h>
@@ -54,5 +53,3 @@ inline Matrix44 transformFromRect(const float left, const float top, const float
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#endif

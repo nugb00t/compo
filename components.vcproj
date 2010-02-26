@@ -424,6 +424,10 @@
 					RelativePath=".\engine\video\video_component.h"
 					>
 				</File>
+				<File
+					RelativePath=".\engine\video\video_impl.h"
+					>
+				</File>
 				<Filter
 					Name="opengl"
 					>
@@ -488,11 +492,11 @@
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\direct3d9\video_d3d9.cpp"
+						RelativePath=".\engine\video\direct3d9\video_impl_d3d9.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\engine\video\direct3d9\video_d3d9.h"
+						RelativePath=".\engine\video\direct3d9\video_impl_d3d9.h"
 						>
 					</File>
 				</Filter>
@@ -744,6 +748,22 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="video"
+					>
+					<File
+						RelativePath=".\game\playground\video\playground_video.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\game\playground\video\playground_video.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="playground_data"
+				>
 			</Filter>
 		</Filter>
 		<Filter

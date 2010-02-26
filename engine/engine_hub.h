@@ -1,5 +1,4 @@
-#ifndef ENGINE_HUB_INCLUDED
-#define ENGINE_HUB_INCLUDED
+#pragma once
 
 #ifdef PLATFORM_WIN51
 	#include "input/win51/input_w51.h"
@@ -9,7 +8,7 @@
 
 #include "video/video.h"
 #ifdef VIDEO_DIRECT3D9
-	#include "video/direct3d9/video_d3d9.h"
+	#include "video/direct3d9/video_impl_d3d9.h"
 #endif
 
 #ifdef PLATFORM_WIN51
@@ -35,7 +34,7 @@ private:
 #endif
 
 #ifdef VIDEO_DIRECT3D9
-	const boost::scoped_ptr<VideoD3D9> videoD3D9;
+	const boost::scoped_ptr<VideoImplD3D9> videoImplD3D9;
 #endif
 
 #ifdef PLATFORM_WIN51
@@ -44,7 +43,7 @@ private:
 
 public:
 	Input* const input;
-	Video* const video;
+	VideoImpl* const videoImpl;
 	Window* const window;
 
 	const boost::scoped_ptr<Logic> logic;
@@ -59,8 +58,8 @@ public:
 		input(inputW51.get()), 
 #endif
 #ifdef VIDEO_DIRECT3D9
-		videoD3D9(new VideoD3D9), 
-		video(videoD3D9.get()), 
+		videoImplD3D9(new VideoImplD3D9), 
+		videoImpl(videoImplD3D9.get()), 
 #endif
 #ifdef PLATFORM_WIN51
 		windowW51(new WindowW51),
@@ -87,5 +86,3 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

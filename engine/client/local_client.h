@@ -1,5 +1,4 @@
-#ifndef LOCAL_CLIENT_INTERFACE_INCLUDED
-#define LOCAL_CLIENT_INTERFACE_INCLUDED
+#pragma once
 
 #include "input/input.h"
 
@@ -28,5 +27,3 @@ protected:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

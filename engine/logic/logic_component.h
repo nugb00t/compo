@@ -1,5 +1,4 @@
-#ifndef LOGIC_COMPONENT_INCLUDED
-#define LOGIC_COMPONENT_INCLUDED
+#pragma once
 
 #include "server/server_data.h"
 
@@ -15,5 +14,3 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

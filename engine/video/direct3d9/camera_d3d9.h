@@ -1,5 +1,4 @@
-#ifndef CAMERA_D3D9_INCLUDED
-#define CAMERA_D3D9_INCLUDED
+#pragma once
 
 #include "video/camera.h"
 
@@ -58,5 +57,3 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 } // namespace engine
-
-#endif

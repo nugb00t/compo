@@ -1,5 +1,4 @@
-#ifndef MESH_INCLUDED
-#define MESH_INCLUDED
+#pragma once
 
 #include "video/effect.h"
 
@@ -90,5 +89,3 @@ inline void DynamicMesh::BufferAccess::appendIndex(const u16 index) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 } // namespace engine
-
-#endif

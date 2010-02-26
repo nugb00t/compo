@@ -1,7 +1,6 @@
-#ifndef VIDEO_D3D9_INCLUDED
-#define VIDEO_D3D9_INCLUDED
+#pragma once
 
-#include "video/video.h"
+#include "video/video_impl.h"
 
 // factory-created objects
 #include "camera_d3d9.h"
@@ -14,17 +13,16 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoD3D9 : public Video {
+class VideoImplD3D9 : public VideoImpl {
 public:
-    VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL) {}
-    ~VideoD3D9();
+    VideoImplD3D9::VideoImplD3D9() : d3d_(NULL), device_(NULL) {}
+    ~VideoImplD3D9();
 
 public:
-	// interface: kaynine::ThreadObject
+	// interface: VideoImpl
 	virtual bool initialize();
 	virtual void terminate();
 
-	// interface: Video
 	virtual void clear();
 	virtual bool begin();
 	virtual void end();
@@ -58,5 +56,3 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

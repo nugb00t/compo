@@ -1,5 +1,4 @@
-#ifndef VERTEX_DECLS_D3D9_INCLUDED
-#define VERTEX_DECLS_D3D9_INCLUDED
+#pragma once
 
 #include "video/vertex_decls.h"
 
@@ -33,5 +32,3 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

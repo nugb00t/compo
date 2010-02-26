@@ -1,5 +1,4 @@
-#ifndef PLAYGROUND_CLIENT_INCLUDED
-#define PLAYGROUND_CLIENT_INCLUDED
+#pragma once
 
 #include "client/local_client.h"
 #include "server/server_data.h"
@@ -21,5 +20,3 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

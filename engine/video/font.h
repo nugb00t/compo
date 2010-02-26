@@ -1,5 +1,4 @@
-#ifndef FONT_INCLUDED
-#define FONT_INCLUDED
+#pragma once
 
 #include "video/vertex_decls.h"
 #include "video/mesh.h"
@@ -120,5 +119,3 @@ const uint Font::printChar(class DynamicMesh::BufferAccess& access, const wchar_
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

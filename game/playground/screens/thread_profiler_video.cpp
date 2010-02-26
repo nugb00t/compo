@@ -33,10 +33,10 @@ namespace {
 
 void ThreadProfilerVideo::draw() {
 	if (!effect_)
-		effect_.reset(g_engine.video->createEffect(Vertex::type));
+		effect_.reset(g_engine.videoImpl->createEffect(Vertex::type));
 
 	if (!mesh_)
-		mesh_.reset(g_engine.video->createMesh(*effect_, sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
+		mesh_.reset(g_engine.videoImpl->createMesh(*effect_, sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
 
 	mesh_->clear();
 	DynamicMesh::BufferAccess access(*mesh_);
@@ -106,7 +106,7 @@ void ThreadProfilerVideo::draw() {
 		access.appendIndex(firstVertex);
 	}
 
-	mesh_->draw(g_engine.video->orthoCamera().view_projection());
+	mesh_->draw(g_engine.videoImpl->orthoCamera().view_projection());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

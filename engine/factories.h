@@ -1,5 +1,4 @@
-#ifndef FACTORIES_INCLUDED
-#define FACTORIES_INCLUDED
+#pragma once
 
 #include "logic/logic_component.h"
 #include "video/video_component.h"
@@ -26,5 +25,3 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

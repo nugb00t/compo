@@ -3,8 +3,6 @@
 #ifdef VIDEO_DIRECT3D9
 #include "camera_d3d9.h"
 
-#include "video_d3d9.h"
-
 using namespace engine;
 
 namespace {

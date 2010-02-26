@@ -1,19 +1,27 @@
 #pragma once
 
-#include "arbiter/arbiter.h"
 #include "server/server_data.h"
+
+#include "video/video.h"
+#include "video/video_component.h"
 
 namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class GameArbiter : public engine::Arbiter {
+class GameVideo : public engine::Video {
 public:
-	virtual ~GameArbiter() {}
+	GameVideo();
+	
+protected:
+	// interface: engine::Video
+	virtual void doUpdate();
 
 protected:
-    // interface: ArbiterInterface
-    virtual void marshall(const engine::ServerState& last, const engine::ServerRequests& requests, engine::ServerState& next);
+	engine::VideoComponent* registry_[engine::ServerState::MAX_ENTITIES];
+
+	engine::ScreenVideoComponent* screen_;
+	engine::ScreenVideoComponent* hud_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

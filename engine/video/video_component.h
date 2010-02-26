@@ -1,5 +1,4 @@
-#ifndef VIDEO_COMPONENT_INCLUDED
-#define VIDEO_COMPONENT_INCLUDED
+#pragma once
 
 #include "server/server_data.h"
 
@@ -22,5 +21,3 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

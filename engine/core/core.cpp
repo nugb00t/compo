@@ -6,6 +6,7 @@
 #endif
 
 #include "engine.h"
+#include "game.h"
 #include "profiler.h"
 
 #include "server/server.h"
@@ -22,7 +23,7 @@ Core::Core()
 #endif
 		),
 		kaynine::PulseThread::create(new Server),
-		kaynine::PulseThread::create(g_engine.video)
+		kaynine::PulseThread::create(g_game.video.get())
         ) {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

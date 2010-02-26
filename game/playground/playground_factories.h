@@ -1,5 +1,4 @@
-#ifndef PLAYGROUND_FACTORIES_INCLUDED
-#define PLAYGROUND_FACTORIES_INCLUDED
+#pragma once
 
 #include "factories.h"
 
@@ -43,5 +42,3 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

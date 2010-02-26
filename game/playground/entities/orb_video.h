@@ -1,5 +1,4 @@
-#ifndef ORB_VIDEO_INCLUDED
-#define ORB_VIDEO_INCLUDED
+#pragma once
 
 #include "video/video_component.h"
 #include "video/effect.h"
@@ -33,5 +32,3 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

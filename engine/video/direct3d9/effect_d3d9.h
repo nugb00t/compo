@@ -1,5 +1,4 @@
-#ifndef EFFECT_D3D9_INCLUDED
-#define EFFECT_D3D9_INCLUDED
+#pragma once
 
 #include "video/direct3d9/texture_d3d9.h"
 #include "video/direct3d9/vertex_decls_d3d9.h"
@@ -44,5 +43,3 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

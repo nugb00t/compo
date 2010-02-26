@@ -1,5 +1,4 @@
-#ifndef THREAD_PROFILER_VIDEO_INCLUDED
-#define THREAD_PROFILER_VIDEO_INCLUDED
+#pragma once
 
 #include "core/profiler.h"
 #include "video/video_component.h"
@@ -35,5 +34,3 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

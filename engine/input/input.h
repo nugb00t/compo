@@ -1,5 +1,4 @@
-#ifndef INPUT_INCLUDED
-#define INPUT_INCLUDED
+#pragma once
 
 #include "input_data.h"
 
@@ -23,5 +22,3 @@ protected:
 typedef boost::scoped_ptr<Input> InputPtr;
 
 }
-
-#endif

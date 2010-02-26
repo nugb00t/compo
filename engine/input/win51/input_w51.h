@@ -1,5 +1,4 @@
-#ifndef INPUT_W51_INCLUDED
-#define INPUT_W51_INCLUDED
+#pragma once
 
 #ifdef PLATFORM_WIN51
 #include "input/input.h"
@@ -39,5 +38,4 @@ private:
 
 }
 
-#endif
 #endif

@@ -1,5 +1,4 @@
-#ifndef SYSTEM_LOOP_W51_INCLUDED
-#define SYSTEM_LOOP_W51_INCLUDED
+#pragma once
 
 #ifdef PLATFORM_WIN51
 #include "system/system_loop.h"
@@ -28,5 +27,4 @@ private:
 
 }
 
-#endif
 #endif

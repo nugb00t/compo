@@ -1,5 +1,4 @@
-#ifndef ORB_LOGIC_INCLUDED
-#define ORB_LOGIC_INCLUDED
+#pragma once
 
 #include "logic/logic_component.h"
 #include "server/server_data.h"
@@ -20,5 +19,3 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif
