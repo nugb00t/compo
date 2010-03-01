@@ -10,37 +10,34 @@ using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-GameVideo::GameVideo() 
-: screen_(NULL), hud_(NULL) {
-	memset(&registry_, 0, sizeof(registry_));
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void GameVideo::doUpdate() {
-	// TEMP
-	if (!registry_[0])
-		registry_[0] = g_game.entityFactory->createVideoComponent(0);		// 0 is a hack!
+	if (!initialized_) {
+		orthoCamera_.reset(g_engine.videoImpl->createOrthoCamera());
+		projCamera_.reset(g_engine.videoImpl->createProjCamera());
+		
+		for (uint i = 0; i < GameEntityFactory::MAX_ENTITIES; ++i)
+			entities_[i].reset(g_game.entityFactory->createVideoComponent(i));
+	
+		for (uint i = 0; i < GameScreenFactory::MAX_SCREENS; ++i)
+			screens_[i].reset(g_game.screenFactory->createVideoComponent(i));
+			
+		initialized_ = true;
+	}
+	
+	// cameras
+	orthoCamera_->update();
+	projCamera_->update();
 
-	if (!screen_)
-		screen_ = g_game.screenFactory->createVideoComponent(0);		// 0 is a hack!
-
-	if (!hud_)
-		hud_ = g_game.screenFactory->createVideoComponent(1);		// 0 is a hack!
-	// TEMP
-
-	g_engine.videoImpl->orthoCamera().update();
-	g_engine.videoImpl->projCamera().update();
-
-	//screen_->draw();
-	hud_->draw();
-
+	// entities
 	Sync::ClientToVideo::Readable fromClient(g_engine.sync->clientToVideo);
 	if (fromClient)
 		for (uint i = 0; i < ServerState::MAX_ENTITIES; ++i)
-			if (registry_[i])
-				registry_[i]->draw(fromClient.data().entities[i]);
+			if (entities_[i])
+				entities_[i]->draw(fromClient.data().entities[i], projCamera_->view_projection());
 
+	// screens
+	for (uint i = 0; i < GameScreenFactory::MAX_SCREENS; ++i)
+		screens_[i]->draw(orthoCamera_->view_projection());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

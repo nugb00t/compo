@@ -13,7 +13,7 @@ public:
 	void decide(const ServerState& last, ServerRequests::Entity entities[ServerState::MAX_ENTITIES]);
 
 private:
-	class LogicComponent* registry_[ServerState::MAX_ENTITIES];
+	class LogicComponent* entities_[ServerState::MAX_ENTITIES];
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

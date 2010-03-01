@@ -14,7 +14,7 @@ const Effect::TextureUniform HUDVideo::FONT_TEX[2] = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void HUDVideo::draw() {
+void HUDVideo::draw(const Matrix44& view_projection) {
 	if (!effect_) {
 		assert(!mesh_);
 		effect_.reset(g_engine.videoImpl->createEffect(Font::Vertex::type));
@@ -24,7 +24,7 @@ void HUDVideo::draw() {
 
 	mesh_->clear();
 	font_.print(*mesh_, L"Hula: Critical! ;)", Vector3(.1f, .05f, .1f), 1.f / 600.f, 0xffffffff);
-	mesh_->draw(g_engine.videoImpl->orthoCamera().view_projection());
+	mesh_->draw(view_projection);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

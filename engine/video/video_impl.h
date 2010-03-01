@@ -34,17 +34,6 @@ public:
 	virtual Texture* createTexture(const TCHAR* const path) = 0;
 
 	virtual void activateVertexDecl(const VertexDecls::Type type) = 0;
-
-	// TEMP
-	virtual ProjCamera& projCamera() { assert(projCamera_); return *projCamera_; }
-	virtual OrthoCamera& orthoCamera() { assert(orthoCamera_); return *orthoCamera_; }
-	// TEMP
-
-protected:
-	// TEMP
-	boost::scoped_ptr<ProjCamera> projCamera_;
-	boost::scoped_ptr<OrthoCamera> orthoCamera_;
-	// TEMP
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

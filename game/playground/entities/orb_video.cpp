@@ -28,7 +28,7 @@ const Effect::TextureUniform OrbVideo::TEX_UNIFORMS[] = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void OrbVideo::draw(const ServerState::Entity& fromClient) {
+void OrbVideo::draw(const ServerState::Entity& fromClient, const Matrix44& view_projection) {
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 
@@ -49,7 +49,7 @@ void OrbVideo::draw(const ServerState::Entity& fromClient) {
 	//cml::matrix_rotation_quaternion(transform, fromClient.rotation);
 	cml::matrix_set_translation(transform, fromClient.position);
 
-    transform *= g_engine.videoImpl->projCamera().view_projection();
+    transform *= view_projection;
 	mesh_->draw(transform);
 }
 

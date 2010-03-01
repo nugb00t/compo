@@ -31,7 +31,7 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ThreadProfilerVideo::draw() {
+void ThreadProfilerVideo::draw(const Matrix44& view_projection) {
 	if (!effect_)
 		effect_.reset(g_engine.videoImpl->createEffect(Vertex::type));
 
@@ -106,7 +106,7 @@ void ThreadProfilerVideo::draw() {
 		access.appendIndex(firstVertex);
 	}
 
-	mesh_->draw(g_engine.videoImpl->orthoCamera().view_projection());
+	mesh_->draw(view_projection);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

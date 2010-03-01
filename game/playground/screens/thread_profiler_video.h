@@ -20,7 +20,7 @@ public:
     ThreadProfilerVideo() : effect_(NULL), mesh_(NULL) {}
 
 	// interface: VideoComponent
-	virtual void draw();
+	virtual void draw(const Matrix44& view_projection);
 
 private:
 	void drawGrid();
