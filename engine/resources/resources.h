@@ -10,11 +10,10 @@ class Resources : public kaynine::PulseThreadObject {
 
 public:
 	// interface: kaynine::PulseThreadObject
-	virtual kaynine::Event& quit();
 	virtual const uint period() const { return PERIOD; }	// *1 milliseconds
 	virtual const uint delay() const { return DELAY; }		// *100 nanoseconds
 
-	//virtual bool initialize();
+	virtual bool initialize();
 	virtual bool update();
 };
 

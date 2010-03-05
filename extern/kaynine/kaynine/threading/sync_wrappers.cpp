@@ -91,7 +91,7 @@ Handles::Handles(const HANDLE h0, const HANDLE h1, const HANDLE h2, const HANDLE
 }
 
 Handles::~Handles() {
-    assert(0 < count_ && count_ < HANDLE_COUNT);
+    assert(0 < count_ && count_ <= HANDLE_COUNT);
 
     for (unsigned i = 0; i < count_; ++i) {
         assert(handles_[i]);

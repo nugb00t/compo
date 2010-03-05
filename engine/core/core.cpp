@@ -19,15 +19,19 @@ using namespace engine;
 
 Core::Core() 
 :   threads_(
-		kaynine::Thread::create(
+		kaynine::Thread<Sync>::create(
 #ifdef PLATFORM_WIN51
 			new SystemLoopW51
 #endif
 		),
-		kaynine::PulseThread::create(new Resources),
-		kaynine::PulseThread::create(new Server),
-		kaynine::PulseThread::create(g_game.video.get())
-        ) {}
+		kaynine::PulseThread<Sync>::create(new Resources),
+		kaynine::PulseThread<Sync>::create(new Server),
+		kaynine::PulseThread<Sync>::create(g_game.video.get())
+        )
+{
+	// synchronize thread start
+	Sync::start.set();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,5 +1,4 @@
-#ifndef KN_THREAD_BASE_INCLUDED
-#define KN_THREAD_BASE_INCLUDED
+#pragma once
 
 #include "sync_wrappers.h"
 
@@ -9,8 +8,6 @@ namespace kaynine {
 
 class ThreadObject {
 public:
-	virtual Event& quit() = 0;
-
 	virtual bool initialize() { return true; }
 	virtual bool update() { return true; }
 	virtual void terminate() {}
@@ -27,5 +24,3 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

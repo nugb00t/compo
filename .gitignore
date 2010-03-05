@@ -1,8 +1,11 @@
-extern/boost
-extern/cml
-extern/directx
+extern/boost/boost
+extern/boost/lib
+extern/cml/cml
+extern/cml/doc
+extern/directx/include
+extern/directx/lib
 extern/glew
-extern/opengl
+extern/opengl/gl
 exec/*.dll
 exec/*.exe
 exec/*.ilk

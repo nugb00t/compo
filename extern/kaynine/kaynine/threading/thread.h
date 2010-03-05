@@ -1,14 +1,6 @@
-/*******************************************************//**
-    @file
+#pragma once
 
-    @brief	Shared memry area template
-
-    @author Andrew Gresyk
-
-    @date	18.11.2009
-*//********************************************************/
-#ifndef KN_THREAD_INCLUDED
-#define KN_THREAD_INCLUDED
+#include "thread_base.h"
 
 #include <windows.h>
 #include <boost/scoped_ptr.hpp>
@@ -20,6 +12,15 @@ class PulseThreadObject;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//struct Sync {
+//	Event start;
+//	Event stop;
+//	Event exit;
+//};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+template<class Sync>
 class Thread {
 public:
     static DWORD WINAPI func(void* something);
@@ -28,6 +29,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+template<class Sync>
 class PulseThread {
 public:
     static DWORD WINAPI func(void* something);
@@ -36,6 +38,52 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+template<class Sync>
+DWORD WINAPI Thread<Sync>::func(void* something) {
+	ThreadObject& object = *reinterpret_cast<ThreadObject*>(something);
+
+	if (Sync::exit.isSet() || !object.initialize())
+		return (DWORD)-1;
+
+	// synchronize thread start
+	Sync::start.wait();
+
+	while (!Sync::exit.isSet())
+		if (!object.update())
+			Sync::exit.set();
+
+	object.terminate();
+
+	return 0;
 }
 
-#endif
+//---------------------------------------------------------------------------------------------------------------------
+
+template<class Sync>
+DWORD WINAPI PulseThread<Sync>::func(void* something) {
+	PulseThreadObject& object = *reinterpret_cast<PulseThreadObject*>(something);
+
+	if (Sync::exit.isSet() || !object.initialize())
+		return (DWORD)-1;
+
+	// synchronize thread start
+	Sync::start.wait();
+	
+	WaitableTimer timer(object.period(), object.delay());
+	MultipleObjects events(Sync::exit, timer);
+
+	const unsigned waitPeriod = 2 * object.period();
+	unsigned wait;
+	for (wait = events.waitAny(waitPeriod); wait != WAIT_OBJECT_0; wait = events.waitAny(waitPeriod))
+		if (!object.update())
+			Sync::exit.set();
+	assert(wait != WAIT_FAILED && wait != WAIT_ABANDONED);
+
+	object.terminate();
+
+	return 0;
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+
+}

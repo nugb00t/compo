@@ -41,7 +41,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="engine;game;game/playground;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs;extern/directx/include"
+				AdditionalIncludeDirectories="engine;game;game/playground;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/tinyxml;extern/directx/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;KN_USE_TRACE"
 				RuntimeLibrary="3"
 			/>
@@ -108,7 +108,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="engine;game;game/playground;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/physfs;extern/directx/include"
+				AdditionalIncludeDirectories="engine;game;game/playground;extern/boost;extern/cml;extern/glew;extern/kaynine;extern/opengl;extern/tinyxml;extern/directx/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;KN_USE_TRACE"
 				RuntimeLibrary="2"
 			/>
@@ -220,26 +220,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\extern\kaynine\kaynine\threading\thread.cpp"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								UsePrecompiledHeader="0"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								UsePrecompiledHeader="0"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
 						RelativePath=".\extern\kaynine\kaynine\threading\thread.h"
 						>
 					</File>
@@ -288,6 +268,118 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="tinyxml"
+				>
+				<File
+					RelativePath=".\extern\tinyxml\tinystr.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\extern\tinyxml\tinystr.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\tinyxml\tinyxml.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\extern\tinyxml\tinyxml.h"
+					>
+				</File>
+				<File
+					RelativePath=".\extern\tinyxml\tinyxmlerror.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\extern\tinyxml\tinyxmlparser.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\extern\tinyxml\xmltest.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -358,6 +450,10 @@
 				</File>
 				<File
 					RelativePath=".\engine\core\profiler.h"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\sync.cpp"
 					>
 				</File>
 				<File
@@ -520,10 +616,6 @@
 			<Filter
 				Name="system"
 				>
-				<File
-					RelativePath=".\engine\system\system_loop.cpp"
-					>
-				</File>
 				<File
 					RelativePath=".\engine\system\system_loop.h"
 					>
