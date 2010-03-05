@@ -9,11 +9,11 @@ namespace kaynine {
 
 class ThreadObject {
 public:
+	virtual Event& quit() = 0;
+
 	virtual bool initialize() { return true; }
 	virtual bool update() { return true; }
 	virtual void terminate() {}
-
-	virtual Event& quit() = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

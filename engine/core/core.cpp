@@ -9,7 +9,9 @@
 #include "game.h"
 #include "profiler.h"
 
+// thread classes
 #include "server/server.h"
+#include "resources/resources.h"
 
 using namespace engine;
 
@@ -22,6 +24,7 @@ Core::Core()
 			new SystemLoopW51
 #endif
 		),
+		kaynine::PulseThread::create(new Resources),
 		kaynine::PulseThread::create(new Server),
 		kaynine::PulseThread::create(g_game.video.get())
         ) {}

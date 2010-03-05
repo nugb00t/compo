@@ -621,6 +621,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="resources"
+				>
+				<File
+					RelativePath=".\engine\resources\resources.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\resources\resources.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="game"
