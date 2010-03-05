@@ -16,7 +16,6 @@
 		StringPooling="true"
 		BufferSecurityCheck="false"
 		DebugInformationFormat="0"
-		CallingConvention="1"
 	/>
 	<Tool
 		Name="VCLinkerTool"

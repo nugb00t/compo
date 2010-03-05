@@ -6,7 +6,6 @@
 	#include "input/input.h"
 #endif
 
-#include "video/video.h"
 #ifdef VIDEO_DIRECT3D9
 	#include "video/direct3d9/video_impl_d3d9.h"
 #endif

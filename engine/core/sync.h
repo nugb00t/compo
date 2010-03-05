@@ -18,7 +18,7 @@ struct Sync {
 
 	// events
 	static kaynine::Event start;
-	static kaynine::Event stop;
+	//static kaynine::Event stop;
 	static kaynine::Event exit;
 };
 

@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "video.h"
+
 #include "engine.h"
 #include "core/profiler.h"
 
