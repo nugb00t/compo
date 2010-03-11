@@ -11,8 +11,10 @@ using namespace engine;
 bool Resources::update() {
 	kaynine::AutoLock<> lock(guard_);
 
+	assert(vacantResource_ < MAX_RESOURCES - 1);
+
 	// go through the resource_ array and schedule file read if there's a vacant place in the queue
-	for (uint slot = 0, item = 0; slot < MAX_LOADS && item < MAX_RESOURCES; ++slot) {
+	for (uint slot = 0, item = 0; slot < MAX_LOADS && item < vacantResource_; ++slot) {
 		if (loads_[slot].status != Load::VACANT)
 			continue;
 		
