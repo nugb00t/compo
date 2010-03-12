@@ -17,8 +17,8 @@ public:
 
 class PulseThreadObject : public ThreadObject {
 public:
-	virtual const unsigned period() const = 0;	// *1 milliseconds
-	virtual const unsigned delay() const = 0;	// *100 nanoseconds
+	virtual const unsigned period() const = 0;		// *1 milliseconds
+	virtual const unsigned delay() { return 0; }	// *100 nanoseconds
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

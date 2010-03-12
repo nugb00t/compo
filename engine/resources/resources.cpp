@@ -9,41 +9,30 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool Resources::update() {
-	kaynine::AutoLock<> lock(guard_);
+	assert(vacant_ < MAX_RESOURCES - 1);
 
-	assert(vacantResource_ < MAX_RESOURCES - 1);
+	for (uint slot = 0, item = 0; slot < SLOT_COUNT && item < vacant_; ++slot) {
+		if (slots_[slot].status == Slot::VACANT) {
+			while (resources_[item].status != Resource::PENDING && item < MAX_RESOURCES)
+				++item;
 
-	// go through the resource_ array and schedule file read if there's a vacant place in the queue
-	for (uint slot = 0, item = 0; slot < MAX_LOADS && item < vacantResource_; ++slot) {
-		if (loads_[slot].status != Load::VACANT)
-			continue;
-		
-		while (resources_[item].status != Resource::PENDING && item < MAX_RESOURCES)
-			++item;
-		
-		load(resources_[item], loads_[slot]);
+			load(resources_[item], slots_[slot]);
+		} else if (slots_[slot].status == Slot::PROCESSING && slots_[slot].event.wait(0) == WAIT_IO_COMPLETION) {
+			slots_[slot].event.reset();
+			slots_[slot].resource->status = Resource::DONE;
+			*slots_[slot].resource->statusPtr = true;
+			slots_[slot].status = Slot::VACANT;
+		}
 	}
-	
+
 	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-uint Resources::add(const TCHAR* const path, void** const bufferPtr, bool** const statusPtr) {
+void Resources::reset() {
 	kaynine::AutoLock<> lock(guard_);
 
-	assert(vacantResource_ < MAX_RESOURCES - 1 && path && bufferPtr && statusPtr);
-	
-	_tcsncpy(&resources_[vacantResource_].path[0], path, MAX_PATH);
-	resources_[vacantResource_].bufferPtr = bufferPtr;
-	resources_[vacantResource_].statusPtr = statusPtr;
-	
-	return vacantResource_++;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Resources::reset() {
 	for (uint i = 0; i < MAX_RESOURCES; ++i) {
 		resources_[i].path[0] = NULL;
 		resources_[i].bufferPtr = NULL;
@@ -51,15 +40,29 @@ void Resources::reset() {
 		resources_[i].status = Resource::VACANT;
 	}
 
-	for (uint i = 0; i < MAX_LOADS; ++i)
-		loads_[i].status = Load::VACANT;
+	for (uint i = 0; i < SLOT_COUNT; ++i)
+		slots_[i].status = Slot::VACANT;
 	
-	vacantResource_ = 0;
+	vacant_ = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Resources::load(const Resource& item, Load& slot) {
+uint Resources::add(const TCHAR* const path, void* const bufferPtr, bool* const statusPtr) {
+	kaynine::AutoLock<> lock(guard_);
+
+	assert(vacant_ < MAX_RESOURCES - 1 && path && bufferPtr && statusPtr);
+	
+	_tcsncpy(&resources_[vacant_].path[0], path, MAX_PATH);
+	resources_[vacant_].bufferPtr = bufferPtr;
+	resources_[vacant_].statusPtr = statusPtr;
+	
+	return vacant_++;
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+
+void Resources::load(Resource& item, Slot& slot) {
 	// open the file
 	HANDLE file = ::CreateFile(item.path, 
 							   GENERIC_READ, 
@@ -71,13 +74,15 @@ void Resources::load(const Resource& item, Load& slot) {
 	assert(file);
 	
 	uint size = ::GetFileSize(file, NULL);
-	
+	assert(size);
+
+	slot.resource = &item;
 	// set up overlapped struct
 	memset(&slot.overlapped, 0, sizeof(slot.overlapped));
-	slot.overlapped.hEvent = &slot;
+	slot.overlapped.hEvent = slot.event.handle();
 	
 	// initiate asio read
 	CHECKED_WINAPI_CALL(::ReadFileEx(file, NULL, size, &slot.overlapped, NULL));
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------

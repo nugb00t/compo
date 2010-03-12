@@ -1,31 +1,14 @@
-#ifndef _KN_MEMORYPOOL_INCLUDED_
-#define _KN_MEMORYPOOL_INCLUDED_
-
-// crt
-#include <assert.h>
-// win
-#include <tchar.h>
-
-#include "../utility/singleton.h"
+#pragma once
 
 #ifdef K9_MEMORYPOOL_STATS
 #include "../debug/logger.h"
 #endif
 
-
-#ifndef UNUSED
-# define UNUSED(x)
-#endif
-
-
 namespace kaynine {
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// MemoryPool class
-//
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Uses two double-linked lists (one goes from the first to the last and the other maintains smallest-to-biggest chunks).
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class MemoryPool {
 
 #pragma pack(push, 4)
@@ -42,7 +25,6 @@ class MemoryPool {
 		inline unsigned dataSize() const { return next ? (next - this - 1) * sizeof(Chunk) : 0; }
 	};
 #pragma pack(pop)
-
 
 public:
 	MemoryPool(): data_(0), first_(0), last_(0), biggest_(0), smallest_(0) {}
@@ -62,14 +44,7 @@ public:
 	void deallocate(void* data);
 
 	unsigned inline maxSize() { return biggest_ ? biggest_->dataSize() : 0; }
-	unsigned inline dataSize(const void* data) {
-		assert(data_ && data);
-
-		const Chunk* chunk = reinterpret_cast<const Chunk*>(data) - 1;
-		assert(chunk >= first_ && chunk < last_);
-
-		return chunk->dataSize(); 
-	}
+	unsigned inline dataSize(const void* data);
 
 
 #ifdef K9_MEMORYPOOL_STATS
@@ -85,15 +60,14 @@ protected:
 	inline static bool isAligned(const unsigned p) { return p % sizeof(Chunk) == 0; }
 
 private:
-	inline Chunk* findFreeChunk(const unsigned bytes) const;
+	Chunk* findFreeChunk(const unsigned bytes) const;
 
 	inline void* alignDown(const unsigned p) const;
 	inline void* alignUp(const unsigned p) const;
 	inline void* alignUp(void* const p) const { return alignUp((unsigned)p); }
 
-	inline void linkBySize(Chunk* chunk);
-	inline void unlinkBySize(Chunk* chunk);
-
+	void linkBySize(Chunk* chunk);
+	void unlinkBySize(Chunk* chunk);
 
 private:
 	void* data_;
@@ -104,8 +78,35 @@ private:
 	Chunk* smallest_;
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+unsigned inline MemoryPool::dataSize(const void* data) {
+	assert(data_ && data);
+
+	const Chunk* chunk = reinterpret_cast<const Chunk*>(data) - 1;
+	assert(chunk >= first_ && chunk < last_);
+
+	return chunk->dataSize(); 
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+
+inline void* MemoryPool::alignDown(const unsigned p) const {
+	assert(p);
+	assert(data_);
+
+	return isAligned(p) ? reinterpret_cast<void*>(p) : reinterpret_cast<void*>((p / sizeof(Chunk)) * sizeof(Chunk));
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+
+inline void* MemoryPool::alignUp(const unsigned p) const {
+	assert(p);
+	assert(data_);
+
+	return isAligned(p) ? reinterpret_cast<void*>(p) : reinterpret_cast<void*>((p / sizeof(Chunk) + 1) * sizeof(Chunk));
+}
+
+//---------------------------------------------------------------------------------------------------------------------
 
 } //namespace kaynine
-
-
-#endif //_KN_MEMORYPOOL_INCLUDED_

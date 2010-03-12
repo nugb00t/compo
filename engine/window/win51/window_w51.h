@@ -6,7 +6,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class WindowW51 : public Window, public kaynine::IntrusivePtrBase {
+class WindowW51 : public Window {
 	static const TCHAR	CLASS_NAME[];
 	static const TCHAR	WND_TITLE[];
 

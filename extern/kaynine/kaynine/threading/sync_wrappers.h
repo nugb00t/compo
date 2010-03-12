@@ -1,15 +1,4 @@
-/*******************************************************//**
-	@file
-
-	@brief	Win32 API synchronization objects' wrappers
-
-	@author Andrew Gresyk
-
-	@date	10.10.2005
-*//********************************************************/
-#ifndef _KN_SYNC_WRAPPERS_INCLUDED_
-#define _KN_SYNC_WRAPPERS_INCLUDED_
-
+#pragma once
 
 // std
 #include <assert.h>
@@ -24,7 +13,6 @@
 #endif
 
 #include <windows.h>
-
 
 namespace kaynine {
 
@@ -89,7 +77,6 @@ public:
 	const bool isSet() const;
 	const unsigned wait(unsigned dwMilliseconds = INFINITE) const;
 
-protected:
 	const HANDLE handle() const;
 
 private:
@@ -103,16 +90,43 @@ private:
 
 class Event : public Handle {
 public:
-	enum Ownership {
-		DontTakeOwnership
+	enum Mode {
+		OPEN
 	};
 
 public:
-	Event(const TCHAR* const name);
-	Event(const TCHAR* const name, const Ownership);
+	Event(const TCHAR* const name = NULL);
+	Event(const Mode, const TCHAR* const name = NULL);
 
 	const bool set();
 	const bool reset();
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Events {
+public:
+	enum Mode {
+		DONT_CREATE	
+	};
+	
+public:
+	Events(const Mode, HANDLE* const handles, const unsigned count);
+	Events(HANDLE* const handles, const unsigned count);
+	~Events();
+	
+	const bool set();
+	const bool reset();
+	inline const unsigned waitAll(unsigned msec = INFINITE) const { return ::WaitForMultipleObjects(count_, handles_, TRUE, msec); }
+	inline const unsigned waitAny(unsigned msec = INFINITE) const { return ::WaitForMultipleObjects(count_, handles_, FALSE, msec); }
+
+private:
+	Events& operator =(const Events&);
+	
+private:
+	HANDLE* handles_;
+	const unsigned count_;
+	const bool ownHandles_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,6 +216,4 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-} //namespace kaynine
-
-#endif
+}

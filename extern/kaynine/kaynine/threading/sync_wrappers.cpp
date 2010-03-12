@@ -68,43 +68,10 @@ const HANDLE Handle::handle() const {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Handles::Handles(const HANDLE h0) : count_(1) {
-    assert(h0);     handles_[0] = h0;   
-}
+Event::Event(const TCHAR* const name /*= NULL*/) 
+: Handle(::CreateEvent(NULL, TRUE, FALSE, name), true) {}	// manual reset + non-signaled
 
-Handles::Handles(const HANDLE h0, const HANDLE h1) : count_(2) {
-    assert(h0);     handles_[0] = h0;
-    assert(h1);     handles_[1] = h1;
-}
-
-Handles::Handles(const HANDLE h0, const HANDLE h1, const HANDLE h2) : count_(3) {
-    assert(h0);     handles_[0] = h0;   
-    assert(h1);     handles_[1] = h1;   
-    assert(h2);     handles_[2] = h2;   
-}
-
-Handles::Handles(const HANDLE h0, const HANDLE h1, const HANDLE h2, const HANDLE h3) : count_(4) {
-    assert(h0);     handles_[0] = h0;   
-    assert(h1);     handles_[1] = h1;   
-    assert(h2);     handles_[2] = h2;   
-    assert(h3);     handles_[3] = h3;   
-}
-
-Handles::~Handles() {
-    assert(0 < count_ && count_ <= HANDLE_COUNT);
-
-    for (unsigned i = 0; i < count_; ++i) {
-        assert(handles_[i]);
-        ::CloseHandle(handles_[i]);
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Event::Event(const TCHAR* const name) 
-: Handle(::CreateEvent(NULL, TRUE, FALSE, name), true) {}
-
-Event::Event(const TCHAR* const name, const Ownership) 
+Event::Event(const Mode, const TCHAR* const name /*= NULL*/) 
 : Handle(::OpenEvent(NULL, FALSE, name), false) {
 }
 
@@ -116,6 +83,43 @@ const bool Event::set() {
 const bool Event::reset() {
 	assert(handle());
 	return ::ResetEvent(handle()) == TRUE;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Events::Events(const Mode, HANDLE* const handles, const unsigned count) 
+: handles_(handles), count_(count), ownHandles_(false) {
+	assert(handles && count);
+}
+
+Events::Events(HANDLE* const handles, const unsigned count) 
+: handles_(handles), count_(count), ownHandles_(true) {
+	assert(handles && count);
+
+	for (unsigned i = 0; i < count_; ++i)
+		handles_[i] = ::CreateEvent(NULL, TRUE, FALSE, NULL);	// manual reset + non-signaled
+}
+
+Events::~Events() {
+	if (ownHandles_)
+		for (unsigned i = 0; i < count_; ++i)
+			::CloseHandle(handles_[i]);
+}
+
+const bool Events::set() {
+	bool ok = true;
+	for (unsigned i = 0; i < count_; ++i)
+		ok &= ::SetEvent(handles_[i]) == TRUE;
+		
+	return ok;
+}
+
+const bool Events::reset() {
+	bool ok = true;
+	for (unsigned i = 0; i < count_; ++i)
+		ok &= ::ResetEvent(handles_[i]) == TRUE;
+
+	return ok;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,6 +146,39 @@ bool WaitableTimer::set(const unsigned period, const unsigned delay, PTIMERAPCRO
 
 bool WaitableTimer::cancel() {	
 	return ::CancelWaitableTimer(handle()) == TRUE;	
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Handles::Handles(const HANDLE h0) : count_(1) {
+	assert(h0);     handles_[0] = h0;   
+}
+
+Handles::Handles(const HANDLE h0, const HANDLE h1) : count_(2) {
+	assert(h0);     handles_[0] = h0;
+	assert(h1);     handles_[1] = h1;
+}
+
+Handles::Handles(const HANDLE h0, const HANDLE h1, const HANDLE h2) : count_(3) {
+	assert(h0);     handles_[0] = h0;   
+	assert(h1);     handles_[1] = h1;   
+	assert(h2);     handles_[2] = h2;   
+}
+
+Handles::Handles(const HANDLE h0, const HANDLE h1, const HANDLE h2, const HANDLE h3) : count_(4) {
+	assert(h0);     handles_[0] = h0;   
+	assert(h1);     handles_[1] = h1;   
+	assert(h2);     handles_[2] = h2;   
+	assert(h3);     handles_[3] = h3;   
+}
+
+Handles::~Handles() {
+	assert(0 < count_ && count_ <= HANDLE_COUNT);
+
+	for (unsigned i = 0; i < count_; ++i) {
+		assert(handles_[i]);
+		::CloseHandle(handles_[i]);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

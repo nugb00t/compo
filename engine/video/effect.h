@@ -4,7 +4,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Effect : public kaynine::IntrusivePtrBase {
+class Effect {
 public:
     struct Uniform {
         static const Uniform TERMINATOR;

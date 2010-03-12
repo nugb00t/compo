@@ -8,12 +8,12 @@ class Resources : public kaynine::PulseThreadObject {
 	static const uint PERIOD = 100;
 
 	static const uint MAX_RESOURCES = 64;
-	static const uint MAX_LOADS = 4;
+	static const uint SLOT_COUNT = 4;
 	
 	struct Resource {
 		TCHAR path[MAX_PATH];
-		void** bufferPtr;
-		bool** statusPtr;
+		void* bufferPtr;
+		bool* statusPtr;
 
 		enum STATUS {
 			VACANT,
@@ -22,8 +22,10 @@ class Resources : public kaynine::PulseThreadObject {
 		} status;
 	};
 	
-	struct Load {
+	struct Slot {
+		Resource* resource;
 		OVERLAPPED overlapped;
+		kaynine::Event event;
 		
 		enum STATUS {
 			VACANT,
@@ -32,24 +34,23 @@ class Resources : public kaynine::PulseThreadObject {
 	};
 	
 public:
-	// interface: kaynine::ThreadObject
+	// interface: kaynine::PulseThreadObject
 	virtual bool initialize() { reset(); return true; }
 	virtual bool update();
-
+	
 	virtual const uint period() const { return PERIOD; }	// *1 milliseconds
-	virtual const uint delay() const { return 0; }			// *100 nanoseconds
 
 	// interface: own
-	uint add(const TCHAR* const path, void** const bufferPtr, bool** const statusPtr);
 	void reset();
+	uint add(const TCHAR* const path, void* const bufferPtr, bool* const statusPtr);
 	
 private:
-	void load(const Resource& item, Load& slot);
+	void load(Resource& item, Slot& slot);
 	
 private:
 	Resource resources_[MAX_RESOURCES];
-	uint vacantResource_;
-	Load loads_[MAX_LOADS];
+	uint vacant_;
+	Slot slots_[SLOT_COUNT];
 
 	kaynine::CriticalSection guard_;
 };

@@ -24,7 +24,7 @@ template<class Sync>
 class Thread {
 public:
     static DWORD WINAPI func(void* something);
-	static HANDLE create(ThreadObject* object) { return ::CreateThread(NULL, 0, &func, object, 0, NULL); }
+	static HANDLE create(ThreadObject* object) { assert(object); return ::CreateThread(NULL, 0, &func, object, 0, NULL); }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,13 +33,15 @@ template<class Sync>
 class PulseThread {
 public:
     static DWORD WINAPI func(void* something);
-	static HANDLE create(PulseThreadObject* object) { return ::CreateThread(NULL, 0, &func, object, 0, NULL); }
+	static HANDLE create(PulseThreadObject* object) { assert(object); return ::CreateThread(NULL, 0, &func, object, 0, NULL); }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<class Sync>
 DWORD WINAPI Thread<Sync>::func(void* something) {
+	assert(something);
+
 	ThreadObject& object = *reinterpret_cast<ThreadObject*>(something);
 
 	if (Sync::exit.isSet() || !object.initialize())
@@ -61,6 +63,8 @@ DWORD WINAPI Thread<Sync>::func(void* something) {
 
 template<class Sync>
 DWORD WINAPI PulseThread<Sync>::func(void* something) {
+	assert(something);
+	
 	PulseThreadObject& object = *reinterpret_cast<PulseThreadObject*>(something);
 
 	if (Sync::exit.isSet() || !object.initialize())
