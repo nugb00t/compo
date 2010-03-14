@@ -13,15 +13,19 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef RELEASE
-#define RELEASE_ONLY(x) x
+#define RELEASE_ONLY(x)		x
+#define UNLESS_RELEASE(x)
 #else
 #define RELEASE_ONLY(x)
+#define UNLESS_RELEASE(x)	x
 #endif
 
 #ifdef _DEBUG
-#define DEBUG_ONLY(x) x
+#define DEBUG_ONLY(x)		x
+#define UNLESS_DEBUG(x)
 #else
 #define DEBUG_ONLY(x)
+#define UNLESS_DEBUG(x)		x
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -220,6 +220,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\extern\kaynine\kaynine\threading\sync_wrappers.inl"
+						>
+					</File>
+					<File
 						RelativePath=".\extern\kaynine\kaynine\threading\thread.h"
 						>
 					</File>
@@ -460,14 +464,6 @@
 			<Filter
 				Name="core"
 				>
-				<File
-					RelativePath=".\engine\core\core.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\core\core.h"
-					>
-				</File>
 				<File
 					RelativePath=".\engine\core\profiler.cpp"
 					>
