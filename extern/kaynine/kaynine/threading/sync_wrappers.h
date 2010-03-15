@@ -14,6 +14,8 @@
 
 #include <windows.h>
 
+#include "../debug/macros.h"
+
 namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,8 +47,13 @@ public:
 template<class T = CriticalSection>
 class AutoLock {
 public:
-	AutoLock(T& lockable) : lockable_(lockable) { lockable_.lock(); }
-	~AutoLock() { lockable_.unlock(); }
+	inline AutoLock(T& lockable) : lockable_(lockable) {
+		lockable_.lock();
+	}
+
+	inline ~AutoLock() {
+		lockable_.unlock();
+	}
 
 private:
 	T& lockable_;
@@ -70,8 +77,10 @@ public:
 			::CloseHandle(handle_);
 	}
 
+private:
 	inline Handle& operator =(const HANDLE handle);
 
+public:
 	inline const bool isSet() const {
 		assert(handle_);
 		return wait(0) == WAIT_OBJECT_0;
@@ -82,7 +91,10 @@ public:
 		return ::WaitForSingleObject(handle_, msec);
 	}
 
-	inline const HANDLE handle() const;
+	inline const HANDLE handle() const {
+		assert(handle_);
+		return handle_;
+	}
 
 private:
 	HANDLE handle_;
@@ -109,9 +121,19 @@ public:
 
 class Handles {
 public:
-	inline Handles(HANDLE* const handles, const unsigned size)						: handles_(handles), size_(size), ownsHandles_(false) { assert(handles && size); }
-	inline Handles(const Handle::Mode, HANDLE* const handles, const unsigned size)	: handles_(handles), size_(size), ownsHandles_(true)  { assert(handles && size); }
-	inline ~Handles() { if (ownsHandles_) for (unsigned i = 0; i < size_; ++i) if (handles_[i]) ::CloseHandle(handles_[i]); }
+	inline Handles(HANDLE* const handles, const unsigned size)
+		: handles_(handles), size_(size), ownsHandles_(false) { assert(handles && size); }
+
+	inline Handles(const Handle::Mode, HANDLE* const handles, const unsigned size)
+		: handles_(handles), size_(size), ownsHandles_(true)  { assert(handles && size); }
+
+	inline ~Handles() {
+		if (ownsHandles_)
+			for (unsigned i = 0; i < size_; ++i) {
+				assert(handles_[i]);
+				::CloseHandle(handles_[i]);
+			}
+	}
 
 private:
 	Handles& operator=(const Handles&);
@@ -120,12 +142,10 @@ public:
 	inline const unsigned waitAll(unsigned msec = INFINITE) const{
 		return ::WaitForMultipleObjects(size_, handles_, TRUE, msec);
 	}
+
 	inline const unsigned waitAny(unsigned msec = INFINITE) const{ 
 		return ::WaitForMultipleObjects(size_, handles_, FALSE, msec);
 	}
-
-	inline const unsigned waitAllOf(const unsigned first, const unsigned count = 0, unsigned msec = INFINITE) const;
-	inline const unsigned waitAnyOf(const unsigned first, const unsigned count = 0, unsigned msec = INFINITE) const;
 
 	inline const bool isSet(const unsigned i) const {
 		assert(handles_[i]);
@@ -147,10 +167,27 @@ protected:
 
 class Events : public Handles {
 public:
-	Events(HANDLE* const handles, const unsigned size, const unsigned first = 0, const unsigned count = 0);
-	~Events();
+	inline Events(HANDLE* const handles, const unsigned size, const unsigned first = 0, const unsigned count = 0)
+		: Handles(handles, size), first_(first), count_(count ? count : size - first) {
+			for (unsigned i = first_; i < count_; ++i)
+				handles_[i] = ::CreateEvent(NULL, TRUE, FALSE, NULL);	// manual reset + non-signaled
+	}
+
+	inline ~Events() {
+		for (unsigned i = first_; i < count_; ++i)
+			::CloseHandle(handles_[i]);
+	}
 	
-	inline const bool set(const unsigned first = 0, const unsigned count = 0);
+	inline const bool set(const unsigned first = 0, const unsigned count = 0) {
+		const unsigned end = count ? first + count : count_;
+
+		bool ok = true;
+		for (unsigned i = first; i < end; ++i)
+			ok &= ::SetEvent(handles_[i]) == TRUE;
+
+		return ok;
+	}
+
 	inline const bool reset(const unsigned first = 0, const unsigned count = 0) {
 		const unsigned end = count ? first + count : count_;
 
@@ -173,33 +210,45 @@ private:
 
 class WaitableTimer : public Handle {
 public:
-	WaitableTimer() : Handle(::CreateWaitableTimer(NULL, FALSE, NULL)) {}
-	WaitableTimer(const unsigned period, const unsigned delay = 1, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
-	~WaitableTimer() { cancel(); }
+	inline WaitableTimer() : Handle(::CreateWaitableTimer(NULL, FALSE, NULL)) {}
 
-	bool set(const unsigned period, const unsigned delay = 1, PTIMERAPCROUTINE func = NULL, void* arg = NULL);
-	bool cancel() { return ::CancelWaitableTimer(handle()) == TRUE; }
+	inline WaitableTimer(const unsigned period, const unsigned delay = 1, PTIMERAPCROUTINE func = NULL, void* arg = NULL)
+		: Handle(::CreateWaitableTimer(NULL, FALSE, NULL)) {
+			DEBUG_ONLY(bool ok =)
+				set(period, delay, func, arg);
+			assert(ok);
+	}
+
+	inline ~WaitableTimer() { cancel(); }
+
+	inline bool set(const unsigned period, const unsigned delay = 1, PTIMERAPCROUTINE func = NULL, void* arg = NULL) {
+		LARGE_INTEGER dueTime;
+		dueTime.QuadPart = -(int)delay;
+		return ::SetWaitableTimer(handle(), &dueTime, period, func, arg, FALSE) == TRUE;	
+	}
+
+	inline bool cancel() { return ::CancelWaitableTimer(handle()) == TRUE; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Timer {
 public:
-    Timer() : wnd_(NULL), timer_(NULL) {}
+    inline Timer() : wnd_(NULL), timer_(NULL) {}
 
-    Timer(const unsigned period, HWND wnd = NULL, TIMERPROC func = NULL, unsigned existing = 0) {
+    inline Timer(const unsigned period, HWND wnd = NULL, TIMERPROC func = NULL, unsigned existing = 0) {
         set(period, wnd, func, existing);
         assert(timer_);
 	}
 
-    bool set(const unsigned period, HWND wnd = NULL, TIMERPROC func = NULL, unsigned existing = 0)  {
+    inline bool set(const unsigned period, HWND wnd = NULL, TIMERPROC func = NULL, unsigned existing = 0)  {
         wnd_ = wnd;
         timer_ = ::SetTimer(wnd, existing, period, func);
 
         return timer_ != NULL;
     }
 
-	~Timer() { ::KillTimer(wnd_, timer_); }
+	inline ~Timer() { ::KillTimer(wnd_, timer_); }
 
 private:
 	HWND wnd_;
@@ -212,11 +261,34 @@ class MultipleObjects {
     static const unsigned HANDLE_COUNT = 4;
 
 public:
-	MultipleObjects(const Handle& h0);
-	MultipleObjects(const Handle& h0, const Handle& h1);
-	MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2);
-	MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2, const Handle& h3);
-	~MultipleObjects();
+	inline MultipleObjects::MultipleObjects(const Handle& h0) : count_(1) {
+		assert(h0.handle());    handles_[0] = h0.handle();
+	}
+
+	inline MultipleObjects::MultipleObjects(const Handle& h0, const Handle& h1) : count_(2) {
+		assert(h0.handle());    handles_[0] = h0.handle();
+		assert(h1.handle());    handles_[1] = h1.handle();
+	}
+
+	inline MultipleObjects::MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2) : count_(3) {
+		assert(h0.handle());    handles_[0] = h0.handle();
+		assert(h1.handle());    handles_[1] = h1.handle();
+		assert(h2.handle());    handles_[2] = h2.handle();
+	}
+
+	inline MultipleObjects::MultipleObjects(const Handle& h0, const Handle& h1, const Handle& h2, const Handle& h3) : count_(4) {
+		assert(h0.handle());    handles_[0] = h0.handle();
+		assert(h1.handle());    handles_[1] = h1.handle();
+		assert(h2.handle());    handles_[2] = h2.handle();
+		assert(h3.handle());    handles_[3] = h3.handle();
+	}
+
+	inline MultipleObjects::~MultipleObjects() {
+		for (unsigned i = 0; i < count_; ++i) {
+			assert(handles_[i]);
+			::CloseHandle(handles_[i]);
+		}
+	}
 
 private:
     MultipleObjects& operator=(const MultipleObjects&);
@@ -231,9 +303,9 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#ifndef _DEBUG
-#include "sync_wrappers.inl"
-#endif
+//
+//#ifndef _DEBUG
+//#include "sync_wrappers.inl"
+//#endif
 
 }

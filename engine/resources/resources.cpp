@@ -19,9 +19,10 @@ bool Resources::update() {
 	assert(vacant_ < MAX_RESOURCES - 1);
 
 	for (unsigned wait = events_.waitAll(); wait != WAIT_OBJECT_0; wait = events_.waitAll())
-		if (wait == WAIT_OBJECT_0 + 1)	// new resource
+		if (wait == WAIT_OBJECT_0 + 1) {	// new resource
 			schedule();
-		else if (WAIT_IO_COMPLETION <= wait && wait < WAIT_IO_COMPLETION + SLOT_COUNT) {
+			newResource_.reset();
+		} else if (WAIT_IO_COMPLETION <= wait && wait < WAIT_IO_COMPLETION + SLOT_COUNT) {
 			complete(WAIT_IO_COMPLETION - wait);
 			schedule(WAIT_IO_COMPLETION - wait);
 		} else {
@@ -29,34 +30,6 @@ bool Resources::update() {
 		}
 
 	return true;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Resources::schedule(const unsigned first /*= 0*/) {
-	assert(first < SLOT_COUNT);
-
-	for (uint slot = first, item = 0; slot < SLOT_COUNT && item < vacant_; ++slot) {
-		if (slots_[slot].status == Slot::VACANT) {
-			while (resources_[item].status != Resource::PENDING && item < MAX_RESOURCES)
-				++item;
-
-			load(item, slot);
-		}
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Resources::complete(const unsigned slot) {
-	assert(slots_[slot].status == Slot::PROCESSING);
-
-	CHECKED_WINAPI_CALL(::CloseHandle(slots_[slot].file));
-	events_.reset(slot, 1);
-
-	slots_[slot].resource->status = Resource::DONE;
-	*slots_[slot].resource->statusPtr = true;
-	slots_[slot].status = Slot::VACANT;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +62,8 @@ uint Resources::add(const TCHAR* const path, kaynine::MemoryPool* pool, void** c
 	resources_[vacant_].bufferPtr = bufferPtr;
 	resources_[vacant_].statusPtr = statusPtr;
 	
+	newResource_.set();
+
 	return vacant_++;
 }
 
@@ -120,6 +95,34 @@ void Resources::load(const uint item, const uint slot) {
 	
 	// initiate asio read
 	CHECKED_WINAPI_CALL(::ReadFileEx(slots_[slot].file, NULL, size, &slots_[slot].overlapped, NULL));
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+
+void Resources::schedule(const unsigned first /*= 0*/) {
+	assert(first < SLOT_COUNT);
+
+	for (uint slot = first, item = 0; slot < SLOT_COUNT && item < vacant_; ++slot) {
+		if (slots_[slot].status == Slot::VACANT) {
+			while (resources_[item].status != Resource::PENDING && item < MAX_RESOURCES)
+				++item;
+
+			load(item, slot);
+		}
+	}
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+
+void Resources::complete(const unsigned slot) {
+	assert(slots_[slot].status == Slot::PROCESSING);
+
+	CHECKED_WINAPI_CALL(::CloseHandle(slots_[slot].file));
+	events_.reset(slot, 1);
+
+	slots_[slot].resource->status = Resource::DONE;
+	*slots_[slot].resource->statusPtr = true;
+	slots_[slot].status = Slot::VACANT;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
