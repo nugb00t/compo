@@ -27,9 +27,9 @@ public:
 	
 	static const WORD COLORS[LEVEL_COUNT];
 
-	
 public:
 	Trace(const Level level = LEVEL_INFO);
+	~Trace();
 	
 private:
 	Trace& operator =(const Trace&);

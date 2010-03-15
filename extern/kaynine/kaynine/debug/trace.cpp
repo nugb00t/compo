@@ -39,6 +39,12 @@ Trace::Trace(const Level level /*= LEVEL_INFO*/)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+Trace::~Trace() {
+	::SetConsoleTextAttribute(handle_, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Trace::output(const char* file, const int line, const char* func, const Level level, const char* format, ...) {
 	va_list	args;
 	va_start(args, format);
