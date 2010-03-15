@@ -8,9 +8,13 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Resources::Resources() : events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2) {
+bool Resources::initialize() {
 	handles_[0] = g_engine.sync->exit.handle();
 	handles_[1] = newResource_.handle();
+
+	reset();
+
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,15 +22,13 @@ Resources::Resources() : events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2)
 bool Resources::update() {
 	assert(vacant_ < MAX_RESOURCES - 1);
 
-	for (unsigned wait = events_.waitAll(); wait != WAIT_OBJECT_0; wait = events_.waitAll())
+	for (unsigned wait = events_.waitAny(); wait != WAIT_OBJECT_0 && wait != WAIT_FAILED && wait != WAIT_ABANDONED; wait = events_.waitAny())
 		if (wait == WAIT_OBJECT_0 + 1) {	// new resource
 			schedule();
 			newResource_.reset();
 		} else if (WAIT_IO_COMPLETION <= wait && wait < WAIT_IO_COMPLETION + SLOT_COUNT) {
 			complete(WAIT_IO_COMPLETION - wait);
 			schedule(WAIT_IO_COMPLETION - wait);
-		} else {
-			assert(false);
 		}
 
 	return true;

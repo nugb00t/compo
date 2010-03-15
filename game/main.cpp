@@ -19,6 +19,10 @@ int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
 	kaynine::Handles threads(&handles[0], sizeof(handles) / sizeof(HANDLE));
 
 	// synchronize thread start
+	TRACE_INFO("TRACE_INFO");
+	TRACE_WARNING("TRACE_WARNING");
+	TRACE_ERROR("TRACE_ERROR");
+	TRACE_CRITICAL("TRACE_CRITICAL");
 	Sync::start.set();
 
 	threads.waitAll();

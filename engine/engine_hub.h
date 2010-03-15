@@ -52,6 +52,8 @@ public:
 	const boost::scoped_ptr<Resources> resources;
 	const boost::scoped_ptr<Server> server;
 
+	const boost::scoped_ptr<kaynine::Trace> trace;
+
 public:
 	Engine() :
 #ifdef PLATFORM_WIN51
@@ -71,7 +73,8 @@ public:
 		sync(new Sync),
 		time(new Time),
 		resources(new Resources),
-		server(new Server)
+		server(new Server),
+		trace(new kaynine::Trace)
 		{}
 
 #ifdef PLATFORM_WIN51

@@ -1,74 +1,66 @@
-/*******************************************************//**
-       
-	@file
-
-	@version	0.0.1
-
-	@author Andrew 'nugb00t' Gresyk
-
-	@date 18.08.2004
-
-*//********************************************************/
-#ifndef _KN_TRACE_INCLUDED_
-#define _KN_TRACE_INCLUDED_
-
+#pragma once
 
 // std
-#include <stdarg.h>	// vargs
+#include <stdarg.h>		// vargs
 #include <time.h>
 // win
 #include <windows.h>	// OutputDebugString()
 #include <winbase.h>	// OutputDebugString()
 
+#include "../threading/sync_wrappers.h"
 
 namespace kaynine {
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// const
-	static const time_t TRACE_ZERO_TIME		= ::time(NULL);
-	static const int MAX_TRACE_BUFFER		= 1024;
+class Trace {
+	static const unsigned TRACE_LINE_LENGTH = 1024;
+	
+public:
+	enum Level {
+		LEVEL_INFO,
+		LEVEL_WARNING,
+		LEVEL_ERROR,
+		LEVEL_CRITICAL,
+		LEVEL_COUNT
+	};
+	
+	static const WORD COLORS[LEVEL_COUNT];
 
+	
+public:
+	Trace(const Level level = LEVEL_INFO);
+	
+private:
+	Trace& operator =(const Trace&);
 
-	#define FLF	__FILE__, __LINE__, __FUNCTION__
+public:
+	void setLevel(const Level level) { level_ = level; }
+	
+	void output(const char* file, const int line, const char* func, const Level level, const char* format, ...);
+	void print(const char* file, const int line, const char* func, const Level level, const char* format, ...);
+	
+private:
+	const time_t zero_;
+	const HANDLE handle_;
+	Level level_;
+	CriticalSection guard_;
+};
 
-	#ifdef KN_USE_TRACE
-		#define KN_TRACEF	kaynine::TraceF
-		#define KN_TRACEAF	kaynine::TraceAF
-		#define KN_TRACE	kaynine::Trace
-		#define KN_TRACEA	kaynine::TraceA
+#ifdef KN_USE_TRACE
+#define KN_TRACE(l, x)	kaynine::TraceAF(__FILE__, __LINE__, __FUNCTION__, l, x)
 #else
-		#define KN_TRACEF	__noop
-		#define KN_TRACEAF	__noop
-		#define KN_TRACE	__noop
-		#define KN_TRACEA	__noop
+#define KN_TRACE(l, x)
 #endif
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-		@brief		Trace the string 
+//void TraceF(const char* file, const int line, const char* func, const TCHAR* format, ...);
+//void Trace(const char* file, const int line, const char* func, const char* format, ...);
 
-		@param		format specificators
-		@param		data
+//void Trace(const TCHAR* format, ...);
+//void TraceA(const char* format, ...);
 
-		@warning	MAX_TRACE_BUFFER is used for string output
-	*/
-	void TraceF(const char* file, const int line, const char* func, const TCHAR* format, ...);
-	void TraceAF(const char* file, const int line, const char* func, const char* format, ...);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-	/**
-		@brief	Trace the string without FLF part
-
-		@param	format specificators
-		@param	data
-
-		@warning	MAX_TRACE_BUFFER is used for string output
-	*/
-	void Trace(const TCHAR* format, ...);
-	void TraceA(const char* format, ...);
-
-
-} //namespace kaynine
-
-
-#endif //_KN_TRACE_INCLUDED_
+}

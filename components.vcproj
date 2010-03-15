@@ -271,6 +271,30 @@
 						RelativePath=".\extern\kaynine\kaynine\debug\macros.h"
 						>
 					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\debug\trace.cpp"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\debug\trace.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter

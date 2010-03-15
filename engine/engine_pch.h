@@ -60,6 +60,7 @@
 
 #include <kaynine/containers/cyclic_buffer.h>
 #include <kaynine/debug/macros.h>
+#include <kaynine/debug/trace.h>
 #include <kaynine/filesystem/tools.h>
 #include <kaynine/memory/memory_pool.h>
 #include <kaynine/memory/pooled.h>

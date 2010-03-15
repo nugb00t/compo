@@ -78,10 +78,9 @@ DWORD WINAPI PulseThread<Sync>::func(void* something) {
 
 	const unsigned waitPeriod = 2 * object.period();
 	unsigned wait;
-	for (wait = events.waitAny(waitPeriod); wait != WAIT_OBJECT_0; wait = events.waitAny(waitPeriod))
+	for (wait = events.waitAny(waitPeriod); wait != WAIT_OBJECT_0 && wait != WAIT_FAILED && wait != WAIT_ABANDONED; wait = events.waitAny(waitPeriod))
 		if (!object.update())
 			Sync::exit.set();
-	assert(wait != WAIT_FAILED && wait != WAIT_ABANDONED);
 
 	object.terminate();
 

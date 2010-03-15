@@ -36,10 +36,10 @@ class Resources : public kaynine::PulseThreadObject {
 	};
 	
 public:
-	Resources();
+	Resources() : events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2) {}
 
 	// interface: kaynine::PulseThreadObject
-	virtual bool initialize() { reset(); return true; }
+	virtual bool initialize();
 	virtual bool update();
 	
 	virtual const uint period() const { return PERIOD; }	// *1 milliseconds

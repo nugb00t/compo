@@ -56,6 +56,9 @@ public:
 	}
 
 private:
+	AutoLock& operator =(const AutoLock&);
+	
+private:
 	T& lockable_;
 };
 
@@ -168,18 +171,18 @@ protected:
 class Events : public Handles {
 public:
 	inline Events(HANDLE* const handles, const unsigned size, const unsigned first = 0, const unsigned count = 0)
-		: Handles(handles, size), first_(first), count_(count ? count : size - first) {
-			for (unsigned i = first_; i < count_; ++i)
+		: Handles(handles, size), first_(first), limit_(count ? first + count : size) {
+			for (unsigned i = first_; i < limit_; ++i)
 				handles_[i] = ::CreateEvent(NULL, TRUE, FALSE, NULL);	// manual reset + non-signaled
 	}
 
 	inline ~Events() {
-		for (unsigned i = first_; i < count_; ++i)
+		for (unsigned i = first_; i < limit_; ++i)
 			::CloseHandle(handles_[i]);
 	}
 	
 	inline const bool set(const unsigned first = 0, const unsigned count = 0) {
-		const unsigned end = count ? first + count : count_;
+		const unsigned end = count ? first + count : limit_;
 
 		bool ok = true;
 		for (unsigned i = first; i < end; ++i)
@@ -189,7 +192,7 @@ public:
 	}
 
 	inline const bool reset(const unsigned first = 0, const unsigned count = 0) {
-		const unsigned end = count ? first + count : count_;
+		const unsigned end = count ? first + count : limit_;
 
 		bool ok = true;
 		for (unsigned i = first; i < end; ++i)
@@ -203,7 +206,7 @@ private:
 
 private:
 	const unsigned first_;
-	const unsigned count_;
+	const unsigned limit_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -281,13 +284,6 @@ public:
 		assert(h1.handle());    handles_[1] = h1.handle();
 		assert(h2.handle());    handles_[2] = h2.handle();
 		assert(h3.handle());    handles_[3] = h3.handle();
-	}
-
-	inline MultipleObjects::~MultipleObjects() {
-		for (unsigned i = 0; i < count_; ++i) {
-			assert(handles_[i]);
-			::CloseHandle(handles_[i]);
-		}
 	}
 
 private:
