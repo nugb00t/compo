@@ -14,7 +14,7 @@ namespace kaynine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Trace {
-	static const unsigned TRACE_LINE_LENGTH = 1024;
+	static const unsigned TRACE_LINE_LENGTH = 4096;
 	
 public:
 	enum Level {
@@ -39,6 +39,8 @@ public:
 	void output(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...);
 	void print(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...);
 	
+	static const TCHAR* errorString(const DWORD code);
+
 private:
 	const time_t zero_;
 	const HANDLE handle_;
@@ -46,8 +48,7 @@ private:
 	CriticalSection guard_;
 };
 
-TCHAR* errorString(const DWORD code);
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 }

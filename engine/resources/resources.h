@@ -11,23 +11,25 @@ class Resources : public kaynine::ThreadObject {
 	struct Resource {
 		TCHAR path[MAX_PATH];
 		kaynine::MemoryPool* pool;
+		
+		// state
 		void** bufferPtr;
+		uint* sizePtr;
 		bool* statusPtr;
 
 		enum Status {
 			Vacant,
 			Pending,
+			Processing,
 			Done,
 			Error,
 		} status;
 	};
 	
 	struct Slot {
-		Resource* resource;
+		uint resource;
 		HANDLE file;
 
-		OVERLAPPED overlapped;
-		
 		enum Status {
 			Vacant,
 			Processing
@@ -43,7 +45,7 @@ public:
 	
 	// interface: own
 	void reset();
-	uint add(const TCHAR* const path, kaynine::MemoryPool* pool, void** const bufferPtr, bool* const statusPtr);
+	uint add(const TCHAR* const path, kaynine::MemoryPool* pool, void** const bufferPtr, uint* const sizePtr, bool* const statusPtr);
 	
 private:
 	void load(const uint item, const uint slot);

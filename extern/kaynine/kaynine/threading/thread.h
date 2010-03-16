@@ -70,12 +70,12 @@ DWORD WINAPI PulseThread<Sync>::func(void* something) {
 	if (Sync::exit.isSet() || !object.initialize())
 		return (DWORD)-1;
 
-	// synchronize thread start
-	Sync::start.wait();
-	
 	WaitableTimer timer(object.period(), object.delay());
 	MultipleObjects events(Sync::exit, timer);
 
+	// synchronize thread start
+	Sync::start.wait();
+	
 	const unsigned waitPeriod = 2 * object.period();
 	unsigned wait;
 	for (wait = events.waitAny(waitPeriod); wait != WAIT_OBJECT_0 && wait != WAIT_FAILED && wait != WAIT_ABANDONED; wait = events.waitAny(waitPeriod))

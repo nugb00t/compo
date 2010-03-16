@@ -152,7 +152,7 @@ public:
 
 	inline const bool isSet(const unsigned i) const {
 		assert(handles_[i]);
-		return ::WaitForSingleObject(handles_[i], 0) != 0;
+		return ::WaitForSingleObject(handles_[i], 0) == WAIT_OBJECT_0;
 	}
 
 	inline const HANDLE handle(const unsigned i) const {

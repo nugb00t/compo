@@ -11,8 +11,7 @@ using namespace kaynine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool MemoryPool::reserve(const unsigned kbytes) {
-	if (data_)
-		purge();
+	purge();
 
 	data_ = ::malloc(kbytes * 1024);
 	if (!data_)
@@ -38,16 +37,18 @@ bool MemoryPool::reserve(const unsigned kbytes) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void MemoryPool::purge() {
-	assert(biggest_ == smallest_ && smallest_ == first_ && (!first_ || first_ == alignUp(data_)));	// should be empty before purging
-	::free(data_);
-	data_ = 0;
+	if (data_) {
+		assert(data_ && biggest_ == smallest_ && smallest_ == first_ && (!first_ || first_ == alignUp(data_)));	// should be empty before purging
+		::free(data_);
+		data_ = 0;
+	}
 	first_ = last_ = biggest_ = smallest_ = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void* MemoryPool::allocate(const unsigned bytes) {
-	assert(data_);
+	assert(data_ && bytes);
 
 	Chunk* chunk = findFreeChunk(bytes);
 	if (!chunk)
@@ -187,7 +188,7 @@ inline void MemoryPool::linkBySize(Chunk* chunk) {
 		biggest_ = chunk;
 		smallest_ = chunk;
 	}
-	// is new one smallest?
+	// is new chunk the smallest one?
 	else if (chunk->dataSize() < smallest_->dataSize()) {
 		chunk->bigger = smallest_;
 		chunk->smaller = 0;
@@ -195,7 +196,7 @@ inline void MemoryPool::linkBySize(Chunk* chunk) {
 		chunk->bigger->smaller = chunk;
 		smallest_ = chunk;
 	}
-	// is new one biggest?
+	// is new chunk the biggest one?
 	else if (chunk->dataSize() > biggest_->dataSize()) {
 		chunk->bigger = 0;
 		chunk->smaller = biggest_;

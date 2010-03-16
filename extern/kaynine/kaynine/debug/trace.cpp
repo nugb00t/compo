@@ -102,25 +102,28 @@ void Trace::print(const char* file, const int line, const char* func, const Leve
 
 	::SetConsoleTextAttribute(handle_, COLORS[level] | FOREGROUND_INTENSITY);
 
-	_ftprintf(stderr, format, args);
-	_ftprintf(stderr, _T("\n"));
+	_vftprintf(stderr, format, args);
+	
+	const DWORD error = ::GetLastError();
+	if (level >= LEVEL_WARNING && error) {
+		::SetConsoleTextAttribute(handle_, FOREGROUND_RED | FOREGROUND_INTENSITY);
+		_ftprintf(stderr, _T(" #%d: %s"), error, errorString(error));
+	} else
+		_ftprintf(stderr, _T("\n"));
 
 	va_end(args);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TCHAR* errorString(const DWORD code) {
-	LPVOID lpMsgBuf;
+const TCHAR* Trace::errorString(const DWORD code) {
+	static const unsigned BUFFER_LENGTH = 1024;
+	static TCHAR buffer[BUFFER_LENGTH];
 
-	::FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-					NULL,
-					code,
-					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-					(LPTSTR) &lpMsgBuf,
-					0, NULL);
-
-	LocalFree(lpMsgBuf);
+	::FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+					NULL, code, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buffer, BUFFER_LENGTH, NULL);
+					
+	return buffer;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
