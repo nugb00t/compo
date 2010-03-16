@@ -21,7 +21,6 @@ public:
 		LEVEL_INFO,
 		LEVEL_WARNING,
 		LEVEL_ERROR,
-		LEVEL_CRITICAL,
 		LEVEL_COUNT
 	};
 	
@@ -37,8 +36,8 @@ private:
 public:
 	void setLevel(const Level level) { level_ = level; }
 	
-	void output(const char* file, const int line, const char* func, const Level level, const char* format, ...);
-	void print(const char* file, const int line, const char* func, const Level level, const char* format, ...);
+	void output(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...);
+	void print(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...);
 	
 private:
 	const time_t zero_;
@@ -47,19 +46,7 @@ private:
 	CriticalSection guard_;
 };
 
-#ifdef KN_USE_TRACE
-#define KN_TRACE(l, x)	kaynine::TraceAF(__FILE__, __LINE__, __FUNCTION__, l, x)
-#else
-#define KN_TRACE(l, x)
-#endif
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//void TraceF(const char* file, const int line, const char* func, const TCHAR* format, ...);
-//void Trace(const char* file, const int line, const char* func, const char* format, ...);
-
-//void Trace(const TCHAR* format, ...);
-//void TraceA(const char* format, ...);
+TCHAR* errorString(const DWORD code);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

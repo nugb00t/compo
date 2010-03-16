@@ -7,23 +7,24 @@ using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int __cdecl _tmain(int UNUSED(argc), _TCHAR* UNUSED(argv[])) {
+int __cdecl _tmain(int /*argc*/, _TCHAR* /*argv[]*/) {
 	CHECKED_CALL(kaynine::setCurrentDirectory());
 
 	HANDLE handles[] = {
 		kaynine::Thread<Sync>::create(g_engine.systemLoop),
-		kaynine::PulseThread<Sync>::create(g_engine.resources.get()),
+		kaynine::Thread<Sync>::create(g_engine.resources.get()),
 		kaynine::PulseThread<Sync>::create(g_engine.server.get()),
 		kaynine::PulseThread<Sync>::create(g_game.video.get())
 	};
 	kaynine::Handles threads(&handles[0], sizeof(handles) / sizeof(HANDLE));
 
 	// synchronize thread start
-	TRACE_INFO("TRACE_INFO");
-	TRACE_WARNING("TRACE_WARNING");
-	TRACE_ERROR("TRACE_ERROR");
-	TRACE_CRITICAL("TRACE_CRITICAL");
 	Sync::start.set();
+
+	kaynine::MemoryPool pool(1024);
+	void* buffer = NULL;
+	bool status = false;
+	g_engine.resources->add(_T("playground/game.xml"), &pool, &buffer, &status);
 
 	threads.waitAll();
 

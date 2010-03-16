@@ -4,9 +4,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Resources : public kaynine::PulseThreadObject {
-	static const uint PERIOD = 100;
-
+class Resources : public kaynine::ThreadObject {
 	static const uint MAX_RESOURCES = 64;
 	static const uint SLOT_COUNT = 4;
 	
@@ -16,10 +14,11 @@ class Resources : public kaynine::PulseThreadObject {
 		void** bufferPtr;
 		bool* statusPtr;
 
-		enum STATUS {
-			VACANT,
-			PENDING,
-			DONE
+		enum Status {
+			Vacant,
+			Pending,
+			Done,
+			Error,
 		} status;
 	};
 	
@@ -29,21 +28,19 @@ class Resources : public kaynine::PulseThreadObject {
 
 		OVERLAPPED overlapped;
 		
-		enum STATUS {
-			VACANT,
-			PROCESSING
+		enum Status {
+			Vacant,
+			Processing
 		} status;
 	};
 	
 public:
-	Resources() : events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2) {}
+	Resources();
 
 	// interface: kaynine::PulseThreadObject
 	virtual bool initialize();
 	virtual bool update();
 	
-	virtual const uint period() const { return PERIOD; }	// *1 milliseconds
-
 	// interface: own
 	void reset();
 	uint add(const TCHAR* const path, kaynine::MemoryPool* pool, void** const bufferPtr, bool* const statusPtr);

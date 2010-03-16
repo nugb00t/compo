@@ -12,7 +12,6 @@ const WORD Trace::COLORS[LEVEL_COUNT] = {
 	FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,	// LEVEL_INFO
 	FOREGROUND_RED | FOREGROUND_GREEN,						// LEVEL_WARNING
 	FOREGROUND_RED,											// LEVEL_ERROR
-	FOREGROUND_RED | FOREGROUND_INTENSITY,					// LEVEL_CRITICAL
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +44,7 @@ Trace::~Trace() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Trace::output(const char* file, const int line, const char* func, const Level level, const char* format, ...) {
+void Trace::output(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...) {
 	va_list	args;
 	va_start(args, format);
 
@@ -74,7 +73,7 @@ void Trace::output(const char* file, const int line, const char* func, const Lev
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Trace::print(const char* file, const int line, const char* func, const Level level, const char* format, ...) {
+void Trace::print(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...) {
 	va_list	args;
 	va_start(args, format);
 
@@ -85,18 +84,43 @@ void Trace::print(const char* file, const int line, const char* func, const Leve
 	
 	::SetConsoleTextAttribute(handle_, COLORS[level]);
 	
-	fprintf(stderr, "<%10d> ", ::time(0) - zero_);
+	_ftprintf(stderr, _T("[%10d] "), ::time(0) - zero_);
 
+#ifdef UNICODE
 	if (file)
-		fprintf(stderr, "[%20s:%3d] ", file, line);
+		_ftprintf(stderr, _T("[%20S:%3d] "), file, line);
 
 	if (func)
-		fprintf(stderr, "%40s() ", func);
-		
-	fprintf(stderr, format, args);
-	fprintf(stderr, "\n");
+		_ftprintf(stderr, _T("%40S() | "), func);
+#else
+	if (file)
+		_ftprintf(stderr, "[%20s:%3d] ", file, line);
+
+	if (func)
+		_ftprintf(stderr, "%40s(): ", func);
+#endif
+
+	::SetConsoleTextAttribute(handle_, COLORS[level] | FOREGROUND_INTENSITY);
+
+	_ftprintf(stderr, format, args);
+	_ftprintf(stderr, _T("\n"));
 
 	va_end(args);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TCHAR* errorString(const DWORD code) {
+	LPVOID lpMsgBuf;
+
+	::FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+					NULL,
+					code,
+					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+					(LPTSTR) &lpMsgBuf,
+					0, NULL);
+
+	LocalFree(lpMsgBuf);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
