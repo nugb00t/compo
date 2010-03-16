@@ -18,7 +18,8 @@ class Trace {
 	
 public:
 	enum Level {
-		LEVEL_INFO,
+		LEVEL_NOTICE,
+		LEVEL_GOOD,
 		LEVEL_WARNING,
 		LEVEL_ERROR,
 		LEVEL_COUNT
@@ -27,7 +28,7 @@ public:
 	static const WORD COLORS[LEVEL_COUNT];
 
 public:
-	Trace(const Level level = LEVEL_INFO);
+	Trace(const Level level = LEVEL_NOTICE);
 	~Trace();
 	
 private:

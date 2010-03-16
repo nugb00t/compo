@@ -9,7 +9,8 @@
 using namespace kaynine;
 
 const WORD Trace::COLORS[LEVEL_COUNT] = {
-	FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,	// LEVEL_INFO
+	FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,	// LEVEL_NOTICE
+	FOREGROUND_GREEN,										// LEVEL_GOOD
 	FOREGROUND_RED | FOREGROUND_GREEN,						// LEVEL_WARNING
 	FOREGROUND_RED,											// LEVEL_ERROR
 };
@@ -110,6 +111,9 @@ void Trace::print(const char* file, const int line, const char* func, const Leve
 		_ftprintf(stderr, _T(" #%d: %s"), error, errorString(error));
 	} else
 		_ftprintf(stderr, _T("\n"));
+
+	// for the possible assertion reports
+	::SetConsoleTextAttribute(handle_, FOREGROUND_RED | FOREGROUND_INTENSITY);
 
 	va_end(args);
 }

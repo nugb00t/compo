@@ -22,9 +22,7 @@ int __cdecl _tmain(int /*argc*/, _TCHAR* /*argv[]*/) {
 	Sync::start.set();
 
 	kaynine::MemoryPool pool(1024);
-	void* buffer = NULL;
-	bool status = false;
-	g_engine.resources->add(_T("playground/game.xml"), &pool, &buffer, &status);
+	g_engine.resources->add(_T("playground/game.xml"), &pool);
 
 	threads.waitAll();
 

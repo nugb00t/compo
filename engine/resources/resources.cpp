@@ -29,9 +29,13 @@ bool Resources::update() {
 
 	for (unsigned wait = events_.waitAny(); wait != WAIT_OBJECT_0 + SLOT_COUNT + 1 && wait != WAIT_FAILED && wait != WAIT_ABANDONED; wait = events_.waitAny())
 		if (wait == WAIT_OBJECT_0 + SLOT_COUNT) {	// new resource
+			kaynine::AutoLock<> lock(guard_);
+
 			schedule();
 			newResource_.reset();
 		} else if (WAIT_OBJECT_0 <= wait && wait < WAIT_OBJECT_0 + SLOT_COUNT) {
+			kaynine::AutoLock<> lock(guard_);
+
 			complete(wait - WAIT_OBJECT_0);
 			schedule(wait - WAIT_OBJECT_0);
 		}
@@ -44,35 +48,22 @@ bool Resources::update() {
 void Resources::reset() {
 	kaynine::AutoLock<> lock(guard_);
 
-	//for (uint i = 0; i < MAX_RESOURCES; ++i) {
-	//	resources_[i].path[0] = NULL;
-	//	resources_[i].bufferPtr = NULL;
-	//	resources_[i].statusPtr = NULL;
-	//	resources_[i].status = Resource::Vacant;
-	//}
-
 	vacant_ = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-uint Resources::add(const TCHAR* const path, kaynine::MemoryPool* pool, void** const bufferPtr, uint* const sizePtr, bool* const statusPtr) {
+const uint Resources::add(const TCHAR* const path, kaynine::MemoryPool* pool) {
 	kaynine::AutoLock<> lock(guard_);
 
-	assert(vacant_ < MAX_RESOURCES - 1 && path && bufferPtr && statusPtr);
+	assert(vacant_ < MAX_RESOURCES - 1 && path);
 
 	// initialize Resource	
 	_tcsncpy(&resources_[vacant_].path[0], path, MAX_PATH);
 	resources_[vacant_].pool = pool;
-	resources_[vacant_].bufferPtr = bufferPtr;
-	resources_[vacant_].sizePtr = sizePtr;
-	resources_[vacant_].statusPtr = statusPtr;
 
-	// reset resource status
-	*resources_[vacant_].bufferPtr = NULL;
-	*resources_[vacant_].sizePtr = 0;
-	*resources_[vacant_].statusPtr = false;
-
+	resources_[vacant_].buffer = NULL;
+	resources_[vacant_].size = 0;
 	resources_[vacant_].status = Resource::Pending;
 
 	newResource_.set();
@@ -85,7 +76,7 @@ uint Resources::add(const TCHAR* const path, kaynine::MemoryPool* pool, void** c
 void Resources::load(const uint item, const uint slot) {
 	assert(item < MAX_RESOURCES && slot < SLOT_COUNT);
 
-	TRACE_INFO(_T("loading '%s' in slot #%d"), resources_[item].path, slot);
+	TRACE_NOTICE(_T("loading '%s' in slot #%d"), resources_[item].path, slot);
 
 	// open the file
 	const HANDLE file = ::CreateFile(resources_[item].path, 
@@ -97,7 +88,7 @@ void Resources::load(const uint item, const uint slot) {
 									 NULL);
 	if (file == INVALID_HANDLE_VALUE) {
 		resources_[item].status = Resource::Error;
-		TRACE_ERROR(_T("couldn't open file '%s'"), resources_[item].path);
+		TRACE_WARNING(_T("couldn't open file '%s'"), resources_[item].path);
 		return;
 	}
 	
@@ -107,31 +98,31 @@ void Resources::load(const uint item, const uint slot) {
 		::CloseHandle(file);
 
 		resources_[item].status = Resource::Error;
-		TRACE_ERROR(_T("couldn't load empty file '%s'"), resources_[item].path);
+		TRACE_WARNING(_T("couldn't load empty file '%s'"), resources_[item].path);
 		return;
 	}
 
 	// allocate memory for file's contents
-	void* const buffer = resources_[item].pool->allocate(size);
+	void* const buffer = resources_[item].pool->allocate(size + sizeof(TCHAR));
 	assert(buffer);
+	*reinterpret_cast<TCHAR*>((unsigned)buffer + size) = _T('\0');
 
 	// prepare asio struct
-	OVERLAPPED overlapped;
-	memset(&overlapped, 0, sizeof(overlapped));
+	memset(&slots_[slot].overlapped, 0, sizeof(slots_[slot].overlapped));
 
 	assert(!events_.isSet(slot));
-	overlapped.hEvent = events_.handle(slot);
+	slots_[slot].overlapped.hEvent = events_.handle(slot);
 	
 	// initiate asio read
 	DWORD read = 0;
-	if (!::ReadFile(file, buffer, size, &read, &overlapped) && ::GetLastError() != ERROR_IO_PENDING) {
+	if (!::ReadFile(file, buffer, size, &read, &slots_[slot].overlapped) && ::GetLastError() != ERROR_IO_PENDING) {
 		::CloseHandle(file);
-		TRACE_WARNING(_T("couldn't read empty file '%s'"), resources_[item].path);
+		TRACE_WARNING(_T("couldn't read file '%s'"), resources_[item].path);
 
 		resources_[item].status = Resource::Error;
 	} else {
-		*resources_[item].bufferPtr = buffer;
-		*resources_[item].sizePtr = size;
+		resources_[item].buffer = buffer;
+		resources_[item].size = size;
 		resources_[item].status = Resource::Processing;
 		
 		slots_[slot].resource = item;
@@ -146,9 +137,9 @@ void Resources::schedule(const unsigned first /*= 0*/) {
 	assert(first < SLOT_COUNT);
 
 	if (!first)
-		TRACE_INFO(_T("checking for the new resources to load.."));
+		TRACE_NOTICE(_T("checking for the new resources to load.."));
 	else
-		TRACE_INFO(_T("checking for the new resources to load in the slot #%d"), first);
+		TRACE_NOTICE(_T("checking for the new resources to load at the slot #%d"), first);
 
 	for (uint slot = first, item = 0; slot < SLOT_COUNT && item < vacant_; ++slot) {
 		if (slots_[slot].status == Slot::Vacant) {
@@ -166,14 +157,24 @@ void Resources::schedule(const unsigned first /*= 0*/) {
 void Resources::complete(const unsigned slot) {
 	assert(slots_[slot].status == Slot::Processing);
 
-	TRACE_INFO(_T("resource #%3d '%s' was successfully loaded in slot #%d"), slots_[slot].resource, resources_[slots_[slot].resource].path, slot);
+	Resource& resource = resources_[slots_[slot].resource];
+
+	if (slots_[slot].resource >= vacant_) {
+		TRACE_WARNING(_T("resource #%3d '%s' was discarded at the slot #%d"), slots_[slot].resource, resource.path, slot);
+		return;
+	}
+
+	if (slots_[slot].overlapped.InternalHigh == resource.size) {
+		TRACE_GOOD(_T("resource #%d '%s' was successfully loaded at the slot #%d"), slots_[slot].resource, resource.path, slot);
+		resource.status = Resource::Done;
+	} else {
+		TRACE_WARNING(_T("resource #%d '%s' failed to load at the slot #%d"), slots_[slot].resource, resource.path, slot);
+		resource.status = Resource::Error;
+	}
 
 	CHECKED_WINAPI_CALL(::CloseHandle(slots_[slot].file));
 	events_.reset(slot, 1);
 
-	*resources_[slots_[slot].resource].statusPtr = true;
-	resources_[slots_[slot].resource].status = Resource::Done;
-	
 	slots_[slot].status = Slot::Vacant;
 }
 
