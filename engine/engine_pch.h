@@ -64,6 +64,7 @@
 #include <kaynine/filesystem/tools.h>
 #include <kaynine/memory/memory_pool.h>
 #include <kaynine/memory/pooled.h>
+#include <kaynine/memory/pooled_ptr.h>
 #include <kaynine/threading/frame_buffer.h>
 #include <kaynine/threading/thread.h>
 #include <kaynine/threading/thread_base.h>

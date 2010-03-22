@@ -1,14 +1,16 @@
-#ifndef KN_HOLDER_INCLUDED
-#define KN_HOLDER_INCLUDED
+#pragma once
 
 namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
-class Holder {
+class Holder : public safe_bool<Holder<T> > {
 public:
-	static T& inst() { return *subject(); }
+	static T& inst() { return *t_; }
+
+	// interface: safe_bool
+	bool boolean_test() const { return t_ != NULL; }
 
 private:
 	// invoked in T's ctor
@@ -17,11 +19,9 @@ private:
 		subject() = &t;
 	}
 
-	static bool valid() { return subject() != 0; }
-
 private:
 	static T*& subject() {
-		static T* t = 0;
+		static T* t = NULL;
 		return t;
 	}
 
@@ -31,5 +31,3 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

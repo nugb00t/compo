@@ -1,5 +1,4 @@
-#ifndef KN_SIGLETON_INCLUDED
-#define KN_SIGLETON_INCLUDED
+#pragma once
 
 namespace kaynine {
 
@@ -7,8 +6,7 @@ namespace kaynine {
 
 template <class T>
 struct Singleton {
-	Singleton() {}			//< Allows to skip ctor declaration in child classes
-
+public:
 	static T& inst() {
 		static T t;
 		return t;
@@ -22,5 +20,3 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

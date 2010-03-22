@@ -216,6 +216,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\extern\kaynine\kaynine\utility\registry.h"
+						>
+					</File>
+					<File
 						RelativePath=".\extern\kaynine\kaynine\utility\safe_bool.h"
 						>
 					</File>
@@ -261,6 +265,10 @@
 					</File>
 					<File
 						RelativePath=".\extern\kaynine\kaynine\memory\pooled.h"
+						>
+					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\memory\pooled_ptr.h"
 						>
 					</File>
 				</Filter>
@@ -464,6 +472,14 @@
 			<Filter
 				Name="core"
 				>
+				<File
+					RelativePath=".\engine\core\core.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\engine\core\core.h"
+					>
+				</File>
 				<File
 					RelativePath=".\engine\core\profiler.cpp"
 					>

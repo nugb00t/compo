@@ -1,5 +1,4 @@
-#ifndef KN_REGISTRY_INCLUDED
-#define KN_REGISTRY_INCLUDED
+#pragma once
 
 #include "singleton.h"
 #include "../threading/sync_wrappers.h"
@@ -170,5 +169,3 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

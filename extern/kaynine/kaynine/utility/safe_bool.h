@@ -1,5 +1,4 @@
-#ifndef KN_SAFE_BOOL_INCLUDED
-#define KN_SAFE_BOOL_INCLUDED
+#pragma once
 
 namespace kaynine {
 
@@ -87,5 +86,3 @@ void operator!=(const safe_bool<T>& lhs,const safe_bool<U>& rhs) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif

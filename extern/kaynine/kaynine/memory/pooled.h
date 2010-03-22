@@ -1,28 +1,19 @@
-#ifndef _KN_POOLED_INCLUDED_
-#define _KN_POOLED_INCLUDED_
+#pragma once
 
 #include <new>
 
-
-#ifndef UNUSED
-# define UNUSED(x)
-#endif
-
-
 namespace kaynine {
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Base class for the objects created on MemoryPool
-//
 // Inherit from this class to allow creation on the pool
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 template <class TPool>
 struct Pooled {
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//-----------------------------------------------------------------------------------------------------------------
 	// Implemented as inner class to have access to the Pooled::TPool type, since Allocator::T could differ from Pooled
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	template <class T>
 	class Allocator {
 		typedef Pooled<TPool> Outer;
@@ -61,7 +52,7 @@ struct Pooled {
 		size_type max_size() const throw() { return Outer::pool().maxSize() / sizeof(T); }
 
 		// allocate but don't initialize num elements of type T
-		pointer allocate(size_type num, const void* UNUSED(hint) = 0) {
+		pointer allocate(size_type num, const void* /*hint*/ = 0) {
 			pointer p = reinterpret_cast<pointer>(Outer::pool().allocate(num * sizeof(T)));
 
 			if (!p)
@@ -85,8 +76,9 @@ struct Pooled {
 		}
 	};
 
+	//-----------------------------------------------------------------------------------------------------------------
+	
 	typedef Pooled<TPool> ThisClass;
-
 
 	static TPool& pool() { return Singleton<TPool>::inst(); }
 
@@ -98,18 +90,15 @@ struct Pooled {
 	}
 };
 
-
-//==============================================================================================================================================
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // return that all specializations of this allocator are interchangeable 
-//==============================================================================================================================================
+
 template <class P1, class P2, class T1, class T2>
 bool operator== (const typename Pooled<P1>::Allocator<T1>&, const typename Pooled<P2>::Allocator<T2>&) throw() { return true; }
 
 template <class P1, class P2, class T1, class T2>
 bool operator!= (const typename Pooled<P1>::Allocator<T1>&, const typename Pooled<P2>::Allocator<T2>&) throw() { return false; }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 } //namespace kaynine
-
-
-#endif // _KN_POOLED_INCLUDED_

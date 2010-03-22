@@ -30,9 +30,11 @@ VideoImplD3D9::~VideoImplD3D9() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoImplD3D9::initialize() {
-	d3d_ = Direct3DCreate9(D3D_SDK_VERSION);
-	if (!d3d_)
+	d3d_ = ::Direct3DCreate9(D3D_SDK_VERSION);
+	if (!d3d_) {
+		TRACE_ERROR(_T("::Direct3DCreate9(%d)"), D3D_SDK_VERSION);
 		return false;
+	}
 
 	D3DPRESENT_PARAMETERS d3dpp;
 	::ZeroMemory(&d3dpp, sizeof(d3dpp));
@@ -43,9 +45,11 @@ bool VideoImplD3D9::initialize() {
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; // D3DPRESENT_INTERVAL_ONE; // 
 
-	const bool ok = SUCCEEDED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_engine.window->handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(& D3DCREATE_PUREDEVICE), &d3dpp, &device_));
-	if (!ok)
+	const bool ok = SUCCEEDED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_engine.window->handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(| D3DCREATE_PUREDEVICE), &d3dpp, &device_));
+	if (!ok) {
+		TRACE_ERROR(_T("IDirect3D9::CreateDevice() failed"));
 		return false;
+	}
 
 	vertexDecls_.initialize();
 
