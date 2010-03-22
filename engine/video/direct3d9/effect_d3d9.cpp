@@ -43,8 +43,10 @@ void EffectD3D9::setTexUniforms(const TextureUniform* const texUniforms) {
         if (!texUniforms_[i].name || !texUniforms_[i].path) {
             assert(!texUniforms_[i].name && !texUniforms_[i].path);
             break;
-        } else if (!textures_[i] || textures_[i]->path() && _tcscmp(texUniforms_[i].path, textures_[i]->path()))
+		} else if (!textures_[i] || textures_[i]->path() && _tcscmp(texUniforms_[i].path, textures_[i]->path())) {
             textures_[i].reset(new TextureD3D9(texUniforms_[i].path));
+			CHECKED_CALL_A(textures_[i]->initialize());
+		}
     }
 
     for (; i < MAX_TEXTURES; ++i)
@@ -56,7 +58,7 @@ void EffectD3D9::setTexUniforms(const TextureUniform* const texUniforms) {
 void EffectD3D9::setTransform(const Matrix44& transform) {
     D3DXHANDLE handle = effect_->GetParameterByName(0, "TRANSFORM");
     assert(handle);
-    CHECKED_D3D_CALL(effect_->SetMatrix(handle, transform.d3dMatrix()));
+    CHECKED_D3D_CALL_A(effect_->SetMatrix(handle, transform.d3dMatrix()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,8 +105,8 @@ void EffectD3D9::next() {
 void EffectD3D9::end() {
 	assert(effect_);
 
-	CHECKED_D3D_CALL(effect_->EndPass());
-	CHECKED_D3D_CALL(effect_->End());
+	CHECKED_D3D_CALL_A(effect_->EndPass());
+	CHECKED_D3D_CALL_A(effect_->End());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

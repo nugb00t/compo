@@ -15,7 +15,7 @@ public:
 	virtual void terminate();
 
 	virtual const uint period() const { return PERIOD; }	// *1 milliseconds
-	virtual const uint delay() const { return DELAY; }		// *100 nanoseconds
+	virtual const uint delay() const  { return DELAY;  }	// *100 nanoseconds
 
 protected:
 	// interface: own

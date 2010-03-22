@@ -32,7 +32,7 @@ VideoImplD3D9::~VideoImplD3D9() {
 bool VideoImplD3D9::initialize() {
 	d3d_ = ::Direct3DCreate9(D3D_SDK_VERSION);
 	if (!d3d_) {
-		TRACE_ERROR(_T("::Direct3DCreate9(%d)"), D3D_SDK_VERSION);
+		TRACE_D3D_ERROR(D3D_OK, _T("::Direct3DCreate9(%d)"), D3D_SDK_VERSION);
 		return false;
 	}
 
@@ -45,15 +45,9 @@ bool VideoImplD3D9::initialize() {
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; // D3DPRESENT_INTERVAL_ONE; // 
 
-	const bool ok = SUCCEEDED(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_engine.window->handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(| D3DCREATE_PUREDEVICE), &d3dpp, &device_));
-	if (!ok) {
-		TRACE_ERROR(_T("IDirect3D9::CreateDevice() failed"));
-		return false;
-	}
+	CHECKED_D3D_CALL(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_engine.window->handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(| D3DCREATE_PUREDEVICE), &d3dpp, &device_));
 
-	vertexDecls_.initialize();
-
-	return true;
+	return vertexDecls_.initialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,6 +86,18 @@ void VideoImplD3D9::end() {
 
 void VideoImplD3D9::present() {
 	device_->Present(NULL, NULL, NULL, NULL);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Texture* VideoImplD3D9::createTexture(const TCHAR* const path) {
+	Texture* tex = new TextureD3D9(path);
+	if (tex->initialize())
+		return tex;
+	else {
+		delete tex;
+		return NULL;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

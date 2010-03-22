@@ -10,8 +10,6 @@ using namespace engine;
 TextureD3D9::TextureD3D9(const TCHAR* const path)
 : texture_(NULL), path_(path) {
 	assert(path);
-
-	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&g_engine.videoImplD3D9->device(), path, &texture_));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,10 +21,17 @@ TextureD3D9::~TextureD3D9() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+bool TextureD3D9::initialize() {
+	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&g_engine.videoImplD3D9->device(), path_, &texture_));
+	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void TextureD3D9::activate(const uint stage) {
 	assert(texture_);
 
-	CHECKED_D3D_CALL(g_engine.videoImplD3D9->device().SetTexture(stage, texture_));
+	CHECKED_D3D_CALL_A(g_engine.videoImplD3D9->device().SetTexture(stage, texture_));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -11,6 +11,8 @@ public:
 	static const uint FRAMERATE = 60;
 
 public:
+	virtual bool initialize() = 0;
+
     const InputData& controls() const { return controls_; }
 
 protected:

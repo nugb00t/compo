@@ -53,14 +53,14 @@ void Resources::reset() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const uint Resources::add(const TCHAR* const path, kaynine::MemoryPool* pool) {
+const uint Resources::add(const TCHAR* const path, kaynine::MemoryPool& pool) {
 	kaynine::AutoLock<> lock(guard_);
 
 	assert(vacant_ < MAX_RESOURCES - 1 && path);
 
 	// initialize Resource	
 	_tcsncpy(&resources_[vacant_].path[0], path, MAX_PATH);
-	resources_[vacant_].pool = pool;
+	resources_[vacant_].pool = &pool;
 
 	resources_[vacant_].buffer = NULL;
 	resources_[vacant_].size = 0;
@@ -172,7 +172,7 @@ void Resources::complete(const unsigned slot) {
 		resource.status = Resource::Error;
 	}
 
-	CHECKED_WINAPI_CALL(::CloseHandle(slots_[slot].file));
+	CHECKED_WINAPI_CALL_A(::CloseHandle(slots_[slot].file));
 	events_.reset(slot, 1);
 
 	slots_[slot].status = Slot::Vacant;

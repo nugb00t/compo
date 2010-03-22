@@ -9,8 +9,6 @@ namespace engine {
 class Core {
 public:
     Core();
-	~Core();
-
 	void run();
 
 private:

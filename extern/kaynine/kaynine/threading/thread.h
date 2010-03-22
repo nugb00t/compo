@@ -44,15 +44,10 @@ DWORD WINAPI Thread<Sync>::func(void* something) {
 
 	ThreadObject& object = *reinterpret_cast<ThreadObject*>(something);
 
-	if (Sync::exit.isSet() || !object.initialize())
-		return (DWORD)-1;
+	if (!Sync::exit.isSet() && object.initialize())
+		while (!Sync::exit.isSet() && object.update());
 
-	// synchronize thread start
-	Sync::start.wait();
-
-	while (!Sync::exit.isSet())
-		if (!object.update())
-			Sync::exit.set();
+	Sync::exit.set();
 
 	object.terminate();
 
@@ -66,21 +61,13 @@ DWORD WINAPI PulseThread<Sync>::func(void* something) {
 	assert(something);
 	
 	PulseThreadObject& object = *reinterpret_cast<PulseThreadObject*>(something);
-
-	if (Sync::exit.isSet() || !object.initialize())
-		return (DWORD)-1;
-
 	WaitableTimer timer(object.period(), object.delay());
-	MultipleObjects events(Sync::exit, timer);
 
-	// synchronize thread start
-	Sync::start.wait();
-	
-	const unsigned waitPeriod = 2 * object.period();
-	unsigned wait;
-	for (wait = events.waitAny(waitPeriod); wait != WAIT_OBJECT_0 && wait != WAIT_FAILED && wait != WAIT_ABANDONED; wait = events.waitAny(waitPeriod))
-		if (!object.update())
-			Sync::exit.set();
+	if (!Sync::exit.isSet() && object.initialize()) {
+		MultipleObjects events(Sync::exit, timer);
+		while (events.waitAny(2 * object.period()) == WAIT_OBJECT_0 + 1 && object.update());
+	}		
+	Sync::exit.set();
 
 	object.terminate();
 

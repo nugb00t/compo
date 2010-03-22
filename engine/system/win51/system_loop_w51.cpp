@@ -20,7 +20,9 @@ bool SystemLoopW51::initialize() {
     if (!g_engine.window->create(SystemLoopW51::wndProc, 800, 600, 32, 0, false))
         return false;
 
-    // this needs a proper sync
+	CHECKED_CALL_A(g_engine.input->initialize());
+
+    // TODO: this needs a proper sync
     assert(g_engine.window->handle());
     timer_.set(PERIOD, g_engine.window->handle());
 

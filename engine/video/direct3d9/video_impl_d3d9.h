@@ -35,7 +35,7 @@ public:
 	virtual DynamicMesh* createMesh(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) { return new DynamicMeshD3D9(effect, vertexSize, vertexCapacity, indexCapacity); }
 
 	virtual Effect* createEffect(const VertexDecls::Type vertexDecl) { return new EffectD3D9(vertexDecl); }
-	virtual Texture* createTexture(const TCHAR* const path) { return new TextureD3D9(path); }
+	virtual Texture* createTexture(const TCHAR* const path);
 
 	virtual void activateVertexDecl(const VertexDecls::Type type) { vertexDecls_.activate(type); }
 

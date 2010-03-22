@@ -14,13 +14,9 @@ class PooledPtrBase {
 public:
 	virtual ~PooledPtrBase () {}
 
-	inline void* operator new(size_t size, MemoryPool& pool) {
-		return pool.allocate(size);
-	}
+	inline void* operator new(size_t size, MemoryPool& pool) { return pool.allocate(size); }
 
-	inline void operator delete(void* p, MemoryPool& pool) {
-		pool.deallocate(p);
-	}
+	inline void operator delete(void* p, MemoryPool& pool)	 { pool.deallocate(p); }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

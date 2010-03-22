@@ -11,13 +11,18 @@ using namespace engine;
 
 InputW51::InputW51() {
 	memset(&controls_, 0, sizeof(controls_));
+}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool InputW51::initialize() {
 	RAWINPUTDEVICE rid[2] = {
-		{ 0x01, 0x02, 0/*RIDEV_NOLEGACY*/, NULL },		// mouse
+		{ 0x01, 0x02, 0/*RIDEV_NOLEGACY*/, NULL },	// mouse
 		{ 0x01, 0x06, RIDEV_NOLEGACY, NULL }		// keyboard
 	};
 
 	CHECKED_CALL(::RegisterRawInputDevices(rid, 2, sizeof(rid[0])));
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

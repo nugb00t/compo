@@ -11,23 +11,22 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Core::Core() : threads_(&handles_[0], sizeof(handles_) / sizeof(HANDLE)) {
-	handles_[0] = kaynine::Thread<Sync>::create(g_engine.systemLoop);
-	handles_[1] = kaynine::Thread<Sync>::create(g_engine.resources.get());
-	handles_[2] = kaynine::PulseThread<Sync>::create(g_engine.server.get());
-	handles_[3] = kaynine::PulseThread<Sync>::create(g_game.video.get());
-}
+	// singletons
+	kaynine::Trace::inst();
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// threads
+	handles_[0] = kaynine::Thread<Sync>::create(g_engine.resources.get());
 
-Core::~Core() {
-	threads_.waitAll();
+	handles_[1] = kaynine::PulseThread<Sync>::create(g_engine.server.get());
+	handles_[2] = kaynine::PulseThread<Sync>::create(g_game.video.get());
+
+	handles_[3] = kaynine::Thread<Sync>::create(g_engine.systemLoop);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Core::run() {
-	// synchronize thread start
-	Sync::start.set();
+	threads_.waitAll();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

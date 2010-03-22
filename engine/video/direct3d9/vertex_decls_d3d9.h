@@ -21,7 +21,7 @@ public:
 
 public:
 	// interface: VertexDecls
-	virtual void initialize();
+	virtual bool initialize();
 	virtual void activate(const Type type);
 
 private:

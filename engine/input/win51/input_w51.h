@@ -17,6 +17,9 @@ class InputW51 : public Input {
 public:
 	InputW51();
 
+	// interface: Input
+	virtual bool initialize();
+
 	inline void processRawInput(const HRAWINPUT handle, const uint now) {
 #ifdef USE_BUFFERED_RAW_INPUT
 		unbuffered(handle, now);

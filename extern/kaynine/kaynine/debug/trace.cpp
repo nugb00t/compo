@@ -1,19 +1,27 @@
 //#include <kaynine/string_tools/tstring.h>
 //#include <kaynine/string_tools/string_conv.h>
 
-#include <kaynine/debug/trace.h>
+#include "trace.h"
+#include "../threading/sync_wrappers.h"
 
 #include <stdio.h>
 #include <tchar.h>
+#include <dxerr.h>
 
 using namespace kaynine;
 
-const WORD Trace::COLORS[LEVEL_COUNT] = {
-	FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,	// LEVEL_NOTICE
-	FOREGROUND_GREEN,										// LEVEL_GOOD
-	FOREGROUND_RED | FOREGROUND_GREEN,						// LEVEL_WARNING
-	FOREGROUND_RED,											// LEVEL_ERROR
-};
+namespace {
+
+	const WORD colors[Trace::LEVEL_COUNT] = {
+		FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,	// LEVEL_NOTICE
+		FOREGROUND_GREEN,										// LEVEL_GOOD
+		FOREGROUND_RED | FOREGROUND_GREEN,						// LEVEL_WARNING
+		FOREGROUND_RED,											// LEVEL_ERROR
+	};
+
+	CriticalSection guard;
+
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,6 +53,7 @@ Trace::~Trace() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#if 0
 void Trace::output(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...) {
 	va_list	args;
 	va_start(args, format);
@@ -71,19 +80,26 @@ void Trace::output(const char* file, const int line, const char* func, const Lev
 
 	va_end(args);
 }
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Trace::print(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...) {
+void Trace::print(const char* file, 
+				  const int line, 
+				  const char* func, 
+				  const Level level,
+				  const Source source,
+				  const unsigned error,
+				  const TCHAR* format, ...) {
 	va_list	args;
 	va_start(args, format);
 
 	if (level < level_)
 		return;
 
-	AutoLock<> lock(guard_);
+	AutoLock<> lock(guard);
 	
-	::SetConsoleTextAttribute(handle_, COLORS[level]);
+	::SetConsoleTextAttribute(handle_, colors[level]);
 	
 	_ftprintf(stderr, _T("[%10d] "), ::time(0) - zero_);
 
@@ -101,14 +117,14 @@ void Trace::print(const char* file, const int line, const char* func, const Leve
 		_ftprintf(stderr, "%40s(): ", func);
 #endif
 
-	::SetConsoleTextAttribute(handle_, COLORS[level] | FOREGROUND_INTENSITY);
+	::SetConsoleTextAttribute(handle_, colors[level] | FOREGROUND_INTENSITY);
 
 	_vftprintf(stderr, format, args);
 	
-	const DWORD error = ::GetLastError();
 	if (level >= LEVEL_WARNING && error) {
 		::SetConsoleTextAttribute(handle_, FOREGROUND_RED | FOREGROUND_INTENSITY);
-		_ftprintf(stderr, _T(" #%d: %s"), error, errorString(error));
+		_ftprintf(stderr, _T(" #%d: %s"), error, errorString(source, error));
+		::DebugBreak();
 	} else
 		_ftprintf(stderr, _T("\n"));
 
@@ -120,12 +136,30 @@ void Trace::print(const char* file, const int line, const char* func, const Leve
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const TCHAR* Trace::errorString(const DWORD code) {
+const TCHAR* Trace::errorString(const Source source, const DWORD code) {
 	static const unsigned BUFFER_LENGTH = 1024;
 	static TCHAR buffer[BUFFER_LENGTH];
 
-	::FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-					NULL, code, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buffer, BUFFER_LENGTH, NULL);
+	switch (source) {
+		case SOURCE_NONE:
+			return NULL;
+
+		case SOURCE_GEN:
+			return _tcserror(code);
+			break;
+
+		case SOURCE_WIN:
+			::FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+				NULL, code, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buffer, BUFFER_LENGTH, NULL);
+			break;
+
+		case SOURCE_D3D:
+			_sntprintf(buffer, BUFFER_LENGTH, _T("%s (%s)"), ::DXGetErrorString(code), ::DXGetErrorDescription(code));
+			break;
+
+		default:
+			assert(false);
+	}
 					
 	return buffer;
 }

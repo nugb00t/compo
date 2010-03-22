@@ -7,13 +7,13 @@
 #include <windows.h>	// OutputDebugString()
 #include <winbase.h>	// OutputDebugString()
 
-#include "../threading/sync_wrappers.h"
+#include "../utility/singleton.h"
 
 namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Trace {
+class Trace : public kaynine::Singleton<Trace> {
 	static const unsigned TRACE_LINE_LENGTH = 4096;
 	
 public:
@@ -24,9 +24,14 @@ public:
 		LEVEL_ERROR,
 		LEVEL_COUNT
 	};
-	
-	static const WORD COLORS[LEVEL_COUNT];
 
+	enum Source {
+		SOURCE_NONE,
+		SOURCE_GEN,
+		SOURCE_WIN,
+		SOURCE_D3D,
+	};
+	
 public:
 	Trace(const Level level = LEVEL_NOTICE);
 	~Trace();
@@ -37,16 +42,21 @@ private:
 public:
 	void setLevel(const Level level) { level_ = level; }
 	
-	void output(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...);
-	void print(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...);
+	//void output(const char* file, const int line, const char* func, const Level level, const TCHAR* format, ...);
+	void print(const char* file, 
+			   const int line, 
+			   const char* func, 
+			   const Level level, 
+			   const Source source,
+			   const unsigned error,
+			   const TCHAR* format, ...);
 	
-	static const TCHAR* errorString(const DWORD code);
+	static const TCHAR* errorString(const Source source, const DWORD code);
 
 private:
 	const time_t zero_;
 	const HANDLE handle_;
 	Level level_;
-	CriticalSection guard_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

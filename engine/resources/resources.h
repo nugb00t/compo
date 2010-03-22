@@ -4,6 +4,25 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+struct Resource {
+	TCHAR path[MAX_PATH];
+	kaynine::MemoryPool* pool;
+	
+	// state
+	void* buffer;
+	uint size;
+
+	enum Status {
+		Vacant,
+		Pending,
+		Processing,
+		Done,
+		Error,
+	} status;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class Resources : public kaynine::ThreadObject {
 	static const uint MAX_RESOURCES = 64;
 	static const uint SLOT_COUNT = 4;
@@ -20,24 +39,6 @@ class Resources : public kaynine::ThreadObject {
 	};
 	
 public:
-	struct Resource {
-		TCHAR path[MAX_PATH];
-		kaynine::MemoryPool* pool;
-		
-		// state
-		void* buffer;
-		uint size;
-
-		enum Status {
-			Vacant,
-			Pending,
-			Processing,
-			Done,
-			Error,
-		} status;
-	};
-	
-public:
 	Resources();
 
 	// interface: kaynine::PulseThreadObject
@@ -46,7 +47,7 @@ public:
 	
 	// interface: own
 	void reset();
-	const uint add(const TCHAR* const path, kaynine::MemoryPool* pool);
+	const uint add(const TCHAR* const path, kaynine::MemoryPool& pool);
 	
 	// TODO: add
 	//void refresh();

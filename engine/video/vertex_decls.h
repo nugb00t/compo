@@ -45,7 +45,7 @@ public:
     //-----------------------------------------------------------------------------------------------------------------
 
 public:
-	virtual void initialize() = 0;
+	virtual bool initialize() = 0;
 	virtual void activate(const Type type) = 0;
 };
 
