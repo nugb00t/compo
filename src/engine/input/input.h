@@ -13,10 +13,10 @@ public:
 public:
 	virtual bool initialize() = 0;
 
-    const InputData& controls() const { return controls_; }
+    const Controls& controls() const { return controls_; }
 
 protected:
-    InputData controls_;
+    Controls controls_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

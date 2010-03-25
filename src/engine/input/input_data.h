@@ -6,7 +6,7 @@ namespace engine {
 
 // Track the time of the input event in addition to the event itself.
 // May allow for more precise (?) button handling and / or smarter (?) axis interpolation.
-struct InputData {
+struct Controls {
 	static const uint BUTTON_COUNT = 256;      // windows VKeys
 	static const uint AXIS_HISTORY = 4;
 

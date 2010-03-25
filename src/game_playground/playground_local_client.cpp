@@ -4,7 +4,6 @@
 
 #include "engine.h"
 
-using namespace engine;
 using namespace game_playground;
 
 namespace {
@@ -14,14 +13,14 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameLocalClient::handleControls(const InputData& controls, ServerRequests::Client& request) {
+void GameLocalClient::handleControls(const engine::Controls& controls, engine::ServerRequests::Client& request) {
 	assert(!request.valid);
 
 	const uint now = g_engine.time->msec();
 
-	const InputData::AxisEvent& x = controls.axis[InputData::MOUSE_X].get();
+	const engine::Controls::AxisEvent& x = controls.axis[engine::Controls::MOUSE_X].get();
 	const uint ageX = now - x.time;
-	const InputData::AxisEvent& y = controls.axis[InputData::MOUSE_Y].get();
+	const engine::Controls::AxisEvent& y = controls.axis[engine::Controls::MOUSE_Y].get();
 	const uint ageY = now - y.time;
 
 	request.positionalVelocity = Vector3(
@@ -34,7 +33,7 @@ void GameLocalClient::handleControls(const InputData& controls, ServerRequests::
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameLocalClient::showWorld(const ServerState& fromArbiter, ServerState& toVideo) {
+void GameLocalClient::showWorld(const engine::ServerState& fromArbiter, engine::ServerState& toVideo) {
 	memcpy(&toVideo, &fromArbiter, sizeof(toVideo));
 }
 

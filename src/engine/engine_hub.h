@@ -14,10 +14,13 @@
 	#include "video/direct3d9/video_impl_d3d9.h"
 #endif
 
+#include "client/local_client.h"
 #include "logic/logic.h"
+#include "server/server.h"
+
 #include "core/sync.h"
 #include "core/time.h"
-#include "server/server.h"
+
 #include "utility/profiler.h"
 #include "utility/resources.h"
 
@@ -45,6 +48,7 @@ public:
 	
 	VideoImpl* const videoImpl;
 
+	const boost::scoped_ptr<LocalClient> localClient;
 	const boost::scoped_ptr<Logic> logic;
 	const boost::scoped_ptr<Profiler> profiler;
 	const boost::scoped_ptr<Time> time;
@@ -67,6 +71,7 @@ public:
 		videoImplD3D9(new VideoImplD3D9), 
 		videoImpl(videoImplD3D9.get()), 
 #endif
+		localClient(new LocalClient),
 		logic(new Logic),
 		profiler(new Profiler),
 		time(new Time),

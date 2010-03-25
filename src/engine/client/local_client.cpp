@@ -3,6 +3,7 @@
 #include "local_client.h"
 
 #include "engine.h"
+#include "game.h"
 
 #include "core/sync.h"
 #include "utility/profiler.h"
@@ -22,7 +23,7 @@ void LocalClient::update() {
 	assert(toArbiter);
 
 	memset(&toArbiter.data(), 0, sizeof(toArbiter.data()));
-	handleControls(g_engine.input->controls(), toArbiter.data());
+	g_game.localClient->handleControls(g_engine.input->controls(), toArbiter.data());
 
 	Sync::ArbiterToClient::Readable fromArbiter(Sync::inst().arbiterToClient);
 	//if (fromArbiter && fromArbiter.age())
@@ -32,7 +33,7 @@ void LocalClient::update() {
 	assert(toVideo);
 
 	if (fromArbiter)
-		showWorld(fromArbiter.data(), toVideo.data());
+		g_game.localClient->showWorld(fromArbiter.data(), toVideo.data());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -97,7 +97,7 @@ LRESULT CALLBACK SystemLoopW51::wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 				break;
 
 		case WM_TIMER: // 0x0113
-			g_game.localClient->update();
+			g_engine.localClient->update();
 			break;
 
 		case WM_INPUT: // 0x00FF
