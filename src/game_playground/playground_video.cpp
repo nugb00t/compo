@@ -12,14 +12,14 @@ using namespace game_playground;
 
 void GameVideo::doUpdate() {
 	if (!initialized_) {
-		orthoCamera_.reset(g_engine.videoImpl->createOrthoCamera());
-		projCamera_.reset(g_engine.videoImpl->createProjCamera());
+		orthoCamera_.reset(Engine::inst().videoImpl->createOrthoCamera());
+		projCamera_.reset(Engine::inst().videoImpl->createProjCamera());
 		
 		for (uint i = 0; i < GameEntityFactory::MAX_ENTITIES; ++i)
-			entities_[i].reset(g_game.entityFactory->createVideoComponent(i));
+			entities_[i].reset(Game::inst().entityFactory->createVideoComponent(i));
 	
 		for (uint i = 0; i < GameScreenFactory::MAX_SCREENS; ++i)
-			screens_[i].reset(g_game.screenFactory->createVideoComponent(i));
+			screens_[i].reset(Game::inst().screenFactory->createVideoComponent(i));
 			
 		initialized_ = true;
 	}

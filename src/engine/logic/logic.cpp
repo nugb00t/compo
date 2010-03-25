@@ -22,7 +22,7 @@ void Logic::decide(const ServerState& last, ServerRequests::Entity entities[Serv
 
 	// TEMP
 	if (!entities_[0])
-		entities_[0] = g_game.entityFactory->createLogicComponent(0);
+		entities_[0] = Game::inst().entityFactory->createLogicComponent(0);
 	// TEMP
 
 	for (uint i = 0; i < ServerState::MAX_ENTITIES; ++i)

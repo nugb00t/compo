@@ -72,6 +72,8 @@
 #include <kaynine/threading/frame_buffer.h>
 #include <kaynine/threading/thread.h>
 #include <kaynine/threading/thread_base.h>
+#include <kaynine/utility/holder.h>
+#include <kaynine/utility/singleton.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

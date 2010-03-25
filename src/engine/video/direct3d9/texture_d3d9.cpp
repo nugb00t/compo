@@ -22,7 +22,7 @@ TextureD3D9::~TextureD3D9() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool TextureD3D9::initialize() {
-	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&g_engine.videoImplD3D9->device(), path_, &texture_));
+	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&Engine::inst().videoImplD3D9->device(), path_, &texture_));
 	return true;
 }
 
@@ -31,7 +31,7 @@ bool TextureD3D9::initialize() {
 void TextureD3D9::activate(const uint stage) {
 	assert(texture_);
 
-	CHECKED_D3D_CALL_A(g_engine.videoImplD3D9->device().SetTexture(stage, texture_));
+	CHECKED_D3D_CALL_A(Engine::inst().videoImplD3D9->device().SetTexture(stage, texture_));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

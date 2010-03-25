@@ -17,14 +17,14 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool SystemLoopW51::initialize() {
-    if (!g_engine.window->create(SystemLoopW51::wndProc, 800, 600, 32, 0, false))
+    if (!Engine::inst().window->create(SystemLoopW51::wndProc, 800, 600, 32, 0, false))
         return false;
 
-	CHECKED_CALL_A(g_engine.input->initialize());
+	CHECKED_CALL_A(Engine::inst().input->initialize());
 
     // TODO: this needs a proper sync
-    assert(g_engine.window->handle());
-    timer_.set(PERIOD, g_engine.window->handle());
+    assert(Engine::inst().window->handle());
+    timer_.set(PERIOD, Engine::inst().window->handle());
 
     return true;
 }
@@ -49,8 +49,8 @@ bool SystemLoopW51::update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SystemLoopW51::terminate() {
-	if (g_engine.window) 
-		g_engine.window->destroy(); 
+	if (Engine::inst().window) 
+		Engine::inst().window->destroy(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,11 +97,11 @@ LRESULT CALLBACK SystemLoopW51::wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 				break;
 
 		case WM_TIMER: // 0x0113
-			g_engine.localClient->update();
+			Engine::inst().localClient->update();
 			break;
 
 		case WM_INPUT: // 0x00FF
-			g_engine.inputW51->processRawInput(reinterpret_cast<HRAWINPUT>(lParam), g_engine.time->msec());
+			Engine::inst().inputW51->processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Engine::inst().time->msec());
 			break;
 	}
 

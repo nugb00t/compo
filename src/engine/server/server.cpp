@@ -41,7 +41,7 @@ bool Server::update() {
     ServerRequests requests;
     memset(&requests, 0, sizeof(requests));
 
-    g_engine.logic->decide(states_.get(-1), requests.entities);
+    Engine::inst().logic->decide(states_.get(-1), requests.entities);
 
     Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter);
 	//if (fromClient && fromClient.age())
@@ -52,7 +52,7 @@ bool Server::update() {
 
 	{
 		Profiler::StopWatch stopWatch(Profiler::SERVER_ARBITER);
-	    g_game.arbiter->marshall(states_.get(-1), requests, states_.get());
+	    Game::inst().arbiter->marshall(states_.get(-1), requests, states_.get());
 	}
 
     Sync::ArbiterToClient::Writable toClient(Sync::inst().arbiterToClient);

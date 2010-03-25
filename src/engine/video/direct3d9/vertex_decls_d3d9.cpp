@@ -48,7 +48,7 @@ VertexDeclsD3D9::~VertexDeclsD3D9() {
 
 bool VertexDeclsD3D9::initialize() {
 	for (uint i = 0; i < COUNT; ++i)
-		CHECKED_D3D_CALL(g_engine.videoImplD3D9->device().CreateVertexDeclaration(ELEMENTS[i], &vertexDecls_[i]));
+		CHECKED_D3D_CALL(Engine::inst().videoImplD3D9->device().CreateVertexDeclaration(ELEMENTS[i], &vertexDecls_[i]));
 
 	return true;
 }
@@ -58,7 +58,7 @@ bool VertexDeclsD3D9::initialize() {
 void VertexDeclsD3D9::activate(const Type type) {
 	assert(0 <= type && type < COUNT);
 
-	CHECKED_D3D_CALL_A(g_engine.videoImplD3D9->device().SetVertexDeclaration(vertexDecls_[type]));
+	CHECKED_D3D_CALL_A(Engine::inst().videoImplD3D9->device().SetVertexDeclaration(vertexDecls_[type]));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

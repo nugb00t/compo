@@ -485,7 +485,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\game_playground\playground_game.cpp"
+					RelativePath=".\src\game_playground\playground_game.h"
 					>
 				</File>
 				<File
@@ -573,10 +573,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\game\game_hub.h"
-					>
-				</File>
-				<File
 					RelativePath=".\src\game\game_local_client.h"
 					>
 				</File>
@@ -590,10 +586,6 @@
 				</File>
 				<File
 					RelativePath=".\src\engine\engine.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\engine\engine_hub.h"
 					>
 				</File>
 				<File

@@ -39,6 +39,7 @@ public:
 	}
 
 	void remove(const unsigned i) {
+		i;
 		assert(i < size_);
 	}
 

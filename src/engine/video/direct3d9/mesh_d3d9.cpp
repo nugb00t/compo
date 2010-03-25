@@ -13,8 +13,8 @@ DynamicMeshD3D9::DynamicMeshD3D9(Effect& effect, const uint vertexSize, const ui
 {
 	assert(vertexSize && vertexCapacity && indexCapacity);
 
-    CHECKED_D3D_CALL_A(g_engine.videoImplD3D9->device().CreateVertexBuffer(vertexSize_ * vertexCapacity_, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &vertexBuffer_, NULL));
-    CHECKED_D3D_CALL_A(g_engine.videoImplD3D9->device().CreateIndexBuffer(sizeof(short) * indexCapacity_, 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &indexBuffer_, NULL));
+    CHECKED_D3D_CALL_A(Engine::inst().videoImplD3D9->device().CreateVertexBuffer(vertexSize_ * vertexCapacity_, D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, 0, D3DPOOL_DEFAULT, &vertexBuffer_, NULL));
+    CHECKED_D3D_CALL_A(Engine::inst().videoImplD3D9->device().CreateIndexBuffer(sizeof(short) * indexCapacity_, 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &indexBuffer_, NULL));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,9 +46,9 @@ void DynamicMeshD3D9::unlock() {
 void DynamicMeshD3D9::streamBuffers(const uint vertexCount, const uint primCount) {
 	assert(vertexBuffer_ && indexBuffer_ && vertexCount && primCount);
 
-	CHECKED_D3D_CALL_A(g_engine.videoImplD3D9->device().SetStreamSource(0, vertexBuffer_, 0, vertexSize_));
-	CHECKED_D3D_CALL_A(g_engine.videoImplD3D9->device().SetIndices(indexBuffer_));
-	CHECKED_D3D_CALL_A(g_engine.videoImplD3D9->device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexCount, 0, primCount));
+	CHECKED_D3D_CALL_A(Engine::inst().videoImplD3D9->device().SetStreamSource(0, vertexBuffer_, 0, vertexSize_));
+	CHECKED_D3D_CALL_A(Engine::inst().videoImplD3D9->device().SetIndices(indexBuffer_));
+	CHECKED_D3D_CALL_A(Engine::inst().videoImplD3D9->device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexCount, 0, primCount));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

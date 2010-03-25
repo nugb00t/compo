@@ -12,7 +12,7 @@ EffectD3D9::EffectD3D9(const VertexDecls::Type vertexDecl)
 	for (uint i = 0; i < MAX_TEXTURES; ++i)
 		textures_[i].reset();
 
-	HRESULT hr = D3DXCreateEffectFromFile(&g_engine.videoImplD3D9->device(), VertexDeclsD3D9::PATHS[vertexDecl], 0, 0, D3DXSHADER_DEBUG, 0, &effect_, &errors_);
+	HRESULT hr = D3DXCreateEffectFromFile(&Engine::inst().videoImplD3D9->device(), VertexDeclsD3D9::PATHS[vertexDecl], 0, 0, D3DXSHADER_DEBUG, 0, &effect_, &errors_);
 	if (hr != D3D_OK)  {
 		assert(errors_);
 
@@ -67,7 +67,7 @@ uint EffectD3D9::begin() {
 	assert(effect_);
     assert(uniforms_);
 
-	g_engine.videoImpl->activateVertexDecl(vertexDecl_);
+	Engine::inst().videoImpl->activateVertexDecl(vertexDecl_);
 
 	D3DXHANDLE techHandle = effect_->GetTechniqueByName("TransformTech");
 	CHECKED_D3D_CALL(effect_->SetTechnique(techHandle));

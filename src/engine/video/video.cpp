@@ -10,7 +10,7 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool Video::initialize() {
-	return g_engine.videoImpl->initialize();
+	return Engine::inst().videoImpl->initialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,14 +18,14 @@ bool Video::initialize() {
 bool Video::update() {
 	Profiler::StopWatch stopWatch(Profiler::VIDEO);
 
-	g_engine.videoImpl->clear();
+	Engine::inst().videoImpl->clear();
 
-	if (g_engine.videoImpl->begin()) {
+	if (Engine::inst().videoImpl->begin()) {
 		doUpdate();
-		g_engine.videoImpl->end();
+		Engine::inst().videoImpl->end();
 	}
 	
-	g_engine.videoImpl->present();
+	Engine::inst().videoImpl->present();
 
     return true;
 }
@@ -33,7 +33,7 @@ bool Video::update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Video::terminate() {
-	g_engine.videoImpl->terminate();
+	Engine::inst().videoImpl->terminate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -33,10 +33,10 @@ namespace {
 
 void ThreadProfilerVideo::draw(const Matrix44& view_projection) {
 	if (!effect_)
-		effect_.reset(g_engine.videoImpl->createEffect(Vertex::type));
+		effect_.reset(Engine::inst().videoImpl->createEffect(Vertex::type));
 
 	if (!mesh_)
-		mesh_.reset(g_engine.videoImpl->createMesh(*effect_, sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
+		mesh_.reset(Engine::inst().videoImpl->createMesh(*effect_, sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
 
 	mesh_->clear();
 	DynamicMesh::BufferAccess access(*mesh_);
@@ -58,12 +58,12 @@ void ThreadProfilerVideo::draw(const Matrix44& view_projection) {
 		access.appendIndex(firstVertex);
 	}
 
-	const uint timeBegin = g_engine.profiler->get(Profiler::VIDEO, -2).begin - 8;
+	const uint timeBegin = Engine::inst().profiler->get(Profiler::VIDEO, -2).begin - 8;
 
 	uint section;
 	for (section = 0; section < Profiler::SECTION_COUNT; ++section) {
 		for (int age = 0; age < Profiler::HISTORY_DEPTH; ++age) {
-			const Profiler::Period& period = g_engine.profiler->get((Profiler::Section)section, -age);
+			const Profiler::Period& period = Engine::inst().profiler->get((Profiler::Section)section, -age);
 
 			const float left	= SCREEN_LEFT + ((float)period.begin - timeBegin - 0.5f) * TIME_FRAME;
 			const float right	= SCREEN_LEFT + ((float)period.end   - timeBegin + 0.5f) * TIME_FRAME;
