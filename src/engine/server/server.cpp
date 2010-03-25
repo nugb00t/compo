@@ -45,7 +45,7 @@ bool Server::update() {
 
     Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter);
 	//if (fromClient && fromClient.age())
-	//	::OutputDebugString(_T("Server::update(): failed to open Arbiter package\n"));
+	//	::OutputDebugString(_T("Server::update(): failed to open GameArbiter package\n"));
 
     if (fromClient)
         requests.clients[0] = fromClient.data();

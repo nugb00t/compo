@@ -8,7 +8,7 @@ namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class GameArbiter : public engine::Arbiter {
+class GameArbiter : public engine::GameArbiter {
 public:
 	virtual ~GameArbiter() {}
 

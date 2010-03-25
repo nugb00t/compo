@@ -6,9 +6,9 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Arbiter {
+class GameArbiter {
 public:
-	virtual ~Arbiter() {}
+	virtual ~GameArbiter() {}
 
 public:
     virtual void marshall(const ServerState& last, const ServerRequests& requests, ServerState& next) = 0;

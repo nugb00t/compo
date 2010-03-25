@@ -20,13 +20,13 @@ public:
 	StaticArray(const TValue& null = 0) : null_(null), vacant_(0), size_(0) {}
 
 	const unsigned add(TValue& value) {
-		assert(value != TNull);	// StaticArray operates with non-zero TValues only
+		assert(value != null_);	// StaticArray operates with non-zero TValues only
 
 		if (vacant_ < size_) {
 			values_[vacant_] = value;
 
 			const unsigned inserted = vacant_;
-			while(vacant_ < size_ && values_[vacant_] != TNull)
+			while(vacant_ < size_ && values_[vacant_] != null_)
 				++vacant_;
 
 			return inserted;
@@ -39,8 +39,12 @@ public:
 	}
 
 	void remove(const unsigned i) {
-		i;
-		assert(i < size_);
+		assert(i < size_ && i != vacant_);
+		values_[i] = null_;
+		vacant_ = i;
+		
+		if (i == size_ - 1)
+			--size_;
 	}
 
 	TValue& operator [](const unsigned i) { assert(i < size_); return values_[i]; }

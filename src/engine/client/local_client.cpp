@@ -27,7 +27,7 @@ void LocalClient::update() {
 
 	Sync::ArbiterToClient::Readable fromArbiter(Sync::inst().arbiterToClient);
 	//if (fromArbiter && fromArbiter.age())
-	//	::OutputDebugString(_T("LocalClient::update(): failed to open Arbiter package\n"));
+	//	::OutputDebugString(_T("LocalClient::update(): failed to open GameArbiter package\n"));
 
 	Sync::ClientToVideo::Writable toVideo(Sync::inst().clientToVideo);
 	assert(toVideo);
