@@ -47,7 +47,6 @@ public:
 
 	const boost::scoped_ptr<Logic> logic;
 	const boost::scoped_ptr<Profiler> profiler;
-	const boost::scoped_ptr<Sync> sync;
 	const boost::scoped_ptr<Time> time;
 	const boost::scoped_ptr<Resources> resources;
 	const boost::scoped_ptr<Server> server;
@@ -70,7 +69,6 @@ public:
 #endif
 		logic(new Logic),
 		profiler(new Profiler),
-		sync(new Sync),
 		time(new Time),
 		resources(new Resources),
 		server(new Server),

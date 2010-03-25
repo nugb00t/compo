@@ -59,6 +59,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <kaynine/containers/cyclic_buffer.h>
+#include <kaynine/containers/static_array.h>
 #include <kaynine/debug/macros.h>
 #include <kaynine/debug/trace.h>
 #include <kaynine/filesystem/tools.h>

@@ -2,24 +2,21 @@
 
 #include "resources.h"
 
+#include "core/sync.h"
 #include "engine.h"
 
 using namespace engine;
 
+Resource Resource::Null;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Resources::Resources() : vacant_(0), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 0, SLOT_COUNT) {
+Resources::Resources() : resources_(Resource::Null), vacant_(0), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 0, SLOT_COUNT) {
 	for (uint i = 0; i < SLOT_COUNT; ++i)
 		slots_[i].status = Slot::Vacant;
-}
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool Resources::initialize() {
 	handles_[SLOT_COUNT + 0] = newResource_.handle();
-	handles_[SLOT_COUNT + 1] = g_engine.sync->exit.handle();
-
-	return true;
+	handles_[SLOT_COUNT + 1] = Sync::inst().exit.handle();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,17 +55,17 @@ const uint Resources::add(const TCHAR* const path, kaynine::MemoryPool& pool) {
 
 	assert(vacant_ < MAX_RESOURCES - 1 && path);
 
-	// initialize Resource	
-	_tcsncpy(&resources_[vacant_].path[0], path, MAX_PATH);
-	resources_[vacant_].pool = &pool;
-
-	resources_[vacant_].buffer = NULL;
-	resources_[vacant_].size = 0;
-	resources_[vacant_].status = Resource::Pending;
+	resources_[vacant_] = Resource(path, &pool, NULL, 0, Resource::Pending);
 
 	newResource_.set();
 
 	return vacant_++;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Resources::remove(const uint resource) {
+	resources_.remove(resource);
 }
 
 //---------------------------------------------------------------------------------------------------------------------

@@ -6,7 +6,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct Sync {
+struct Sync : public kaynine::Singleton<Sync> {
 	// shared buffers
     typedef kaynine::FrameBuffer<ServerRequests::Client> ClientToArbiter;
     typedef kaynine::FrameBuffer<ServerState> ArbiterToClient;
@@ -17,9 +17,9 @@ struct Sync {
     ClientToVideo clientToVideo;
 
 	// events
-	//static kaynine::Event start;
-	//static kaynine::Event stop;
-	static kaynine::Event exit;
+	//kaynine::Event start;
+	//kaynine::Event stop;
+	kaynine::Event exit;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

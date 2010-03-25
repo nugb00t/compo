@@ -29,7 +29,7 @@ void GameVideo::doUpdate() {
 	projCamera_->update();
 
 	// entities
-	Sync::ClientToVideo::Readable fromClient(g_engine.sync->clientToVideo);
+	Sync::ClientToVideo::Readable fromClient(Sync::inst().clientToVideo);
 	if (fromClient)
 		for (uint i = 0; i < ServerState::MAX_ENTITIES; ++i)
 			if (entities_[i])

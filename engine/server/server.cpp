@@ -24,6 +24,10 @@ bool Server::initialize() {
 	states_.get().clients[0].rotationalVelocity.identity();
 	states_.get().clients[0].active = true;
 
+	// TEMP
+	//entities_[0]
+	// TEMP
+
     return true;
 }
 
@@ -39,7 +43,7 @@ bool Server::update() {
 
     g_engine.logic->decide(states_.get(-1), requests.entities);
 
-    Sync::ClientToArbiter::Readable fromClient(g_engine.sync->clientToArbiter);
+    Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter);
 	//if (fromClient && fromClient.age())
 	//	::OutputDebugString(_T("Server::update(): failed to open Arbiter package\n"));
 
@@ -51,7 +55,7 @@ bool Server::update() {
 	    g_game.arbiter->marshall(states_.get(-1), requests, states_.get());
 	}
 
-    Sync::ArbiterToClient::Writable toClient(g_engine.sync->arbiterToClient);
+    Sync::ArbiterToClient::Writable toClient(Sync::inst().arbiterToClient);
     assert(toClient);
 	
 	toClient.data() = states_.get();

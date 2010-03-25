@@ -235,6 +235,10 @@
 						RelativePath=".\extern\kaynine\kaynine\containers\cyclic_buffer.h"
 						>
 					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\containers\static_array.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="memory"
@@ -486,10 +490,6 @@
 				</File>
 				<File
 					RelativePath=".\engine\core\profiler.h"
-					>
-				</File>
-				<File
-					RelativePath=".\engine\core\sync.cpp"
 					>
 				</File>
 				<File

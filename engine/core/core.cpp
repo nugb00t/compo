@@ -12,6 +12,7 @@ using namespace engine;
 
 Core::Core() : threads_(&handles_[0], sizeof(handles_) / sizeof(HANDLE)) {
 	// singletons
+	Sync::inst();
 	kaynine::Trace::inst();
 
 	// threads

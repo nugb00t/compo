@@ -19,6 +19,16 @@ struct Resource {
 		Done,
 		Error,
 	} status;
+
+	Resource(const TCHAR* const path_ = NULL, kaynine::MemoryPool* pool_ = NULL, void* buffer_ = NULL, const uint size_ = 0, const Status status_ = Vacant) 
+		: pool(pool_), buffer(buffer_), size(size_), status(status_) {
+			if (path_)
+				_tcsncpy(&path[0], path_, MAX_PATH);
+			else
+				path[0] = _T('\0');
+	}
+
+	static Resource Null;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +37,8 @@ class Resources : public kaynine::ThreadObject {
 	static const uint MAX_RESOURCES = 64;
 	static const uint SLOT_COUNT = 4;
 	
+	typedef kaynine::StaticArray<Resource, MAX_RESOURCES> Items;
+
 	struct Slot {
 		uint resource;
 		HANDLE file;
@@ -42,12 +54,12 @@ public:
 	Resources();
 
 	// interface: kaynine::PulseThreadObject
-	virtual bool initialize();
 	virtual bool update();
 	
 	// interface: own
 	void reset();
 	const uint add(const TCHAR* const path, kaynine::MemoryPool& pool);
+	void remove(const uint resource);
 	
 	// TODO: add
 	//void refresh();
@@ -60,7 +72,7 @@ private:
 	void complete(const unsigned slot);
 	
 private:
-	Resource resources_[MAX_RESOURCES];
+	Items resources_;
 	uint vacant_;
 
 	Slot slots_[SLOT_COUNT];
