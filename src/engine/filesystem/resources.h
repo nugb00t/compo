@@ -33,7 +33,7 @@ struct Resource {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Resources : public kaynine::ThreadObject {
+class Resources {
 	static const uint MAX_RESOURCES = 64;
 	static const uint SLOT_COUNT = 4;
 	
@@ -53,11 +53,8 @@ class Resources : public kaynine::ThreadObject {
 public:
 	Resources();
 
-	// interface: kaynine::PulseThreadObject
-	virtual bool update();
+	bool update();
 	
-	// interface: own
-	void reset();
 	const uint add(const TCHAR* const path, kaynine::MemoryPool& pool);
 	void remove(const uint resource);
 	

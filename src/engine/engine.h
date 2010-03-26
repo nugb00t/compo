@@ -20,7 +20,7 @@
 #include "core/time.h"
 
 #include "utility/profiler.h"
-#include "utility/resources.h"
+#include "filesystem/resources.h"
 
 namespace engine {
 

@@ -3,6 +3,7 @@
 #include "core.h"
 
 #include "engine.h"
+#include "filesystem/filesystem_thread.h"
 #include "server/server_thread.h"
 #include "video/video_thread.h"
 
@@ -22,11 +23,12 @@ Core::Core() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Core::run() {
+	FileSystemThread fileSystem;
 	ServerThread server;
 	VideoThread video;
 
 	HANDLE handles[] = {
-		kaynine::Thread<Sync>::create(Engine::inst().resources.get()),
+		kaynine::Thread<Sync>::create(&fileSystem),
 		kaynine::PulseThread<Sync>::create(&server),
 		kaynine::PulseThread<Sync>::create(&video),
 		kaynine::Thread<Sync>::create(Engine::inst().systemLoop),

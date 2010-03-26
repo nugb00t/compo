@@ -619,14 +619,6 @@
 						RelativePath=".\src\engine\utility\profiler.h"
 						>
 					</File>
-					<File
-						RelativePath=".\src\engine\utility\resources.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\src\engine\utility\resources.h"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="core"
@@ -867,6 +859,26 @@
 							>
 						</File>
 					</Filter>
+				</Filter>
+				<Filter
+					Name="filesystem"
+					>
+					<File
+						RelativePath=".\src\engine\filesystem\filesystem_thread.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\engine\filesystem\filesystem_thread.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\engine\filesystem\resources.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\engine\filesystem\resources.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
