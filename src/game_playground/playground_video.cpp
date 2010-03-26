@@ -5,15 +5,17 @@
 #include "engine.h"
 #include "game.h"
 
-using namespace engine;
+using engine::Engine;
+using engine::Game;
+using engine::Sync;
 using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameVideo::doUpdate() {
+void GameVideo::update() {
 	if (!initialized_) {
-		orthoCamera_.reset(Engine::inst().videoImpl->createOrthoCamera());
-		projCamera_.reset(Engine::inst().videoImpl->createProjCamera());
+		orthoCamera_.reset(Engine::inst().video->createOrthoCamera());
+		projCamera_.reset(Engine::inst().video->createProjCamera());
 		
 		for (uint i = 0; i < GameEntityFactory::MAX_ENTITIES; ++i)
 			entities_[i].reset(Game::inst().entityFactory->createVideoComponent(i));
@@ -29,9 +31,9 @@ void GameVideo::doUpdate() {
 	projCamera_->update();
 
 	// entities
-	Sync::ClientToVideo::Readable fromClient(Sync::inst().clientToVideo);
+	engine::Sync::ClientToVideo::Readable fromClient(engine::Sync::inst().clientToVideo);
 	if (fromClient)
-		for (uint i = 0; i < ServerState::MAX_ENTITIES; ++i)
+		for (uint i = 0; i < engine::ServerState::MAX_ENTITIES; ++i)
 			if (entities_[i])
 				entities_[i]->draw(fromClient.data().entities[i], projCamera_->view_projection());
 

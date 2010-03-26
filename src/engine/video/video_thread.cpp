@@ -1,39 +1,40 @@
 #include "stdafx.h"
 
-#include "video.h"
+#include "video_thread.h"
 
 #include "engine.h"
+#include "game.h"
 #include "utility/profiler.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Video::initialize() {
-	return Engine::inst().videoImpl->initialize();
+bool VideoThread::initialize() {
+	return Engine::inst().video->initialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Video::update() {
+bool VideoThread::update() {
 	Profiler::StopWatch stopWatch(Profiler::VIDEO);
 
-	Engine::inst().videoImpl->clear();
+	Engine::inst().video->clear();
 
-	if (Engine::inst().videoImpl->begin()) {
-		doUpdate();
-		Engine::inst().videoImpl->end();
+	if (Engine::inst().video->begin()) {
+		Game::inst().video->update();
+		Engine::inst().video->end();
 	}
 	
-	Engine::inst().videoImpl->present();
+	Engine::inst().video->present();
 
     return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Video::terminate() {
-	Engine::inst().videoImpl->terminate();
+void VideoThread::terminate() {
+	Engine::inst().video->terminate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

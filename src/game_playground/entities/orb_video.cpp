@@ -32,10 +32,10 @@ void OrbVideo::draw(const ServerState::Entity& fromClient, const Matrix44& view_
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 
-		effect_.reset(Engine::inst().videoImpl->createEffect(Vertex::type));
+		effect_.reset(Engine::inst().video->createEffect(Vertex::type));
         effect_->setTexUniforms(TEX_UNIFORMS);
 
-        mesh_.reset(Engine::inst().videoImpl->createMesh(*effect_, 
+        mesh_.reset(Engine::inst().video->createMesh(*effect_, 
                                                sizeof(Vertex), 
                                                sizeof(vertices_) / sizeof(Vertex), 
                                                sizeof(indices_) / sizeof(u16)));

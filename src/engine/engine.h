@@ -11,7 +11,7 @@
 #endif
 
 #ifdef VIDEO_DIRECT3D9
-#include "video/direct3d9/video_impl_d3d9.h"
+#include "video/direct3d9/video_d3d9.h"
 #endif
 
 #include "client/local_client.h"
@@ -37,14 +37,14 @@ struct Engine : public kaynine::Singleton<Engine> {
 #endif
 
 #ifdef VIDEO_DIRECT3D9
-	const boost::scoped_ptr<VideoImplD3D9> videoImplD3D9;
+	const boost::scoped_ptr<VideoD3D9> videoD3D9;
 #endif
 
 	Input* const input;
 	SystemLoop* const systemLoop;
 	Window* const window;
 
-	VideoImpl* const videoImpl;
+	VideoImpl* const video;
 
 	const boost::scoped_ptr<LocalClient> localClient;
 	const boost::scoped_ptr<Logic> logic;
@@ -65,8 +65,8 @@ struct Engine : public kaynine::Singleton<Engine> {
 		window(windowW51.get()),
 #endif
 #ifdef VIDEO_DIRECT3D9
-		videoImplD3D9(new VideoImplD3D9), 
-		videoImpl(videoImplD3D9.get()), 
+		videoD3D9(new VideoD3D9), 
+		video(videoD3D9.get()), 
 #endif
 		localClient(new LocalClient),
 		logic(new Logic),

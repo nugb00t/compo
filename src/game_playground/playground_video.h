@@ -1,10 +1,10 @@
 #pragma once
 
 #include "video/video.h"
-#include "video/video_impl.h"
 #include "video/video_component.h"
-
 #include "server/server_data.h"
+
+#include "game_video.h"
 
 #include "playground_factories.h"
 
@@ -12,13 +12,13 @@ namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class GameVideo : public engine::Video {
+class GameVideo : public engine::GameVideo {
 public:
 	GameVideo() : initialized_(false) {}
 	
 protected:
-	// interface: engine::Video
-	virtual void doUpdate();
+	// interface: engine::GameVideo
+	virtual void update();
 
 protected:
 	boost::scoped_ptr<engine::OrthoCamera> orthoCamera_;	// for screens

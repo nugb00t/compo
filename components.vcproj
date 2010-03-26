@@ -576,6 +576,10 @@
 					RelativePath=".\src\game\game_local_client.h"
 					>
 				</File>
+				<File
+					RelativePath=".\src\game\game_video.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="engine"
@@ -688,10 +692,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\src\engine\video\video.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\src\engine\video\video.h"
 						>
 					</File>
@@ -700,7 +700,11 @@
 						>
 					</File>
 					<File
-						RelativePath=".\src\engine\video\video_impl.h"
+						RelativePath=".\src\engine\video\video_thread.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\engine\video\video_thread.h"
 						>
 					</File>
 					<Filter
@@ -747,11 +751,11 @@
 							>
 						</File>
 						<File
-							RelativePath=".\src\engine\video\direct3d9\video_impl_d3d9.cpp"
+							RelativePath=".\src\engine\video\direct3d9\video_d3d9.cpp"
 							>
 						</File>
 						<File
-							RelativePath=".\src\engine\video\direct3d9\video_impl_d3d9.h"
+							RelativePath=".\src\engine\video\direct3d9\video_d3d9.h"
 							>
 						</File>
 					</Filter>

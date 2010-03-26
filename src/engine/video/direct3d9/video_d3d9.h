@@ -1,6 +1,6 @@
 #pragma once
 
-#include "video/video_impl.h"
+#include "video/video.h"
 
 // factory-created objects
 #include "camera_d3d9.h"
@@ -13,10 +13,10 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoImplD3D9 : public VideoImpl {
+class VideoD3D9 : public VideoImpl {
 public:
-    VideoImplD3D9::VideoImplD3D9() : d3d_(NULL), device_(NULL) {}
-    ~VideoImplD3D9();
+    VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL) {}
+    ~VideoD3D9();
 
 public:
 	// interface: VideoImpl
