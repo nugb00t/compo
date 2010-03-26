@@ -812,15 +812,15 @@
 					Name="server"
 					>
 					<File
-						RelativePath=".\src\engine\server\server.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\src\engine\server\server.h"
-						>
-					</File>
-					<File
 						RelativePath=".\src\engine\server\server_data.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\engine\server\server_thread.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\engine\server\server_thread.h"
 						>
 					</File>
 				</Filter>

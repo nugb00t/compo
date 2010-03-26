@@ -15,8 +15,6 @@
 #endif
 
 #include "client/local_client.h"
-#include "logic/logic.h"
-#include "server/server.h"
 
 #include "core/sync.h"
 #include "core/time.h"
@@ -47,13 +45,9 @@ struct Engine : public kaynine::Singleton<Engine> {
 	VideoImpl* const video;
 
 	const boost::scoped_ptr<LocalClient> localClient;
-	const boost::scoped_ptr<Logic> logic;
 	const boost::scoped_ptr<Profiler> profiler;
 	const boost::scoped_ptr<Time> time;
 	const boost::scoped_ptr<Resources> resources;
-	const boost::scoped_ptr<Server> server;
-
-	const boost::scoped_ptr<kaynine::Trace> trace;
 
 	Engine() :
 #ifdef PLATFORM_WIN51
@@ -69,24 +63,10 @@ struct Engine : public kaynine::Singleton<Engine> {
 		video(videoD3D9.get()), 
 #endif
 		localClient(new LocalClient),
-		logic(new Logic),
 		profiler(new Profiler),
 		time(new Time),
-		resources(new Resources),
-		server(new Server),
-		trace(new kaynine::Trace)
+		resources(new Resources)
 	{}
-
-#ifdef PLATFORM_WIN51
-	friend class SystemLoopW51;
-#endif
-
-#ifdef VIDEO_DIRECT3D9
-	friend class EffectD3D9;
-	friend class DynamicMeshD3D9;
-	friend class TextureD3D9;
-	friend class VertexDeclsD3D9;
-#endif
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

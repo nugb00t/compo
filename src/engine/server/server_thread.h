@@ -1,12 +1,13 @@
 #pragma once
 
 #include "server_data.h"
+#include "logic/logic.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Server : public kaynine::PulseThreadObject {
+class ServerThread : public kaynine::PulseThreadObject {
 	static const uint PERIOD = 16;
 	static const uint DELAY = 4 * 10;
 
@@ -30,6 +31,8 @@ private:
 private:
 	States states_;
 	Entities entities_;
+
+	Logic logic_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

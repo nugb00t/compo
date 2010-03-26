@@ -3,6 +3,7 @@
 #include "core.h"
 
 #include "engine.h"
+#include "server/server_thread.h"
 #include "video/video_thread.h"
 
 #include "utility/profiler.h"
@@ -21,11 +22,12 @@ Core::Core() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Core::run() {
+	ServerThread server;
 	VideoThread video;
 
 	HANDLE handles[] = {
 		kaynine::Thread<Sync>::create(Engine::inst().resources.get()),
-		kaynine::PulseThread<Sync>::create(Engine::inst().server.get()),
+		kaynine::PulseThread<Sync>::create(&server),
 		kaynine::PulseThread<Sync>::create(&video),
 		kaynine::Thread<Sync>::create(Engine::inst().systemLoop),
 	};
