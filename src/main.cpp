@@ -15,6 +15,8 @@ int __cdecl _tmain(int /*argc*/, _TCHAR* /*argv[]*/) {
 
 	core.run();
 
+	//_CrtDumpMemoryLeaks();
+
 	DEBUG_ONLY(TRACE_GOOD(_T("any key please..")));
 	DEBUG_ONLY(_getch());
 	return 0;

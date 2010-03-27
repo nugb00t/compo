@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="src/engine;src/game;src/game_playground;extern/kaynine;extern/boost;extern/cml;extern/opengl;extern/tinyxml;extern/directx/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;KN_USE_TRACE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;PLATFORM_WIN51;VIDEO_DIRECT3D9;KN_USE_TRACE"
 				RuntimeLibrary="3"
 			/>
 			<Tool
@@ -109,7 +109,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="src/engine;src/game;src/game_playground;extern/kaynine;extern/boost;extern/cml;extern/opengl;extern/tinyxml;extern/directx/include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;KN_USE_TRACE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;PLATFORM_WIN51;VIDEO_DIRECT3D9;KN_USE_TRACE"
 				RuntimeLibrary="2"
 			/>
 			<Tool
