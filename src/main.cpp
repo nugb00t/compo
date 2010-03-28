@@ -1,21 +1,17 @@
 #include "stdafx.h"
 
-#include "core/core.h"
+#include "engine.h"
 #include "game_playground/playground_game.h"
-
-using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int __cdecl _tmain(int /*argc*/, _TCHAR* /*argv[]*/) {
+int _tmain(int /*argc*/, _TCHAR* /*argv[]*/) {
 	CHECKED_CALL(kaynine::setCurrentDirectory());
 
-	Core core;
-	PlaygroundGame game;
+	engine::Engine engine(new game_playground::PlaygroundGame);
+	engine.run();
 
-	core.run();
-
-	//_CrtDumpMemoryLeaks();
+	_CrtDumpMemoryLeaks();
 
 	DEBUG_ONLY(TRACE_GOOD(_T("any key please..")));
 	DEBUG_ONLY(_getch());

@@ -14,9 +14,9 @@ public:
 
 protected:
 	// invoked in T's ctor
-	static void set(T& t)  {
-		assert(!subject());
-		subject() = &t;
+	static void set(T* t)  {
+		assert(!subject() || !t);
+		subject() = t;
 	}
 
 	static T*& subject() {

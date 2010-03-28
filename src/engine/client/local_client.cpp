@@ -23,7 +23,7 @@ void LocalClient::update() {
 	assert(toArbiter);
 
 	memset(&toArbiter.data(), 0, sizeof(toArbiter.data()));
-	Game::inst().localClient->handleControls(Engine::inst().input->controls(), toArbiter.data());
+	gameLocalClient_->handleControls(Engine::inst().input->controls(), toArbiter.data());
 
 	Sync::ArbiterToClient::Readable fromArbiter(Sync::inst().arbiterToClient);
 	//if (fromArbiter && fromArbiter.age())
@@ -33,7 +33,7 @@ void LocalClient::update() {
 	assert(toVideo);
 
 	if (fromArbiter)
-		Game::inst().localClient->showWorld(fromArbiter.data(), toVideo.data());
+		gameLocalClient_->showWorld(fromArbiter.data(), toVideo.data());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

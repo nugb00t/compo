@@ -13,15 +13,28 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoD3D9 : public VideoImpl {
-public:
-    VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL) {}
-    ~VideoD3D9();
+class VideoD3D9 : public Video {
+
+	//-----------------------------------------------------------------------------------------------------------------
+
+	class Device {
+	public:
+		Device() : d3d_(NULL), device_(NULL) {}
+		const bool initialize();
+		~Device();
+
+		IDirect3DDevice9* get() { return device_; }
+
+	private:
+		IDirect3D9* d3d_;
+		IDirect3DDevice9* device_;
+	};
+
+	//-----------------------------------------------------------------------------------------------------------------
 
 public:
-	// interface: VideoImpl
+	// interface: Video
 	virtual bool initialize();
-	virtual void terminate();
 
 	virtual void clear();
 	virtual bool begin();
@@ -41,15 +54,13 @@ public:
 
 public:
 	// own
-	IDirect3DDevice9& device() { return *device_; }
+	IDirect3DDevice9& device() { return *device_.get(); }
 
 	// window
 	void reshape(const uint width, const uint height);
 
 private:
-	IDirect3D9* d3d_;
-	IDirect3DDevice9* device_;
-
+	Device device_;
 	VertexDeclsD3D9 vertexDecls_;
 };
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "playground_factories.h"
+#include "playground_game.h"
 
 #include "entities/orb_logic.h"
 #include "entities/orb_video.h"
@@ -8,14 +9,13 @@
 #include "screens/thread_profiler_video.h"
 #include "screens/hud_video.h"
 
-using namespace engine;
 using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-LogicComponent* GameEntityFactory::createLogicComponent(const uint type) {
+engine::LogicComponent* LogicFactory::create(const uint type) {
 	switch (type) {
-		case ENTITY_ORB:
+		case PlaygroundGame::ENTITY_ORB:
 			return new OrbLogic;
 			break;
 		default:
@@ -26,9 +26,9 @@ LogicComponent* GameEntityFactory::createLogicComponent(const uint type) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoComponent* GameEntityFactory::createVideoComponent(const uint type) {
+engine::VideoComponent* VideoFactory::create(const uint type) {
 	switch (type) {
-		case ENTITY_ORB:
+		case PlaygroundGame::ENTITY_ORB:
 			return new OrbVideo;
 			break;
 		default:
@@ -39,25 +39,12 @@ VideoComponent* GameEntityFactory::createVideoComponent(const uint type) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//LogicComponent* GameScreenFactory::createLogicComponent(const uint type) {
-//	switch (type) {
-//		case SCREEN_THREAD_PROFILER:
-//			return NULL;
-//			break;
-//		default:
-//			assert(false);
-//			return NULL;
-//	}
-//}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-ScreenVideoComponent* GameScreenFactory::createVideoComponent(const uint type) {
+engine::ScreenVideoComponent* ScreenVideoFactory::create(const uint type) {
 	switch (type) {
-		case SCREEN_THREAD_PROFILER:
+		case PlaygroundGame::SCREEN_THREAD_PROFILER:
 			return new ThreadProfilerVideo;
 			break;
-		case SCREEN_HUD:
+		case PlaygroundGame::SCREEN_HUD:
 			return new HUDVideo;
 			break;
 		default:

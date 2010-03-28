@@ -6,35 +6,23 @@ namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class GameEntityFactory : public engine::EntityFactory {
+class LogicFactory : public engine::LogicFactory {
 public:
-	enum GameEntities {
-		ENTITY_ORB,
-
-		MAX_ENTITIES
-	};
-
-public:
-	// interface: EntityFactory
-	virtual engine::LogicComponent* createLogicComponent(const uint type);
-	virtual engine::VideoComponent* createVideoComponent(const uint type);
+	virtual engine::LogicComponent* create(const uint type);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class GameScreenFactory : public engine::ScreenFactory {
+class VideoFactory : public engine::VideoFactory {
 public:
-	enum GameScreens {
-		SCREEN_THREAD_PROFILER,
-		SCREEN_HUD,
+	virtual engine::VideoComponent* create(const uint type);
+};
 
-		MAX_SCREENS
-	};
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+class ScreenVideoFactory : public engine::ScreenVideoFactory {
 public:
-	// interface: EntityFactory
-	//virtual engine::LogicComponent* createLogicComponent(const uint type);
-	virtual engine::ScreenVideoComponent* createVideoComponent(const uint type);
+	virtual engine::ScreenVideoComponent* create(const uint type);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,6 +8,7 @@ namespace engine {
 
 class LogicComponent {
 public:
+	virtual ~LogicComponent() {};
     virtual void decide(const ServerState& last, ServerRequests::Entity& request) = 0;
 };
 

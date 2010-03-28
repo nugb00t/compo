@@ -23,7 +23,7 @@ public:
 		static const unsigned CAPACITY = TCapacity;
 
 		Registry() { 
-            set(*this); 
+            set(this); 
             memset(registrants_, NULL, sizeof(TComponent*) * TCapacity); 
         }
 

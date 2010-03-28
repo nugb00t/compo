@@ -25,7 +25,7 @@ bool ServerThread::initialize() {
 	states_.get().clients[0].active = true;
 
 	// TEMP
-	//entities_[0]
+	logic_.initialize();
 	// TEMP
 
     return true;
@@ -52,7 +52,7 @@ bool ServerThread::update() {
 
 	{
 		Profiler::StopWatch stopWatch(Profiler::SERVER_ARBITER);
-	    Game::inst().arbiter->marshall(states_.get(-1), requests, states_.get());
+	    gameArbiter_->marshall(states_.get(-1), requests, states_.get());
 	}
 
     Sync::ArbiterToClient::Writable toClient(Sync::inst().arbiterToClient);

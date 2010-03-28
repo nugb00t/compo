@@ -11,7 +11,17 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoThread::initialize() {
-	return Engine::inst().video->initialize();
+	HANDLE handles[] = { Sync::inst().exit.handle(), Sync::inst().windowReady.handle() };
+	kaynine::Handles events(&handles[0], sizeof(handles) / sizeof(HANDLE));
+
+	const DWORD wait = events.waitAny();
+	assert(wait != WAIT_FAILED && wait != WAIT_ABANDONED);
+
+	if (wait == WAIT_OBJECT_0)
+		return false;
+	Sync::inst().windowReady.reset();
+
+	return video_->initialize() && gameVideo_->initialize(video_.get(), videoFactory_.get(), screenVideoFactory_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,22 +29,16 @@ bool VideoThread::initialize() {
 bool VideoThread::update() {
 	Profiler::StopWatch stopWatch(Profiler::VIDEO);
 
-	Engine::inst().video->clear();
+	video_->clear();
 
-	if (Engine::inst().video->begin()) {
-		Game::inst().video->update();
-		Engine::inst().video->end();
+	if (video_->begin()) {
+		gameVideo_->update(video_.get());
+		video_->end();
 	}
 	
-	Engine::inst().video->present();
+	video_->present();
 
     return true;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void VideoThread::terminate() {
-	Engine::inst().video->terminate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

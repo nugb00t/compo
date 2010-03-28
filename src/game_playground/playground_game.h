@@ -1,19 +1,30 @@
-#include "stdafx.h"
+#pragma once
 
 #include "game.h"
 
-#include "playground_local_client.h"
-#include "playground_arbiter.h"
-#include "playground_video.h"
-#include "playground_factories.h"
-
-using namespace game_playground;
+namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class PlaygroundGame : public engine::Game {
 public:
-	PlaygroundGame() : engine::Game(new GameLocalClient, new GameArbiter, new GameVideo, new GameEntityFactory, new GameScreenFactory) {}
+	enum Entities {
+		ENTITY_ORB,
+
+		MAX_ENTITIES
+	};
+
+	enum Screens {
+		SCREEN_THREAD_PROFILER,
+		SCREEN_HUD,
+
+		MAX_SCREENS
+	};
+
+public:
+	PlaygroundGame();
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+}

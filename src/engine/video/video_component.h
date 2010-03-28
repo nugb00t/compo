@@ -1,6 +1,7 @@
 #pragma once
 
 #include "server/server_data.h"
+#include "video/video.h"
 
 namespace engine {
 
@@ -8,14 +9,16 @@ namespace engine {
 
 class VideoComponent {
 public:
-    virtual void draw(const ServerState::Entity& fromLogic, const Matrix44& view_projection) = 0;
+	virtual ~VideoComponent() {};
+	virtual void draw(engine::Video* const video, const ServerState::Entity& fromLogic, const Matrix44& view_projection) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class ScreenVideoComponent {
 public:
-	virtual void draw(const Matrix44& view_projection) = 0;
+	virtual ~ScreenVideoComponent() {};
+	virtual void draw(engine::Video* const video, const Matrix44& view_projection) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

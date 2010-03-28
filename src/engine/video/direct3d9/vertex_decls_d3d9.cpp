@@ -32,16 +32,14 @@ const D3DVERTEXELEMENT9 VertexDeclsD3D9::ELEMENTS[COUNT][MAX_ELEMENTS] = {
 };
 
 const TCHAR* VertexDeclsD3D9::PATHS[COUNT] = {
-	_T("fx/pos_diffuse.h"),
-	_T("fx/pos_diffuse_tex.h"),
+	_T("main/fx/pos_diffuse.h"),
+	_T("main/fx/pos_diffuse_tex.h"),
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 VertexDeclsD3D9::~VertexDeclsD3D9() {
-	for (uint i = 0; i < COUNT; ++i)
-		if (vertexDecls_[i])
-			vertexDecls_[i]->Release();
+	terminate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +57,16 @@ void VertexDeclsD3D9::activate(const Type type) {
 	assert(0 <= type && type < COUNT);
 
 	CHECKED_D3D_CALL_A(Engine::inst().videoD3D9->device().SetVertexDeclaration(vertexDecls_[type]));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void VertexDeclsD3D9::terminate() {
+	for (uint i = 0; i < COUNT; ++i)
+		if (vertexDecls_[i]) {
+			vertexDecls_[i]->Release();
+			vertexDecls_[i] = NULL;
+		}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

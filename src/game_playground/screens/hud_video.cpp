@@ -8,18 +8,18 @@ using namespace engine;
 using namespace game_playground;
 
 const Effect::TextureUniform HUDVideo::FONT_TEX[2] = {
-	{ "TEX_DIFFUSE", _T("fonts/bureau_20_o_0.dds") },
+	{ "TEX_DIFFUSE", _T("main/fonts/bureau_20_o_0.dds") },
 	Effect::TextureUniform::TERMINATOR
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void HUDVideo::draw(const Matrix44& view_projection) {
+void HUDVideo::draw(engine::Video* const video, const Matrix44& view_projection) {
 	if (!effect_) {
 		assert(!mesh_);
-		effect_.reset(Engine::inst().video->createEffect(Font::Vertex::type));
+		effect_.reset(video->createEffect(Font::Vertex::type));
 		effect_->setTexUniforms(FONT_TEX);
-		mesh_.reset(Engine::inst().video->createMesh(*effect_, sizeof(Font::Vertex), MAX_VERTICES, MAX_INDICES));
+		mesh_.reset(video->createMesh(*effect_, sizeof(Font::Vertex), MAX_VERTICES, MAX_INDICES));
 	}
 
 	mesh_->clear();

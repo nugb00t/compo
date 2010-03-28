@@ -23,6 +23,7 @@ public:
 	// interface: VertexDecls
 	virtual bool initialize();
 	virtual void activate(const Type type);
+	virtual void terminate();
 
 private:
 	// Direct3D

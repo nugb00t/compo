@@ -14,7 +14,6 @@ public:
     // interface: kaynine::ThreadObject
     virtual bool initialize();
     virtual bool update();
-    virtual void terminate();
 
 private:
     static LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);

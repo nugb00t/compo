@@ -20,6 +20,8 @@ bool SystemLoopW51::initialize() {
     if (!Engine::inst().window->create(SystemLoopW51::wndProc, 800, 600, 32, 0, false))
         return false;
 
+	Sync::inst().windowReady.set();
+
 	CHECKED_CALL_A(Engine::inst().input->initialize());
 
     // TODO: this needs a proper sync
@@ -44,13 +46,6 @@ bool SystemLoopW51::update() {
         }
 
     return true;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void SystemLoopW51::terminate() {
-	if (Engine::inst().window) 
-		Engine::inst().window->destroy(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

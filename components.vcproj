@@ -216,6 +216,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\extern\kaynine\kaynine\utility\instance_count.h"
+						>
+					</File>
+					<File
 						RelativePath=".\extern\kaynine\kaynine\utility\registry.h"
 						>
 					</File>
@@ -485,6 +489,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\game_playground\playground_game.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\game_playground\playground_game.h"
 					>
 				</File>
@@ -623,14 +631,6 @@
 				<Filter
 					Name="core"
 					>
-					<File
-						RelativePath=".\src\engine\core\core.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\src\engine\core\core.h"
-						>
-					</File>
 					<File
 						RelativePath=".\src\engine\core\sync.h"
 						>

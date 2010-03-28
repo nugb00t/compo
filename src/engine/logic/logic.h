@@ -2,18 +2,23 @@
 
 #include "server/server_data.h"
 
+#include "game_factories.h"
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Logic {
 public:
-	Logic();
+	Logic(LogicFactory* const logicFactory) : logicFactory_(logicFactory) {}
 
+	void initialize();
 	void decide(const ServerState& last, ServerRequests::Entity entities[ServerState::MAX_ENTITIES]);
 
 private:
-	class LogicComponent* entities_[ServerState::MAX_ENTITIES];
+	boost::scoped_ptr<LogicComponent> entities_[ServerState::MAX_ENTITIES];
+
+	const boost::scoped_ptr<LogicFactory> logicFactory_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

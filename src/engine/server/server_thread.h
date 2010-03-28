@@ -3,6 +3,8 @@
 #include "server_data.h"
 #include "logic/logic.h"
 
+#include "game_arbiter.h"
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +20,9 @@ class ServerThread : public kaynine::PulseThreadObject {
 	typedef kaynine::StaticArray<unsigned, ServerState::MAX_ENTITIES> Entities;
 
 public:
+	ServerThread(GameArbiter* const gameArbiter, LogicFactory* const logicFactory)
+		: gameArbiter_(gameArbiter), logic_(logicFactory) {}
+
 	// interface: kaynine::PulseThreadObject
 	virtual bool initialize();
 	virtual bool update();
@@ -33,6 +38,8 @@ private:
 	Entities entities_;
 
 	Logic logic_;
+
+	const boost::scoped_ptr<GameArbiter> gameArbiter_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

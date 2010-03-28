@@ -9,16 +9,29 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct Game : public kaynine::Holder<Game> {
-	const boost::scoped_ptr<GameArbiter> arbiter;
-	const boost::scoped_ptr<GameLocalClient> localClient;
-	const boost::scoped_ptr<GameVideo> video;
+class Game {
+public:
+	GameArbiter* const arbiter;
+	GameLocalClient* const localClient;
+	GameVideo* const video;
 
-	const boost::scoped_ptr<EntityFactory> entityFactory;
-	const boost::scoped_ptr<ScreenFactory> screenFactory;
+	LogicFactory* const logicFactory;
+	VideoFactory* const videoFactory;
+	ScreenVideoFactory* const screenVideoFactory;
 
-	Game(GameLocalClient* localClient_, GameArbiter* arbiter_, GameVideo* video_, EntityFactory* entityFactory_, ScreenFactory* screenFactory_) 
-		: localClient(localClient_), arbiter(arbiter_), video(video_), entityFactory(entityFactory_), screenFactory(screenFactory_) { set(*this); }
+	Game(GameLocalClient* const localClient_, 
+		 GameArbiter* const arbiter_, 
+		 GameVideo* const video_, 
+		 LogicFactory* const logicFactory_, 
+		 VideoFactory* const videoFactory_, 
+		 ScreenVideoFactory* const screenVideoFactory_) 
+	: localClient(localClient_),
+	  arbiter(arbiter_),
+	  video(video_),
+	  logicFactory(logicFactory_),
+	  videoFactory(videoFactory_),
+	  screenVideoFactory(screenVideoFactory_)
+	{}
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

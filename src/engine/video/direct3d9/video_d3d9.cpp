@@ -23,13 +23,7 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoD3D9::~VideoD3D9() {
-	terminate();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool VideoD3D9::initialize() {
+const bool VideoD3D9::Device::initialize() {
 	d3d_ = ::Direct3DCreate9(D3D_SDK_VERSION);
 	if (!d3d_) {
 		TRACE_D3D_ERROR(D3D_OK, _T("::Direct3DCreate9(%d)"), D3D_SDK_VERSION);
@@ -45,47 +39,51 @@ bool VideoD3D9::initialize() {
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; // D3DPRESENT_INTERVAL_ONE; // 
 
-	CHECKED_D3D_CALL(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Engine::inst().window->handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(| D3DCREATE_PUREDEVICE), &d3dpp, &device_));
+	const HWND handle = Engine::inst().window->handle();
+	assert(handle);
+	CHECKED_D3D_CALL(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, handle, D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(| D3DCREATE_PUREDEVICE), &d3dpp, &device_));
 
-	return vertexDecls_.initialize();
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoD3D9::terminate() {
-	if (d3d_) {
+VideoD3D9::Device::~Device() {
+	if (d3d_)
 		d3d_->Release();
-		d3d_ = 0;
-	}
 
-	if (device_) {
+	if (device_)
 		device_->Release();
-		device_ = 0;
-	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool VideoD3D9::initialize() {
+	return device_.initialize() && vertexDecls_.initialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::clear() {
-	device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0);
+	device_.get()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoD3D9::begin() {
-	return SUCCEEDED(device_->BeginScene());
+	return SUCCEEDED(device_.get()->BeginScene());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::end() {
-	device_->EndScene();
+	device_.get()->EndScene();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::present() {
-	device_->Present(NULL, NULL, NULL, NULL);
+	device_.get()->Present(NULL, NULL, NULL, NULL);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

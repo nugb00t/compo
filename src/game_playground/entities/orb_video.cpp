@@ -28,17 +28,17 @@ const Effect::TextureUniform OrbVideo::TEX_UNIFORMS[] = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void OrbVideo::draw(const ServerState::Entity& orb, const Matrix44& view_projection) {
+void OrbVideo::draw(engine::Video* const video, const ServerState::Entity& orb, const Matrix44& view_projection) {
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 
-		effect_.reset(Engine::inst().video->createEffect(Vertex::type));
+		effect_.reset(video->createEffect(Vertex::type));
         effect_->setTexUniforms(TEX_UNIFORMS);
 
-        mesh_.reset(Engine::inst().video->createMesh(*effect_, 
-                                               sizeof(Vertex), 
-                                               sizeof(vertices_) / sizeof(Vertex), 
-                                               sizeof(indices_) / sizeof(u16)));
+        mesh_.reset(video->createMesh(*effect_,
+					sizeof(Vertex), 
+					sizeof(vertices_) / sizeof(Vertex),
+					sizeof(indices_) / sizeof(u16)));
 
         DynamicMesh::BufferAccess access(*mesh_);
 		access.setBuffers(vertices_, sizeof(vertices_) / sizeof(Vertex), indices_, sizeof(indices_) / sizeof(u16));
