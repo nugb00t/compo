@@ -1,7 +1,7 @@
 #pragma once
 
-#include "video/direct3d9/texture_d3d9.h"
-#include "video/direct3d9/vertex_decls_d3d9.h"
+#include "video_d3d9.h"
+#include "texture_d3d9.h"
 
 #include "video/effect.h"
 
@@ -11,7 +11,7 @@ namespace engine {
 
 class EffectD3D9 : public Effect {
 public:
-	EffectD3D9(const VertexDecls::Type vertexDecl);
+	EffectD3D9(const Video::VertexDeclType vertexDecl);
 	~EffectD3D9();
 
 	// interface: Effect
@@ -33,9 +33,9 @@ private:
 	ID3DXEffect* effect_;
 	ID3DXBuffer* errors_;
 
-	const VertexDecls::Type vertexDecl_;
+	const Video::VertexDeclType vertexDecl_;
 
-	boost::scoped_ptr<TextureD3D9> textures_[Effect::MAX_TEXTURES];
+	boost::scoped_ptr<TextureD3D9> textures_[Effect::MAX_TEXTURES];	// TODO: check if scoped_ptr is needed indeed
     const Uniform* uniforms_;
     const TextureUniform* texUniforms_;
 };

@@ -48,7 +48,6 @@ struct Engine : public kaynine::Holder<Engine> {
 
 public:
 	Engine(Game* game);
-	~Engine() { kaynine::Holder<Engine>::set(NULL); }
 
 	void run();
 

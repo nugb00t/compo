@@ -1,7 +1,8 @@
 #include "stdafx.h"
 
 #ifdef VIDEO_DIRECT3D9
-#include "engine.h"
+#include "engine.h"	// TODO: pass video device
+#include "texture_d3d9.h"
 
 using namespace engine;
 

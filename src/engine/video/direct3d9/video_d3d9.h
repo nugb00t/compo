@@ -1,13 +1,12 @@
 #pragma once
 
+#ifdef VIDEO_DIRECT3D9
+
 #include "video/video.h"
 
 // factory-created objects
 #include "camera_d3d9.h"
 #include "mesh_d3d9.h"
-#include "effect_d3d9.h"
-#include "texture_d3d9.h"
-#include "vertex_decls_d3d9.h"
 
 namespace engine {
 
@@ -15,26 +14,20 @@ namespace engine {
 
 class VideoD3D9 : public Video {
 
-	//-----------------------------------------------------------------------------------------------------------------
+	static const uint MAX_VERTEX_DECL_ELEMS = 8;
 
-	class Device {
-	public:
-		Device() : d3d_(NULL), device_(NULL) {}
-		const bool initialize();
-		~Device();
-
-		IDirect3DDevice9* get() { return device_; }
-
-	private:
-		IDirect3D9* d3d_;
-		IDirect3DDevice9* device_;
-	};
-
-	//-----------------------------------------------------------------------------------------------------------------
+	static const D3DVERTEXELEMENT9 VERTEX_DECL_ELEMS[VERTEX_DECL_COUNT][MAX_VERTEX_DECL_ELEMS];
 
 public:
+	static const TCHAR* EFFECT_PATHS[VERTEX_DECL_COUNT];
+
+public:
+	VideoD3D9();
+	~VideoD3D9();
+	
 	// interface: Video
 	virtual bool initialize();
+	virtual void terminate();
 
 	virtual void clear();
 	virtual bool begin();
@@ -47,23 +40,27 @@ public:
 
 	virtual DynamicMesh* createMesh(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) { return new DynamicMeshD3D9(effect, vertexSize, vertexCapacity, indexCapacity); }
 
-	virtual Effect* createEffect(const VertexDecls::Type vertexDecl) { return new EffectD3D9(vertexDecl); }
+	virtual Effect* createEffect(const Video::VertexDeclType vertexDecl);
 	virtual Texture* createTexture(const TCHAR* const path);
 
-	virtual void activateVertexDecl(const VertexDecls::Type type) { vertexDecls_.activate(type); }
+	virtual void activateVertexDecl(const Video::VertexDeclType type);
 
 public:
 	// own
-	IDirect3DDevice9& device() { return *device_.get(); }
+	IDirect3DDevice9& device() { assert(device_); return *device_; }
 
 	// window
 	void reshape(const uint width, const uint height);
 
 private:
-	Device device_;
-	VertexDeclsD3D9 vertexDecls_;
+	IDirect3D9* d3d_;
+	IDirect3DDevice9* device_;
+	
+	IDirect3DVertexDeclaration9* vertexDecls_[VERTEX_DECL_COUNT];
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
+
+#endif

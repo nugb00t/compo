@@ -1,18 +1,19 @@
 #include "stdafx.h"
 
 #ifdef VIDEO_DIRECT3D9
-#include "engine.h"
+#include "engine.h"	// TODO: pass video device
+#include "effect_d3d9.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-EffectD3D9::EffectD3D9(const VertexDecls::Type vertexDecl)
+EffectD3D9::EffectD3D9(const Video::VertexDeclType vertexDecl)
 : effect_(NULL), errors_(NULL), vertexDecl_(vertexDecl), uniforms_(&Uniform::TERMINATOR) {
 	for (uint i = 0; i < MAX_TEXTURES; ++i)
 		textures_[i].reset();
 
-	HRESULT hr = D3DXCreateEffectFromFile(&Engine::inst().videoD3D9->device(), VertexDeclsD3D9::PATHS[vertexDecl], 0, 0, D3DXSHADER_DEBUG, 0, &effect_, &errors_);
+	HRESULT hr = D3DXCreateEffectFromFile(&Engine::inst().videoD3D9->device(), VideoD3D9::EFFECT_PATHS[vertexDecl], 0, 0, D3DXSHADER_DEBUG, 0, &effect_, &errors_);
 	if (hr != D3D_OK)  {
 		assert(errors_);
 

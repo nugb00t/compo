@@ -1,17 +1,14 @@
 #pragma once
 
 #include "video/video_component.h"
-#include "video/effect.h"
-#include "video/mesh.h"
-#include "video/texture.h"
-#include "video/vertex_decls.h"
+#include "video/video.h"
 
 namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class OrbVideo : public engine::VideoComponent {
-    typedef engine::VertexDecls::PosDiffuseTex Vertex;
+    typedef engine::Video::PosDiffuseTex Vertex;
 
 public:
     OrbVideo() : mesh_(NULL), effect_(NULL) {}

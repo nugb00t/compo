@@ -6,6 +6,10 @@
 #include "engine.h"
 #include "game.h"
 
+// factory-created objects
+#include "effect_d3d9.h"
+#include "texture_d3d9.h"
+
 // directx
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "dxerr.lib")
@@ -23,7 +27,53 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const bool VideoD3D9::Device::initialize() {
+const D3DVERTEXELEMENT9 VideoD3D9::VERTEX_DECL_ELEMS[VERTEX_DECL_COUNT][MAX_VERTEX_DECL_ELEMS] = {
+	// stream, offset, type, method, usage, usage index
+
+	{	// POS_DIFFUSE
+		{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,	0},
+		{ 0, 12, D3DDECLTYPE_D3DCOLOR,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,		0},
+		D3DDECL_END()
+	},
+
+	{	// POS_DIFFUSE_TEX
+		{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,	0},
+		{ 0, 12, D3DDECLTYPE_D3DCOLOR,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,		0},
+		{ 0, 16, D3DDECLTYPE_FLOAT2,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,	0},
+		D3DDECL_END()
+		},
+
+	//{	// POS_NORMAL_TEX
+	//	{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,	0},
+	//	{ 0, 12, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,		0},
+	//	{ 0, 24, D3DDECLTYPE_FLOAT2,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,	0},
+	//	D3DDECL_END()
+	//},
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const TCHAR* VideoD3D9::EFFECT_PATHS[VERTEX_DECL_COUNT] = {
+	_T("main/fx/pos_diffuse.h"),
+	_T("main/fx/pos_diffuse_tex.h"),
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL) { 
+	memset(&vertexDecls_[0], 0, sizeof(vertexDecls_)); 
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+VideoD3D9::~VideoD3D9() {
+	int a = 0;
+	a;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool VideoD3D9::initialize() {
 	d3d_ = ::Direct3DCreate9(D3D_SDK_VERSION);
 	if (!d3d_) {
 		TRACE_D3D_ERROR(D3D_OK, _T("::Direct3DCreate9(%d)"), D3D_SDK_VERSION);
@@ -43,47 +93,54 @@ const bool VideoD3D9::Device::initialize() {
 	assert(handle);
 	CHECKED_D3D_CALL(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, handle, D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(| D3DCREATE_PUREDEVICE), &d3dpp, &device_));
 
+	for (uint i = 0; i < VERTEX_DECL_COUNT; ++i)
+		CHECKED_D3D_CALL(Engine::inst().videoD3D9->device().CreateVertexDeclaration(VERTEX_DECL_ELEMS[i], &vertexDecls_[i]));
+
 	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoD3D9::Device::~Device() {
-	if (d3d_)
-		d3d_->Release();
+void VideoD3D9::terminate() {
+	for (uint i = 0; i < VERTEX_DECL_COUNT; ++i)
+		if (vertexDecls_[i]) {
+			vertexDecls_[i]->Release();
+			vertexDecls_[i] = NULL;
+		}
 
-	if (device_)
+	if (device_) {
 		device_->Release();
-}
+		device_ = NULL;
+	}
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool VideoD3D9::initialize() {
-	return device_.initialize() && vertexDecls_.initialize();
+	if (d3d_) {
+		d3d_->Release();
+		d3d_ = NULL;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::clear() {
-	device_.get()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0);
+	device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoD3D9::begin() {
-	return SUCCEEDED(device_.get()->BeginScene());
+	return SUCCEEDED(device_->BeginScene());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::end() {
-	device_.get()->EndScene();
+	device_->EndScene();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::present() {
-	device_.get()->Present(NULL, NULL, NULL, NULL);
+	device_->Present(NULL, NULL, NULL, NULL);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,6 +153,20 @@ Texture* VideoD3D9::createTexture(const TCHAR* const path) {
 		delete tex;
 		return NULL;
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Effect* VideoD3D9::createEffect(const Video::VertexDeclType vertexDecl) {
+	return new EffectD3D9(vertexDecl);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void VideoD3D9::activateVertexDecl(const Video::VertexDeclType type) {
+	assert(0 <= type && type < VERTEX_DECL_COUNT);
+
+	CHECKED_D3D_CALL_A(device_->SetVertexDeclaration(vertexDecls_[type]));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

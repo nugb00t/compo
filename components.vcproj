@@ -680,10 +680,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\src\engine\video\vertex_decls.h"
-						>
-					</File>
-					<File
 						RelativePath=".\src\engine\video\video.h"
 						>
 					</File>
@@ -735,14 +731,6 @@
 							>
 						</File>
 						<File
-							RelativePath=".\src\engine\video\direct3d9\vertex_decls_d3d9.cpp"
-							>
-						</File>
-						<File
-							RelativePath=".\src\engine\video\direct3d9\vertex_decls_d3d9.h"
-							>
-						</File>
-						<File
 							RelativePath=".\src\engine\video\direct3d9\video_d3d9.cpp"
 							>
 						</File>
@@ -771,6 +759,10 @@
 				<Filter
 					Name="system"
 					>
+					<File
+						RelativePath=".\src\engine\system\system_loop.cpp"
+						>
+					</File>
 					<File
 						RelativePath=".\src\engine\system\system_loop.h"
 						>

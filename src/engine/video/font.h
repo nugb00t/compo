@@ -1,7 +1,6 @@
 #pragma once
 
-#include "video/vertex_decls.h"
-#include "video/mesh.h"
+#include "video/video.h"
 
 namespace engine {
 
@@ -9,7 +8,7 @@ namespace engine {
 
 class Font {
 public:
-	typedef engine::VertexDecls::PosDiffuseTex Vertex;
+	typedef engine::Video::PosDiffuseTex Vertex;
 
 	//-----------------------------------------------------------------------------------------------------------------
 

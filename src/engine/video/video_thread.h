@@ -24,7 +24,8 @@ public:
 
     // interface: kaynine::PulseThreadObject
 	virtual bool initialize();
-    virtual bool update();
+	virtual bool update();
+	virtual void terminate();
 
 	virtual const uint period() const { return PERIOD; }	// *1 milliseconds
 	virtual const uint delay() const  { return DELAY;  }	// *100 nanoseconds

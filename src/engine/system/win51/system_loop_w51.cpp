@@ -22,7 +22,7 @@ bool SystemLoopW51::initialize() {
 
 	Sync::inst().windowReady.set();
 
-	CHECKED_CALL_A(Engine::inst().input->initialize());
+	CHECKED_CALL(Engine::inst().input->initialize());
 
     // TODO: this needs a proper sync
     assert(Engine::inst().window->handle());
