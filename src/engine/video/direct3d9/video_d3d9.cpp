@@ -192,6 +192,7 @@ Effect* VideoD3D9::createEffect(const EffectType type) {
 void VideoD3D9::activateVertexDecl(const Video::VertexDeclType type) {
 	assert(0 <= type && type < VERTEX_DECL_COUNT);
 
+	CHECKED_D3D_CALL_A(device_->SetVertexDeclaration(vertexDecls_[type]));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

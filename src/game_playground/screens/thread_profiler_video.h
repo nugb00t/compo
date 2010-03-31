@@ -15,7 +15,7 @@ class ThreadProfilerVideo : public engine::ScreenVideoComponent {
 	static const uint MAX_VERTICES = (engine::Profiler::HISTORY_DEPTH * engine::Profiler::SECTION_COUNT + 2) * 4;
 	static const uint MAX_INDICES = MAX_VERTICES / 4 * 6;
 
-	static const engine::Video::EffectType  EFFECT = engine::Video::DIFFUSE_TEXTURED;
+	static const engine::Video::EffectType  EFFECT = engine::Video::DIFFUSE;
 
 public:
     ThreadProfilerVideo() : effect_(NULL), mesh_(NULL) {}
