@@ -11,13 +11,13 @@ namespace engine {
 
 class Game {
 public:
-	GameArbiter* const arbiter;
-	GameLocalClient* const localClient;
-	GameVideo* const video;
+	const boost::scoped_ptr<GameArbiter> arbiter;
+	const boost::scoped_ptr<GameLocalClient> localClient;
+	const boost::scoped_ptr<GameVideo> video;
 
-	LogicFactory* const logicFactory;
-	VideoFactory* const videoFactory;
-	ScreenVideoFactory* const screenVideoFactory;
+	const boost::scoped_ptr<LogicFactory> logicFactory;
+	const boost::scoped_ptr<VideoFactory> videoFactory;
+	const boost::scoped_ptr<ScreenVideoFactory> screenVideoFactory;
 
 	Game(GameLocalClient* const localClient_, 
 		 GameArbiter* const arbiter_, 

@@ -25,7 +25,7 @@ Engine::Engine(Game* game) :
 	videoD3D9(new VideoD3D9), 
 	video(videoD3D9.get()), 
 #endif
-	localClient(new LocalClient(game->localClient)),
+	localClient(new LocalClient(game->localClient.get())),
 	profiler(new Profiler),
 	time(new Time),
 	resources(new Resources),
@@ -41,8 +41,8 @@ Engine::Engine(Game* game) :
 
 void Engine::run() {
 	FileSystemThread fileSystem;
-	ServerThread server(game_->arbiter, game_->logicFactory);
-	VideoThread video(video, game_->video, game_->videoFactory, game_->screenVideoFactory);
+	ServerThread server(game_->arbiter.get(), game_->logicFactory.get());
+	VideoThread video(video, game_->video.get(), game_->videoFactory.get(), game_->screenVideoFactory.get());
 #ifdef PLATFORM_WIN51
 	SystemLoopW51 systemLoop;
 #endif

@@ -31,11 +31,11 @@ public:
 	virtual const uint delay() const  { return DELAY;  }	// *100 nanoseconds
 
 public:
-	const boost::scoped_ptr<Video> video_;
-	const boost::scoped_ptr<GameVideo> gameVideo_;
+	Video* const video_;
+	GameVideo* const gameVideo_;
 
-	const boost::scoped_ptr<VideoFactory> videoFactory_;
-	const boost::scoped_ptr<ScreenVideoFactory> screenVideoFactory_;
+	VideoFactory* const videoFactory_;
+	ScreenVideoFactory* const screenVideoFactory_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

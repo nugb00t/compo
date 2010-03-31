@@ -18,7 +18,7 @@ public:
 private:
 	boost::scoped_ptr<LogicComponent> entities_[ServerState::MAX_ENTITIES];
 
-	const boost::scoped_ptr<LogicFactory> logicFactory_;
+	LogicFactory* const logicFactory_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

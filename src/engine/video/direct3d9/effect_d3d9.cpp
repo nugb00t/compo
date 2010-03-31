@@ -9,7 +9,7 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 EffectD3D9::EffectD3D9(ID3DXEffect& effect, const Video::VertexDeclType vertexDecl)
-: effect_(effect), vertexDecl_(vertexDecl), uniforms_(&Uniform::TERMINATOR) {
+: effect_(effect), vertexDecl_(vertexDecl), uniforms_(&Uniform::TERMINATOR), texUniforms_(&TextureUniform::TERMINATOR) {
 	for (uint i = 0; i < MAX_TEXTURES; ++i)
 		textures_[i].reset();
 }

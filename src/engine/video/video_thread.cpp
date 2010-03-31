@@ -21,7 +21,7 @@ bool VideoThread::initialize() {
 		return false;
 	Sync::inst().windowReady.reset();
 
-	return video_->initialize() && gameVideo_->initialize(video_.get(), videoFactory_.get(), screenVideoFactory_.get());
+	return video_->initialize() && gameVideo_->initialize(video_, videoFactory_, screenVideoFactory_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +32,7 @@ bool VideoThread::update() {
 	video_->clear();
 
 	if (video_->begin()) {
-		gameVideo_->update(video_.get());
+		gameVideo_->update(video_);
 		video_->end();
 	}
 	
