@@ -18,6 +18,8 @@ class HUDVideo : public engine::ScreenVideoComponent {
 	// TODO: move this to 'template_font.h'
 	static const engine::Effect::TextureUniform FONT_TEX[2];
 
+	static const engine::Video::EffectType  EFFECT = engine::Video::DIFFUSE_TEXTURED;
+
 public:
 	// interface: VideoComponent
 	virtual void draw(engine::Video* const video, const Matrix44& view_projection);

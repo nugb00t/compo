@@ -2,6 +2,8 @@
 
 #include "mesh.h"
 
+#include "engine.h"
+
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,7 +25,7 @@ void DynamicMesh::draw(const Matrix44& transform) {
     assert(vertexCapacity_ && indexCapacity_);
 
     effect_.setTransform(transform);
-    effect_.begin();
+	effect_.begin(*Engine::inst().video);
 
     streamBuffers(vertexCount_, indexCount_ / 3);
 

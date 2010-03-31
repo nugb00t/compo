@@ -17,7 +17,7 @@ const Effect::TextureUniform HUDVideo::FONT_TEX[2] = {
 void HUDVideo::draw(engine::Video* const video, const Matrix44& view_projection) {
 	if (!effect_) {
 		assert(!mesh_);
-		effect_.reset(video->createEffect(Font::Vertex::Type));
+		effect_.reset(video->createEffect(EFFECT));
 		effect_->setTexUniforms(FONT_TEX);
 		mesh_.reset(video->createMesh(*effect_, sizeof(Font::Vertex), MAX_VERTICES, MAX_INDICES));
 	}

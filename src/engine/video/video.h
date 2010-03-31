@@ -50,6 +50,15 @@ public:
 
 	//-----------------------------------------------------------------------------------------------------------------
 
+	enum EffectType {
+		DIFFUSE,
+		DIFFUSE_TEXTURED,
+
+		EFFECT_COUNT
+	};
+
+	//-----------------------------------------------------------------------------------------------------------------
+
 public:
 	// interface: own
 	virtual bool initialize() = 0;
@@ -68,7 +77,7 @@ public:
 	// object factory
 	virtual DynamicMesh* createMesh(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) = 0;
 
-	virtual Effect* createEffect(const VertexDeclType type) = 0;
+	virtual Effect* createEffect(const EffectType type) = 0;
 	virtual Texture* createTexture(const TCHAR* const path) = 0;
 
 	virtual void activateVertexDecl(const VertexDeclType type) = 0;

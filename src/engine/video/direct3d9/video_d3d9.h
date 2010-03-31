@@ -19,11 +19,11 @@ class VideoD3D9 : public Video {
 	static const D3DVERTEXELEMENT9 VERTEX_DECL_ELEMS[VERTEX_DECL_COUNT][MAX_VERTEX_DECL_ELEMS];
 
 public:
-	static const TCHAR* EFFECT_PATHS[VERTEX_DECL_COUNT];
+	static const TCHAR* EFFECT_PATHS[EFFECT_COUNT];
+	static const VertexDeclType EFFECT_VERTEX_DECLS[EFFECT_COUNT];
 
 public:
 	VideoD3D9();
-	~VideoD3D9();
 	
 	// interface: Video
 	virtual bool initialize();
@@ -40,10 +40,10 @@ public:
 
 	virtual DynamicMesh* createMesh(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) { return new DynamicMeshD3D9(effect, vertexSize, vertexCapacity, indexCapacity); }
 
-	virtual Effect* createEffect(const Video::VertexDeclType vertexDecl);
+	virtual Effect* createEffect(const EffectType type);
 	virtual Texture* createTexture(const TCHAR* const path);
 
-	virtual void activateVertexDecl(const Video::VertexDeclType type);
+	virtual void activateVertexDecl(const VertexDeclType type);
 
 public:
 	// own
@@ -57,6 +57,9 @@ private:
 	IDirect3DDevice9* device_;
 	
 	IDirect3DVertexDeclaration9* vertexDecls_[VERTEX_DECL_COUNT];
+
+	ID3DXEffect* effects_[EFFECT_COUNT];
+	ID3DXBuffer* errors_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -25,7 +25,7 @@ namespace {
 	const D3DCOLOR CLEAR_COLOR = D3DCOLOR_XRGB(127, 127, 127);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 const D3DVERTEXELEMENT9 VideoD3D9::VERTEX_DECL_ELEMS[VERTEX_DECL_COUNT][MAX_VERTEX_DECL_ELEMS] = {
 	// stream, offset, type, method, usage, usage index
@@ -41,7 +41,7 @@ const D3DVERTEXELEMENT9 VideoD3D9::VERTEX_DECL_ELEMS[VERTEX_DECL_COUNT][MAX_VERT
 		{ 0, 12, D3DDECLTYPE_D3DCOLOR,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,		0},
 		{ 0, 16, D3DDECLTYPE_FLOAT2,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,	0},
 		D3DDECL_END()
-		},
+	},
 
 	//{	// POS_NORMAL_TEX
 	//	{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,	0},
@@ -51,24 +51,25 @@ const D3DVERTEXELEMENT9 VideoD3D9::VERTEX_DECL_ELEMS[VERTEX_DECL_COUNT][MAX_VERT
 	//},
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 const TCHAR* VideoD3D9::EFFECT_PATHS[VERTEX_DECL_COUNT] = {
 	_T("main/fx/pos_diffuse.h"),
 	_T("main/fx/pos_diffuse_tex.h"),
 };
 
+//---------------------------------------------------------------------------------------------------------------------
+
+const Video::VertexDeclType VideoD3D9::EFFECT_VERTEX_DECLS[EFFECT_COUNT] = {
+	POS_DIFFUSE,
+	POS_DIFFUSE_TEX,
+};
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL) { 
+VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL), errors_(NULL) { 
 	memset(&vertexDecls_[0], 0, sizeof(vertexDecls_)); 
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-VideoD3D9::~VideoD3D9() {
-	int a = 0;
-	a;
+	memset(&effects_[0], 0, sizeof(effects_)); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,17 +97,40 @@ bool VideoD3D9::initialize() {
 	for (uint i = 0; i < VERTEX_DECL_COUNT; ++i)
 		CHECKED_D3D_CALL(Engine::inst().videoD3D9->device().CreateVertexDeclaration(VERTEX_DECL_ELEMS[i], &vertexDecls_[i]));
 
+	for (uint i = 0; i < EFFECT_COUNT; ++i) {
+		const HRESULT hr = D3DXCreateEffectFromFile(&Engine::inst().videoD3D9->device(), VideoD3D9::EFFECT_PATHS[i], 0, 0, D3DXSHADER_DEBUG, 0, &effects_[i], &errors_);
+		if (hr != D3D_OK)  {
+			assert(errors_);
+
+			const char* charBuffer = reinterpret_cast<const char*>(errors_->GetBufferPointer());
+			MessageBoxA(0, charBuffer, NULL, 0);
+
+			return false;
+		}
+	}
+
 	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::terminate() {
+	for (uint i = 0; i < EFFECT_COUNT; ++i)
+		if (effects_[i]) {
+			effects_[i]->Release();
+			effects_[i] = NULL;
+		}
+
 	for (uint i = 0; i < VERTEX_DECL_COUNT; ++i)
 		if (vertexDecls_[i]) {
 			vertexDecls_[i]->Release();
 			vertexDecls_[i] = NULL;
 		}
+
+	if (errors_) {
+		errors_->Release();
+		errors_ = NULL;
+	}
 
 	if (device_) {
 		device_->Release();
@@ -157,8 +181,10 @@ Texture* VideoD3D9::createTexture(const TCHAR* const path) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Effect* VideoD3D9::createEffect(const Video::VertexDeclType vertexDecl) {
-	return new EffectD3D9(vertexDecl);
+Effect* VideoD3D9::createEffect(const EffectType type) {
+	assert(0 <= type && type < EFFECT_COUNT);
+
+	return new EffectD3D9(*effects_[type], EFFECT_VERTEX_DECLS[type]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -166,7 +192,6 @@ Effect* VideoD3D9::createEffect(const Video::VertexDeclType vertexDecl) {
 void VideoD3D9::activateVertexDecl(const Video::VertexDeclType type) {
 	assert(0 <= type && type < VERTEX_DECL_COUNT);
 
-	CHECKED_D3D_CALL_A(device_->SetVertexDeclaration(vertexDecls_[type]));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

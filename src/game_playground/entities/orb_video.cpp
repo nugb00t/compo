@@ -32,7 +32,7 @@ void OrbVideo::draw(engine::Video* const video, const ServerState::Entity& orb, 
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 
-		effect_.reset(video->createEffect(Vertex::Type));
+		effect_.reset(video->createEffect(EFFECT));
         effect_->setTexUniforms(TEX_UNIFORMS);
 
         mesh_.reset(video->createMesh(*effect_,

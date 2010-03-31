@@ -33,7 +33,7 @@ namespace {
 
 void ThreadProfilerVideo::draw(engine::Video* const video, const Matrix44& view_projection) {
 	if (!effect_)
-		effect_.reset(video->createEffect(Vertex::Type));
+		effect_.reset(video->createEffect(EFFECT));
 
 	if (!mesh_)
 		mesh_.reset(video->createMesh(*effect_, sizeof(Vertex), MAX_VERTICES, MAX_INDICES));

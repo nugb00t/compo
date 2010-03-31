@@ -44,6 +44,7 @@
 				AdditionalIncludeDirectories="src/engine;src/game;src/game_playground;extern/kaynine;extern/boost;extern/cml;extern/opengl;extern/tinyxml;extern/directx/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;PLATFORM_WIN51;VIDEO_DIRECT3D9;KN_USE_TRACE"
 				RuntimeLibrary="3"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -111,6 +112,7 @@
 				AdditionalIncludeDirectories="src/engine;src/game;src/game_playground;extern/kaynine;extern/boost;extern/cml;extern/opengl;extern/tinyxml;extern/directx/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;PLATFORM_WIN51;VIDEO_DIRECT3D9;KN_USE_TRACE"
 				RuntimeLibrary="2"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -872,6 +874,30 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="exec"
+			>
+			<Filter
+				Name="main"
+				>
+				<Filter
+					Name="fx"
+					>
+					<File
+						RelativePath=".\exec\main\fx\pos_diffuse.h"
+						>
+					</File>
+					<File
+						RelativePath=".\exec\main\fx\pos_diffuse_tex.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="playground"
+				>
 			</Filter>
 		</Filter>
 	</Files>

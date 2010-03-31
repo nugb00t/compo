@@ -23,14 +23,11 @@ public:
     static const uint MAX_TEXTURES = 8;
 
 public:
- 	virtual const char* errors() const = 0;
-
     virtual void setUniforms(const Uniform* const uniforms) = 0;
     virtual void setTexUniforms(const TextureUniform* const texUniforms) = 0;
-
     virtual void setTransform(const Matrix44& transform) = 0;
 
-	virtual uint begin() = 0;
+	virtual uint begin(class Video& video) = 0;
     virtual void next() = 0;
 	virtual void end() = 0;
 };

@@ -2,13 +2,16 @@
 
 #include "video/video_component.h"
 #include "video/video.h"
+#include "video/effect.h"
 
 namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class OrbVideo : public engine::VideoComponent {
-    typedef engine::Video::PosDiffuseTex Vertex;
+	typedef engine::Video::PosDiffuseTex Vertex;
+
+	static const engine::Video::EffectType  EFFECT = engine::Video::DIFFUSE_TEXTURED;
 
 public:
     OrbVideo() : mesh_(NULL), effect_(NULL) {}
