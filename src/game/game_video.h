@@ -9,6 +9,7 @@ namespace engine {
 
 class GameVideo {
 public:
+	virtual ~GameVideo() {}
 	virtual bool initialize(engine::Video* const video,
 							engine::VideoFactory* const videoFactory,
 							engine::ScreenVideoFactory* const screenVideoFactory) = 0;

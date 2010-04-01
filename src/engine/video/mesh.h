@@ -9,7 +9,6 @@ namespace engine {
 class MeshImpl {
 public:
     virtual ~MeshImpl() {}
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,6 +37,9 @@ public:
 protected:
     DynamicMesh(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) 
         : effect_(effect), vertexSize_(vertexSize), vertexCapacity_(vertexCapacity), indexCapacity_(indexCapacity), vertexCount_(0), indexCount_(0) {}
+
+public:
+	virtual ~DynamicMesh() {}
 
 public:
     // interface: Drawn

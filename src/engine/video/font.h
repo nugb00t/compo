@@ -42,6 +42,7 @@ public:
 public:
 	Font(const Info& info, const Glyph* const* glyphs, const uint glyphFirst, const uint glyphCount) 
 		:	info_(info), glyphs_(glyphs), glyphFirst_(glyphFirst), glyphCount_(glyphCount) {}
+	virtual ~Font() {}
 
 	// interface: own
 	virtual void print(DynamicMesh& mesh, const wchar_t* const string, const Vector3 pos, const float pixelSize, const u32 color) const;

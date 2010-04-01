@@ -15,6 +15,7 @@ class OrbVideo : public engine::VideoComponent {
 
 public:
     OrbVideo() : mesh_(NULL), effect_(NULL) {}
+	~OrbVideo() {}
 
 	// interface: VideoComponent
 	virtual void draw(engine::Video* const video, const engine::ServerState::Entity& orb, const Matrix44& view_projection);

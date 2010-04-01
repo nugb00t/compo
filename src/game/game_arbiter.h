@@ -9,8 +9,6 @@ namespace engine {
 class GameArbiter {
 public:
 	virtual ~GameArbiter() {}
-
-public:
     virtual void marshall(const ServerState& last, const ServerRequests& requests, ServerState& next) = 0;
 };
 

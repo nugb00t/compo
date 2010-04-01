@@ -6,6 +6,7 @@ namespace engine {
 
 class Texture {
 public:
+	virtual ~Texture() {}
 	virtual bool initialize() = 0;
 	virtual void activate(const uint stage) = 0;
 

@@ -9,6 +9,7 @@ namespace engine {
 
 class LogicFactory {
 public:
+	virtual ~LogicFactory() {}
 	virtual LogicComponent* create(const uint type) = 0;
 };
 
@@ -16,6 +17,7 @@ public:
 
 class VideoFactory {
 public:
+	virtual ~VideoFactory() {}
 	virtual VideoComponent* create(const uint type) = 0;
 };
 
@@ -23,6 +25,7 @@ public:
 
 class ScreenVideoFactory {
 public:
+	virtual ~ScreenVideoFactory() {}
 	virtual ScreenVideoComponent* create(const uint type) = 0;
 };
 
