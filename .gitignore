@@ -9,8 +9,12 @@ extern/opengl/gl
 exec/*.dll
 exec/*.exe
 exec/*.ilk
+exec/*.DPbcd
+exec/*.dpcov
+exec/*.DPSup
+exec/*.NLB
 exec/*.pdb
-*.user
+*.lnk
 *.ncb
 *.suo
-
+*.user

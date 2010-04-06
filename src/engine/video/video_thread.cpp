@@ -11,8 +11,7 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoThread::initialize() {
-	HANDLE handles[] = { Sync::inst().exit.handle(), Sync::inst().windowReady.handle() };
-	kaynine::Handles events(&handles[0], sizeof(handles) / sizeof(HANDLE));
+	kaynine::MultipleObjects events(Sync::inst().exit, Sync::inst().windowReady);
 
 	const DWORD wait = events.waitAny();
 	assert(wait != WAIT_FAILED && wait != WAIT_ABANDONED);

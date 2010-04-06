@@ -53,7 +53,6 @@ void Engine::run() {
 		kaynine::PulseThread<Sync>::create(&video),
 		kaynine::Thread<Sync>::create(&systemLoop),
 	};
-
 	kaynine::Handles threads(&handles[0], sizeof(handles) / sizeof(HANDLE));
 	threads.waitAll(); 
 }

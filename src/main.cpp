@@ -14,9 +14,6 @@ int _tmain(int /*argc*/, _TCHAR* /*argv[]*/) {
 	}
 
 	_CrtDumpMemoryLeaks();
-
-	DEBUG_ONLY(TRACE_GOOD(_T("any key please..")));
-	DEBUG_ONLY(_getch());
 	return 0;
 }
 

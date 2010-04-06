@@ -67,7 +67,7 @@ const Video::VertexDeclType VideoD3D9::EFFECT_VERTEX_DECLS[EFFECT_COUNT] = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL), errors_(NULL) { 
+VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL) { 
 	memset(&vertexDecls_[0], 0, sizeof(vertexDecls_)); 
 	memset(&effects_[0], 0, sizeof(effects_)); 
 }
@@ -98,13 +98,16 @@ bool VideoD3D9::initialize() {
 		CHECKED_D3D_CALL(Engine::inst().videoD3D9->device().CreateVertexDeclaration(VERTEX_DECL_ELEMS[i], &vertexDecls_[i]));
 
 	for (uint i = 0; i < EFFECT_COUNT; ++i) {
-		const HRESULT hr = D3DXCreateEffectFromFile(&Engine::inst().videoD3D9->device(), VideoD3D9::EFFECT_PATHS[i], 0, 0, D3DXSHADER_DEBUG, 0, &effects_[i], &errors_);
+		ID3DXBuffer* errors = NULL;
+
+		const HRESULT hr = D3DXCreateEffectFromFile(&Engine::inst().videoD3D9->device(), VideoD3D9::EFFECT_PATHS[i], 0, 0, D3DXSHADER_DEBUG, 0, &effects_[i], &errors);
 		if (hr != D3D_OK)  {
-			assert(errors_);
+			assert(errors);
 
-			const char* charBuffer = reinterpret_cast<const char*>(errors_->GetBufferPointer());
+			const char* charBuffer = reinterpret_cast<const char*>(errors->GetBufferPointer());
+			errors->Release();
+
 			MessageBoxA(0, charBuffer, NULL, 0);
-
 			return false;
 		}
 	}
@@ -126,11 +129,6 @@ void VideoD3D9::terminate() {
 			vertexDecls_[i]->Release();
 			vertexDecls_[i] = NULL;
 		}
-
-	if (errors_) {
-		errors_->Release();
-		errors_ = NULL;
-	}
 
 	if (device_) {
 		device_->Release();

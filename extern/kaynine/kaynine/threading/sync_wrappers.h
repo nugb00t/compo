@@ -67,12 +67,12 @@ private:
 class Handle {
 public:
 	enum Mode {
-		TAKE_OWNERSHIP
+		LEAVE_OWNERSHIP
 	};
 
 public:
-	inline Handle(const HANDLE handle)				: handle_(handle), ownsHandle_(false)			{ assert(handle_); }
-	inline Handle(const Mode, const HANDLE handle)	: handle_(handle), ownsHandle_(true)			{ assert(handle_); }
+	inline Handle(const Mode, const HANDLE handle)	: handle_(handle), ownsHandle_(false)			{ assert(handle_); }
+	inline Handle(const HANDLE handle)				: handle_(handle), ownsHandle_(true)			{ assert(handle_); }
 	inline Handle(const Handle& handle)				: handle_(handle.handle()), ownsHandle_(false)	{ assert(handle_); }
 
 	inline ~Handle() {
@@ -113,8 +113,8 @@ public:
 	};
 
 public:
-	inline Event(const TCHAR* const name = NULL)		: Handle(Handle::TAKE_OWNERSHIP, ::CreateEvent(NULL, TRUE, FALSE, name)) {}	// manual reset + non-signaled
-	inline Event(const Mode, const TCHAR* const name)	: Handle(::OpenEvent(NULL, FALSE, name)) {}
+	inline Event(const TCHAR* const name = NULL)		: Handle(::CreateEvent(NULL, TRUE, FALSE, name)) {}	// manual reset + non-signaled
+	inline Event(const Mode, const TCHAR* const name)	: Handle(LEAVE_OWNERSHIP, ::OpenEvent(NULL, FALSE, name)) {}
 
 	inline const bool set()		{ assert(handle()); return ::SetEvent(handle()) == TRUE; }
 	inline const bool reset()	{ assert(handle()); return ::ResetEvent(handle()) == TRUE; }
@@ -124,10 +124,10 @@ public:
 
 class Handles {
 public:
-	inline Handles(HANDLE* const handles, const unsigned size)
+	inline Handles(const Handle::Mode, HANDLE* const handles, const unsigned size)
 		: handles_(handles), size_(size), ownsHandles_(false) { assert(handles && size); }
 
-	inline Handles(const Handle::Mode, HANDLE* const handles, const unsigned size)
+	inline Handles(HANDLE* const handles, const unsigned size)
 		: handles_(handles), size_(size), ownsHandles_(true)  { assert(handles && size); }
 
 	inline ~Handles() {
@@ -171,7 +171,7 @@ protected:
 class Events : public Handles {
 public:
 	inline Events(HANDLE* const handles, const unsigned size, const unsigned first = 0, const unsigned count = 0)
-		: Handles(handles, size), first_(first), limit_(count ? first + count : size) {
+		: Handles(Handle::LEAVE_OWNERSHIP, handles, size), first_(first), limit_(count ? first + count : size) {
 			for (unsigned i = first_; i < limit_; ++i)
 				handles_[i] = ::CreateEvent(NULL, TRUE, FALSE, NULL);	// manual reset + non-signaled
 	}
