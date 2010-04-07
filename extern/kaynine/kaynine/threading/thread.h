@@ -23,20 +23,7 @@ public:
 	}
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-template<class Sync>
-class PulseThread {
-public:
-    static DWORD WINAPI func(void* something);
-
-	static HANDLE create(PulseThreadObject* object) { 
-		assert(object);
-		return ::CreateThread(NULL, 0, &func, object, 0, NULL);
-	}
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------------------------------------------------
 
 template<class Sync>
 DWORD WINAPI Thread<Sync>::func(void* something) {
@@ -53,6 +40,19 @@ DWORD WINAPI Thread<Sync>::func(void* something) {
 
 	return 0;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+template<class Sync>
+class PulseThread {
+public:
+	static DWORD WINAPI func(void* something);
+
+	static HANDLE create(PulseThreadObject* object) { 
+		assert(object);
+		return ::CreateThread(NULL, 0, &func, object, 0, NULL);
+	}
+};
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -74,6 +74,6 @@ DWORD WINAPI PulseThread<Sync>::func(void* something) {
 	return 0;
 }
 
-//---------------------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

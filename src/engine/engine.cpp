@@ -50,7 +50,7 @@ void Engine::run() {
 	HANDLE handles[] = {
 		kaynine::Thread<Sync>::create(&fileSystem),
 		kaynine::PulseThread<Sync>::create(&server),
-		kaynine::PulseThread<Sync>::create(&video),
+		kaynine::Thread<Sync>::create(&video),
 		kaynine::Thread<Sync>::create(&systemLoop),
 	};
 	kaynine::Handles threads(&handles[0], sizeof(handles) / sizeof(HANDLE));

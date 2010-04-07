@@ -20,7 +20,13 @@ bool VideoThread::initialize() {
 		return false;
 	Sync::inst().windowReady.reset();
 
-	return video_->initialize() && gameVideo_->initialize(video_, videoFactory_, screenVideoFactory_);
+	const bool ok = video_->initialize() && gameVideo_->initialize(video_, videoFactory_, screenVideoFactory_);
+	if (ok)
+		TRACE_GOOD(_T("video thread started"));
+	else
+		TRACE_ERROR(_T("video thread failed to start"));
+
+	return ok;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

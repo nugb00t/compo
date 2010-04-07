@@ -88,7 +88,8 @@ bool VideoD3D9::initialize() {
 	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
-	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; // D3DPRESENT_INTERVAL_ONE; // 
+	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
+	//d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
 	const HWND handle = Engine::inst().window->handle();
 	assert(handle);
