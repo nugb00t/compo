@@ -11,6 +11,7 @@ exec/*.exe
 exec/*.ilk
 exec/*.DPbcd
 exec/*.dpcov
+exec/*.dpmrg
 exec/*.DPSup
 exec/*.NLB
 exec/*.pdb
