@@ -6,7 +6,7 @@ namespace engine {
 
 class FileSystemThread : public kaynine::ThreadObject {
 public:
-	// interface: kaynine::PulseThreadObject
+	// interface: kaynine::ThreadObject
 	virtual bool update();
 };
 

@@ -31,12 +31,12 @@ namespace {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ThreadProfilerVideo::draw(engine::Video* const video, const Matrix44& view_projection) {
+void ThreadProfilerVideo::draw(engine::Video& video, const Matrix44& view_projection) {
 	if (!effect_)
-		effect_.reset(video->createEffect(EFFECT));
+		effect_.reset(video.createEffect(EFFECT));
 
 	if (!mesh_)
-		mesh_.reset(video->createMesh(*effect_, sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
+		mesh_.reset(video.createMesh(*effect_, sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
 
 	mesh_->clear();
 	DynamicMesh::BufferAccess access(*mesh_);

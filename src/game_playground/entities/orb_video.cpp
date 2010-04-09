@@ -28,14 +28,14 @@ const Effect::TextureUniform OrbVideo::TEX_UNIFORMS[] = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void OrbVideo::draw(engine::Video* const video, const ServerState::Entity& orb, const Matrix44& view_projection) {
+void OrbVideo::draw(engine::Video& video, const ServerState::Entity& orb, const Matrix44& view_projection) {
 	if (!mesh_ || !effect_) {
         assert(!mesh_ && !effect_);
 
-		effect_.reset(video->createEffect(EFFECT));
+		effect_.reset(video.createEffect(EFFECT));
         effect_->setTexUniforms(TEX_UNIFORMS);
 
-        mesh_.reset(video->createMesh(*effect_,
+        mesh_.reset(video.createMesh(*effect_,
 					sizeof(Vertex), 
 					sizeof(vertices_) / sizeof(Vertex),
 					sizeof(indices_) / sizeof(u16)));

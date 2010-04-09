@@ -8,11 +8,10 @@
 namespace kaynine {
 
 class ThreadObject;
-class PulseThreadObject;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template<class Sync>
+template<class TSync>
 class Thread {
 public:
     static DWORD WINAPI func(void* something);
@@ -25,16 +24,16 @@ public:
 
 //---------------------------------------------------------------------------------------------------------------------
 
-template<class Sync>
-DWORD WINAPI Thread<Sync>::func(void* something) {
+template<class TSync>
+DWORD WINAPI Thread<TSync>::func(void* something) {
 	assert(something);
 
 	ThreadObject& object = *reinterpret_cast<ThreadObject*>(something);
 
-	if (!Sync::inst().exit.isSet() && object.initialize())
-		while (!Sync::inst().exit.isSet() && object.update());
+	if (!TSync::inst().exit.isSet() && object.initialize())
+		while (!TSync::inst().exit.isSet() && object.update());
 
-	Sync::inst().exit.set();
+	TSync::inst().exit.set();
 
 	object.terminate();
 
@@ -43,12 +42,12 @@ DWORD WINAPI Thread<Sync>::func(void* something) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template<class Sync>
+template<class TSync, unsigned TPeriod, unsigned TDelay = 0>
 class PulseThread {
 public:
 	static DWORD WINAPI func(void* something);
 
-	static HANDLE create(PulseThreadObject* object) { 
+	static HANDLE create(ThreadObject* object) { 
 		assert(object);
 		return ::CreateThread(NULL, 0, &func, object, 0, NULL);
 	}
@@ -56,18 +55,20 @@ public:
 
 //---------------------------------------------------------------------------------------------------------------------
 
-template<class Sync>
-DWORD WINAPI PulseThread<Sync>::func(void* something) {
+// TPeriod:	*1 milliseconds
+// TDelay:	*100 nanoseconds
+template<class TSync, unsigned TPeriod, unsigned TDelay>
+DWORD WINAPI PulseThread<TSync, TPeriod, TDelay>::func(void* something) {
 	assert(something);
 	
-	PulseThreadObject& object = *reinterpret_cast<PulseThreadObject*>(something);
-	WaitableTimer timer(object.period(), object.delay());
+	ThreadObject& object = *reinterpret_cast<ThreadObject*>(something);
+	WaitableTimer timer(TPeriod, TDelay);
 
-	if (!Sync::inst().exit.isSet() && object.initialize()) {
-		MultipleObjects events(Sync::inst().exit, timer);
-		while (events.waitAny(2 * object.period()) == WAIT_OBJECT_0 + 1 && object.update());
+	if (!TSync::inst().exit.isSet() && object.initialize()) {
+		MultipleObjects events(TSync::inst().exit, timer);
+		while (events.waitAny(2 * TPeriod) == WAIT_OBJECT_0 + 1 && object.update());
 	}		
-	Sync::inst().exit.set();
+	TSync::inst().exit.set();
 
 	object.terminate();
 

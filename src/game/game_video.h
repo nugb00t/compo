@@ -10,10 +10,10 @@ namespace engine {
 class GameVideo {
 public:
 	virtual ~GameVideo() {}
-	virtual bool initialize(engine::Video* const video,
-							engine::VideoFactory* const videoFactory,
-							engine::ScreenVideoFactory* const screenVideoFactory) = 0;
-	virtual void update(engine::Video* const video) = 0;
+	virtual bool initialize(engine::Video& video,
+							engine::VideoFactory& videoFactory,
+							engine::ScreenVideoFactory& screenVideoFactory) = 0;
+	virtual void update(engine::Video& video) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

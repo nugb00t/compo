@@ -52,7 +52,7 @@ bool ServerThread::update() {
 
 	{
 		Profiler::StopWatch stopWatch(Profiler::SERVER_ARBITER);
-	    gameArbiter_->marshall(states_.get(-1), requests, states_.get());
+	    gameArbiter_.marshall(states_.get(-1), requests, states_.get());
 	}
 
     Sync::ArbiterToClient::Writable toClient(Sync::inst().arbiterToClient);

@@ -11,7 +11,7 @@ using namespace engine;
 
 void Logic::initialize() {
 	if (!entities_[0])
-		entities_[0].reset(logicFactory_->create(0));
+		entities_[0].reset(logicFactory_.create(0));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

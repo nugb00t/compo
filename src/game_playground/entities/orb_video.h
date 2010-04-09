@@ -18,7 +18,7 @@ public:
 	~OrbVideo() {}
 
 	// interface: VideoComponent
-	virtual void draw(engine::Video* const video, const engine::ServerState::Entity& orb, const Matrix44& view_projection);
+	virtual void draw(engine::Video& video, const engine::ServerState::Entity& orb, const Matrix44& view_projection);
 
 private:
 	static const Vertex vertices_[];

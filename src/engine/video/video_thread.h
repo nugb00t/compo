@@ -10,26 +10,26 @@ namespace engine {
 
 class VideoThread : public kaynine::ThreadObject {
 public:
-	VideoThread(Video* const video,
-				GameVideo* const gameVideo,
-				VideoFactory* const videoFactory,
-				ScreenVideoFactory* const screenVideoFactory)
+	VideoThread(Video& video,
+				GameVideo& gameVideo,
+				VideoFactory& videoFactory,
+				ScreenVideoFactory& screenVideoFactory)
 		: video_(video),
 		  gameVideo_(gameVideo),
 		  videoFactory_(videoFactory),
 		  screenVideoFactory_(screenVideoFactory) {}
 
-    // interface: kaynine::PulseThreadObject
+    // interface: kaynine::ThreadObject
 	virtual bool initialize();
 	virtual bool update();
 	virtual void terminate();
 
 public:
-	Video* const video_;
-	GameVideo* const gameVideo_;
+	Video& video_;
+	GameVideo& gameVideo_;
 
-	VideoFactory* const videoFactory_;
-	ScreenVideoFactory* const screenVideoFactory_;
+	VideoFactory& videoFactory_;
+	ScreenVideoFactory& screenVideoFactory_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -10,7 +10,7 @@ namespace engine {
 class VideoComponent {
 public:
 	virtual ~VideoComponent() {};
-	virtual void draw(engine::Video* const video, const ServerState::Entity& fromLogic, const Matrix44& view_projection) = 0;
+	virtual void draw(engine::Video& video, const ServerState::Entity& fromLogic, const Matrix44& view_projection) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ public:
 class ScreenVideoComponent {
 public:
 	virtual ~ScreenVideoComponent() {};
-	virtual void draw(engine::Video* const video, const Matrix44& view_projection) = 0;
+	virtual void draw(engine::Video& video, const Matrix44& view_projection) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

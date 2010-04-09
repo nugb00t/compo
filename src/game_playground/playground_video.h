@@ -14,10 +14,10 @@ namespace game_playground {
 class GameVideo : public engine::GameVideo {
 public:
 	// interface: engine::GameVideo
-	virtual bool initialize(engine::Video* const video,
-							engine::VideoFactory* const videoFactory,
-							engine::ScreenVideoFactory* const screenVideoFactory);
-	virtual void update(engine::Video* const video);
+	virtual bool initialize(engine::Video& video,
+							engine::VideoFactory& videoFactory,
+							engine::ScreenVideoFactory& screenVideoFactory);
+	virtual void update(engine::Video& video);
 
 protected:
 	boost::scoped_ptr<engine::OrthoCamera> orthoCamera_;	// for screens

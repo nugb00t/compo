@@ -22,7 +22,7 @@ class HUDVideo : public engine::ScreenVideoComponent {
 
 public:
 	// interface: VideoComponent
-	virtual void draw(engine::Video* const video, const Matrix44& view_projection);
+	virtual void draw(engine::Video& video, const Matrix44& view_projection);
 
 private:
 	boost::scoped_ptr<engine::Effect> effect_;

@@ -12,6 +12,11 @@
 
 using namespace engine;
 
+namespace {
+	static const uint SERVER_PERIOD = 16;
+	static const uint SERVER_DELAY = 4 * 10;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Engine::Engine(Game* game) :
@@ -41,15 +46,15 @@ Engine::Engine(Game* game) :
 
 void Engine::run() {
 	FileSystemThread fileSystem;
-	ServerThread server(game_->arbiter.get(), game_->logicFactory.get());
-	VideoThread video(video, game_->video.get(), game_->videoFactory.get(), game_->screenVideoFactory.get());
+	ServerThread server(*game_->arbiter, *game_->logicFactory);
+	VideoThread video(*video, *game_->video, *game_->videoFactory, *game_->screenVideoFactory);
 #ifdef PLATFORM_WIN51
 	SystemLoopW51 systemLoop;
 #endif
 
 	HANDLE handles[] = {
 		kaynine::Thread<Sync>::create(&fileSystem),
-		kaynine::PulseThread<Sync>::create(&server),
+		kaynine::PulseThread<Sync, SERVER_PERIOD, SERVER_DELAY>::create(&server),
 		kaynine::Thread<Sync>::create(&video),
 		kaynine::Thread<Sync>::create(&systemLoop),
 	};

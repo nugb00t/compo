@@ -13,24 +13,24 @@ using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool GameVideo::initialize(engine::Video* const video,
-						   engine::VideoFactory* const videoFactory,
-						   engine::ScreenVideoFactory* const screenVideoFactory) {
-	orthoCamera_.reset(video->createOrthoCamera());
-	projCamera_.reset(video->createProjCamera());
+bool GameVideo::initialize(engine::Video& video,
+						   engine::VideoFactory& videoFactory,
+						   engine::ScreenVideoFactory& screenVideoFactory) {
+	orthoCamera_.reset(video.createOrthoCamera());
+	projCamera_.reset(video.createProjCamera());
 
 	for (uint i = 0; i < PlaygroundGame::MAX_ENTITIES; ++i)
-		entities_[i].reset(videoFactory->create(i));
+		entities_[i].reset(videoFactory.create(i));
 
 	for (uint i = 0; i < PlaygroundGame::MAX_SCREENS; ++i)
-		screens_[i].reset(screenVideoFactory->create(i));
+		screens_[i].reset(screenVideoFactory.create(i));
 
 	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameVideo::update(engine::Video* const video) {
+void GameVideo::update(engine::Video& video) {
 	// cameras
 	orthoCamera_->update();
 	projCamera_->update();

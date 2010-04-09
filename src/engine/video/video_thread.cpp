@@ -20,7 +20,7 @@ bool VideoThread::initialize() {
 		return false;
 	Sync::inst().windowReady.reset();
 
-	const bool ok = video_->initialize() && gameVideo_->initialize(video_, videoFactory_, screenVideoFactory_);
+	const bool ok = video_.initialize() && gameVideo_.initialize(video_, videoFactory_, screenVideoFactory_);
 	if (ok)
 		TRACE_GOOD(_T("video thread started"));
 	else
@@ -34,14 +34,14 @@ bool VideoThread::initialize() {
 bool VideoThread::update() {
 	Profiler::StopWatch stopWatch(Profiler::VIDEO);
 
-	video_->clear();
+	video_.clear();
 
-	if (video_->begin()) {
-		gameVideo_->update(video_);
-		video_->end();
+	if (video_.begin()) {
+		gameVideo_.update(video_);
+		video_.end();
 	}
 	
-	video_->present();
+	video_.present();
 
     return true;
 }
@@ -49,8 +49,8 @@ bool VideoThread::update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoThread::terminate() {
-	//gameVideo_->terminate();
-	video_->terminate();
+	//gameVideo_.terminate();
+	video_.terminate();
 	Sync::inst().windowReady.set();
 }
 

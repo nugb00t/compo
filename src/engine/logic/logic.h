@@ -10,7 +10,7 @@ namespace engine {
 
 class Logic {
 public:
-	Logic(LogicFactory* const logicFactory) : logicFactory_(logicFactory) {}
+	Logic(LogicFactory& logicFactory) : logicFactory_(logicFactory) {}
 
 	void initialize();
 	void decide(const ServerState& last, ServerRequests::Entity entities[ServerState::MAX_ENTITIES]);
@@ -18,7 +18,7 @@ public:
 private:
 	boost::scoped_ptr<LogicComponent> entities_[ServerState::MAX_ENTITIES];
 
-	LogicFactory* const logicFactory_;
+	LogicFactory& logicFactory_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
