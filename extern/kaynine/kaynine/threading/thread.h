@@ -30,8 +30,8 @@ DWORD WINAPI Thread<TSync>::func(void* something) {
 
 	ThreadObject& object = *reinterpret_cast<ThreadObject*>(something);
 
-	if (!TSync::inst().exit.isSet() && object.initialize())
-		while (!TSync::inst().exit.isSet() && object.update());
+	if (!TSync::inst().exit.check() && object.initialize())
+		while (!TSync::inst().exit.check() && object.update());
 
 	TSync::inst().exit.set();
 
@@ -64,7 +64,7 @@ DWORD WINAPI PulseThread<TSync, TPeriod, TDelay>::func(void* something) {
 	ThreadObject& object = *reinterpret_cast<ThreadObject*>(something);
 	WaitableTimer timer(TPeriod, TDelay);
 
-	if (!TSync::inst().exit.isSet() && object.initialize()) {
+	if (!TSync::inst().exit.check() && object.initialize()) {
 		MultipleObjects events(TSync::inst().exit, timer);
 		while (events.waitAny(2 * TPeriod) == WAIT_OBJECT_0 + 1 && object.update());
 	}		

@@ -4,8 +4,8 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct Resource {
-	TCHAR path[MAX_PATH];
+struct Resource : kaynine::SafeBool<Resource> {
+	const TCHAR* path;
 	kaynine::MemoryPool* pool;
 	
 	// state
@@ -20,13 +20,15 @@ struct Resource {
 		Error,
 	} status;
 
-	Resource(const TCHAR* const path_ = NULL, kaynine::MemoryPool* pool_ = NULL, void* buffer_ = NULL, const uint size_ = 0, const Status status_ = Vacant) 
-		: pool(pool_), buffer(buffer_), size(size_), status(status_) {
-			if (path_)
-				_tcsncpy(&path[0], path_, MAX_PATH);
-			else
-				path[0] = _T('\0');
+	Resource() : path(NULL), pool(NULL), buffer(NULL), size(0), status(Vacant) {}
+
+	Resource(const TCHAR* const path_, kaynine::MemoryPool* pool_, void* buffer_, const uint size_, const Status status_) 
+		: path(path_), pool(pool_), buffer(buffer_), size(size_), status(status_) {
+			assert(path_ && pool_);
 	}
+
+	// interface: SafeBool
+	inline bool boolean_test() const { return path && pool; }
 
 	static Resource Null;
 };
@@ -52,7 +54,6 @@ class Resources : public kaynine::Singleton<Resources> {
 	
 public:
 	Resources();
-	~Resources() { int i; i; }
 
 	bool update();
 	
@@ -62,7 +63,7 @@ public:
 	// TODO: add
 	//void refresh();
 	
-	inline const Resource& operator [](const uint item) const { assert(0 <= item && item < vacant_); return resources_[item]; }
+	inline const Resource& get(const uint item) const { return items_[item]; }
 
 private:
 	void load(const uint item, const uint slot);
@@ -70,8 +71,7 @@ private:
 	void complete(const unsigned slot);
 	
 private:
-	Items resources_;
-	uint vacant_;
+	Items items_;
 
 	Slot slots_[SLOT_COUNT];
 	HANDLE handles_[SLOT_COUNT + 2];

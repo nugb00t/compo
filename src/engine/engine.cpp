@@ -44,6 +44,19 @@ Engine::Engine(Game* game) :
 	kaynine::Trace::inst();
 
 	Resources::inst();
+
+	// TEMP
+	kaynine::MemoryPool pool(1024);
+	const uint index = Resources::inst().add(_T("main/fonts/bureau_20_o_0.dds"), pool);
+	const Resource& item = Resources::inst().get(index);
+
+	while (item.status == Resource::Pending || item.status == Resource::Processing) {
+		Sleep(1000);
+		Resources::inst().update();
+	}
+
+	pool.deallocate(item.buffer);
+	// TEMP
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

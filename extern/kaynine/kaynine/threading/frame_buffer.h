@@ -7,8 +7,7 @@
 
 	@date	28.09.2005
 *//********************************************************/
-#ifndef KN_FRAME_BUFFER_INCLUDED
-#define KN_FRAME_BUFFER_INCLUDED
+#pragma once
 
 #include "sync_wrappers.h"
 
@@ -50,7 +49,7 @@ public:
 public:
 	//-----------------------------------------------------------------------------------------------------------------
 
-	class Readable : public safe_bool<> {
+	class Readable : public SafeBool<Readable> {
 	public:
 		explicit Readable(const FrameBuffer& frameBuffer)
 			: frameBuffer_(frameBuffer), initialized_(frameBuffer_.lockReadable()) {}
@@ -59,9 +58,11 @@ public:
 		inline void release() { if (initialized_) frameBuffer_.unlockReadable(); }
 
 		inline const TContents& data() { assert(frameBuffer_.getReadable()); return *frameBuffer_.getReadable(); }
-		inline bool boolean_test() const { return initialized_; }
 
 		inline const unsigned age() const { return frameBuffer_.age(); }
+
+		// interface: SafeBool
+		inline bool boolean_test() const { return initialized_; }
 
 	private:
 		Readable(const Readable&);				// prohibited
@@ -74,7 +75,7 @@ public:
 
     //-----------------------------------------------------------------------------------------------------------------
 
-	class Writable : public safe_bool<>  {
+	class Writable : public SafeBool<Writable>  {
 	public:
 		explicit Writable(FrameBuffer& frameBuffer) 
 			: frameBuffer_(frameBuffer), initialized_(frameBuffer_.lockWritable()) {}
@@ -83,6 +84,8 @@ public:
 		inline void release() { if (initialized_) frameBuffer_.unlockWritable(); }
 
 		inline TContents& data() { assert(frameBuffer_.getWritable()); return *frameBuffer_.getWritable(); }
+
+		// interface: SafeBool
 		inline bool boolean_test() const { return initialized_; }
 
 	private:
@@ -215,5 +218,3 @@ void FrameBuffer<TContents>::unlockReadable() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
-#endif //_KN_FRAME_BUFFER_INCLUDED_

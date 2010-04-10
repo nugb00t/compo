@@ -5,11 +5,11 @@ namespace kaynine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
-class Holder : public safe_bool<Holder<T> > {
+class Holder : public SafeBool<Holder<T> > {
 public:
 	static T& inst() { return *subject(); }
 
-	// interface: safe_bool
+	// interface: SafeBool
 	bool boolean_test() const { return subject() != NULL; }
 
 protected:

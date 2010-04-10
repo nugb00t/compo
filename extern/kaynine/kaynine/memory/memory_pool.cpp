@@ -92,6 +92,7 @@ void MemoryPool::deallocate(void* data) {
 		chunk = check;
 		unlinkBySize(chunk);
 	}
+
 	// merge with next?
 	check = chunk->next;
 	if (check && (check->bigger != check || check->smaller != check)) {
@@ -100,10 +101,8 @@ void MemoryPool::deallocate(void* data) {
 
 		unlinkBySize(check);
 	}
-	linkBySize(chunk);
 
-	// for Chunk dtor
-	chunk->~Chunk();
+	linkBySize(chunk);
 }
 
 
@@ -134,7 +133,6 @@ void MemoryPool::logStructure(Logger& logger, bool contents UNUSED(= false), boo
 	logger.write(_T("\n|=============================================================|\n"), data_);
 }
 
-
 //---------------------------------------------------------------------------------------------------------------------
 
 void MemoryPool::logContents(Logger& logger, Chunk* chunk) const {
@@ -152,8 +150,8 @@ void MemoryPool::logContents(Logger& logger, Chunk* chunk) const {
 	}
 }
 
-
 #endif
+
 
 //---------------------------------------------------------------------------------------------------------------------
 

@@ -3,12 +3,11 @@
 #include "playground_video.h"
 #include "playground_factories.h"
 
-#include "engine.h"
+#include "core/sync.h"
+#include "filesystem/resources.h"
+
 #include "game.h"
 
-using engine::Engine;
-using engine::Game;
-using engine::Sync;
 using namespace game_playground;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +23,8 @@ bool GameVideo::initialize(engine::Video& video,
 
 	for (uint i = 0; i < PlaygroundGame::MAX_SCREENS; ++i)
 		screens_[i].reset(screenVideoFactory.create(i));
+
+	//engine::Resources::inst().add(_T("main/fonts/bureau_20_o_0.dds"), pool_);
 
 	return true;
 }

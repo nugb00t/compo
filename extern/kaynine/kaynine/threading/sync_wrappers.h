@@ -84,7 +84,7 @@ private:
 	inline Handle& operator =(const HANDLE handle);
 
 public:
-	inline const bool isSet() const {
+	inline const bool check() const {
 		assert(handle_);
 		return wait(0) == WAIT_OBJECT_0;
 	}
@@ -142,18 +142,21 @@ private:
 	Handles& operator=(const Handles&);
 
 public:
-	inline const unsigned waitAll(unsigned msec = INFINITE) const{
-		return ::WaitForMultipleObjects(size_, handles_, TRUE, msec);
+	inline const unsigned wait(const unsigned i, unsigned msec = INFINITE) const{
+		assert(handles_[i]);
+		return ::WaitForSingleObject(handles_[i], msec) == WAIT_OBJECT_0;
 	}
 
-	inline const unsigned waitAny(unsigned msec = INFINITE) const{ 
-		return ::WaitForMultipleObjects(size_, handles_, FALSE, msec);
-	}
+	inline const unsigned waitAll(unsigned msec = INFINITE) const{ return ::WaitForMultipleObjects(size_, handles_, TRUE, msec);  }
+	inline const unsigned waitAny(unsigned msec = INFINITE) const{ return ::WaitForMultipleObjects(size_, handles_, FALSE, msec); }
 
-	inline const bool isSet(const unsigned i) const {
+	inline const bool check(const unsigned i) const {
 		assert(handles_[i]);
 		return ::WaitForSingleObject(handles_[i], 0) == WAIT_OBJECT_0;
 	}
+
+	inline const unsigned checkAll() const{ return ::WaitForMultipleObjects(size_, handles_, TRUE, 0);  }
+	inline const unsigned checkAny() const{ return ::WaitForMultipleObjects(size_, handles_, FALSE, 0); }
 
 	inline const HANDLE handle(const unsigned i) const {
 		assert(handles_[i]);
@@ -292,6 +295,9 @@ private:
 public:
 	inline const unsigned waitAll(unsigned msec = INFINITE) const { return ::WaitForMultipleObjects(count_, handles_, TRUE, msec); }
 	inline const unsigned waitAny(unsigned msec = INFINITE) const { return ::WaitForMultipleObjects(count_, handles_, FALSE, msec); }
+
+	inline const unsigned checkAll() const { return ::WaitForMultipleObjects(count_, handles_, TRUE, 0); }
+	inline const unsigned checkAny() const { return ::WaitForMultipleObjects(count_, handles_, FALSE, 0); }
 
 private:
 	HANDLE handles_[HANDLE_COUNT];

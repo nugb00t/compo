@@ -6,9 +6,9 @@ namespace kaynine {
 //
 //	Safe Bool idiom by Bjorn Karlsson
 //
-//	Here's how to use safe_bool: 
+//	Here's how to use SafeBool: 
 //
-//	class Testable_with_virtual : public safe_bool<> {
+//	class Testable_with_virtual : public SafeBool<> {
 //	protected:
 //		bool boolean_test() const {
 //			// Perform Boolean logic here
@@ -16,7 +16,7 @@ namespace kaynine {
 //	};
 //
 //	class Testable_without_virtual : 
-//		public safe_bool <Testable_without_virtual> {
+//		public SafeBool <Testable_without_virtual> {
 //	public:
 //		bool boolean_test() const {
 //			// Perform Boolean logic here
@@ -41,7 +41,7 @@ protected:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T = void> 
-class safe_bool : public safe_bool_base {
+class SafeBool : public safe_bool_base {
 public:
 	operator bool_type() const {
 		return (static_cast<const T*>(this))->boolean_test() ?
@@ -49,13 +49,13 @@ public:
 	}
 
 protected:
-	virtual ~safe_bool() {}
+	virtual ~SafeBool() {}
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<> 
-class safe_bool<void> : public safe_bool_base {
+class SafeBool<void> : public safe_bool_base {
 public:
 	operator bool_type() const {
 		return boolean_test() == true ? 
@@ -64,13 +64,13 @@ public:
 
 protected:
 	virtual bool boolean_test() const = 0;
-	virtual ~safe_bool() {}
+	virtual ~SafeBool() {}
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T, typename U> 
-void operator==(const safe_bool<T>& lhs,const safe_bool<U>& rhs) {
+void operator==(const SafeBool<T>& lhs,const SafeBool<U>& rhs) {
 	lhs.this_type_does_not_support_comparisons();	
 	return false;
 }
@@ -78,7 +78,7 @@ void operator==(const safe_bool<T>& lhs,const safe_bool<U>& rhs) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T,typename U> 
-void operator!=(const safe_bool<T>& lhs,const safe_bool<U>& rhs) {
+void operator!=(const SafeBool<T>& lhs,const SafeBool<U>& rhs) {
 	lhs.this_type_does_not_support_comparisons();
 	return false;	
 }

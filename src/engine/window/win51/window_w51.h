@@ -14,9 +14,6 @@ public:
 	WindowW51();
 	virtual ~WindowW51();
 
-	// interface: safe_bool
-	virtual bool boolean_test() const;
-
 	// interface: Window
 	virtual bool create(const WNDPROC wndProc,
 						const uint width,
