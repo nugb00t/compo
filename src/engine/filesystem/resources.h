@@ -33,7 +33,7 @@ struct Resource {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Resources {
+class Resources : public kaynine::Singleton<Resources> {
 	static const uint MAX_RESOURCES = 64;
 	static const uint SLOT_COUNT = 4;
 	
@@ -52,6 +52,7 @@ class Resources {
 	
 public:
 	Resources();
+	~Resources() { int i; i; }
 
 	bool update();
 	
@@ -61,7 +62,7 @@ public:
 	// TODO: add
 	//void refresh();
 	
-	inline const Resource& get(const uint item) const { assert(0 <= item && item < vacant_); return resources_[item]; }
+	inline const Resource& operator [](const uint item) const { assert(0 <= item && item < vacant_); return resources_[item]; }
 
 private:
 	void load(const uint item, const uint slot);
@@ -77,7 +78,6 @@ private:
 
 	kaynine::Event newResource_;
 	kaynine::Events events_;
-
 
 	kaynine::CriticalSection guard_;
 };

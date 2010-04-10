@@ -10,10 +10,8 @@ class ProjectionCameraD3D9 : public ProjCamera {
 public:
 	ProjectionCameraD3D9();
 
-	// interface: Updatable
-	virtual void update();
-
 	// interface: ProjCamera
+	virtual void update();
 	virtual const Matrix44& view_projection() const { return view_projection_; }
 
 private:
@@ -35,10 +33,8 @@ class OrthoCameraD3D9 : public OrthoCamera {
 public:
 	OrthoCameraD3D9();
 
-	// interface: Updatable
-	virtual void update();
-
 	// interface: OrthoCamera
+	virtual void update();
 	virtual const Matrix44& view_projection() const { return view_projection_; }
 
 private:

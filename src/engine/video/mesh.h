@@ -13,7 +13,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class DynamicMesh : public Drawn {
+class DynamicMesh {
 public:
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -42,7 +42,6 @@ public:
 	virtual ~DynamicMesh() {}
 
 public:
-    // interface: Drawn
     void draw(const Matrix44& transform);
 
     // interface: own

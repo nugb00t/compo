@@ -18,7 +18,6 @@
 #include "core/time.h"
 
 #include "utility/profiler.h"
-#include "filesystem/resources.h"
 
 #include "game.h"
 
@@ -44,7 +43,6 @@ struct Engine : public kaynine::Holder<Engine> {
 	const boost::scoped_ptr<LocalClient> localClient;
 	const boost::scoped_ptr<Profiler> profiler;
 	const boost::scoped_ptr<Time> time;
-	const boost::scoped_ptr<Resources> resources;
 
 public:
 	Engine(Game* game);

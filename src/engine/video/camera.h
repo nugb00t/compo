@@ -4,19 +4,21 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class ProjCamera : public Updatable {
+class ProjCamera {
 public:
 	virtual ~ProjCamera() {}
 
+	virtual void update() = 0;
 	virtual const Matrix44& view_projection() const = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class OrthoCamera : public Updatable {
+class OrthoCamera {
 public:
 	virtual ~OrthoCamera() {}
 
+	virtual void update() = 0;
 	virtual const Matrix44& view_projection() const = 0;
 };
 

@@ -603,10 +603,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\engine\engine_interfaces.h"
-					>
-				</File>
-				<File
 					RelativePath=".\src\engine\engine_math.h"
 					>
 				</File>

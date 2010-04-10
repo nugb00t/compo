@@ -10,6 +10,8 @@
 #include "system/win51/system_loop_w51.h"
 #endif
 
+#include "filesystem/resources.h"
+
 using namespace engine;
 
 namespace {
@@ -33,13 +35,15 @@ Engine::Engine(Game* game) :
 	localClient(new LocalClient(game->localClient.get())),
 	profiler(new Profiler),
 	time(new Time),
-	resources(new Resources),
 	game_(game)
 {
 	kaynine::Holder<Engine>::set(this);
 
+	// singleton initializations
 	Sync::inst();
 	kaynine::Trace::inst();
+
+	Resources::inst();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

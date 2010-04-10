@@ -11,28 +11,26 @@ Resource Resource::Null;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Resources::Resources() : resources_(Resource::Null), vacant_(0), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 0, SLOT_COUNT) {
+Resources::Resources() : resources_(Resource::Null), vacant_(0), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2) {
 	for (uint i = 0; i < SLOT_COUNT; ++i)
 		slots_[i].status = Slot::Vacant;
 
-	handles_[SLOT_COUNT + 0] = newResource_.handle();
-	handles_[SLOT_COUNT + 1] = Sync::inst().exit.handle();
+	handles_[0] = Sync::inst().exit.handle();
+	handles_[1] = newResource_.handle();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool Resources::update() {
-	assert(vacant_ < MAX_RESOURCES - 1);
+	assert(vacant_ < MAX_RESOURCES);
 
-	for (unsigned wait = events_.waitAny(); wait != WAIT_OBJECT_0 + SLOT_COUNT + 1 && wait != WAIT_FAILED && wait != WAIT_ABANDONED; wait = events_.waitAny())
-		if (wait == WAIT_OBJECT_0 + SLOT_COUNT) {	// new resource
-			kaynine::AutoLock<> lock(guard_);
+	kaynine::AutoLock<> lock(guard_);
 
+	for (unsigned wait = events_.waitAny(); wait != WAIT_OBJECT_0 && wait != WAIT_FAILED && wait != WAIT_ABANDONED; wait = events_.waitAny())
+		if (wait == WAIT_OBJECT_0 + 1) {	// new resource
 			schedule();
 			newResource_.reset();
-		} else if (WAIT_OBJECT_0 <= wait && wait < WAIT_OBJECT_0 + SLOT_COUNT) {
-			kaynine::AutoLock<> lock(guard_);
-
+		} else if (WAIT_OBJECT_0 + 2 <= wait && wait < WAIT_OBJECT_0 + SLOT_COUNT + 2) {	// asio complete
 			complete(wait - WAIT_OBJECT_0);
 			schedule(wait - WAIT_OBJECT_0);
 		}
@@ -43,21 +41,57 @@ bool Resources::update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const uint Resources::add(const TCHAR* const path, kaynine::MemoryPool& pool) {
+	assert(vacant_ <= MAX_RESOURCES && path);
+
 	kaynine::AutoLock<> lock(guard_);
 
-	assert(vacant_ < MAX_RESOURCES - 1 && path);
+	// look through already added resources
+	uint existing;
+	for (existing = 0; existing < vacant_; ++existing)
+		if (!_tcscmp(path, resources_[existing].path))
+			break;
 
-	resources_[vacant_] = Resource(path, &pool, NULL, 0, Resource::Pending);
+	if (existing == vacant_) {
+		assert(vacant_ < MAX_RESOURCES);
 
-	newResource_.set();
+		resources_[vacant_] = Resource(path, &pool, NULL, 0, Resource::Pending);
+		newResource_.set();
 
-	return vacant_++;
+		return vacant_++;
+	} else {
+		assert(resources_[existing].pool == &pool);
+
+		return existing;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Resources::remove(const uint resource) {
+	kaynine::AutoLock<> lock(guard_);
+
 	resources_.remove(resource);
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+
+void Resources::schedule(const unsigned first /*= 0*/) {
+	assert(first < SLOT_COUNT);
+
+	if (!first)
+		TRACE_NOTICE(_T("checking for the new resources to load.."));
+	else
+		TRACE_NOTICE(_T("checking for the new resources to load at the slot #%d"), first);
+
+	for (uint slot = first, item = 0; slot < SLOT_COUNT && item < vacant_; ++slot) {
+		if (slots_[slot].status == Slot::Vacant) {
+			while (resources_[item].status != Resource::Pending && item < vacant_)
+				++item;
+
+			if (item < vacant_)
+				load(item++, slot);
+		}
+	}
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -117,27 +151,6 @@ void Resources::load(const uint item, const uint slot) {
 		slots_[slot].resource = item;
 		slots_[slot].file = file;
 		slots_[slot].status = Slot::Processing;
-	}
-}
-
-//---------------------------------------------------------------------------------------------------------------------
-
-void Resources::schedule(const unsigned first /*= 0*/) {
-	assert(first < SLOT_COUNT);
-
-	if (!first)
-		TRACE_NOTICE(_T("checking for the new resources to load.."));
-	else
-		TRACE_NOTICE(_T("checking for the new resources to load at the slot #%d"), first);
-
-	for (uint slot = first, item = 0; slot < SLOT_COUNT && item < vacant_; ++slot) {
-		if (slots_[slot].status == Slot::Vacant) {
-			while (resources_[item].status != Resource::Pending && item < vacant_)
-				++item;
-
-			if (item < vacant_)
-				load(item++, slot);
-		}
 	}
 }
 
