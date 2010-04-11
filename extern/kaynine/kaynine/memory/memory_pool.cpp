@@ -11,7 +11,7 @@ using namespace kaynine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool MemoryPool::reserve(const unsigned kbytes) {
-	purge();
+	discard();
 
 	data_ = ::malloc(kbytes * 1024);
 	if (!data_)
@@ -21,6 +21,14 @@ bool MemoryPool::reserve(const unsigned kbytes) {
 	// TODO: correct possibly unaligned data_
 	last_ = new (alignDown((unsigned)data_ + kbytes * 1024 - sizeof(Chunk))) Chunk;
 
+	reset();
+
+	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void MemoryPool::reset() {
 	// cross-link the ends
 	first_->prev = 0;
 	first_->next = last_;
@@ -30,15 +38,12 @@ bool MemoryPool::reserve(const unsigned kbytes) {
 	// only one free chunk
 	first_->smaller = first_->bigger = 0;
 	last_->markOccupied();
-
-	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MemoryPool::purge() {
+void MemoryPool::discard() {
 	if (data_) {
-		assert(data_ && biggest_ == smallest_ && smallest_ == first_ && (!first_ || first_ == alignUp(data_)));	// should be empty before purging
 		::free(data_);
 		data_ = 0;
 	}

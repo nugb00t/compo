@@ -1,6 +1,6 @@
 #pragma once
 
-#include "video/mesh.h"
+#include "../mesh.h"
 
 namespace engine {
 

@@ -245,6 +245,10 @@
 						RelativePath=".\extern\kaynine\kaynine\containers\static_array.h"
 						>
 					</File>
+					<File
+						RelativePath=".\extern\kaynine\kaynine\containers\static_list.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="memory"
@@ -682,6 +686,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\src\engine\video\video_assets.h"
+						>
+					</File>
+					<File
 						RelativePath=".\src\engine\video\video_component.h"
 						>
 					</File>
@@ -726,6 +734,14 @@
 						</File>
 						<File
 							RelativePath=".\src\engine\video\direct3d9\texture_d3d9.h"
+							>
+						</File>
+						<File
+							RelativePath=".\src\engine\video\direct3d9\video_assets_d3d9.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\src\engine\video\direct3d9\video_assets_d3d9.h"
 							>
 						</File>
 						<File

@@ -10,11 +10,11 @@ namespace kaynine {
 
 // usage:
 // buffer.get(-2).field
-template <class TValue, unsigned TCapacity>
+template <class TValue, unsigned TSize>
 class StaticArray {
 public:
 	typedef TValue VALUE_TYPE;
-    static const unsigned CAPACITY = TCapacity;
+    static const unsigned SIZE = TSize;
 
 public:
 
@@ -22,19 +22,19 @@ public:
 
 	class Range {
 	public:
-		inline Range(StaticArray& staticArray);
+		inline Range(StaticArray& array);
 
-		inline const bool finished() { return index_ >= (int)staticArray_.size_; }
+		inline const bool finished() { return current_ >= (int)array_.size_; }
 		inline void next();
 
-		inline TValue& get() { return staticArray_[index_]; }
-		inline const TValue& get() const { return staticArray_[index_]; }
+		inline		 TValue& get()		 { return array_[current_]; }
+		inline const TValue& get() const { return array_[current_]; }
 
-		inline const unsigned index() const { return index_; }
+		inline const unsigned index() const { return current_; }
 
 	private:
-		StaticArray& staticArray_;
-		int index_;
+		StaticArray& array_;
+		int current_;
 	};
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -42,16 +42,16 @@ public:
 public:
 	StaticArray(const TValue& null = 0) : null_(null), vacant_(0), size_(0) {}
 
-	inline const unsigned add(TValue value);
+	inline const unsigned add(const TValue value);
 	inline void remove(const unsigned i);
 
-	inline TValue& operator [](const unsigned i) { assert(valid(i)); return values_[i]; }
-	inline const TValue& operator [](const unsigned i) const { assert(valid(i)); return values_[i]; }
+	inline		 TValue& operator [](const unsigned i)		 { assert(valid(i)); return items_[i]; }
+	inline const TValue& operator [](const unsigned i) const { assert(valid(i)); return items_[i]; }
 
-	inline const bool valid(const unsigned i) const { return i < size_ && values_[i]; }
+	inline const bool valid(const unsigned i) const { return i < size_ && items_[i]; }
 
 private:
-    TValue values_[CAPACITY];
+    TValue items_[SIZE];
 	const TValue& null_;
 
 	unsigned vacant_;
@@ -60,33 +60,33 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template <class TValue, unsigned TCapacity>
-StaticArray<TValue, TCapacity>::Range::Range(StaticArray& staticArray) : staticArray_(staticArray), index_(0) {
-	while (!finished() && !staticArray_[index_])
-		++index_;
+template <class TValue, unsigned TSize>
+StaticArray<TValue, TSize>::Range::Range(StaticArray& staticArray) : array_(staticArray), current_(0) {
+	while (!finished() && !array_[current_])
+		++current_;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 
-template <class TValue, unsigned TCapacity>
-void StaticArray<TValue, TCapacity>::Range::next() {
-	++index_;
-	while (!finished() && !staticArray_[index_])
-		++index_;
+template <class TValue, unsigned TSize>
+void StaticArray<TValue, TSize>::Range::next() {
+	++current_;
+	while (!finished() && !array_[current_])
+		++current_;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 
-template <class TValue, unsigned TCapacity>
-const unsigned StaticArray<TValue, TCapacity>::add(TValue value) {
+template <class TValue, unsigned TSize>
+const unsigned StaticArray<TValue, TSize>::add(const TValue value) {
 	assert(value);	// StaticArray operates with non-zero TValues only
 
 	const unsigned inserted = vacant_;
-	assert(inserted < CAPACITY);
-	values_[inserted] = value;
+	assert(inserted < SIZE);
+	items_[inserted] = value;
 
 	if (vacant_ < size_)
-		while(vacant_ < size_ && values_[vacant_])
+		while(vacant_ < size_ && items_[vacant_])
 			++vacant_;
 	else
 		vacant_ = ++size_;
@@ -96,10 +96,10 @@ const unsigned StaticArray<TValue, TCapacity>::add(TValue value) {
 
 //---------------------------------------------------------------------------------------------------------------------
 
-template <class TValue, unsigned TCapacity>
-void StaticArray<TValue, TCapacity>::remove(const unsigned i) {
+template <class TValue, unsigned TSize>
+void StaticArray<TValue, TSize>::remove(const unsigned i) {
 	assert(i < size_ && i != vacant_);
-	values_[i] = null_;
+	items_[i] = null_;
 	vacant_ = i;
 
 	if (i == size_ - 1)

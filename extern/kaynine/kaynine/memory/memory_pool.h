@@ -29,7 +29,7 @@ class MemoryPool {
 public:
 	MemoryPool(): data_(0), first_(0), last_(0), biggest_(0), smallest_(0) {}
 	MemoryPool(const unsigned kbytes): data_(0), first_(0), last_(0), biggest_(0), smallest_(0) { reserve(kbytes); }
-	~MemoryPool() { purge(); }
+	~MemoryPool() { reset(); }
 
 private:
 	// disallow copy semantics
@@ -38,7 +38,8 @@ private:
 
 public:
 	bool reserve(const unsigned kbytes);
-	void purge();
+	void reset();
+	void discard();
 
 	void* allocate(const unsigned bytes);
 	void deallocate(void* data);

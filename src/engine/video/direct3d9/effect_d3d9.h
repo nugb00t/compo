@@ -1,6 +1,6 @@
 #pragma once
 
-#include "video/effect.h"
+#include "../effect.h"
 
 #include "video_d3d9.h"
 #include "texture_d3d9.h"

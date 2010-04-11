@@ -2,7 +2,7 @@
 
 #ifdef VIDEO_DIRECT3D9
 
-#include "video/video.h"
+#include "../video.h"
 
 // factory-created objects
 #include "camera_d3d9.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "video/camera.h"
+#include "../camera.h"
 
 namespace engine {
 
