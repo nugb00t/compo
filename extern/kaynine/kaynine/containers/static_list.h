@@ -36,15 +36,15 @@ public:
 
 	class Range {
 	public:
-		inline Range(StaticList& list) : list_(list), current_() {}
+		inline Range(StaticList& list) : list_(list), current_(list_.face_->next) {}
 
-		//inline const bool finished() { return current_ >= (int)list_.size_; }
-		//inline void next();
+		inline const bool finished()		{ return current_ == list_.free_; }
+		inline void next()					{ current_ = current_->next;      }
 
-		inline		 TValue& get()		 { return current_->value; }
-		inline const TValue& get() const { return current_->value; }
+		inline		 TValue& get()			{ return current_->value;		  }
+		inline const TValue& get() const	{ return current_->value;		  }
 
-		inline const unsigned index() const { return current_ - &list_.chain_[0]; }
+		inline const unsigned index() const	{ return current_ - list_.face_;  }
 
 	private:
 		StaticList& list_;
@@ -71,7 +71,6 @@ private:
     Cell chain_[SIZE + 2];
 
 	Cell* face_;
-	Cell* head_;
 	Cell* free_;
 	Cell* back_;
 };
@@ -79,25 +78,24 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class TValue, unsigned TSize>
-StaticList<TValue, TSize>::StaticList() : face_(chain_), head_(face_ + 1), free_(head_), back_(head_) {
+StaticList<TValue, TSize>::StaticList() : face_(chain_), free_(face_ + 1), back_(free_) {
 	face_->prev = NULL;
 
-	link(face_, head_);
+	link(face_, free_);
 
-	head_->next = NULL;
+	free_->next = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class TValue, unsigned TSize>
 const unsigned StaticList<TValue, TSize>::add(TValue value) {
-	if (free_ == back_) {		// no free prepared items available - expand the chain
+	if (free_ == back_) {			// no free prepared items available - expand the chain
 		assert(back_ < &chain_[SIZE + 2]);
-
-		// expand
-		++back_;
-
-		link(free_, back_);		// make a new link to the expansion cell
+		
+		++back_;					// expand
+		
+		link(free_, back_);			// make a new link to the expansion cell
 	}
 
 	free_->value = value;
@@ -113,9 +111,9 @@ void StaticList<TValue, TSize>::remove(const unsigned i) {
 	assert(0 <= i && i < SIZE - 2);
 
 	Cell* cell = &chain_[i + 1];
-	link(cell->prev, cell->next);		// cross-link the neighbors
 	
-	insert(cell, free_);		// link newly emptied cell between 'free->prev' and 'free'
+	link(cell->prev, cell->next);	// cross-link the neighbors
+	insert(cell, free_);			// link newly emptied cell between 'free->prev' and 'free'
 
 	free_ = cell;
 }
@@ -125,15 +123,14 @@ void StaticList<TValue, TSize>::remove(const unsigned i) {
 template <class TValue, unsigned TSize>
 void StaticList<TValue, TSize>::reset() {
 	face_ = chain_;
-	head_ = free_ = back_ = face_ + 1;
+	free_ = back_ = face_ + 1;
 
 	// initial links
 	face_->prev = NULL;
 
-	face_->next = head_;
-	head_->prev = face_;
+	link(face_, free_);
 
-	head_->next = NULL;
+	free_->next = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
