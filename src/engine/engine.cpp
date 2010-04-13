@@ -63,7 +63,15 @@ Engine::Engine(Game* game) :
 	// TEMP
 
 	// TEMP
-	kaynine::StaticList<uint, 16> list;
+	kaynine::StaticList<uint, 4> list;
+	uint i0 = list.add(0); assert(i0 == 0);
+	uint i1 = list.add(1); assert(i1 == 1);
+	list.remove(i0);
+
+	uint i2 = list.add(0); assert(i2 == 0);
+	uint i3 = list.add(2); assert(i3 == 2);
+
+	list.reset();
 	// TEMP
 }
 
