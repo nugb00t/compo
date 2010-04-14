@@ -2,9 +2,7 @@
 
 // factory-created objects
 #include "camera.h"
-#include "effect.h"
 #include "mesh.h"
-#include "texture.h"
 
 namespace engine {
 
@@ -15,7 +13,7 @@ public:
 
 	//-----------------------------------------------------------------------------------------------------------------
 
-	enum VertexDeclType {
+	enum VertexType {
 		POS_DIFFUSE,
 		POS_DIFFUSE_TEX,
 		//POS_NORMAL_TEX,
@@ -25,7 +23,7 @@ public:
 
 #pragma pack(push, 4)
 	struct PosDiffuse {
-		static const VertexDeclType Type = POS_DIFFUSE;
+		static const VertexType Type = POS_DIFFUSE;
 
 		Vector3 pos;
 		uint diffuse;
@@ -36,7 +34,7 @@ public:
 	};
 
 	struct PosDiffuseTex {
-		static const VertexDeclType Type = POS_DIFFUSE_TEX;
+		static const VertexType Type = POS_DIFFUSE_TEX;
 
 		Vector3 pos;
 		uint diffuse;
@@ -69,18 +67,20 @@ public:
 	virtual void end() = 0;
 	virtual void present() = 0;
 
+	// assets
+	virtual const uint addTexture(const TCHAR* const path) = 0;
+	virtual void draw(DynamicMesh& mesh, const VertexType vertexType, const EffectType effect,
+					  const uint* const textures, const uint textureCount,
+					  //const void* const uniforms, const uint uniformCount,
+					  const Matrix44& transform) = 0;
+
 	// TEMP
 	virtual ProjCamera* createProjCamera() = 0;
 	virtual OrthoCamera* createOrthoCamera() = 0;
 	// TEMP
 
 	// object factory
-	virtual DynamicMesh* createMesh(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) = 0;
-
-	virtual Effect* createEffect(const EffectType type) = 0;
-	virtual Texture* createTexture(const TCHAR* const path) = 0;
-
-	virtual void activateVertexDecl(const VertexDeclType type) = 0;
+	virtual DynamicMesh* createMesh(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

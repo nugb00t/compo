@@ -1,12 +1,10 @@
 #pragma once
 
-#include "../video_assets.h"
-
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoAssetsD3D9 : public VideoAssets {
+class VideoAssetsD3D9 {
 	static const uint MAX_TEXTURES = 32;
 	
 	//-----------------------------------------------------------------------------------------------------------------
@@ -36,10 +34,12 @@ class VideoAssetsD3D9 : public VideoAssets {
 public:
 	VideoAssetsD3D9(const uint bufferSize) : pool_(bufferSize), textureCount_(0) {}
 
-	// interface: VideoAssets
-	virtual void reset();
-	virtual const uint addTexture(const TCHAR* const path);
-	virtual void update(Video& video);
+	// interface: own
+	void reset();
+	const uint addTexture(const TCHAR* const path);
+	void update(IDirect3DDevice9* device);
+
+	IDirect3DTexture9* getTexture(const uint i) { return textures_[i].texture; }
 
 private:
 	kaynine::MemoryPool pool_;

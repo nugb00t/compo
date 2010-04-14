@@ -81,7 +81,7 @@ private:
 template <class TValue, unsigned TSize>
 void StaticList<TValue, TSize>::Range::remove() {
 	current_ = current_->prev;
-	list_.remove(current->next);
+	list_.remove(current_->next - list_.face_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

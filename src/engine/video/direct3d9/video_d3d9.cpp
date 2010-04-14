@@ -7,8 +7,7 @@
 #include "game.h"
 
 // factory-created objects
-#include "effect_d3d9.h"
-#include "texture_d3d9.h"
+#include "mesh_d3d9.h"
 
 // directx
 #pragma comment(lib, "d3d9.lib")
@@ -60,14 +59,14 @@ const TCHAR* VideoD3D9::EFFECT_PATHS[VERTEX_DECL_COUNT] = {
 
 //---------------------------------------------------------------------------------------------------------------------
 
-const Video::VertexDeclType VideoD3D9::EFFECT_VERTEX_DECLS[EFFECT_COUNT] = {
+const Video::VertexType VideoD3D9::EFFECT_VERTEX_DECLS[EFFECT_COUNT] = {
 	POS_DIFFUSE,
 	POS_DIFFUSE_TEX,
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL) { 
+VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL), assets_(ASSET_POOL_SIZE) { 
 	memset(&vertexDecls_[0], 0, sizeof(vertexDecls_)); 
 	memset(&effects_[0], 0, sizeof(effects_)); 
 }
@@ -151,6 +150,8 @@ void VideoD3D9::clear() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoD3D9::begin() {
+	assets_.update(device_);
+
 	return SUCCEEDED(device_->BeginScene());
 }
 
@@ -168,30 +169,59 @@ void VideoD3D9::present() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Texture* VideoD3D9::createTexture(const TCHAR* const path) {
-	Texture* tex = new TextureD3D9(path);
-	if (tex->initialize())
-		return tex;
-	else {
-		delete tex;
-		return NULL;
+void VideoD3D9::draw(DynamicMesh& mesh, const VertexType vertexType, const EffectType effectType,
+					 const uint* const textures, const uint textureCount,
+					 //const void* const uniforms, const uint uniformCount,
+					 const Matrix44& transform) 
+{
+	ID3DXEffect* const effect = effects_[effectType];
+
+	// set transform
+	D3DXHANDLE handle = effect->GetParameterByName(0, "TRANSFORM");
+	assert(handle);
+	CHECKED_D3D_CALL_A(effect->SetMatrix(handle, transform.d3dMatrix()));
+
+	// vertex type
+	CHECKED_D3D_CALL_A(device_->SetVertexDeclaration(vertexDecls_[vertexType]));
+
+	// technique
+	D3DXHANDLE techHandle = effect->GetTechniqueByName("TransformTech");
+	CHECKED_D3D_CALL_A(effect->SetTechnique(techHandle));
+
+	// textures
+	for (uint i = 0; i < textureCount; ++i) {
+		IDirect3DTexture9* const texture = assets_.getTexture(textures[i]);
+		if (!texture)
+			continue;
+
+		//CHECKED_D3D_CALL_A(device->SetTexture(stage, texture));
+
+		D3DXHANDLE handle = effect->GetParameterByName(NULL, texUniforms_[i].name);
+		assert(handle);
+		CHECKED_D3D_CALL_A(effect->SetTexture(handle, texture));
 	}
+
+	// uniforms
+	//for (uint i = 0; uniforms_[i].name; ++i) {
+	//	D3DXHANDLE handle = effect->GetParameterByName(NULL, uniforms_[i].name);
+	//	assert(handle);
+	//	effect->SetValue(handle, uniforms_[i].value, D3DX_DEFAULT);
+	//}
+
+	uint passes = 0;
+	CHECKED_D3D_CALL_A(effect->Begin(&passes, D3DXFX_DONOTSAVESTATE));
+	CHECKED_D3D_CALL_A(effect->BeginPass(0));
+
+    mesh.streamBuffers();
+
+	CHECKED_D3D_CALL_A(effect->EndPass());
+	CHECKED_D3D_CALL_A(effect->End());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Effect* VideoD3D9::createEffect(const EffectType type) {
-	assert(0 <= type && type < EFFECT_COUNT);
-
-	return new EffectD3D9(*effects_[type], EFFECT_VERTEX_DECLS[type]);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void VideoD3D9::activateVertexDecl(const Video::VertexDeclType type) {
-	assert(0 <= type && type < VERTEX_DECL_COUNT);
-
-	CHECKED_D3D_CALL_A(device_->SetVertexDeclaration(vertexDecls_[type]));
+DynamicMesh* VideoD3D9::createMesh(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) {
+	return new DynamicMeshD3D9(vertexSize, vertexCapacity, indexCapacity);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

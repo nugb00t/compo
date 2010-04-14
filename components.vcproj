@@ -654,14 +654,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\src\engine\video\effect.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\src\engine\video\effect.h"
-						>
-					</File>
-					<File
 						RelativePath=".\src\engine\video\font.cpp"
 						>
 					</File>
@@ -678,15 +670,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\src\engine\video\texture.h"
-						>
-					</File>
-					<File
 						RelativePath=".\src\engine\video\video.h"
-						>
-					</File>
-					<File
-						RelativePath=".\src\engine\video\video_assets.h"
 						>
 					</File>
 					<File
@@ -713,27 +697,11 @@
 							>
 						</File>
 						<File
-							RelativePath=".\src\engine\video\direct3d9\effect_d3d9.cpp"
-							>
-						</File>
-						<File
-							RelativePath=".\src\engine\video\direct3d9\effect_d3d9.h"
-							>
-						</File>
-						<File
 							RelativePath=".\src\engine\video\direct3d9\mesh_d3d9.cpp"
 							>
 						</File>
 						<File
 							RelativePath=".\src\engine\video\direct3d9\mesh_d3d9.h"
-							>
-						</File>
-						<File
-							RelativePath=".\src\engine\video\direct3d9\texture_d3d9.cpp"
-							>
-						</File>
-						<File
-							RelativePath=".\src\engine\video\direct3d9\texture_d3d9.h"
 							>
 						</File>
 						<File

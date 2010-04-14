@@ -1,7 +1,5 @@
 #pragma once
 
-#include "video/effect.h"
-
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,26 +33,22 @@ public:
     //-----------------------------------------------------------------------------------------------------------------
 
 protected:
-    DynamicMesh(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) 
-        : effect_(effect), vertexSize_(vertexSize), vertexCapacity_(vertexCapacity), indexCapacity_(indexCapacity), vertexCount_(0), indexCount_(0) {}
+    DynamicMesh(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) 
+        : vertexSize_(vertexSize), vertexCapacity_(vertexCapacity), indexCapacity_(indexCapacity), vertexCount_(0), indexCount_(0) {}
 
 public:
 	virtual ~DynamicMesh() {}
 
 public:
-    void draw(const Matrix44& transform);
-
     // interface: own
     virtual void lock() = 0;
     virtual void unlock() = 0;
 
-    virtual void streamBuffers(const uint vertexCount, const uint primCount) = 0;
+    virtual void streamBuffers(const uint vertexCount = 0, const uint primCount = 0) = 0;
 
     void clear() { vertexCount_ = 0; indexCount_ = 0; }
 
 protected:
-    engine::Effect& effect_;
-
     const uint vertexSize_;
     const uint vertexCapacity_;
     const uint indexCapacity_;

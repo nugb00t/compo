@@ -21,24 +21,16 @@ const u16 OrbVideo::indices_[] = {
 	2, 3, 0
 };
 
-const Effect::TextureUniform OrbVideo::TEX_UNIFORMS[] = {
-    { "TEX_DIFFUSE", _T("playground/textures/myself.bmp") },
-    Effect::TextureUniform::TERMINATOR
-};
+//const Effect::TextureUniform OrbVideo::TEX_UNIFORMS[] = {
+//    { "TEX_DIFFUSE", _T("playground/textures/myself.bmp") },
+//    Effect::TextureUniform::TERMINATOR
+//};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void OrbVideo::draw(engine::Video& video, const ServerState::Entity& orb, const Matrix44& view_projection) {
-	if (!mesh_ || !effect_) {
-        assert(!mesh_ && !effect_);
-
-		effect_.reset(video.createEffect(EFFECT));
-        effect_->setTexUniforms(TEX_UNIFORMS);
-
-        mesh_.reset(video.createMesh(*effect_,
-					sizeof(Vertex), 
-					sizeof(vertices_) / sizeof(Vertex),
-					sizeof(indices_) / sizeof(u16)));
+	if (!mesh_) {
+        mesh_.reset(video.createMesh(sizeof(Vertex), sizeof(vertices_) / sizeof(Vertex), sizeof(indices_) / sizeof(u16)));
 
         DynamicMesh::BufferAccess access(*mesh_);
 		access.setBuffers(vertices_, sizeof(vertices_) / sizeof(Vertex), indices_, sizeof(indices_) / sizeof(u16));
@@ -49,8 +41,9 @@ void OrbVideo::draw(engine::Video& video, const ServerState::Entity& orb, const 
 	//cml::matrix_rotation_quaternion(transform, orb.rotation);
 	cml::matrix_set_translation(transform, orb.position);
 
+	// TODO: load up the texture
     transform *= view_projection;
-	mesh_->draw(transform);
+	video.draw(*mesh_, Vertex::Type, EFFECT, /**/0, 1, transform);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

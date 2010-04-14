@@ -20,16 +20,3 @@ void DynamicMesh::BufferAccess::setBuffers(const void* vertices, const u16 verte
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void DynamicMesh::draw(const Matrix44& transform) {
-    assert(vertexCapacity_ && indexCapacity_);
-
-    effect_.setTransform(transform);
-	effect_.begin(*Engine::inst().video);
-
-    streamBuffers(vertexCount_, indexCount_ / 3);
-
-    effect_.end();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

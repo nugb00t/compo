@@ -32,11 +32,8 @@ namespace {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ThreadProfilerVideo::draw(engine::Video& video, const Matrix44& view_projection) {
-	if (!effect_)
-		effect_.reset(video.createEffect(EFFECT));
-
 	if (!mesh_)
-		mesh_.reset(video.createMesh(*effect_, sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
+		mesh_.reset(video.createMesh(sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
 
 	mesh_->clear();
 	DynamicMesh::BufferAccess access(*mesh_);
@@ -106,7 +103,7 @@ void ThreadProfilerVideo::draw(engine::Video& video, const Matrix44& view_projec
 		access.appendIndex(firstVertex);
 	}
 
-	mesh_->draw(view_projection);
+	video.draw(*mesh_, Vertex::Type, EFFECT, 0, 0, view_projection);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

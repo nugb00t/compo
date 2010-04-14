@@ -1,14 +1,16 @@
 #include "stdafx.h"
 
 #ifdef VIDEO_DIRECT3D9
+#include "mesh_d3d9.h"
+
 #include "engine.h"
 
 using namespace engine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-DynamicMeshD3D9::DynamicMeshD3D9(Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity)
-:   DynamicMesh(effect, vertexSize, vertexCapacity, indexCapacity),
+DynamicMeshD3D9::DynamicMeshD3D9(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity)
+:   DynamicMesh(vertexSize, vertexCapacity, indexCapacity),
     vertexBuffer_(NULL), indexBuffer_(NULL)
 {
 	assert(vertexSize && vertexCapacity && indexCapacity);
@@ -44,11 +46,14 @@ void DynamicMeshD3D9::unlock() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DynamicMeshD3D9::streamBuffers(const uint vertexCount, const uint primCount) {
-	assert(vertexBuffer_ && indexBuffer_ && vertexCount && primCount);
+	assert(vertexBuffer_ && indexBuffer_);
 
 	CHECKED_D3D_CALL_A(Engine::inst().videoD3D9->device().SetStreamSource(0, vertexBuffer_, 0, vertexSize_));
 	CHECKED_D3D_CALL_A(Engine::inst().videoD3D9->device().SetIndices(indexBuffer_));
-	CHECKED_D3D_CALL_A(Engine::inst().videoD3D9->device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertexCount, 0, primCount));
+	CHECKED_D3D_CALL_A(Engine::inst().videoD3D9->device().DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 
+		vertexCount ? vertexCount : vertexCount_, 
+		0, 
+		primCount ? primCount : indexCount_ / 3));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

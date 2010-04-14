@@ -6,21 +6,22 @@
 
 // factory-created objects
 #include "camera_d3d9.h"
-#include "mesh_d3d9.h"
+
+#include "video_assets_d3d9.h"
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class VideoD3D9 : public Video {
-
 	static const uint MAX_VERTEX_DECL_ELEMS = 8;
+	static const uint ASSET_POOL_SIZE = 1024;		// kB
 
 	static const D3DVERTEXELEMENT9 VERTEX_DECL_ELEMS[VERTEX_DECL_COUNT][MAX_VERTEX_DECL_ELEMS];
 
 public:
 	static const TCHAR* EFFECT_PATHS[EFFECT_COUNT];
-	static const VertexDeclType EFFECT_VERTEX_DECLS[EFFECT_COUNT];
+	static const VertexType EFFECT_VERTEX_DECLS[EFFECT_COUNT];
 
 public:
 	VideoD3D9();
@@ -34,16 +35,18 @@ public:
 	virtual void end();
 	virtual void present();
 
+	// assets
+	virtual const uint addTexture(const TCHAR* const path) { return assets_.addTexture(path); }
+	virtual void draw(DynamicMesh& mesh, const VertexType vertexType, const EffectType effect,
+					  const uint* const textures, const uint textureCount,
+					  //const void* const uniforms, const uint uniformCount,
+					  const Matrix44& transform);
+
 	// object factory
 	virtual ProjCamera* createProjCamera() { return new ProjectionCameraD3D9; }
 	virtual OrthoCamera* createOrthoCamera() { return new OrthoCameraD3D9; }
 
-	virtual DynamicMesh* createMesh(engine::Effect& effect, const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) { return new DynamicMeshD3D9(effect, vertexSize, vertexCapacity, indexCapacity); }
-
-	virtual Effect* createEffect(const EffectType type);
-	virtual Texture* createTexture(const TCHAR* const path);
-
-	virtual void activateVertexDecl(const VertexDeclType type);
+	virtual DynamicMesh* createMesh(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity);
 
 public:
 	// own
@@ -59,6 +62,8 @@ private:
 	IDirect3DVertexDeclaration9* vertexDecls_[VERTEX_DECL_COUNT];
 
 	ID3DXEffect* effects_[EFFECT_COUNT];
+
+	VideoAssetsD3D9 assets_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
