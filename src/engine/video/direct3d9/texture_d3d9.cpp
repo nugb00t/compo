@@ -23,7 +23,6 @@ TextureD3D9::~TextureD3D9() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool TextureD3D9::initialize() {
-	CHECKED_D3D_CALL(D3DXCreateTextureFromFile(&Engine::inst().videoD3D9->device(), path_, &texture_));
 	return true;
 }
 

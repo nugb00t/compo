@@ -49,29 +49,19 @@ Engine::Engine(Game* game) :
 
 	Resources::inst();
 
-	// TEMP
-	//kaynine::MemoryPool pool(1024);
-	//const uint index = Resources::inst().add(_T("main/fonts/bureau_20_o_0.dds"), pool);
-	//const Resource& item = Resources::inst().get(index);
-
-	//while (item.status == Resource::Pending || item.status == Resource::Processing) {
-	//	Sleep(1000);
-	//	Resources::inst().update();
-	//}
-
 	//pool.deallocate(item.buffer);
 	// TEMP
 
-	// TEMP
-	kaynine::StaticList<uint, 4> list;
-	uint i0 = list.add(0); assert(i0 == 0);
-	uint i1 = list.add(1); assert(i1 == 1);
-	list.remove(i0);
+	// TEMP: kaynine::StaticList unittest
+	//kaynine::StaticList<uint, 4> list;
+	//uint i0 = list.add(0); assert(i0 == 0);
+	//uint i1 = list.add(1); assert(i1 == 1);
+	//list.remove(i0);
 
-	uint i2 = list.add(0); assert(i2 == 0);
-	uint i3 = list.add(2); assert(i3 == 2);
+	//uint i2 = list.add(0); assert(i2 == 0);
+	//uint i3 = list.add(2); assert(i3 == 2);
 
-	list.reset();
+	//list.reset();
 	// TEMP
 }
 
