@@ -42,10 +42,10 @@ public:
 		inline void next()					{ current_ = current_->next;      }
 		inline void remove();
 
-		inline		 TValue& get()			{ return current_->value;		  }
-		inline const TValue& get() const	{ return current_->value;		  }
+		inline		 TValue& get()			{ return current_->value; }
+		inline const TValue& get() const	{ return current_->value; }
 
-		inline const unsigned index() const	{ return current_ - list_.face_;  }
+		inline const unsigned index() const	{ return current_ - list_.face_ - 1;  }
 
 	private:
 		StaticList& list_;
@@ -81,7 +81,7 @@ private:
 template <class TValue, unsigned TSize>
 void StaticList<TValue, TSize>::Range::remove() {
 	current_ = current_->prev;
-	list_.remove(current_->next - list_.face_);
+	list_.remove(current_->next - list_.face_ - 1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

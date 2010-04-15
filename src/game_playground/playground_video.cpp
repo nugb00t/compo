@@ -18,11 +18,15 @@ bool GameVideo::initialize(engine::Video& video,
 	orthoCamera_.reset(video.createOrthoCamera());
 	projCamera_.reset(video.createProjCamera());
 
-	for (uint i = 0; i < PlaygroundGame::MAX_ENTITIES; ++i)
+	for (uint i = 0; i < PlaygroundGame::MAX_ENTITIES; ++i) {
 		entities_[i].reset(videoFactory.create(i));
+		entities_[i]->initialize(video);
+	}
 
-	for (uint i = 0; i < PlaygroundGame::MAX_SCREENS; ++i)
+	for (uint i = 0; i < PlaygroundGame::MAX_SCREENS; ++i) {
 		screens_[i].reset(screenVideoFactory.create(i));
+		screens_[i]->initialize(video);
+	}
 
 	//engine::Resources::inst().add(_T("main/fonts/bureau_20_o_0.dds"), pool_);
 

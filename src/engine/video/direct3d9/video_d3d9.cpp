@@ -170,7 +170,7 @@ void VideoD3D9::present() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::draw(DynamicMesh& mesh, const VertexType vertexType, const EffectType effectType,
-					 const uint* const textures, const uint textureCount,
+					 const TextureUniform* const texUniforms, const uint textureCount,
 					 //const void* const uniforms, const uint uniformCount,
 					 const Matrix44& transform) 
 {
@@ -186,17 +186,18 @@ void VideoD3D9::draw(DynamicMesh& mesh, const VertexType vertexType, const Effec
 
 	// technique
 	D3DXHANDLE techHandle = effect->GetTechniqueByName("TransformTech");
+	assert(techHandle);
 	CHECKED_D3D_CALL_A(effect->SetTechnique(techHandle));
 
 	// textures
 	for (uint i = 0; i < textureCount; ++i) {
-		IDirect3DTexture9* const texture = assets_.getTexture(textures[i]);
+		IDirect3DTexture9* const texture = assets_.getTexture(texUniforms[i].texture);
 		if (!texture)
 			continue;
 
 		//CHECKED_D3D_CALL_A(device->SetTexture(stage, texture));
 
-		D3DXHANDLE handle = effect->GetParameterByName(NULL, texUniforms_[i].name);
+		D3DXHANDLE handle = effect->GetParameterByName(NULL, texUniforms[i].name);
 		assert(handle);
 		CHECKED_D3D_CALL_A(effect->SetTexture(handle, texture));
 	}

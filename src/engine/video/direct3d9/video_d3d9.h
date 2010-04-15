@@ -38,7 +38,7 @@ public:
 	// assets
 	virtual const uint addTexture(const TCHAR* const path) { return assets_.addTexture(path); }
 	virtual void draw(DynamicMesh& mesh, const VertexType vertexType, const EffectType effect,
-					  const uint* const textures, const uint textureCount,
+					  const TextureUniform* const texUniforms, const uint textureCount,
 					  //const void* const uniforms, const uint uniformCount,
 					  const Matrix44& transform);
 

@@ -23,11 +23,14 @@ class HUDVideo : public engine::ScreenVideoComponent {
 	static const engine::Video::EffectType  EFFECT = engine::Video::DIFFUSE_TEXTURED;
 
 public:
-	// interface: VideoComponent
+	// interface: ScreenVideoComponent
+	virtual void initialize(engine::Video& video);
 	virtual void draw(engine::Video& video, const Matrix44& view_projection);
 
 private:
 	boost::scoped_ptr<engine::DynamicMesh> mesh_;
+	engine::Video::TextureUniform texUniform_;
+	
 	game::BureauFont font_;
 };
 
