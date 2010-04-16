@@ -15,7 +15,11 @@ exec/*.dpmrg
 exec/*.DPSup
 exec/*.NLB
 exec/*.pdb
+*.filters
 *.lnk
 *.ncb
+*.opensdf
+*.sdf
 *.suo
 *.user
+

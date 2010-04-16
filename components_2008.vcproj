@@ -18,10 +18,10 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../$(SolutionName)_build/bin/$(ConfigurationName)"
-			IntermediateDirectory="../$(SolutionName)_build/bin/$(ConfigurationName)"
+			OutputDirectory="../$(SolutionName)_build/$(ConfigurationName)"
+			IntermediateDirectory="../$(SolutionName)_build/$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets=".\common.vsprops;.\common_debug.vsprops"
+			InheritedPropertySheets=".\common_2008.vsprops;.\common_debug_2008.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -86,10 +86,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="../$(SolutionName)_build/bin/$(ConfigurationName)"
-			IntermediateDirectory="../$(SolutionName)_build/bin/$(ConfigurationName)"
+			OutputDirectory="../$(SolutionName)_build/$(ConfigurationName)"
+			IntermediateDirectory="../$(SolutionName)_build/$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets=".\common.vsprops;.\common_release.vsprops"
+			InheritedPropertySheets=".\common_2008.vsprops;.\common_release_2008.vsprops"
 			CharacterSet="1"
 			>
 			<Tool

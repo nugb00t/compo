@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>components</ProjectName>
+    <ProjectGuid>{F8F41349-5A9C-41D1-899D-E605B206C083}</ProjectGuid>
+    <RootNamespace>components</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="common_2010.props" />
+    <Import Project="common_release_2010.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="common_2010.props" />
+    <Import Project="common_debug_2010.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../$(SolutionName)_build/$(Configuration)/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../$(SolutionName)_build/$(Configuration)/</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../$(SolutionName)_build/bin/$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../$(SolutionName)_build/bin/$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>src/engine;src/game;src/game_playground;extern/kaynine;extern/boost;extern/cml;extern/opengl;extern/tinyxml;extern/directx/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;PLATFORM_WIN51;VIDEO_DIRECT3D9;KN_USE_TRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(SolutionDir)exec\Comp-$(Configuration).exe</OutputFile>
+      <AdditionalLibraryDirectories>extern/boost/lib;extern/directx/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>src/engine;src/game;src/game_playground;extern/kaynine;extern/boost;extern/cml;extern/opengl;extern/tinyxml;extern/directx/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;PLATFORM_WIN51;VIDEO_DIRECT3D9;KN_USE_TRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(SolutionDir)exec\Comp-$(Configuration).exe</OutputFile>
+      <AdditionalLibraryDirectories>extern/boost/lib;extern/directx/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="extern\kaynine\kaynine\filesystem\tools.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="extern\kaynine\kaynine\memory\memory_pool.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="extern\kaynine\kaynine\debug\trace.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="extern\tinyxml\tinystr.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="extern\tinyxml\tinyxml.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="extern\tinyxml\tinyxmlerror.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="extern\tinyxml\tinyxmlparser.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\game_playground\playground_arbiter.cpp" />
+    <ClCompile Include="src\game_playground\playground_factories.cpp" />
+    <ClCompile Include="src\game_playground\playground_fonts.cpp" />
+    <ClCompile Include="src\game_playground\playground_game.cpp" />
+    <ClCompile Include="src\game_playground\playground_local_client.cpp" />
+    <ClCompile Include="src\game_playground\playground_video.cpp" />
+    <ClCompile Include="src\game_playground\screens\hud_video.cpp" />
+    <ClCompile Include="src\game_playground\screens\thread_profiler_video.cpp" />
+    <ClCompile Include="src\game_playground\entities\orb_logic.cpp" />
+    <ClCompile Include="src\game_playground\entities\orb_video.cpp" />
+    <ClCompile Include="src\engine\engine.cpp" />
+    <ClCompile Include="src\engine\utility\profiler.cpp" />
+    <ClCompile Include="src\engine\core\time.cpp" />
+    <ClCompile Include="src\engine\video\font.cpp" />
+    <ClCompile Include="src\engine\video\mesh.cpp" />
+    <ClCompile Include="src\engine\video\video_thread.cpp" />
+    <ClCompile Include="src\engine\video\direct3d9\camera_d3d9.cpp" />
+    <ClCompile Include="src\engine\video\direct3d9\mesh_d3d9.cpp" />
+    <ClCompile Include="src\engine\video\direct3d9\video_assets_d3d9.cpp" />
+    <ClCompile Include="src\engine\video\direct3d9\video_d3d9.cpp" />
+    <ClCompile Include="src\engine\logic\logic.cpp" />
+    <ClCompile Include="src\engine\system\system_loop.cpp" />
+    <ClCompile Include="src\engine\system\win51\system_loop_w51.cpp" />
+    <ClCompile Include="src\engine\client\local_client.cpp" />
+    <ClCompile Include="src\engine\server\server_thread.cpp" />
+    <ClCompile Include="src\engine\input\win51\input_w51.cpp" />
+    <ClCompile Include="src\engine\window\win51\window_w51.cpp" />
+    <ClCompile Include="src\engine\filesystem\filesystem_thread.cpp" />
+    <ClCompile Include="src\engine\filesystem\resources.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="extern\kaynine\kaynine\filesystem\tools.h" />
+    <ClInclude Include="extern\kaynine\kaynine\threading\frame_buffer.h" />
+    <ClInclude Include="extern\kaynine\kaynine\threading\sync_wrappers.h" />
+    <ClInclude Include="extern\kaynine\kaynine\threading\thread.h" />
+    <ClInclude Include="extern\kaynine\kaynine\threading\thread_base.h" />
+    <ClInclude Include="extern\kaynine\kaynine\utility\holder.h" />
+    <ClInclude Include="extern\kaynine\kaynine\utility\instance_count.h" />
+    <ClInclude Include="extern\kaynine\kaynine\utility\registry.h" />
+    <ClInclude Include="extern\kaynine\kaynine\utility\safe_bool.h" />
+    <ClInclude Include="extern\kaynine\kaynine\utility\singleton.h" />
+    <ClInclude Include="extern\kaynine\kaynine\containers\cyclic_buffer.h" />
+    <ClInclude Include="extern\kaynine\kaynine\containers\static_array.h" />
+    <ClInclude Include="extern\kaynine\kaynine\containers\static_list.h" />
+    <ClInclude Include="extern\kaynine\kaynine\memory\memory_pool.h" />
+    <ClInclude Include="extern\kaynine\kaynine\memory\pooled.h" />
+    <ClInclude Include="extern\kaynine\kaynine\memory\pooled_ptr.h" />
+    <ClInclude Include="extern\kaynine\kaynine\debug\macros.h" />
+    <ClInclude Include="extern\kaynine\kaynine\debug\trace.h" />
+    <ClInclude Include="extern\tinyxml\tinystr.h" />
+    <ClInclude Include="extern\tinyxml\tinyxml.h" />
+    <ClInclude Include="tools\cook_font\template_data.h" />
+    <ClInclude Include="tools\cook_font\template_font.h" />
+    <ClInclude Include="tools\cook_font\template_kerned_data.h" />
+    <ClInclude Include="tools\cook_font\template_kerned_font.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\game_playground\playground_arbiter.h" />
+    <ClInclude Include="src\game_playground\playground_factories.h" />
+    <ClInclude Include="src\game_playground\playground_game.h" />
+    <ClInclude Include="src\game_playground\playground_local_client.h" />
+    <ClInclude Include="src\game_playground\playground_video.h" />
+    <ClInclude Include="src\game_playground\screens\hud_video.h" />
+    <ClInclude Include="src\game_playground\screens\thread_profiler_video.h" />
+    <ClInclude Include="src\game_playground\entities\orb_logic.h" />
+    <ClInclude Include="src\game_playground\entities\orb_video.h" />
+    <ClInclude Include="src\game_playground\fonts\bureau_font.h" />
+    <ClInclude Include="src\game_playground\fonts\bureau_font_data.h" />
+    <ClInclude Include="src\game\game.h" />
+    <ClInclude Include="src\game\game_arbiter.h" />
+    <ClInclude Include="src\game\game_factories.h" />
+    <ClInclude Include="src\game\game_local_client.h" />
+    <ClInclude Include="src\game\game_video.h" />
+    <ClInclude Include="src\engine\engine.h" />
+    <ClInclude Include="src\engine\engine_math.h" />
+    <ClInclude Include="src\engine\engine_pch.h" />
+    <ClInclude Include="src\engine\engine_types.h" />
+    <ClInclude Include="src\engine\utility\profiler.h" />
+    <ClInclude Include="src\engine\core\sync.h" />
+    <ClInclude Include="src\engine\core\time.h" />
+    <ClInclude Include="src\engine\video\camera.h" />
+    <ClInclude Include="src\engine\video\font.h" />
+    <ClInclude Include="src\engine\video\mesh.h" />
+    <ClInclude Include="src\engine\video\video.h" />
+    <ClInclude Include="src\engine\video\video_component.h" />
+    <ClInclude Include="src\engine\video\video_thread.h" />
+    <ClInclude Include="src\engine\video\direct3d9\camera_d3d9.h" />
+    <ClInclude Include="src\engine\video\direct3d9\mesh_d3d9.h" />
+    <ClInclude Include="src\engine\video\direct3d9\video_assets_d3d9.h" />
+    <ClInclude Include="src\engine\video\direct3d9\video_d3d9.h" />
+    <ClInclude Include="src\engine\logic\logic.h" />
+    <ClInclude Include="src\engine\logic\logic_component.h" />
+    <ClInclude Include="src\engine\system\system_loop.h" />
+    <ClInclude Include="src\engine\system\win51\system_loop_w51.h" />
+    <ClInclude Include="src\engine\client\local_client.h" />
+    <ClInclude Include="src\engine\server\server_data.h" />
+    <ClInclude Include="src\engine\server\server_thread.h" />
+    <ClInclude Include="src\engine\input\input.h" />
+    <ClInclude Include="src\engine\input\input_data.h" />
+    <ClInclude Include="src\engine\input\win51\input_w51.h" />
+    <ClInclude Include="src\engine\window\window.h" />
+    <ClInclude Include="src\engine\window\win51\window_w51.h" />
+    <ClInclude Include="src\engine\filesystem\filesystem_thread.h" />
+    <ClInclude Include="src\engine\filesystem\resources.h" />
+    <ClInclude Include="exec\main\fx\pos_diffuse.h" />
+    <ClInclude Include="exec\main\fx\pos_diffuse_tex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tools\cook_font\cook_font.py" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

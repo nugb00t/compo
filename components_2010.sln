@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "components", "components_2010.vcxproj", "{F8F41349-5A9C-41D1-899D-E605B206C083}"
+EndProject
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "ipy", "C:\Program Files\IronPython 2.0.2\ipy.exe", "{76DA0D31-46CD-449C-8F29-AF580C2D6B2C}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\Program Files\IronPython 2.0.2\ipy.exe
+		RemoteMachine = KIV-WKS-PR029
+		StartingDirectory = C:\Program Files\IronPython 2.0.2
+		Environment = Default
+		LaunchingEngine = 00000000-0000-0000-0000-000000000000
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8F41349-5A9C-41D1-899D-E605B206C083}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F8F41349-5A9C-41D1-899D-E605B206C083}.Debug|Win32.Build.0 = Debug|Win32
+		{F8F41349-5A9C-41D1-899D-E605B206C083}.Release|Win32.ActiveCfg = Release|Win32
+		{F8F41349-5A9C-41D1-899D-E605B206C083}.Release|Win32.Build.0 = Release|Win32
+		{76DA0D31-46CD-449C-8F29-AF580C2D6B2C}.Debug|Win32.ActiveCfg = Debug
+		{76DA0D31-46CD-449C-8F29-AF580C2D6B2C}.Release|Win32.ActiveCfg = Debug
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
