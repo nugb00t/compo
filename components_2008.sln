@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "components", "components.vcproj", "{F8F41349-5A9C-41D1-899D-E605B206C083}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "components", "components_2008.vcproj", "{F8F41349-5A9C-41D1-899D-E605B206C083}"
 EndProject
 Project("{8BC9CEB9-8B4A-11D0-8D11-00A0C91BC942}") = "ipy.exe", "C:\Program Files\IronPython 2.0.2\ipy.exe", "{76DA0D31-46CD-449C-8F29-AF580C2D6B2C}"
 EndProject
