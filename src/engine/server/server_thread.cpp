@@ -16,17 +16,8 @@ using namespace engine;
 bool ServerThread::initialize() {
     states_.advance(States::CLEAR_FRAME);
 
-	states_.get().entities[0].rotation.identity();
-	states_.get().entities[0].rotationalVelocity.identity();
-	states_.get().entities[0].active = true;
-
-	states_.get().clients[0].rotation.identity();
-	states_.get().clients[0].rotationalVelocity.identity();
-	states_.get().clients[0].active = true;
-
-	// TEMP
 	logic_.initialize();
-	// TEMP
+	gameFlow_.initialize(states_.get());
 
     return true;
 }

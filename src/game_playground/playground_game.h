@@ -10,6 +10,7 @@ class PlaygroundGame : public engine::Game {
 public:
 	enum Entities {
 		ENTITY_ORB,
+		ENTITY_BALL,
 
 		MAX_ENTITIES
 	};

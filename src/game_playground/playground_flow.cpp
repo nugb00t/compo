@@ -1,0 +1,27 @@
+#include "stdafx.h"
+
+#include "playground_flow.h"
+
+using namespace game_playground;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameFlow::initialize(engine::ServerState& first) {
+	first.entities[0].rotation.identity();
+	first.entities[0].rotationalVelocity.identity();
+	first.entities[0].active = true;
+
+	first.clients[0].rotation.identity();
+	first.clients[0].rotationalVelocity.identity();
+	first.clients[0].active = true;
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameFlow::advance(const engine::ServerState& last, engine::ServerState& next) {
+	last;
+	next;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

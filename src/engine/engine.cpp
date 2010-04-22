@@ -12,10 +12,6 @@
 
 #include "filesystem/resources.h"
 
-// TEMP
-#include <kaynine/containers/static_list.h>
-// TEMP
-
 using namespace engine;
 
 namespace {
@@ -48,28 +44,13 @@ Engine::Engine(Game* game) :
 	kaynine::Trace::inst();
 
 	Resources::inst();
-
-	//pool.deallocate(item.buffer);
-	// TEMP
-
-	// TEMP: kaynine::StaticList unittest
-	//kaynine::StaticList<uint, 4> list;
-	//uint i0 = list.add(0); assert(i0 == 0);
-	//uint i1 = list.add(1); assert(i1 == 1);
-	//list.remove(i0);
-
-	//uint i2 = list.add(0); assert(i2 == 0);
-	//uint i3 = list.add(2); assert(i3 == 2);
-
-	//list.reset();
-	// TEMP
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::run() {
 	FileSystemThread fileSystem;
-	ServerThread server(*game_->arbiter, *game_->logicFactory);
+	ServerThread server(*game_->arbiter, *game_->flow, *game_->logicFactory);
 	VideoThread video(*video, *game_->video, *game_->videoFactory, *game_->screenVideoFactory);
 #ifdef PLATFORM_WIN51
 	SystemLoopW51 systemLoop;

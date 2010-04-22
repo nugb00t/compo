@@ -4,6 +4,7 @@
 #include "logic/logic.h"
 
 #include "game_arbiter.h"
+#include "game_flow.h"
 
 namespace engine {
 
@@ -17,8 +18,8 @@ class ServerThread : public kaynine::ThreadObject {
 	typedef kaynine::StaticArray<unsigned, ServerState::MAX_ENTITIES> Entities;
 
 public:
-	ServerThread(GameArbiter& gameArbiter, LogicFactory& logicFactory)
-		: gameArbiter_(gameArbiter), logic_(logicFactory) {}
+	ServerThread(GameArbiter& gameArbiter, GameFlow& gameFlow, LogicFactory& logicFactory)
+		: gameArbiter_(gameArbiter), gameFlow_(gameFlow), logic_(logicFactory) {}
 
 	// interface: kaynine::ThreadObject
 	virtual bool initialize();
@@ -34,6 +35,7 @@ private:
 	Logic logic_;
 
 	GameArbiter& gameArbiter_;
+	GameFlow& gameFlow_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -6,11 +6,12 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class GameArbiter {
+class GameFlow {
 public:
-	virtual ~GameArbiter() {}
+	virtual ~GameFlow() {}
 	
-    virtual void marshall(const ServerState& last, const ServerRequests& requests, ServerState& next) = 0;
+	virtual void initialize(ServerState& /*first*/) {}
+    virtual void advance(const ServerState& last, ServerState& next) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

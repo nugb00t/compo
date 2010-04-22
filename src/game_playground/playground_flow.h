@@ -2,15 +2,17 @@
 
 #include "server/server_data.h"
 
-namespace engine {
+#include "game_flow.h"
+
+namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class GameArbiter {
+class GameFlow : public engine::GameFlow {
 public:
-	virtual ~GameArbiter() {}
-	
-    virtual void marshall(const ServerState& last, const ServerRequests& requests, ServerState& next) = 0;
+    // interface: GameFlow
+	virtual void initialize(engine::ServerState& first);
+	virtual void advance(const engine::ServerState& last, engine::ServerState& next);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
