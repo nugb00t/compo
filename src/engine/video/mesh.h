@@ -4,14 +4,35 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class MeshImpl {
+class Mesh {
 public:
-    virtual ~MeshImpl() {}
+	Mesh(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) 
+		: vertexSize_(vertexSize), vertexCapacity_(vertexCapacity), indexCapacity_(indexCapacity) {
+			assert(vertexSize && vertexCapacity && indexCapacity);
+	}
+
+	virtual ~Mesh() {}
+
+	// interface: own
+	virtual void streamBuffers(const uint vertexCount = 0, const uint primCount = 0) = 0;
+
+protected:
+	const uint vertexSize_;
+	const uint vertexCapacity_;
+	const uint indexCapacity_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class DynamicMesh {
+class StaticMesh : public Mesh {
+public:
+	StaticMesh(const uint vertexSize, const uint vertexCount, const uint indexCount) 
+		: Mesh(vertexSize, vertexCount, indexCount) {}
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class DynamicMesh : public Mesh {
 public:
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -32,28 +53,17 @@ public:
 
     //-----------------------------------------------------------------------------------------------------------------
 
-protected:
+public:
     DynamicMesh(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) 
-        : vertexSize_(vertexSize), vertexCapacity_(vertexCapacity), indexCapacity_(indexCapacity), vertexCount_(0), indexCount_(0) {}
+        : Mesh(vertexSize, vertexCapacity, indexCapacity), vertexCount_(0), indexCount_(0) {}
 
-public:
-	virtual ~DynamicMesh() {}
-
-public:
     // interface: own
     virtual void lock() = 0;
     virtual void unlock() = 0;
 
-    virtual void streamBuffers(const uint vertexCount = 0, const uint primCount = 0) = 0;
-
     void clear() { vertexCount_ = 0; indexCount_ = 0; }
 
 protected:
-    const uint vertexSize_;
-    const uint vertexCapacity_;
-    const uint indexCapacity_;
-
-    // state vars
     void* vertices_;
     u16* indices_;
 

@@ -6,6 +6,7 @@
 
 // factory-created objects
 #include "camera_d3d9.h"
+#include "mesh_d3d9.h"
 
 #include "video_assets_d3d9.h"
 
@@ -30,10 +31,8 @@ public:
 	virtual bool initialize();
 	virtual void terminate();
 
-	virtual void clear();
-	virtual bool begin();
+	virtual void begin();
 	virtual void end();
-	virtual void present();
 
 	// assets
 	virtual const uint addTexture(const TCHAR* const path) { return assets_.addTexture(path); }
@@ -59,6 +58,12 @@ private:
 	IDirect3D9* d3d_;
 	IDirect3DDevice9* device_;
 	
+	// render-to-texture
+	ID3DXRenderToSurface* renderTarget_;
+	IDirect3DTexture9* renderTexture_;
+	IDirect3DSurface9* renderSurface_;
+	boost::scoped_ptr<StaticMeshD3D9> renderMesh_;
+
 	IDirect3DVertexDeclaration9* vertexDecls_[VERTEX_DECL_COUNT];
 
 	ID3DXEffect* effects_[EFFECT_COUNT];

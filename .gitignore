@@ -6,6 +6,7 @@ extern/directx/include
 extern/directx/lib
 extern/glew
 extern/opengl/gl
+exec/*.bsc
 exec/*.dll
 exec/*.exe
 exec/*.ilk

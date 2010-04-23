@@ -6,9 +6,6 @@
 #include "engine.h"
 #include "game.h"
 
-// factory-created objects
-#include "mesh_d3d9.h"
-
 // directx
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "dxerr.lib")
@@ -22,6 +19,13 @@ using namespace engine;
 
 namespace {
 	const D3DCOLOR CLEAR_COLOR = D3DCOLOR_XRGB(127, 127, 127);
+
+	inline void safeRelease(IUnknown* unknown) {
+		if (unknown) {
+			unknown->Release();
+			unknown = NULL;
+		}
+	}
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -66,7 +70,14 @@ const Video::VertexType VideoD3D9::EFFECT_VERTEX_DECLS[EFFECT_COUNT] = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoD3D9::VideoD3D9() : d3d_(NULL), device_(NULL), assets_(ASSET_POOL_SIZE) { 
+VideoD3D9::VideoD3D9() :
+	d3d_(NULL), 
+	device_(NULL),
+	renderTarget_(NULL),
+	renderTexture_(NULL),
+	renderSurface_(NULL),
+	assets_(ASSET_POOL_SIZE)
+{ 
 	memset(&vertexDecls_[0], 0, sizeof(vertexDecls_)); 
 	memset(&effects_[0], 0, sizeof(effects_)); 
 }
@@ -94,9 +105,28 @@ bool VideoD3D9::initialize() {
 	assert(handle);
 	CHECKED_D3D_CALL(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, handle, D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(| D3DCREATE_PUREDEVICE), &d3dpp, &device_));
 
+	// render target
+	CHECKED_D3D_CALL(D3DXCreateRenderToSurface(device_, 800, 600, D3DFMT_A8R8G8B8, FALSE, D3DFMT_UNKNOWN, &renderTarget_));
+	CHECKED_D3D_CALL(D3DXCreateTexture(device_, 800, 600, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &renderTexture_));        
+	CHECKED_D3D_CALL(renderTexture_->GetSurfaceLevel(0, &renderSurface_));
+
+	static const PosDiffuseTex quadVertices[] = {
+		PosDiffuseTex(Vector3(-.5f, -.5f, 0.f), 0x0fff0000, Vector2(0.f, 1.f)),
+		PosDiffuseTex(Vector3(-.5f,  .5f, 0.f), 0xff00ffff, Vector2(0.f, 0.f)),
+		PosDiffuseTex(Vector3( .5f,  .5f, 0.f), 0x0f00ff00, Vector2(1.f, 0.f)),
+		PosDiffuseTex(Vector3( .5f, -.5f, 0.f), 0xff00ffff, Vector2(1.f, 1.f)),
+	};
+	static const u16 quadIndices[] = {
+		0, 1, 2,
+		2, 3, 0
+	};
+	renderMesh_.reset(new StaticMeshD3D9(sizeof(PosDiffuseTex), 4, 6, quadVertices, quadIndices));
+
+	// vertex decls
 	for (uint i = 0; i < VERTEX_DECL_COUNT; ++i)
 		CHECKED_D3D_CALL(Engine::inst().videoD3D9->device().CreateVertexDeclaration(VERTEX_DECL_ELEMS[i], &vertexDecls_[i]));
 
+	// effects
 	for (uint i = 0; i < EFFECT_COUNT; ++i) {
 		ID3DXBuffer* errors = NULL;
 
@@ -119,52 +149,54 @@ bool VideoD3D9::initialize() {
 
 void VideoD3D9::terminate() {
 	for (uint i = 0; i < EFFECT_COUNT; ++i)
-		if (effects_[i]) {
-			effects_[i]->Release();
-			effects_[i] = NULL;
-		}
+		safeRelease(effects_[i]);
 
 	for (uint i = 0; i < VERTEX_DECL_COUNT; ++i)
-		if (vertexDecls_[i]) {
-			vertexDecls_[i]->Release();
-			vertexDecls_[i] = NULL;
-		}
+		safeRelease(vertexDecls_[i]);
 
-	if (device_) {
-		device_->Release();
-		device_ = NULL;
-	}
+	safeRelease(renderSurface_);
+	safeRelease(renderTexture_);
+	safeRelease(renderTarget_);
 
-	if (d3d_) {
-		d3d_->Release();
-		d3d_ = NULL;
-	}
+	safeRelease(device_);
+	safeRelease(d3d_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VideoD3D9::clear() {
-	device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool VideoD3D9::begin() {
+void VideoD3D9::begin() {
 	assets_.update(device_);
 
-	return SUCCEEDED(device_->BeginScene());
+	CHECKED_D3D_CALL_A(renderTarget_->BeginScene(renderSurface_, NULL));
+
+	//CHECKED_D3D_CALL_A(device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::end() {
-	device_->EndScene();
-}
+	CHECKED_D3D_CALL_A(renderTarget_->EndScene(D3DX_FILTER_NONE));
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	CHECKED_D3D_CALL_A(device_->BeginScene());
 
-void VideoD3D9::present() {
-	device_->Present(NULL, NULL, NULL, NULL);
+	ID3DXEffect* effect = effects_[DIFFUSE_TEXTURED];
+	D3DXHANDLE handle = effect->GetParameterByName(NULL, "TEX_DIFFUSE");
+	assert(handle);
+	CHECKED_D3D_CALL_A(effect->SetTexture(handle, renderTexture_));
+	UINT numPasses = 0;
+	CHECKED_D3D_CALL_A(effect->Begin(&numPasses, 0));
+	CHECKED_D3D_CALL_A(effect->BeginPass(0));
+
+	renderMesh_->streamBuffers();
+	//CHECKED_D3D_CALL_A(device_->SetStreamSource(0, mRadarVB, 0, sizeof(VertexPT)));
+	//CHECKED_D3D_CALL_A(device_->SetVertexDeclaration (VertexPT::Decl));
+	//CHECKED_D3D_CALL_A(device_->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+
+	CHECKED_D3D_CALL_A(effect->EndPass());
+	CHECKED_D3D_CALL_A(effect->End());	
+
+	CHECKED_D3D_CALL_A(device_->EndScene());
+	CHECKED_D3D_CALL_A(device_->Present(NULL, NULL, NULL, NULL));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

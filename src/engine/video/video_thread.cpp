@@ -34,14 +34,9 @@ bool VideoThread::initialize() {
 bool VideoThread::update() {
 	Profiler::StopWatch stopWatch(Profiler::VIDEO);
 
-	video_.clear();
-
-	if (video_.begin()) {
-		gameVideo_.update(video_);
-		video_.end();
-	}
-	
-	video_.present();
+	video_.begin();
+	gameVideo_.update(video_);
+	video_.end();
 
     return true;
 }

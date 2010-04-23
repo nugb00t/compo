@@ -71,10 +71,8 @@ public:
 	virtual bool initialize() = 0;
 	virtual void terminate() = 0;
 	
-	virtual void clear() = 0;
-	virtual bool begin() = 0;
+	virtual void begin() = 0;
 	virtual void end() = 0;
-	virtual void present() = 0;
 
 	// assets
 	virtual const uint addTexture(const TCHAR* const path) = 0;
