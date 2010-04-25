@@ -11,16 +11,11 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool VideoThread::initialize() {
-	kaynine::MultipleObjects events(Sync::inst().exit, Sync::inst().windowReady);
+#ifdef VIDEO_DIRECT3D9
+	video_.reset(new VideoD3D9);
+#endif
 
-	const DWORD wait = events.waitAny();
-	assert(wait != WAIT_FAILED && wait != WAIT_ABANDONED);
-
-	if (wait == WAIT_OBJECT_0)
-		return false;
-	Sync::inst().windowReady.reset();
-
-	const bool ok = video_.initialize() && gameVideo_.initialize(video_, videoFactory_, screenVideoFactory_);
+	const bool ok = video_->initialize() && gameVideo_.initialize(*video_, videoFactory_, screenVideoFactory_);
 	if (ok)
 		TRACE_GOOD(_T("video thread started"));
 	else
@@ -34,19 +29,19 @@ bool VideoThread::initialize() {
 bool VideoThread::update() {
 	Profiler::StopWatch stopWatch(Profiler::VIDEO);
 
-	video_.begin();
-	gameVideo_.update(video_);
-	video_.end();
+	video_->begin();
+	const bool ok = gameVideo_.update(*video_);
+	video_->end();
 
-    return true;
+	return ok;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoThread::terminate() {
 	//gameVideo_.terminate();
-	video_.terminate();
-	Sync::inst().windowReady.set();
+	video_->terminate();
+	video_.reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

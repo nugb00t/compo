@@ -24,10 +24,7 @@ const u16 BallVideo::indices_[] = {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BallVideo::initialize(engine::Video& video) {
-	mesh_.reset(video.createMesh(sizeof(Vertex), sizeof(vertices_) / sizeof(Vertex), sizeof(indices_) / sizeof(u16)));
-
-	DynamicMesh::BufferAccess access(*mesh_);
-	access.setBuffers(vertices_, sizeof(vertices_) / sizeof(Vertex), indices_, sizeof(indices_) / sizeof(u16));
+	mesh_.reset(video.createStaticMesh(sizeof(Vertex), vertices_, sizeof(vertices_) / sizeof(Vertex), indices_, sizeof(indices_) / sizeof(u16)));
 
 	texUniform_.path = _T("playground/textures/myself.bmp");
 	texUniform_.name = "TEX_DIFFUSE";

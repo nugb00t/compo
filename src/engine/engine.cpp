@@ -28,10 +28,6 @@ Engine::Engine(Game* game) :
 	windowW51(new WindowW51),
 	window(windowW51.get()),
 #endif
-#ifdef VIDEO_DIRECT3D9
-	videoD3D9(new VideoD3D9), 
-	video(videoD3D9.get()), 
-#endif
 	localClient(new LocalClient(game->localClient.get())),
 	profiler(new Profiler),
 	time(new Time),
@@ -49,21 +45,28 @@ Engine::Engine(Game* game) :
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::run() {
-	FileSystemThread fileSystem;
-	ServerThread server(*game_->arbiter, *game_->flow, *game_->logicFactory);
-	VideoThread video(*video, *game_->video, *game_->videoFactory, *game_->screenVideoFactory);
 #ifdef PLATFORM_WIN51
 	SystemLoopW51 systemLoop;
 #endif
 
-	HANDLE handles[] = {
-		kaynine::Thread<Sync>::create(&fileSystem),
-		kaynine::PulseThread<Sync, SERVER_PERIOD, SERVER_DELAY>::create(&server),
-		kaynine::Thread<Sync>::create(&video),
-		kaynine::Thread<Sync>::create(&systemLoop),
-	};
-	kaynine::Handles threads(&handles[0], sizeof(handles) / sizeof(HANDLE));
-	threads.waitAll(); 
+	if (systemLoop.initialize()) {
+		FileSystemThread fileSystem;
+		ServerThread server(*game_->arbiter, *game_->flow, *game_->logicFactory);
+		VideoThread video(*game_->video, *game_->videoFactory, *game_->screenVideoFactory);
+
+		HANDLE handles[] = {
+			kaynine::Thread<Sync>::create(&fileSystem),
+			kaynine::PulseThread<Sync, SERVER_PERIOD, SERVER_DELAY>::create(&server),
+			kaynine::Thread<Sync>::create(&video),
+		};
+		kaynine::Handles threads(&handles[0], sizeof(handles) / sizeof(HANDLE));
+
+		while (!Sync::inst().exit.check() && systemLoop.update());
+
+		Sync::inst().exit.set();
+		threads.waitAll(); 
+		systemLoop.terminate();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

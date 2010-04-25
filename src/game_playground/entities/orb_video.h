@@ -21,7 +21,7 @@ private:
 	static const Vertex vertices_[];
 	static const u16 indices_[];
 
-	boost::scoped_ptr<engine::DynamicMesh> mesh_;
+	boost::scoped_ptr<engine::StaticMesh> mesh_;
 	engine::Video::TextureUniform texUniform_;
 };
 

@@ -35,7 +35,7 @@ bool GameVideo::initialize(engine::Video& video,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameVideo::update(engine::Video& video) {
+bool GameVideo::update(engine::Video& video) {
 	// cameras
 	orthoCamera_->update();
 	projCamera_->update();
@@ -50,6 +50,8 @@ void GameVideo::update(engine::Video& video) {
 	// screens
 	for (uint i = 0; i < PlaygroundGame::MAX_SCREENS; ++i)
 		screens_[i]->draw(video, orthoCamera_->view_projection());
+
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

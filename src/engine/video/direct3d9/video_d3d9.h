@@ -36,7 +36,8 @@ public:
 
 	// assets
 	virtual const uint addTexture(const TCHAR* const path) { return assets_.addTexture(path); }
-	virtual void draw(DynamicMesh& mesh, const VertexType vertexType, const EffectType effect,
+
+	virtual void draw(Mesh& mesh, const VertexType vertexType, const EffectType effect,
 					  const TextureUniform* const texUniforms, const uint textureCount,
 					  //const void* const uniforms, const uint uniformCount,
 					  const Matrix44& transform);
@@ -45,7 +46,8 @@ public:
 	virtual ProjCamera* createProjCamera() { return new ProjectionCameraD3D9; }
 	virtual OrthoCamera* createOrthoCamera() { return new OrthoCameraD3D9; }
 
-	virtual DynamicMesh* createMesh(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity);
+	virtual StaticMesh* createStaticMesh(const uint vertexSize, const void* const vertices, const uint vertexCount, const u16* const indices, const uint indexCount);
+	virtual DynamicMesh* createDynamicMesh(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity);
 
 public:
 	// own

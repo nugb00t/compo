@@ -3,12 +3,9 @@ uniform extern texture TEX_DIFFUSE;
 
 sampler TEX_DIFFUSE_SAMPLER = sampler_state {
     Texture = <TEX_DIFFUSE>;
-	//MinFilter = POINT;
-	//MagFilter = POINT;
-	//MipFilter = POINT;
-	MinFilter = LINEAR;
-	MagFilter = LINEAR;
-	MipFilter = LINEAR;
+	//MinFilter = LINEAR;
+	//MagFilter = LINEAR;
+	//MipFilter = LINEAR;
 };
 
 struct VertexOut {
@@ -46,9 +43,9 @@ float4 TransformPS(VertexOut vertex) : COLOR {
 // Techniques
 technique TransformTech {
 	pass P0 {
-		AlphaBlendEnable = true;
-		SrcBlend = srcalpha;
-		DestBlend = invsrcColor;
+		//AlphaBlendEnable = true;
+		//SrcBlend = srcalpha;
+		//DestBlend = invsrcColor;
 
 		vertexShader = compile vs_3_0 TransformVS();
 		pixelShader  = compile ps_3_0 TransformPS();

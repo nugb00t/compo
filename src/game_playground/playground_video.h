@@ -21,7 +21,7 @@ public:
 	virtual bool initialize(engine::Video& video,
 							engine::VideoFactory& videoFactory,
 							engine::ScreenVideoFactory& screenVideoFactory);
-	virtual void update(engine::Video& video);
+	virtual bool update(engine::Video& video);
 
 private:
 	boost::scoped_ptr<engine::OrthoCamera> orthoCamera_;	// for screens

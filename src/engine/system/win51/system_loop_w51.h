@@ -7,13 +7,14 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class SystemLoopW51 : public SystemLoop {
+class SystemLoopW51 {
     static const uint PERIOD = 5;
 
 public:
     // interface: kaynine::ThreadObject
     virtual bool initialize();
     virtual bool update();
+	virtual void terminate();
 
 private:
     static LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);

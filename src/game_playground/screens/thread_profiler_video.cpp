@@ -32,78 +32,80 @@ namespace {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ThreadProfilerVideo::initialize(engine::Video& video) {
-	mesh_.reset(video.createMesh(sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
+	mesh_.reset(video.createDynamicMesh(sizeof(Vertex), MAX_VERTICES, MAX_INDICES));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ThreadProfilerVideo::draw(engine::Video& video, const Matrix44& view_projection) {
 	mesh_->clear();
-	DynamicMesh::BufferAccess access(*mesh_);
-
-	// top ruler
 	{
-		const float bottom	= SCREEN_TOP - BAR_HEIGHT;
+		DynamicMesh::BufferAccess access(*mesh_);
 
-		const short firstVertex = access.appendVertex(Vertex(Vector3(SCREEN_LEFT, bottom, SCREEN_DEPTH), BAR_COLOR));
-		access.appendVertex(Vertex(Vector3(SCREEN_LEFT, SCREEN_TOP, SCREEN_DEPTH), BAR_COLOR));
-		access.appendVertex(Vertex(Vector3(SCREEN_RIGHT, SCREEN_TOP, SCREEN_DEPTH), BAR_COLOR));
-		access.appendVertex(Vertex(Vector3(SCREEN_RIGHT, bottom, SCREEN_DEPTH), BAR_COLOR));
+		// top ruler
+		{
+			const float bottom	= SCREEN_TOP - BAR_HEIGHT;
 
-		access.appendIndex(firstVertex);
-		access.appendIndex(firstVertex + 1);
-		access.appendIndex(firstVertex + 2);
-		access.appendIndex(firstVertex + 2);
-		access.appendIndex(firstVertex + 3);
-		access.appendIndex(firstVertex);
-	}
+			const short firstVertex = access.addVertex(Vertex(Vector3(SCREEN_LEFT, bottom, SCREEN_DEPTH), BAR_COLOR));
+			access.addVertex(Vertex(Vector3(SCREEN_LEFT, SCREEN_TOP, SCREEN_DEPTH), BAR_COLOR));
+			access.addVertex(Vertex(Vector3(SCREEN_RIGHT, SCREEN_TOP, SCREEN_DEPTH), BAR_COLOR));
+			access.addVertex(Vertex(Vector3(SCREEN_RIGHT, bottom, SCREEN_DEPTH), BAR_COLOR));
 
-	const uint timeBegin = Engine::inst().profiler->get(Profiler::VIDEO, -2).begin - 8;
+			access.addIndex(firstVertex);
+			access.addIndex(firstVertex + 1);
+			access.addIndex(firstVertex + 2);
+			access.addIndex(firstVertex + 2);
+			access.addIndex(firstVertex + 3);
+			access.addIndex(firstVertex);
+		}
 
-	uint section;
-	for (section = 0; section < Profiler::SECTION_COUNT; ++section) {
-		for (int age = 0; age < Profiler::HISTORY_DEPTH; ++age) {
-			const Profiler::Period& period = Engine::inst().profiler->get((Profiler::Section)section, -age);
+		const uint timeBegin = Engine::inst().profiler->get(Profiler::VIDEO, -2).begin - 8;
 
-			const float left	= SCREEN_LEFT + ((float)period.begin - timeBegin - 0.5f) * TIME_FRAME;
-			const float right	= SCREEN_LEFT + ((float)period.end   - timeBegin + 0.5f) * TIME_FRAME;
+		uint section;
+		for (section = 0; section < Profiler::SECTION_COUNT; ++section) {
+			for (int age = 0; age < Profiler::HISTORY_DEPTH; ++age) {
+				const Profiler::Period& period = Engine::inst().profiler->get((Profiler::Section)section, -age);
 
+				const float left	= SCREEN_LEFT + ((float)period.begin - timeBegin - 0.5f) * TIME_FRAME;
+				const float right	= SCREEN_LEFT + ((float)period.end   - timeBegin + 0.5f) * TIME_FRAME;
+
+				const float top		= SCREEN_TOP - BAR_OFFSET * (section + 1);
+				const float bottom	= top - BAR_HEIGHT;
+
+				const uint color = Profiler::SECTION_COLORS[section];
+
+				// fill-up vertex / index arrays
+				const short firstVertex = access.addVertex(Vertex(Vector3(left, bottom, SCREEN_DEPTH), color));
+				access.addVertex(Vertex(Vector3(left, top, SCREEN_DEPTH), color));
+				access.addVertex(Vertex(Vector3(right, top, SCREEN_DEPTH), color));
+				access.addVertex(Vertex(Vector3(right, bottom, SCREEN_DEPTH), color));
+
+				access.addIndex(firstVertex);
+				access.addIndex(firstVertex + 1);
+				access.addIndex(firstVertex + 2);
+				access.addIndex(firstVertex + 2);
+				access.addIndex(firstVertex + 3);
+				access.addIndex(firstVertex);
+			}
+		}
+
+		// bottom ruler
+		{
 			const float top		= SCREEN_TOP - BAR_OFFSET * (section + 1);
 			const float bottom	= top - BAR_HEIGHT;
 
-			const uint color = Profiler::SECTION_COLORS[section];
+			const short firstVertex = access.addVertex(Vertex(Vector3(SCREEN_LEFT, bottom, SCREEN_DEPTH), BAR_COLOR));
+			access.addVertex(Vertex(Vector3(SCREEN_LEFT, top, SCREEN_DEPTH), BAR_COLOR));
+			access.addVertex(Vertex(Vector3(SCREEN_RIGHT, top, SCREEN_DEPTH), BAR_COLOR));
+			access.addVertex(Vertex(Vector3(SCREEN_RIGHT, bottom, SCREEN_DEPTH), BAR_COLOR));
 
-			// fill-up vertex / index arrays
-			const short firstVertex = access.appendVertex(Vertex(Vector3(left, bottom, SCREEN_DEPTH), color));
-			access.appendVertex(Vertex(Vector3(left, top, SCREEN_DEPTH), color));
-			access.appendVertex(Vertex(Vector3(right, top, SCREEN_DEPTH), color));
-			access.appendVertex(Vertex(Vector3(right, bottom, SCREEN_DEPTH), color));
-
-			access.appendIndex(firstVertex);
-			access.appendIndex(firstVertex + 1);
-			access.appendIndex(firstVertex + 2);
-			access.appendIndex(firstVertex + 2);
-			access.appendIndex(firstVertex + 3);
-			access.appendIndex(firstVertex);
+			access.addIndex(firstVertex);
+			access.addIndex(firstVertex + 1);
+			access.addIndex(firstVertex + 2);
+			access.addIndex(firstVertex + 2);
+			access.addIndex(firstVertex + 3);
+			access.addIndex(firstVertex);
 		}
-	}
-
-	// bottom ruler
-	{
-		const float top		= SCREEN_TOP - BAR_OFFSET * (section + 1);
-		const float bottom	= top - BAR_HEIGHT;
-
-		const short firstVertex = access.appendVertex(Vertex(Vector3(SCREEN_LEFT, bottom, SCREEN_DEPTH), BAR_COLOR));
-		access.appendVertex(Vertex(Vector3(SCREEN_LEFT, top, SCREEN_DEPTH), BAR_COLOR));
-		access.appendVertex(Vertex(Vector3(SCREEN_RIGHT, top, SCREEN_DEPTH), BAR_COLOR));
-		access.appendVertex(Vertex(Vector3(SCREEN_RIGHT, bottom, SCREEN_DEPTH), BAR_COLOR));
-
-		access.appendIndex(firstVertex);
-		access.appendIndex(firstVertex + 1);
-		access.appendIndex(firstVertex + 2);
-		access.appendIndex(firstVertex + 2);
-		access.appendIndex(firstVertex + 3);
-		access.appendIndex(firstVertex);
 	}
 
 	video.draw(*mesh_, Vertex::Type, EFFECT, 0, 0, view_projection);

@@ -101,17 +101,17 @@ const uint Font::printChar(class DynamicMesh::BufferAccess& access, const wchar_
 
 	// fill-up vertex / index arrays
 	const Glyph::TexCoords& tex = glyph->tex;
-	const short firstVertex = access.appendVertex(Vertex(Vector3(left, bottom, cursor[2]), color, Vector2(tex.u0, tex.v1)));
-	access.appendVertex(Vertex(Vector3(left, top, cursor[2]), color, Vector2(tex.u0, tex.v0)));
-	access.appendVertex(Vertex(Vector3(right, top, cursor[2]), color, Vector2(tex.u1, tex.v0)));
-	access.appendVertex(Vertex(Vector3(right, bottom, cursor[2]), color, Vector2(tex.u1, tex.v1)));
+	const short firstVertex = access.addVertex(Vertex(Vector3(left, bottom, cursor[2]), color, Vector2(tex.u0, tex.v1)));
+	access.addVertex(Vertex(Vector3(left, top, cursor[2]), color, Vector2(tex.u0, tex.v0)));
+	access.addVertex(Vertex(Vector3(right, top, cursor[2]), color, Vector2(tex.u1, tex.v0)));
+	access.addVertex(Vertex(Vector3(right, bottom, cursor[2]), color, Vector2(tex.u1, tex.v1)));
 
-	access.appendIndex(firstVertex);
-	access.appendIndex(firstVertex + 1);
-	access.appendIndex(firstVertex + 2);
-	access.appendIndex(firstVertex + 2);
-	access.appendIndex(firstVertex + 3);
-	access.appendIndex(firstVertex);
+	access.addIndex(firstVertex);
+	access.addIndex(firstVertex + 1);
+	access.addIndex(firstVertex + 2);
+	access.addIndex(firstVertex + 2);
+	access.addIndex(firstVertex + 3);
+	access.addIndex(firstVertex);
 	
 	return glyph->xAdvance;
 }

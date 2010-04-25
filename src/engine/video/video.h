@@ -76,7 +76,8 @@ public:
 
 	// assets
 	virtual const uint addTexture(const TCHAR* const path) = 0;
-	virtual void draw(DynamicMesh& mesh, const VertexType vertexType, const EffectType effect,
+
+	virtual void draw(Mesh& mesh, const VertexType vertexType, const EffectType effect,
 					  const TextureUniform* const texUniforms, const uint textureCount,
 					  //const void* const uniforms, const uint uniformCount,
 					  const Matrix44& transform) = 0;
@@ -87,7 +88,8 @@ public:
 	// TEMP
 
 	// object factory
-	virtual DynamicMesh* createMesh(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) = 0;
+	virtual StaticMesh* createStaticMesh(const uint vertexSize, const void* const vertices, const uint vertexCount, const u16* const indices, const uint indexCount) = 0;
+	virtual DynamicMesh* createDynamicMesh(const uint vertexSize, const uint vertexCapacity, const uint indexCapacity) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,10 +8,6 @@
 #include "window/window.h"
 #endif
 
-#ifdef VIDEO_DIRECT3D9
-#include "video/direct3d9/video_d3d9.h"
-#endif
-
 #include "client/local_client.h"
 
 #include "core/sync.h"
@@ -32,13 +28,8 @@ struct Engine : public kaynine::Holder<Engine> {
 	const boost::scoped_ptr<WindowW51> windowW51;
 #endif
 
-#ifdef VIDEO_DIRECT3D9
-	const boost::scoped_ptr<VideoD3D9> videoD3D9;
-#endif
-
 	Input* const input;
 	Window* const window;
-	Video* const video;
 
 	const boost::scoped_ptr<LocalClient> localClient;
 	const boost::scoped_ptr<Profiler> profiler;

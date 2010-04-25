@@ -1,6 +1,9 @@
 #pragma once
 
-#include "video/video.h"
+#ifdef VIDEO_DIRECT3D9
+#include "video/direct3d9/video_d3d9.h"
+#endif
+
 #include "game_factories.h"
 #include "game_video.h"
 
@@ -10,12 +13,10 @@ namespace engine {
 
 class VideoThread : public kaynine::ThreadObject {
 public:
-	VideoThread(Video& video,
-				GameVideo& gameVideo,
+	VideoThread(GameVideo& gameVideo,
 				VideoFactory& videoFactory,
 				ScreenVideoFactory& screenVideoFactory)
-		: video_(video),
-		  gameVideo_(gameVideo),
+		: gameVideo_(gameVideo),
 		  videoFactory_(videoFactory),
 		  screenVideoFactory_(screenVideoFactory) {}
 
@@ -25,9 +26,9 @@ public:
 	virtual void terminate();
 
 public:
-	Video& video_;
-	GameVideo& gameVideo_;
+	boost::scoped_ptr<Video> video_;
 
+	GameVideo& gameVideo_;
 	VideoFactory& videoFactory_;
 	ScreenVideoFactory& screenVideoFactory_;
 };
