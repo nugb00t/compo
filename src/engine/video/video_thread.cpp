@@ -39,7 +39,7 @@ bool VideoThread::update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoThread::terminate() {
-	//gameVideo_.terminate();
+	gameVideo_.terminate();
 	video_->terminate();
 	video_.reset();
 }

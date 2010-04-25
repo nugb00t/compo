@@ -28,8 +28,6 @@ bool GameVideo::initialize(engine::Video& video,
 		screens_[i]->initialize(video);
 	}
 
-	//engine::Resources::inst().add(_T("main/fonts/bureau_20_o_0.dds"), pool_);
-
 	return true;
 }
 
@@ -49,9 +47,23 @@ bool GameVideo::update(engine::Video& video) {
 
 	// screens
 	for (uint i = 0; i < PlaygroundGame::MAX_SCREENS; ++i)
-		screens_[i]->draw(video, orthoCamera_->view_projection());
+		if (screens_[i])
+			screens_[i]->draw(video, orthoCamera_->view_projection());
 
 	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameVideo::terminate() {
+	orthoCamera_.reset();
+	projCamera_.reset();
+
+	for (uint i = 0; i < PlaygroundGame::MAX_ENTITIES; ++i)
+		entities_[i].reset();
+
+	for (uint i = 0; i < PlaygroundGame::MAX_SCREENS; ++i)
+		screens_[i].reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

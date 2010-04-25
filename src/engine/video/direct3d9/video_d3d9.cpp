@@ -46,6 +46,12 @@ const D3DVERTEXELEMENT9 VideoD3D9::VERTEX_DECL_ELEMS[VERTEX_DECL_COUNT][MAX_VERT
 		D3DDECL_END()
 	},
 
+	{	// POS_TEX
+		{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,	0},
+		{ 0, 16, D3DDECLTYPE_FLOAT2,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD,	0},
+		D3DDECL_END()
+	},
+
 	//{	// POS_NORMAL_TEX
 	//	{ 0,  0, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION,	0},
 	//	{ 0, 12, D3DDECLTYPE_FLOAT3,	D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,		0},
@@ -56,9 +62,10 @@ const D3DVERTEXELEMENT9 VideoD3D9::VERTEX_DECL_ELEMS[VERTEX_DECL_COUNT][MAX_VERT
 
 //---------------------------------------------------------------------------------------------------------------------
 
-const TCHAR* VideoD3D9::EFFECT_PATHS[VERTEX_DECL_COUNT] = {
+const TCHAR* VideoD3D9::EFFECT_PATHS[EFFECT_COUNT] = {
 	_T("main/fx/pos_diffuse.h"),
 	_T("main/fx/pos_diffuse_tex.h"),
+	_T("main/fx/pos_tex.h"),
 };
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -66,12 +73,13 @@ const TCHAR* VideoD3D9::EFFECT_PATHS[VERTEX_DECL_COUNT] = {
 const Video::VertexType VideoD3D9::EFFECT_VERTEX_DECLS[EFFECT_COUNT] = {
 	POS_DIFFUSE,
 	POS_DIFFUSE_TEX,
+	POS_TEX,
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 VideoD3D9::VideoD3D9() :
-	d3d_(NULL), 
+	d3d_(NULL),
 	device_(NULL),
 	renderTarget_(NULL),
 	renderTexture_(NULL),
@@ -114,17 +122,17 @@ bool VideoD3D9::initialize() {
 	CHECKED_D3D_CALL(D3DXCreateTexture(device_, 800, 600, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &renderTexture_));        
 	CHECKED_D3D_CALL(renderTexture_->GetSurfaceLevel(0, &renderSurface_));
 
-	static const PosDiffuseTex quadVertices[] = {
-		PosDiffuseTex(Vector3(-.5f, -.5f, 0.f), 0xffffffff, Vector2(0.f, 1.f)),
-		PosDiffuseTex(Vector3(-.5f,  .5f, 0.f), 0xffffffff, Vector2(0.f, 0.f)),
-		PosDiffuseTex(Vector3( .5f,  .5f, 0.f), 0xffffffff, Vector2(1.f, 0.f)),
-		PosDiffuseTex(Vector3( .5f, -.5f, 0.f), 0xffffffff, Vector2(1.f, 1.f)),
+	static const RenderVertex renderVertices[] = {
+		RenderVertex(Vector3(-1.f, -1.f, 0.f), Vector2(0.f, 1.f)),
+		RenderVertex(Vector3(-1.f,  1.f, 0.f), Vector2(0.f, 0.f)),
+		RenderVertex(Vector3( 1.f,  1.f, 0.f), Vector2(1.f, 0.f)),
+		RenderVertex(Vector3( 1.f, -1.f, 0.f), Vector2(1.f, 1.f)),
 	};
-	static const u16 quadIndices[] = {
+	static const u16 renderIndices[] = {
 		0, 1, 2,
 		2, 3, 0
 	};
-	renderMesh_.reset(new StaticMeshD3D9(device_, sizeof(PosDiffuseTex), quadVertices, 4, quadIndices, 6));
+	renderMesh_.reset(new StaticMeshD3D9(device_, sizeof(RenderVertex), renderVertices, 4, renderIndices, 6));
 
 	// vertex decls
 	for (uint i = 0; i < VERTEX_DECL_COUNT; ++i)
@@ -139,9 +147,9 @@ bool VideoD3D9::initialize() {
 			assert(errors);
 
 			const char* charBuffer = reinterpret_cast<const char*>(errors->GetBufferPointer());
-			errors->Release();
-
 			MessageBoxA(0, charBuffer, NULL, 0);
+
+			errors->Release();
 			return false;
 		}
 	}
@@ -152,6 +160,8 @@ bool VideoD3D9::initialize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::terminate() {
+	assets_.reset();
+
 	for (uint i = 0; i < EFFECT_COUNT; ++i)
 		safeRelease(effects_[i]);
 
@@ -194,18 +204,25 @@ void VideoD3D9::end() {
 	CHECKED_D3D_CALL_A(device_->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE));
 	CHECKED_D3D_CALL_A(device_->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO));
 
-	ID3DXEffect* effect = effects_[DIFFUSE_TEXTURED];
-	D3DXHANDLE handle = effect->GetParameterByName(NULL, "TEX_DIFFUSE");
-	assert(handle);
-	CHECKED_D3D_CALL_A(effect->SetTexture(handle, renderTexture_));
+	ID3DXEffect* effect = effects_[TEXTURED];
+
+	// vertex type
+	CHECKED_D3D_CALL_A(device_->SetVertexDeclaration(vertexDecls_[DIFFUSE_TEXTURED]));
+
+	// technique
+	D3DXHANDLE techHandle = effect->GetTechniqueByName("TransformTech");
+	assert(techHandle);
+	CHECKED_D3D_CALL_A(effect->SetTechnique(techHandle));
+
+	// textures
+	D3DXHANDLE texHandle = effect->GetParameterByName(NULL, "TEX_DIFFUSE");
+	assert(texHandle);
+	CHECKED_D3D_CALL_A(effect->SetTexture(texHandle, renderTexture_));
 	UINT numPasses = 0;
 	CHECKED_D3D_CALL_A(effect->Begin(&numPasses, 0));
 	CHECKED_D3D_CALL_A(effect->BeginPass(0));
 
 	renderMesh_->streamBuffers();
-	//CHECKED_D3D_CALL_A(device_->SetStreamSource(0, mRadarVB, 0, sizeof(VertexPT)));
-	//CHECKED_D3D_CALL_A(device_->SetVertexDeclaration (VertexPT::Decl));
-	//CHECKED_D3D_CALL_A(device_->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
 
 	CHECKED_D3D_CALL_A(effect->EndPass());
 	CHECKED_D3D_CALL_A(effect->End());	
@@ -218,7 +235,6 @@ void VideoD3D9::end() {
 
 void VideoD3D9::draw(Mesh& mesh, const VertexType vertexType, const EffectType effectType,
 					 const TextureUniform* const texUniforms, const uint textureCount,
-					 //const void* const uniforms, const uint uniformCount,
 					 const Matrix44& transform) 
 {
 	ID3DXEffect* const effect = effects_[effectType];
@@ -242,19 +258,10 @@ void VideoD3D9::draw(Mesh& mesh, const VertexType vertexType, const EffectType e
 		if (!texture)
 			continue;
 
-		//CHECKED_D3D_CALL_A(device->SetTexture(stage, texture));
-
-		D3DXHANDLE handle = effect->GetParameterByName(NULL, texUniforms[i].name);
-		assert(handle);
-		CHECKED_D3D_CALL_A(effect->SetTexture(handle, texture));
+		D3DXHANDLE texHandle = effect->GetParameterByName(NULL, texUniforms[i].name);
+		assert(texHandle);
+		CHECKED_D3D_CALL_A(effect->SetTexture(texHandle, texture));
 	}
-
-	// uniforms
-	//for (uint i = 0; uniforms_[i].name; ++i) {
-	//	D3DXHANDLE handle = effect->GetParameterByName(NULL, uniforms_[i].name);
-	//	assert(handle);
-	//	effect->SetValue(handle, uniforms_[i].value, D3DX_DEFAULT);
-	//}
 
 	uint passes = 0;
 	CHECKED_D3D_CALL_A(effect->Begin(&passes, D3DXFX_DONOTSAVESTATE));

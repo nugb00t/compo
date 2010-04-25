@@ -17,6 +17,7 @@ public:
 	enum VertexType {
 		POS_DIFFUSE,
 		POS_DIFFUSE_TEX,
+		POS_TEX,
 		//POS_NORMAL_TEX,
 
 		VERTEX_DECL_COUNT
@@ -45,6 +46,17 @@ public:
 		PosDiffuseTex(const Vector3 pos_, const uint diffuse_, const Vector2 tex_)
 			: pos(pos_), diffuse(diffuse_), tex(tex_) {}
 	};
+
+	struct PosTex {
+		static const VertexType Type = POS_TEX;
+
+		Vector3 pos;
+		float dummy;
+		Vector2 tex;
+
+		PosTex() {}
+		PosTex(const Vector3 pos_, const Vector2 tex_) : pos(pos_), tex(tex_) {}
+	};
 #pragma pack(pop)
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -52,6 +64,7 @@ public:
 	enum EffectType {
 		DIFFUSE,
 		DIFFUSE_TEXTURED,
+		TEXTURED,
 
 		EFFECT_COUNT
 	};

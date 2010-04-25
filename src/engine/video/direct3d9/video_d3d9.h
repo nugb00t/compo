@@ -39,7 +39,6 @@ public:
 
 	virtual void draw(Mesh& mesh, const VertexType vertexType, const EffectType effect,
 					  const TextureUniform* const texUniforms, const uint textureCount,
-					  //const void* const uniforms, const uint uniformCount,
 					  const Matrix44& transform);
 
 	// object factory
@@ -65,6 +64,8 @@ private:
 	IDirect3DTexture9* renderTexture_;
 	IDirect3DSurface9* renderSurface_;
 	boost::scoped_ptr<StaticMeshD3D9> renderMesh_;
+	OrthoCameraD3D9 renderCamera_;
+	typedef PosTex RenderVertex;
 
 	IDirect3DVertexDeclaration9* vertexDecls_[VERTEX_DECL_COUNT];
 

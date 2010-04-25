@@ -889,6 +889,10 @@
 						RelativePath=".\exec\main\fx\pos_diffuse_tex.h"
 						>
 					</File>
+					<File
+						RelativePath=".\exec\main\fx\pos_tex.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter

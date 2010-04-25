@@ -22,6 +22,7 @@ public:
 							engine::VideoFactory& videoFactory,
 							engine::ScreenVideoFactory& screenVideoFactory);
 	virtual bool update(engine::Video& video);
+	virtual void terminate();
 
 private:
 	boost::scoped_ptr<engine::OrthoCamera> orthoCamera_;	// for screens

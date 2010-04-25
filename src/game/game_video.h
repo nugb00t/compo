@@ -14,6 +14,7 @@ public:
 							engine::VideoFactory& videoFactory,
 							engine::ScreenVideoFactory& screenVideoFactory) = 0;
 	virtual bool update(engine::Video& video) = 0;
+	virtual void terminate() = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
