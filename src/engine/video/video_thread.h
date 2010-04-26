@@ -4,8 +4,7 @@
 #include "video/direct3d9/video_d3d9.h"
 #endif
 
-#include "game_factories.h"
-#include "game_video.h"
+#include "game.h"
 
 namespace engine {
 
@@ -13,12 +12,7 @@ namespace engine {
 
 class VideoThread : public kaynine::ThreadObject {
 public:
-	VideoThread(GameVideo& gameVideo,
-				VideoFactory& videoFactory,
-				ScreenVideoFactory& screenVideoFactory)
-		: gameVideo_(gameVideo),
-		  videoFactory_(videoFactory),
-		  screenVideoFactory_(screenVideoFactory) {}
+	VideoThread(GameFactory& game, Window& window) : game_(game), window_(window) {}
 
     // interface: kaynine::ThreadObject
 	virtual bool initialize();
@@ -26,11 +20,11 @@ public:
 	virtual void terminate();
 
 public:
+	GameFactory& game_;
+	Window& window_;
+	
 	boost::scoped_ptr<Video> video_;
-
-	GameVideo& gameVideo_;
-	VideoFactory& videoFactory_;
-	ScreenVideoFactory& screenVideoFactory_;
+	boost::scoped_ptr<GameVideo> gameVideo_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

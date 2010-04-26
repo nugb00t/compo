@@ -1,20 +1,5 @@
 #pragma once
 
-#ifdef PLATFORM_WIN51
-#include "input/win51/input_w51.h"
-#include "window/win51/window_w51.h"
-#else
-#include "input/input.h"
-#include "window/window.h"
-#endif
-
-#include "client/local_client.h"
-
-#include "core/sync.h"
-#include "core/time.h"
-
-#include "utility/profiler.h"
-
 #include "game.h"
 
 namespace engine {
@@ -22,26 +7,11 @@ namespace engine {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct Engine : public kaynine::Holder<Engine> {
-
-#ifdef PLATFORM_WIN51
-	const boost::scoped_ptr<InputW51> inputW51;
-	const boost::scoped_ptr<WindowW51> windowW51;
-#endif
-
-	Input* const input;
-	Window* const window;
-
-	const boost::scoped_ptr<LocalClient> localClient;
-	const boost::scoped_ptr<Profiler> profiler;
-	const boost::scoped_ptr<Time> time;
-
 public:
-	Engine(Game* game);
-
-	void run();
+	Engine(GameFactory& game);
 
 private:
-	const boost::scoped_ptr<Game> game_;
+	void run(GameFactory& game);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

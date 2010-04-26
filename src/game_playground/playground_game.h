@@ -6,7 +6,7 @@ namespace game_playground {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class PlaygroundGame : public engine::Game {
+class GameFactory : public engine::GameFactory {
 public:
 	enum Entities {
 		ENTITY_ORB,
@@ -23,7 +23,12 @@ public:
 	};
 
 public:
-	PlaygroundGame();
+	// interface: engine::GameFactory
+	virtual engine::GameLocalClient* createLocalClient();
+	virtual engine::GameArbiter* createArbiter();
+	virtual engine::GameFlow* createFlow();
+	virtual engine::GameVideo* createVideo();
+	virtual engine::LogicComponent* createLogicComponent(const uint type);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

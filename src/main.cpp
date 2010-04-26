@@ -9,8 +9,8 @@ int _tmain(int /*argc*/, _TCHAR* /*argv[]*/) {
 	CHECKED_CALL(kaynine::setCurrentDirectory());
 
 	{
-		engine::Engine engine(new game_playground::PlaygroundGame);
-		engine.run();
+		game_playground::GameFactory game;
+		engine::Engine engine(game);
 	}
 
 	_CrtDumpMemoryLeaks();

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "video/video_component.h"
 #include "video/video.h"
+#include "video/video_component.h"
 
 namespace game_playground {
 

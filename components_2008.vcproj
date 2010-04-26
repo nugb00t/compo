@@ -483,14 +483,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\game_playground\playground_factories.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\game_playground\playground_factories.h"
-					>
-				</File>
-				<File
 					RelativePath=".\src\game_playground\playground_flow.cpp"
 					>
 				</File>
@@ -588,34 +580,6 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="game"
-				>
-				<File
-					RelativePath=".\src\game\game.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\game\game_arbiter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\game\game_factories.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\game\game_flow.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\game\game_local_client.h"
-					>
-				</File>
-				<File
-					RelativePath=".\src\game\game_video.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="engine"
 				>
 				<File
@@ -636,6 +600,10 @@
 				</File>
 				<File
 					RelativePath=".\src\engine\engine_types.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\engine\game.h"
 					>
 				</File>
 				<Filter
@@ -749,25 +717,33 @@
 						RelativePath=".\src\engine\logic\logic.h"
 						>
 					</File>
-					<File
-						RelativePath=".\src\engine\logic\logic_component.h"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="system"
 					>
 					<File
-						RelativePath=".\src\engine\system\system_loop.cpp"
+						RelativePath=".\src\engine\system\controls.h"
 						>
 					</File>
 					<File
 						RelativePath=".\src\engine\system\system_loop.h"
 						>
 					</File>
+					<File
+						RelativePath=".\src\engine\system\window.h"
+						>
+					</File>
 					<Filter
 						Name="win51"
 						>
+						<File
+							RelativePath=".\src\engine\system\win51\input_w51.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\src\engine\system\win51\input_w51.h"
+							>
+						</File>
 						<File
 							RelativePath=".\src\engine\system\win51\system_loop_w51.cpp"
 							>
@@ -776,17 +752,25 @@
 							RelativePath=".\src\engine\system\win51\system_loop_w51.h"
 							>
 						</File>
+						<File
+							RelativePath=".\src\engine\system\win51\window_w51.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\src\engine\system\win51\window_w51.h"
+							>
+						</File>
 					</Filter>
 				</Filter>
 				<Filter
 					Name="client"
 					>
 					<File
-						RelativePath=".\src\engine\client\local_client.cpp"
+						RelativePath=".\src\engine\client\local_client_thread.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\src\engine\client\local_client.h"
+						RelativePath=".\src\engine\client\local_client_thread.h"
 						>
 					</File>
 				</Filter>
@@ -805,50 +789,6 @@
 						RelativePath=".\src\engine\server\server_thread.h"
 						>
 					</File>
-				</Filter>
-				<Filter
-					Name="input"
-					>
-					<File
-						RelativePath=".\src\engine\input\input.h"
-						>
-					</File>
-					<File
-						RelativePath=".\src\engine\input\input_data.h"
-						>
-					</File>
-					<Filter
-						Name="win51"
-						>
-						<File
-							RelativePath=".\src\engine\input\win51\input_w51.cpp"
-							>
-						</File>
-						<File
-							RelativePath=".\src\engine\input\win51\input_w51.h"
-							>
-						</File>
-					</Filter>
-				</Filter>
-				<Filter
-					Name="window"
-					>
-					<File
-						RelativePath=".\src\engine\window\window.h"
-						>
-					</File>
-					<Filter
-						Name="win51"
-						>
-						<File
-							RelativePath=".\src\engine\window\win51\window_w51.cpp"
-							>
-						</File>
-						<File
-							RelativePath=".\src\engine\window\win51\window_w51.h"
-							>
-						</File>
-					</Filter>
 				</Filter>
 				<Filter
 					Name="filesystem"

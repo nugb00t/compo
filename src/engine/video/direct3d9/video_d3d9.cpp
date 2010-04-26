@@ -78,7 +78,8 @@ const Video::VertexType VideoD3D9::EFFECT_VERTEX_DECLS[EFFECT_COUNT] = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-VideoD3D9::VideoD3D9() :
+VideoD3D9::VideoD3D9(Window& window) :
+	window_(window),
 	d3d_(NULL),
 	device_(NULL),
 	renderTarget_(NULL),
@@ -109,9 +110,7 @@ bool VideoD3D9::initialize() {
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 	//d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
-	const HWND handle = Engine::inst().window->handle();
-	assert(handle);
-	CHECKED_D3D_CALL(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, handle, D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(| D3DCREATE_PUREDEVICE), &d3dpp, &device_));
+	CHECKED_D3D_CALL(d3d_->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, window_.handle(), D3DCREATE_HARDWARE_VERTEXPROCESSING RELEASE_ONLY(| D3DCREATE_PUREDEVICE), &d3dpp, &device_));
 
 	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR));
 	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR));

@@ -2,6 +2,7 @@
 
 #include "playground_local_client.h"
 
+#include "core/time.h"
 #include "engine.h"
 
 using namespace game_playground;
@@ -16,7 +17,7 @@ namespace {
 void GameLocalClient::handleControls(const engine::Controls& controls, engine::ServerRequests::Client& request) {
 	assert(!request.valid);
 
-	const uint now = engine::Engine::inst().time->msec();
+	const uint now = engine::Time::inst().msec();
 
 	const engine::Controls::AxisEvent& x = controls.axis[engine::Controls::MOUSE_X].get();
 	const uint ageX = now - x.time;

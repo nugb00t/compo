@@ -1,6 +1,6 @@
 #pragma once
 
-#include "window/window.h"
+#include "../window.h"
 
 namespace engine {
 
@@ -14,7 +14,7 @@ public:
 	WindowW51();
 	virtual ~WindowW51();
 
-	// interface: Window
+	// interface: own
 	virtual bool create(const WNDPROC wndProc,
 						const uint width,
 						const uint height, 
@@ -26,13 +26,14 @@ public:
 
 	virtual void destroy();
 
-	virtual HWND handle() const { return window_;}
+	virtual HDC context() const { return context_; }	// TODO: close?
 
-	virtual HDC context() const { return context_; }
-
-	virtual int format() const { return format_; }
+	virtual int format() const { return format_; }		// TODO: close?
 
 	virtual void swapBuffers() { ::SwapBuffers(context_); }
+
+	// interface: Window
+	virtual HWND handle() const { return window_;}
 
 private:
 	HWND		window_;

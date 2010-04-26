@@ -1,7 +1,7 @@
 #pragma once
 
-#include "logic/logic_component.h"
 #include "server/server_data.h"
+#include "game.h"
 
 #include <kaynine/utility/instance_count.h>
 

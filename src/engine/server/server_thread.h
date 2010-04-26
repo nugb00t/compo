@@ -3,8 +3,7 @@
 #include "server_data.h"
 #include "logic/logic.h"
 
-#include "game_arbiter.h"
-#include "game_flow.h"
+#include "../game.h"
 
 namespace engine {
 
@@ -18,12 +17,12 @@ class ServerThread : public kaynine::ThreadObject {
 	typedef kaynine::StaticArray<unsigned, ServerState::MAX_ENTITIES> Entities;
 
 public:
-	ServerThread(GameArbiter& gameArbiter, GameFlow& gameFlow, LogicFactory& logicFactory)
-		: gameArbiter_(gameArbiter), gameFlow_(gameFlow), logic_(logicFactory) {}
+	ServerThread(GameFactory& game) : game_(game) {}
 
 	// interface: kaynine::ThreadObject
 	virtual bool initialize();
 	virtual bool update();
+	virtual void terminate();
 
 private:
 	void updateResources();
@@ -31,11 +30,12 @@ private:
 private:
 	States states_;
 	Entities entities_;
+	
+	GameFactory& game_;
+	boost::scoped_ptr<GameArbiter> gameArbiter_;
+	boost::scoped_ptr<GameFlow> gameFlow_;
 
-	Logic logic_;
-
-	GameArbiter& gameArbiter_;
-	GameFlow& gameFlow_;
+	boost::scoped_ptr<Logic> logic_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

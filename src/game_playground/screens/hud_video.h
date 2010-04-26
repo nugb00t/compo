@@ -1,9 +1,9 @@
 #pragma once
 
-#include "video/video_component.h"
-
 #include "video/font.h"
 #include "video/mesh.h"
+#include "video/video.h"
+#include "video/video_component.h"
 
 #include "fonts/bureau_font.h"
 

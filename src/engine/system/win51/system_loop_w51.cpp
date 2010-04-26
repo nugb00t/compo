@@ -6,8 +6,6 @@
 #include "engine.h"
 #include "game.h"
 
-#include "input/win51/input_w51.h"
-
 #include "core/sync.h"
 #include "core/time.h"
 #include "utility/profiler.h"
@@ -17,16 +15,10 @@ using namespace engine;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool SystemLoopW51::initialize() {
-    if (!Engine::inst().window->create(SystemLoopW51::wndProc, 800, 600, 32, 0, false))
-        return false;
-
-	CHECKED_CALL(Engine::inst().input->initialize());
-
-    // TODO: this needs a proper sync
-    assert(Engine::inst().window->handle());
-    timer_.set(PERIOD, Engine::inst().window->handle());
-
-    return true;
+	window_.reset(new WindowW51);
+	input_.reset(new InputW51);
+	
+    return window_->create(SystemLoopW51::wndProc, 800, 600, 32, 0, false) && input_->initialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,12 +81,8 @@ LRESULT CALLBACK SystemLoopW51::wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 			else
 				break;
 
-		case WM_TIMER: // 0x0113
-			Engine::inst().localClient->update();
-			break;
-
 		case WM_INPUT: // 0x00FF
-			Engine::inst().inputW51->processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Engine::inst().time->msec());
+			SystemLoopW51::inst().input_->processRawInput(reinterpret_cast<HRAWINPUT>(lParam), Time::inst().msec());
 			break;
 	}
 
@@ -104,7 +92,9 @@ LRESULT CALLBACK SystemLoopW51::wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SystemLoopW51::terminate() {
-	Engine::inst().window->destroy();
+	input_.reset();
+	window_->destroy();
+	window_.reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

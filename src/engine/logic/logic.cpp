@@ -1,9 +1,10 @@
 #include "stdafx.h"
 
 #include "logic.h"
-#include "logic_component.h"
 
 #include "utility/profiler.h"
+
+#include "../game.h"
 
 using namespace engine;
 
@@ -11,7 +12,7 @@ using namespace engine;
 
 void Logic::initialize() {
 	if (!entities_[0])
-		entities_[0].reset(logicFactory_.create(0));
+		entities_[0].reset(game_.createLogicComponent(0));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

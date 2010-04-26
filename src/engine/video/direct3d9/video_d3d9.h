@@ -4,6 +4,8 @@
 
 #include "../video.h"
 
+#include "system/window.h"
+
 // factory-created objects
 #include "camera_d3d9.h"
 #include "mesh_d3d9.h"
@@ -25,7 +27,7 @@ public:
 	static const VertexType EFFECT_VERTEX_DECLS[EFFECT_COUNT];
 
 public:
-	VideoD3D9();
+	VideoD3D9(Window& window);
 	
 	// interface: Video
 	virtual bool initialize();
@@ -56,6 +58,8 @@ public:
 	void reshape(const uint width, const uint height);
 
 private:
+	Window& window_;
+	
 	IDirect3D9* d3d_;
 	IDirect3DDevice9* device_;
 	

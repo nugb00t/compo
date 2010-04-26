@@ -2,7 +2,7 @@
 
 #include "server/server_data.h"
 
-#include "game_local_client.h"
+#include "game.h"
 
 namespace game_playground {
 

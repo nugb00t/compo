@@ -2,6 +2,7 @@
 
 #include "profiler.h"
 
+#include "core/time.h"
 #include "engine.h"
 
 using namespace engine;
@@ -18,12 +19,12 @@ const uint Profiler::SECTION_COLORS[SECTION_COUNT] = {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Profiler::StopWatch::StopWatch(const Section section)
-: section_(section), start_(Engine::inst().time->msec()) {}
+: section_(section), start_(Time::inst().msec()) {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Profiler::StopWatch::~StopWatch() {
-	Engine::inst().profiler->track(section_, start_, Engine::inst().time->msec());
+	Profiler::inst().track(section_, start_, Time::inst().msec());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

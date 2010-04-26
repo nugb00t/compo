@@ -1,7 +1,6 @@
 #pragma once
 
 #ifdef PLATFORM_WIN51
-#include "input/input.h"
 
 //#define USE_BUFFERED_RAW_INPUT
 
@@ -9,7 +8,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class InputW51 : public Input {
+class InputW51 : public kaynine::Holder<InputW51> {
 #ifdef USE_BUFFERED_RAW_INPUT
 	static const uint RAW_INPUT_BUFFER_COUNT = 16;
 #endif
@@ -31,8 +30,9 @@ public:
 private:
 #ifdef USE_BUFFERED_RAW_INPUT
 	void buffered(const HRAWINPUT handle, const uint now);
-#endif
+#else
 	void unbuffered(const HRAWINPUT handle, const uint now);
+#endif
 
 	void process(const RAWINPUT& raw, const uint now);
 };

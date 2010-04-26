@@ -8,17 +8,21 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Logic {
+class LocalClientThread : public kaynine::ThreadObject {
 public:
-	Logic(GameFactory& game) : game_(game) {}
+	LocalClientThread(GameFactory& game, Controls& controls)
+	 : game_(game), controls_(controls) {}
 
-	void initialize();
-	void decide(const ServerState& last, ServerRequests::Entity entities[ServerState::MAX_ENTITIES]);
+	// interface: kaynine::ThreadObject
+	virtual bool initialize();
+	virtual bool update();
+	virtual void terminate();
 
 private:
 	GameFactory& game_;
+	Controls& controls_;
 	
-	boost::scoped_ptr<LogicComponent> entities_[ServerState::MAX_ENTITIES];
+	boost::scoped_ptr<GameLocalClient> gameLocalClient_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

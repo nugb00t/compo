@@ -16,8 +16,13 @@ using namespace engine;
 bool ServerThread::initialize() {
     states_.advance(States::CLEAR_FRAME);
 
-	logic_.initialize();
-	gameFlow_.initialize(states_.get());
+	gameArbiter_.reset(game_.createArbiter());
+	
+	gameFlow_.reset(game_.createFlow());
+	gameFlow_->initialize(states_.get());
+
+	logic_.reset(new Logic(game_));
+	logic_->initialize();
 
     return true;
 }
@@ -32,7 +37,7 @@ bool ServerThread::update() {
     ServerRequests requests;
     memset(&requests, 0, sizeof(requests));
 
-    logic_.decide(states_.get(-1), requests.entities);
+    logic_->decide(states_.get(-1), requests.entities);
 
     Sync::ClientToArbiter::Readable fromClient(Sync::inst().clientToArbiter);
 	//if (fromClient && fromClient.age())
@@ -43,7 +48,7 @@ bool ServerThread::update() {
 
 	{
 		Profiler::StopWatch stopWatch(Profiler::SERVER_ARBITER);
-	    gameArbiter_.marshall(states_.get(-1), requests, states_.get());
+	    gameArbiter_->marshall(states_.get(-1), requests, states_.get());
 	}
 
     Sync::ArbiterToClient::Writable toClient(Sync::inst().arbiterToClient);
@@ -52,6 +57,14 @@ bool ServerThread::update() {
 	toClient.data() = states_.get();
 
     return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ServerThread::terminate() {
+	logic_.reset();
+	gameFlow_.reset();
+	gameArbiter_.reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

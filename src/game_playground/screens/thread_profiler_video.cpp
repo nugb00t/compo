@@ -59,12 +59,12 @@ void ThreadProfilerVideo::draw(engine::Video& video, const Matrix44& view_projec
 			access.addIndex(firstVertex);
 		}
 
-		const uint timeBegin = Engine::inst().profiler->get(Profiler::VIDEO, -2).begin - 8;
+		const uint timeBegin = Profiler::inst().get(Profiler::VIDEO, -2).begin - 8;
 
 		uint section;
 		for (section = 0; section < Profiler::SECTION_COUNT; ++section) {
 			for (int age = 0; age < Profiler::HISTORY_DEPTH; ++age) {
-				const Profiler::Period& period = Engine::inst().profiler->get((Profiler::Section)section, -age);
+				const Profiler::Period& period = Profiler::inst().get((Profiler::Section)section, -age);
 
 				const float left	= SCREEN_LEFT + ((float)period.begin - timeBegin - 0.5f) * TIME_FRAME;
 				const float right	= SCREEN_LEFT + ((float)period.end   - timeBegin + 0.5f) * TIME_FRAME;
