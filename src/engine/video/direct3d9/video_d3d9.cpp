@@ -122,10 +122,10 @@ bool VideoD3D9::initialize() {
 	CHECKED_D3D_CALL(renderTexture_->GetSurfaceLevel(0, &renderSurface_));
 
 	static const RenderVertex renderVertices[] = {
-		RenderVertex(Vector3(-1.f, -1.f, 0.f), Vector2(0.f, 1.f)),
-		RenderVertex(Vector3(-1.f,  1.f, 0.f), Vector2(0.f, 0.f)),
-		RenderVertex(Vector3( 1.f,  1.f, 0.f), Vector2(1.f, 0.f)),
-		RenderVertex(Vector3( 1.f, -1.f, 0.f), Vector2(1.f, 1.f)),
+		RenderVertex(Vector3(-(1601.f / 1600.f), -(1201.f / 1200.f), 0.f), Vector2(0.f, 1.f)),
+		RenderVertex(Vector3(-(1601.f / 1600.f),  (1199.f / 1200.f), 0.f), Vector2(0.f, 0.f)),
+		RenderVertex(Vector3( (1599.f / 1600.f),  (1199.f / 1200.f), 0.f), Vector2(1.f, 0.f)),
+		RenderVertex(Vector3( (1599.f / 1600.f), -(1201.f / 1200.f), 0.f), Vector2(1.f, 1.f)),
 	};
 	static const u16 renderIndices[] = {
 		0, 1, 2,

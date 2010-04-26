@@ -10,13 +10,13 @@ struct Controls {
 	static const uint BUTTON_COUNT = 256;      // windows VKeys
 	static const uint AXIS_HISTORY = 4;
 
-	// buttons
+	//-----------------------------------------------------------------------------------------------------------------
+
 	struct ButtonInfo {
 		uint pushed;
 		uint released;
 	};
 
-	// axis
 	enum Axis {
 		MOUSE_X,
 		MOUSE_Y,
@@ -36,10 +36,13 @@ struct Controls {
 			: time(0), value(0) {}
 	};
 
-	// the whole struct
+	//-----------------------------------------------------------------------------------------------------------------
+
 	ButtonInfo buttons[BUTTON_COUNT];
 	kaynine::CyclicBuffer<AxisEvent, AXIS_HISTORY> axis[AXIS_COUNT];
 	uint age;
+
+	Controls() : age(0) { memset(&buttons, 0, sizeof(buttons)); }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

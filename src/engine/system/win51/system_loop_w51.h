@@ -2,7 +2,6 @@
 
 #ifdef PLATFORM_WIN51
 #include "../system_loop.h"
-#include "../controls.h"
 
 #include "input_w51.h"
 #include "window_w51.h"

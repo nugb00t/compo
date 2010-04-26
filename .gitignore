@@ -16,6 +16,7 @@ exec/*.dpmrg
 exec/*.DPSup
 exec/*.NLB
 exec/*.pdb
+exec/*.PIXRun
 *.filters
 *.lnk
 *.ncb

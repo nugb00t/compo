@@ -2,7 +2,7 @@
 
 #include "server/server_data.h"
 
-#include "../game.h"
+#include "game.h"
 
 namespace engine {
 

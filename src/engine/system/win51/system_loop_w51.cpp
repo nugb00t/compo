@@ -16,7 +16,7 @@ using namespace engine;
 
 bool SystemLoopW51::initialize() {
 	window_.reset(new WindowW51);
-	input_.reset(new InputW51);
+	input_.reset(new InputW51(controls_));
 	
     return window_->create(SystemLoopW51::wndProc, 800, 600, 32, 0, false) && input_->initialize();
 }

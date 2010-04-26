@@ -3,7 +3,7 @@
 #include "server_data.h"
 #include "logic/logic.h"
 
-#include "../game.h"
+#include "game.h"
 
 namespace engine {
 

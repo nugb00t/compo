@@ -2,19 +2,21 @@
 
 #ifdef PLATFORM_WIN51
 
+#include "../controls.h"
+
 //#define USE_BUFFERED_RAW_INPUT
 
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class InputW51 : public kaynine::Holder<InputW51> {
+class InputW51 {
 #ifdef USE_BUFFERED_RAW_INPUT
 	static const uint RAW_INPUT_BUFFER_COUNT = 16;
 #endif
 
 public:
-	InputW51();
+	InputW51(Controls& controls) : controls_(controls) {}
 
 	// interface: Input
 	virtual bool initialize();
@@ -35,6 +37,9 @@ private:
 #endif
 
 	void process(const RAWINPUT& raw, const uint now);
+
+private:
+	Controls& controls_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

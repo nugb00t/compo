@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include "../debug/macros.h"
+#include "../utility/safe_bool.h"
 
 namespace kaynine {
 
@@ -11,7 +12,7 @@ namespace kaynine {
 // usage:
 // buffer.get(-2).field
 template <class TValue, unsigned TSize = 4>
-class CyclicBuffer {
+class CyclicBuffer : public kaynine::SafeBool<CyclicBuffer<TValue, TSize> > {
 public:
 	typedef TValue VALUE_TYPE;
     static const unsigned SIZE = TSize;
@@ -24,6 +25,10 @@ public:
 public:
     CyclicBuffer() : lastUpdated_(-1) {}
 
+	// interface: kaynine::SafeBool
+	bool boolean_test() const { return lastUpdated_ != -1; }
+
+	// interface: own
 	inline void advance() {
 		lastUpdated_ = (lastUpdated_ + 1) % SIZE;
 	}
