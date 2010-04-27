@@ -6,10 +6,7 @@
 
 #include "system/window.h"
 
-// factory-created objects
-#include "camera_d3d9.h"
-#include "mesh_d3d9.h"
-
+#include "render_target_d3d9.h"
 #include "video_assets_d3d9.h"
 
 namespace engine {
@@ -63,17 +60,18 @@ private:
 	IDirect3D9* d3d_;
 	IDirect3DDevice9* device_;
 	
-	// render-to-texture
-	ID3DXRenderToSurface* renderTarget_;
-	IDirect3DTexture9* renderTexture_;
-	IDirect3DSurface9* renderSurface_;
-	boost::scoped_ptr<StaticMeshD3D9> renderMesh_;
-	OrthoCameraD3D9 renderCamera_;
-	typedef PosTex RenderVertex;
-
 	IDirect3DVertexDeclaration9* vertexDecls_[VERTEX_DECL_COUNT];
 
 	ID3DXEffect* effects_[EFFECT_COUNT];
+
+	// render-to-texture
+	//ID3DXRenderToSurface* renderTarget_;
+	//IDirect3DTexture9* renderTexture_;
+	//IDirect3DSurface9* renderSurface_;
+	//boost::scoped_ptr<StaticMeshD3D9> renderMesh_;
+	//OrthoCameraD3D9 renderCamera_;
+	//typedef PosTex RenderVertex;
+	boost::scoped_ptr<RenderTargetD3D9> target_;
 
 	VideoAssetsD3D9 assets_;
 };

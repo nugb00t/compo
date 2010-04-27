@@ -2,6 +2,7 @@
 
 #ifdef VIDEO_DIRECT3D9
 #include "video_d3d9.h"
+#include "tools_d3d9.h"
 
 #include "engine.h"
 #include "game.h"
@@ -18,14 +19,7 @@
 using namespace engine;
 
 namespace {
-	const D3DCOLOR CLEAR_COLOR = D3DCOLOR_XRGB(127, 127, 127);
-
-	inline void safeRelease(IUnknown* unknown) {
-		if (unknown) {
-			unknown->Release();
-			unknown = NULL;
-		}
-	}
+	static const D3DCOLOR CLEAR_COLOR = D3DCOLOR_XRGB(127, 127, 127);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -82,9 +76,6 @@ VideoD3D9::VideoD3D9(Window& window) :
 	window_(window),
 	d3d_(NULL),
 	device_(NULL),
-	renderTarget_(NULL),
-	renderTexture_(NULL),
-	renderSurface_(NULL),
 	assets_(ASSET_POOL_SIZE)
 { 
 	memset(&vertexDecls_[0], 0, sizeof(vertexDecls_)); 
@@ -116,23 +107,6 @@ bool VideoD3D9::initialize() {
 	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR));
 	CHECKED_D3D_CALL(device_->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR));
 
-	// render target
-	CHECKED_D3D_CALL(D3DXCreateRenderToSurface(device_, 800, 600, D3DFMT_X8R8G8B8, TRUE, D3DFMT_D16, &renderTarget_));
-	CHECKED_D3D_CALL(D3DXCreateTexture(device_, 800, 600, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &renderTexture_));        
-	CHECKED_D3D_CALL(renderTexture_->GetSurfaceLevel(0, &renderSurface_));
-
-	static const RenderVertex renderVertices[] = {
-		RenderVertex(Vector3(-(1601.f / 1600.f), -(1201.f / 1200.f), 0.f), Vector2(0.f, 1.f)),
-		RenderVertex(Vector3(-(1601.f / 1600.f),  (1199.f / 1200.f), 0.f), Vector2(0.f, 0.f)),
-		RenderVertex(Vector3( (1599.f / 1600.f),  (1199.f / 1200.f), 0.f), Vector2(1.f, 0.f)),
-		RenderVertex(Vector3( (1599.f / 1600.f), -(1201.f / 1200.f), 0.f), Vector2(1.f, 1.f)),
-	};
-	static const u16 renderIndices[] = {
-		0, 1, 2,
-		2, 3, 0
-	};
-	renderMesh_.reset(new StaticMeshD3D9(device_, sizeof(RenderVertex), renderVertices, 4, renderIndices, 6));
-
 	// vertex decls
 	for (uint i = 0; i < VERTEX_DECL_COUNT; ++i)
 		CHECKED_D3D_CALL(device_->CreateVertexDeclaration(VERTEX_DECL_ELEMS[i], &vertexDecls_[i]));
@@ -153,6 +127,8 @@ bool VideoD3D9::initialize() {
 		}
 	}
 
+	target_.reset(new RenderTargetD3D9(device_, vertexDecls_[DIFFUSE_TEXTURED], effects_[TEXTURED]));
+
 	return true;
 }
 
@@ -160,17 +136,13 @@ bool VideoD3D9::initialize() {
 
 void VideoD3D9::terminate() {
 	assets_.reset();
+	target_.reset();
 
 	for (uint i = 0; i < EFFECT_COUNT; ++i)
 		safeRelease(effects_[i]);
 
 	for (uint i = 0; i < VERTEX_DECL_COUNT; ++i)
 		safeRelease(vertexDecls_[i]);
-
-	renderMesh_.reset();
-	safeRelease(renderSurface_);
-	safeRelease(renderTexture_);
-	safeRelease(renderTarget_);
 
 	safeRelease(device_);
 	safeRelease(d3d_);
@@ -181,50 +153,18 @@ void VideoD3D9::terminate() {
 void VideoD3D9::begin() {
 	assets_.update(device_);
 
-	CHECKED_D3D_CALL_A(renderTarget_->BeginScene(renderSurface_, NULL));
-
-	CHECKED_D3D_CALL_A(device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0));
-
-	CHECKED_D3D_CALL_A(device_->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE));
-	CHECKED_D3D_CALL_A(device_->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA));
-	CHECKED_D3D_CALL_A(device_->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCCOLOR));
+	target_->begin();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void VideoD3D9::end() {
-	CHECKED_D3D_CALL_A(renderTarget_->EndScene(D3DX_FILTER_NONE));
+	target_->end();
 
 	CHECKED_D3D_CALL_A(device_->BeginScene());
-
 	CHECKED_D3D_CALL_A(device_->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, CLEAR_COLOR, 1.0f, 0));
 
-	CHECKED_D3D_CALL_A(device_->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE));
-	CHECKED_D3D_CALL_A(device_->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE));
-	CHECKED_D3D_CALL_A(device_->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO));
-
-	ID3DXEffect* effect = effects_[TEXTURED];
-
-	// vertex type
-	CHECKED_D3D_CALL_A(device_->SetVertexDeclaration(vertexDecls_[DIFFUSE_TEXTURED]));
-
-	// technique
-	D3DXHANDLE techHandle = effect->GetTechniqueByName("TransformTech");
-	assert(techHandle);
-	CHECKED_D3D_CALL_A(effect->SetTechnique(techHandle));
-
-	// textures
-	D3DXHANDLE texHandle = effect->GetParameterByName(NULL, "TEX_DIFFUSE");
-	assert(texHandle);
-	CHECKED_D3D_CALL_A(effect->SetTexture(texHandle, renderTexture_));
-	UINT numPasses = 0;
-	CHECKED_D3D_CALL_A(effect->Begin(&numPasses, 0));
-	CHECKED_D3D_CALL_A(effect->BeginPass(0));
-
-	renderMesh_->streamBuffers();
-
-	CHECKED_D3D_CALL_A(effect->EndPass());
-	CHECKED_D3D_CALL_A(effect->End());	
+	target_->draw();
 
 	CHECKED_D3D_CALL_A(device_->EndScene());
 	CHECKED_D3D_CALL_A(device_->Present(NULL, NULL, NULL, NULL));

@@ -689,6 +689,18 @@
 							>
 						</File>
 						<File
+							RelativePath=".\src\engine\video\direct3d9\render_target_d3d9.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\src\engine\video\direct3d9\render_target_d3d9.h"
+							>
+						</File>
+						<File
+							RelativePath=".\src\engine\video\direct3d9\tools_d3d9.h"
+							>
+						</File>
+						<File
 							RelativePath=".\src\engine\video\direct3d9\video_assets_d3d9.cpp"
 							>
 						</File>

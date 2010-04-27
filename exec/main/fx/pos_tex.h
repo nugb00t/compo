@@ -36,6 +36,11 @@ technique TransformTech {
 	pass P0 {
 		vertexShader = compile vs_3_0 TransformVS();
 		pixelShader  = compile ps_3_0 TransformPS();
+
+		ZWriteEnable = False;
+		AlphaBlendEnable = True;
+		SrcBlend = One;
+		DestBlend = Zero;
 	}
 }
 
