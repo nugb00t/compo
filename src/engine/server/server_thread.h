@@ -25,7 +25,7 @@ public:
 	virtual void terminate();
 
 private:
-	void updateResources();
+	void updateFiles();
 
 private:
 	States states_;

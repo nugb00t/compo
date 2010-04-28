@@ -3,7 +3,7 @@
 #include "playground_video.h"
 
 #include "core/sync.h"
-#include "filesystem/resources.h"
+#include "filesystem/files.h"
 
 #include "game.h"
 

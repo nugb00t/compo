@@ -3,7 +3,7 @@
 #include "engine.h"
 
 #include "core/sync.h"
-#include "filesystem/resources.h"
+#include "filesystem/files.h"
 
 #include "client/local_client_thread.h"
 #include "filesystem/filesystem_thread.h"
@@ -28,7 +28,7 @@ Engine::Engine(GameFactory& game) {
 	Sync::inst();
 	kaynine::Trace::inst();
 
-	Resources::inst();
+	Files::inst();
 	
 	run(game);
 }

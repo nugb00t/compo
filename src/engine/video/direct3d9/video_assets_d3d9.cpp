@@ -2,7 +2,7 @@
 
 #include "video_assets_d3d9.h"
 
-#include "filesystem/resources.h"
+#include "filesystem/files.h"
 
 using namespace engine;
 
@@ -22,10 +22,10 @@ const uint VideoAssetsD3D9::addTexture(const TCHAR* const path) {
 	assert(textureCount_ < MAX_TEXTURES);
 
 	textures_[textureCount_].path = path;
-	textures_[textureCount_].resource = Resources::inst().add(path, pool_);
+	textures_[textureCount_].file = Files::inst().add(path, pool_);
 	textures_[textureCount_].texture = NULL;
 
-	textureLoadQueue_.add(TextureQueueItem(textureCount_, textures_[textureCount_].resource));
+	textureLoadQueue_.add(TextureQueueItem(textureCount_, textures_[textureCount_].file));
 	
 	return textureCount_++;
 }
@@ -36,11 +36,11 @@ void VideoAssetsD3D9::update(IDirect3DDevice9* device) {
 	assert(device);
 
 	for (TextureLoadQueue::Range range(textureLoadQueue_); !range.finished(); range.next()) {
-		const Resource& item = Resources::inst().get(range.get().resource);
+		const File& item = Files::inst().get(range.get().file);
 
-		assert(item.status != Resource::Error);
+		assert(item.status != File::Error);
 		
-		if (item.status == Resource::Done) {
+		if (item.status == File::Done) {
 			CHECKED_D3D_CALL_A(D3DXCreateTextureFromFileInMemory(device, 
 																 item.buffer,
 																 item.size,

@@ -67,7 +67,6 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,7 +82,6 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -131,6 +129,7 @@
     </ClCompile>
     <ClCompile Include="src\engine\client\local_client_thread.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
+    <ClCompile Include="src\engine\filesystem\files.cpp" />
     <ClCompile Include="src\engine\system\win51\input_w51.cpp" />
     <ClCompile Include="src\engine\system\win51\system_loop_w51.cpp" />
     <ClCompile Include="src\engine\system\win51\window_w51.cpp" />
@@ -162,7 +161,6 @@
     <ClCompile Include="src\engine\logic\logic.cpp" />
     <ClCompile Include="src\engine\server\server_thread.cpp" />
     <ClCompile Include="src\engine\filesystem\filesystem_thread.cpp" />
-    <ClCompile Include="src\engine\filesystem\resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="exec\main\fx\pos_tex.h" />
@@ -191,6 +189,7 @@
     <ClInclude Include="src\engine\engine_math.h" />
     <ClInclude Include="src\engine\engine_pch.h" />
     <ClInclude Include="src\engine\engine_types.h" />
+    <ClInclude Include="src\engine\filesystem\files.h" />
     <ClInclude Include="src\engine\game.h" />
     <ClInclude Include="src\engine\system\controls.h" />
     <ClInclude Include="src\engine\system\system_loop.h" />
@@ -234,7 +233,6 @@
     <ClInclude Include="src\engine\server\server_data.h" />
     <ClInclude Include="src\engine\server\server_thread.h" />
     <ClInclude Include="src\engine\filesystem\filesystem_thread.h" />
-    <ClInclude Include="src\engine\filesystem\resources.h" />
     <ClInclude Include="exec\main\fx\pos_diffuse.h" />
     <ClInclude Include="exec\main\fx\pos_diffuse_tex.h" />
   </ItemGroup>

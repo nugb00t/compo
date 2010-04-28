@@ -25,27 +25,27 @@ namespace kaynine {
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class safe_bool_base {
+class SafeBoolBase {
 public:
 	void this_type_does_not_support_comparisons() const {}
 
 protected:
-	typedef void (safe_bool_base::*bool_type)() const;
+	typedef void (SafeBoolBase::*bool_type)() const;
 
-	safe_bool_base() {}
-	safe_bool_base(const safe_bool_base&) {}
-	safe_bool_base& operator=(const safe_bool_base&) {return *this;}
-	virtual ~safe_bool_base() {}
+	SafeBoolBase() {}
+	SafeBoolBase(const SafeBoolBase&) {}
+	SafeBoolBase& operator=(const SafeBoolBase&) {return *this;}
+	virtual ~SafeBoolBase() {}
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T = void> 
-class SafeBool : public safe_bool_base {
+class SafeBool : public SafeBoolBase {
 public:
 	operator bool_type() const {
 		return (static_cast<const T*>(this))->boolean_test() ?
-			&safe_bool_base::this_type_does_not_support_comparisons : 0;
+			&SafeBoolBase::this_type_does_not_support_comparisons : 0;
 	}
 
 protected:
@@ -55,11 +55,11 @@ protected:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<> 
-class SafeBool<void> : public safe_bool_base {
+class SafeBool<void> : public SafeBoolBase {
 public:
 	operator bool_type() const {
 		return boolean_test() == true ? 
-			&safe_bool_base::this_type_does_not_support_comparisons : 0;
+			&SafeBoolBase::this_type_does_not_support_comparisons : 0;
 	}
 
 protected:

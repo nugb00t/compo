@@ -12,19 +12,19 @@ class VideoAssetsD3D9 {
 	struct Texture {
 		IDirect3DTexture9* texture;
 		const TCHAR* path;
-		uint resource;
+		uint file;
 	};
 
 	//-----------------------------------------------------------------------------------------------------------------
 
 	struct TextureQueueItem {
 		uint texture;
-		uint resource;
+		uint file;
 		
 		TextureQueueItem() {}
 		
-		TextureQueueItem(const uint texture_, const uint resource_)
-		: texture(texture_), resource(resource_) {}
+		TextureQueueItem(const uint texture_, const uint file_)
+		: texture(texture_), file(file_) {}
 	};
 
 	//-----------------------------------------------------------------------------------------------------------------

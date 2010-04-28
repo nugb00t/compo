@@ -4,7 +4,7 @@ namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct Resource : kaynine::SafeBool<Resource> {
+struct File : kaynine::SafeBool<File> {
 	const TCHAR* path;
 	kaynine::MemoryPool* pool;
 	
@@ -20,9 +20,9 @@ struct Resource : kaynine::SafeBool<Resource> {
 		Error,
 	} status;
 
-	Resource() : path(NULL), pool(NULL), buffer(NULL), size(0), status(Vacant) {}
+	File() : path(NULL), pool(NULL), buffer(NULL), size(0), status(Vacant) {}
 
-	Resource(const TCHAR* const path_, kaynine::MemoryPool* pool_, void* buffer_, const uint size_, const Status status_) 
+	File(const TCHAR* const path_, kaynine::MemoryPool* pool_, void* buffer_, const uint size_, const Status status_) 
 		: path(path_), pool(pool_), buffer(buffer_), size(size_), status(status_) {
 			assert(path_ && pool_);
 	}
@@ -30,20 +30,20 @@ struct Resource : kaynine::SafeBool<Resource> {
 	// interface: SafeBool
 	inline bool boolean_test() const { return path && pool; }
 
-	static Resource Null;
+	static File Null;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Resources : public kaynine::Singleton<Resources> {
+class Files : public kaynine::Singleton<Files> {
 	static const uint MAX_RESOURCES = 64;
 	static const uint SLOT_COUNT = 4;
 	
-	typedef kaynine::StaticArray<Resource, MAX_RESOURCES> Items;
+	typedef kaynine::StaticArray<File, MAX_RESOURCES> Items;
 
 	struct Slot {
-		uint resource;
-		HANDLE file;
+		uint file;
+		HANDLE handle;
 		OVERLAPPED overlapped;
 
 		enum Status {
@@ -53,17 +53,17 @@ class Resources : public kaynine::Singleton<Resources> {
 	};
 	
 public:
-	Resources();
+	Files();
 
 	bool update();
 	
 	const uint add(const TCHAR* const path, kaynine::MemoryPool& pool);
-	void remove(const uint resource);
+	void remove(const uint item);
 	
 	// TODO: add
 	//void refresh();
 	
-	inline const Resource& get(const uint item) const { return items_[item]; }
+	inline const File& get(const uint item) const { return items_[item]; }
 
 private:
 	void load(const uint item, const uint slot);
@@ -76,7 +76,7 @@ private:
 	Slot slots_[SLOT_COUNT];
 	HANDLE handles_[SLOT_COUNT + 2];
 
-	kaynine::Event newResource_;
+	kaynine::Event newFile_;
 	kaynine::Events events_;
 
 	kaynine::CriticalSection guard_;

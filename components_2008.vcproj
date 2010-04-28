@@ -806,19 +806,19 @@
 					Name="filesystem"
 					>
 					<File
+						RelativePath=".\src\engine\filesystem\files.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\engine\filesystem\files.h"
+						>
+					</File>
+					<File
 						RelativePath=".\src\engine\filesystem\filesystem_thread.cpp"
 						>
 					</File>
 					<File
 						RelativePath=".\src\engine\filesystem\filesystem_thread.h"
-						>
-					</File>
-					<File
-						RelativePath=".\src\engine\filesystem\resources.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\src\engine\filesystem\resources.h"
 						>
 					</File>
 				</Filter>
