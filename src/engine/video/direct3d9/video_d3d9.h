@@ -36,6 +36,13 @@ public:
 	// assets
 	virtual const uint addTexture(const TCHAR* const path) { return assets_.addTexture(path); }
 
+	// instancing:
+	//
+	// http://msdn.microsoft.com/en-us/library/bb173349(VS.85).aspx
+	// http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter03.html
+	// http://msdn.microsoft.com/en-us/library/bb174460(v=VS.85).aspx
+	//
+	// virtual void draw(Mesh& mesh);
 	virtual void draw(Mesh& mesh, const VertexType vertexType, const EffectType effect,
 					  const TextureUniform* const texUniforms, const uint textureCount,
 					  const Matrix44& transform);

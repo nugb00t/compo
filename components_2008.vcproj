@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../$(SolutionName)_build/$(ConfigurationName)"
-			IntermediateDirectory="../$(SolutionName)_build/$(ConfigurationName)"
+			OutputDirectory="exec"
+			IntermediateDirectory="..\$(SolutionName)_build\$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets=".\common_2008.vsprops;.\common_debug_2008.vsprops"
 			CharacterSet="1"
@@ -57,7 +57,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(SolutionDir)exec\Comp-$(ConfigurationName).exe"
+				OutputFile="$(OutDir)\$(SolutionName)_$(ConfigurationName).exe"
 				AdditionalLibraryDirectories="extern/boost/lib;extern/directx/lib"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -86,8 +86,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="../$(SolutionName)_build/$(ConfigurationName)"
-			IntermediateDirectory="../$(SolutionName)_build/$(ConfigurationName)"
+			OutputDirectory="exec"
+			IntermediateDirectory="..\$(SolutionName)_build\$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets=".\common_2008.vsprops;.\common_release_2008.vsprops"
 			CharacterSet="1"
@@ -125,7 +125,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(SolutionDir)exec\Comp-$(ConfigurationName).exe"
+				OutputFile="$(OutDir)\$(SolutionName)_$(ConfigurationName).exe"
 				AdditionalLibraryDirectories="extern/boost/lib;extern/directx/lib"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"

@@ -41,16 +41,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../$(SolutionName)_build/$(Configuration)/</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../$(SolutionName)_build/$(Configuration)/</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../$(SolutionName)_build/bin/$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../$(SolutionName)_build/bin/$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">exec\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\$(SolutionName)_build\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">exec\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\$(SolutionName)_build\$(Configuration)\</IntDir>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionName)_$(Configuration)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -60,11 +62,12 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <OutputFile>$(SolutionDir)exec\Comp-$(Configuration).exe</OutputFile>
       <AdditionalLibraryDirectories>extern/boost/lib;extern/directx/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -75,11 +78,12 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <OutputFile>$(SolutionDir)exec\Comp-$(Configuration).exe</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>extern/boost/lib;extern/directx/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
+      <ShowProgress>LinkVerbose</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -125,42 +129,43 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\engine\client\local_client_thread.cpp" />
+    <ClCompile Include="src\engine\engine.cpp" />
+    <ClCompile Include="src\engine\system\win51\input_w51.cpp" />
+    <ClCompile Include="src\engine\system\win51\system_loop_w51.cpp" />
+    <ClCompile Include="src\engine\system\win51\window_w51.cpp" />
+    <ClCompile Include="src\engine\video\direct3d9\camera_d3d9.cpp" />
+    <ClCompile Include="src\engine\video\direct3d9\mesh_d3d9.cpp" />
+    <ClCompile Include="src\engine\video\direct3d9\render_target_d3d9.cpp" />
+    <ClCompile Include="src\engine\video\direct3d9\video_assets_d3d9.cpp" />
+    <ClCompile Include="src\engine\video\direct3d9\video_d3d9.cpp" />
+    <ClCompile Include="src\engine\video\font.cpp" />
+    <ClCompile Include="src\engine\video\video_thread.cpp" />
+    <ClCompile Include="src\game_playground\entities\ball_video.cpp" />
+    <ClCompile Include="src\game_playground\playground_arbiter.cpp" />
+    <ClCompile Include="src\game_playground\playground_flow.cpp" />
+    <ClCompile Include="src\game_playground\playground_fonts.cpp" />
+    <ClCompile Include="src\game_playground\playground_game.cpp" />
+    <ClCompile Include="src\game_playground\playground_local_client.cpp" />
+    <ClCompile Include="src\game_playground\playground_video.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\game_playground\playground_arbiter.cpp" />
-    <ClCompile Include="src\game_playground\playground_factories.cpp" />
-    <ClCompile Include="src\game_playground\playground_fonts.cpp" />
-    <ClCompile Include="src\game_playground\playground_game.cpp" />
-    <ClCompile Include="src\game_playground\playground_local_client.cpp" />
-    <ClCompile Include="src\game_playground\playground_video.cpp" />
     <ClCompile Include="src\game_playground\screens\hud_video.cpp" />
     <ClCompile Include="src\game_playground\screens\thread_profiler_video.cpp" />
     <ClCompile Include="src\game_playground\entities\orb_logic.cpp" />
     <ClCompile Include="src\game_playground\entities\orb_video.cpp" />
-    <ClCompile Include="src\engine\engine.cpp" />
     <ClCompile Include="src\engine\utility\profiler.cpp" />
     <ClCompile Include="src\engine\core\time.cpp" />
-    <ClCompile Include="src\engine\video\font.cpp" />
-    <ClCompile Include="src\engine\video\mesh.cpp" />
-    <ClCompile Include="src\engine\video\video_thread.cpp" />
-    <ClCompile Include="src\engine\video\direct3d9\camera_d3d9.cpp" />
-    <ClCompile Include="src\engine\video\direct3d9\mesh_d3d9.cpp" />
-    <ClCompile Include="src\engine\video\direct3d9\video_assets_d3d9.cpp" />
-    <ClCompile Include="src\engine\video\direct3d9\video_d3d9.cpp" />
     <ClCompile Include="src\engine\logic\logic.cpp" />
-    <ClCompile Include="src\engine\system\system_loop.cpp" />
-    <ClCompile Include="src\engine\system\win51\system_loop_w51.cpp" />
-    <ClCompile Include="src\engine\client\local_client.cpp" />
     <ClCompile Include="src\engine\server\server_thread.cpp" />
-    <ClCompile Include="src\engine\input\win51\input_w51.cpp" />
-    <ClCompile Include="src\engine\window\win51\window_w51.cpp" />
     <ClCompile Include="src\engine\filesystem\filesystem_thread.cpp" />
     <ClCompile Include="src\engine\filesystem\resources.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="exec\main\fx\pos_tex.h" />
     <ClInclude Include="extern\kaynine\kaynine\filesystem\tools.h" />
     <ClInclude Include="extern\kaynine\kaynine\threading\frame_buffer.h" />
     <ClInclude Include="extern\kaynine\kaynine\threading\sync_wrappers.h" />
@@ -181,56 +186,53 @@
     <ClInclude Include="extern\kaynine\kaynine\debug\trace.h" />
     <ClInclude Include="extern\tinyxml\tinystr.h" />
     <ClInclude Include="extern\tinyxml\tinyxml.h" />
+    <ClInclude Include="src\engine\client\local_client_thread.h" />
+    <ClInclude Include="src\engine\engine.h" />
+    <ClInclude Include="src\engine\engine_math.h" />
+    <ClInclude Include="src\engine\engine_pch.h" />
+    <ClInclude Include="src\engine\engine_types.h" />
+    <ClInclude Include="src\engine\game.h" />
+    <ClInclude Include="src\engine\system\controls.h" />
+    <ClInclude Include="src\engine\system\system_loop.h" />
+    <ClInclude Include="src\engine\system\win51\input_w51.h" />
+    <ClInclude Include="src\engine\system\win51\system_loop_w51.h" />
+    <ClInclude Include="src\engine\system\win51\window_w51.h" />
+    <ClInclude Include="src\engine\system\window.h" />
+    <ClInclude Include="src\engine\video\camera.h" />
+    <ClInclude Include="src\engine\video\direct3d9\camera_d3d9.h" />
+    <ClInclude Include="src\engine\video\direct3d9\mesh_d3d9.h" />
+    <ClInclude Include="src\engine\video\direct3d9\render_target_d3d9.h" />
+    <ClInclude Include="src\engine\video\direct3d9\tools_d3d9.h" />
+    <ClInclude Include="src\engine\video\direct3d9\video_assets_d3d9.h" />
+    <ClInclude Include="src\engine\video\direct3d9\video_d3d9.h" />
+    <ClInclude Include="src\engine\video\font.h" />
+    <ClInclude Include="src\engine\video\mesh.h" />
+    <ClInclude Include="src\engine\video\video.h" />
+    <ClInclude Include="src\engine\video\video_component.h" />
+    <ClInclude Include="src\engine\video\video_thread.h" />
+    <ClInclude Include="src\game_playground\entities\ball_video.h" />
+    <ClInclude Include="src\game_playground\playground_arbiter.h" />
+    <ClInclude Include="src\game_playground\playground_flow.h" />
+    <ClInclude Include="src\game_playground\playground_game.h" />
+    <ClInclude Include="src\game_playground\playground_local_client.h" />
+    <ClInclude Include="src\game_playground\playground_video.h" />
     <ClInclude Include="tools\cook_font\template_data.h" />
     <ClInclude Include="tools\cook_font\template_font.h" />
     <ClInclude Include="tools\cook_font\template_kerned_data.h" />
     <ClInclude Include="tools\cook_font\template_kerned_font.h" />
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\game_playground\playground_arbiter.h" />
-    <ClInclude Include="src\game_playground\playground_factories.h" />
-    <ClInclude Include="src\game_playground\playground_game.h" />
-    <ClInclude Include="src\game_playground\playground_local_client.h" />
-    <ClInclude Include="src\game_playground\playground_video.h" />
     <ClInclude Include="src\game_playground\screens\hud_video.h" />
     <ClInclude Include="src\game_playground\screens\thread_profiler_video.h" />
     <ClInclude Include="src\game_playground\entities\orb_logic.h" />
     <ClInclude Include="src\game_playground\entities\orb_video.h" />
     <ClInclude Include="src\game_playground\fonts\bureau_font.h" />
     <ClInclude Include="src\game_playground\fonts\bureau_font_data.h" />
-    <ClInclude Include="src\game\game.h" />
-    <ClInclude Include="src\game\game_arbiter.h" />
-    <ClInclude Include="src\game\game_factories.h" />
-    <ClInclude Include="src\game\game_local_client.h" />
-    <ClInclude Include="src\game\game_video.h" />
-    <ClInclude Include="src\engine\engine.h" />
-    <ClInclude Include="src\engine\engine_math.h" />
-    <ClInclude Include="src\engine\engine_pch.h" />
-    <ClInclude Include="src\engine\engine_types.h" />
     <ClInclude Include="src\engine\utility\profiler.h" />
     <ClInclude Include="src\engine\core\sync.h" />
     <ClInclude Include="src\engine\core\time.h" />
-    <ClInclude Include="src\engine\video\camera.h" />
-    <ClInclude Include="src\engine\video\font.h" />
-    <ClInclude Include="src\engine\video\mesh.h" />
-    <ClInclude Include="src\engine\video\video.h" />
-    <ClInclude Include="src\engine\video\video_component.h" />
-    <ClInclude Include="src\engine\video\video_thread.h" />
-    <ClInclude Include="src\engine\video\direct3d9\camera_d3d9.h" />
-    <ClInclude Include="src\engine\video\direct3d9\mesh_d3d9.h" />
-    <ClInclude Include="src\engine\video\direct3d9\video_assets_d3d9.h" />
-    <ClInclude Include="src\engine\video\direct3d9\video_d3d9.h" />
     <ClInclude Include="src\engine\logic\logic.h" />
-    <ClInclude Include="src\engine\logic\logic_component.h" />
-    <ClInclude Include="src\engine\system\system_loop.h" />
-    <ClInclude Include="src\engine\system\win51\system_loop_w51.h" />
-    <ClInclude Include="src\engine\client\local_client.h" />
     <ClInclude Include="src\engine\server\server_data.h" />
     <ClInclude Include="src\engine\server\server_thread.h" />
-    <ClInclude Include="src\engine\input\input.h" />
-    <ClInclude Include="src\engine\input\input_data.h" />
-    <ClInclude Include="src\engine\input\win51\input_w51.h" />
-    <ClInclude Include="src\engine\window\window.h" />
-    <ClInclude Include="src\engine\window\win51\window_w51.h" />
     <ClInclude Include="src\engine\filesystem\filesystem_thread.h" />
     <ClInclude Include="src\engine\filesystem\resources.h" />
     <ClInclude Include="exec\main\fx\pos_diffuse.h" />
