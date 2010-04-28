@@ -11,12 +11,29 @@ File File::Null;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2) {
+Files::Files(const TCHAR* const dir) : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2, SLOT_COUNT) {
 	for (uint i = 0; i < SLOT_COUNT; ++i)
 		slots_[i].status = Slot::Vacant;
 
 	handles_[0] = Sync::inst().exit.handle();
 	handles_[1] = newFile_.handle();
+
+	if (dir) {
+		HANDLE handle = ::CreateFile(dir, 
+			FILE_LIST_DIRECTORY,
+			FILE_SHARE_READ | FILE_SHARE_WRITE,
+			NULL,
+			OPEN_EXISTING,
+			FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED,
+			NULL);
+		assert(handle && handle != INVALID_HANDLE_VALUE);
+
+		FILE_NOTIFY_INFORMATION buffer[1024];
+		::ReadDirectoryChangesW(handle, &buffer, sizeof(buffer), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, NULL, NULL);
+		::CloseHandle(handle);
+
+		handles_[SLOT_COUNT + 2] = newFile_.handle();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,9 +45,11 @@ bool Files::update() {
 		if (check == WAIT_OBJECT_0 + 1) {	// new file
 			schedule();
 			newFile_.reset();
-		} else if (WAIT_OBJECT_0 + 2 <= check && check < WAIT_OBJECT_0 + SLOT_COUNT + 2) {	// asio complete
+		} else if (WAIT_OBJECT_0 + 2 <= check && check < WAIT_OBJECT_0 + SLOT_COUNT + 2) {	// async file read complete
 			complete(check - WAIT_OBJECT_0 - 2);
 			schedule(check - WAIT_OBJECT_0 - 2);
+		}
+		else if (check == WAIT_OBJECT_0 + SLOT_COUNT + 2) {	// async directory change notification
 		}
 
 	return true;
@@ -66,7 +85,12 @@ void Files::remove(const uint item) {
 	items_.remove(item);
 }
 
-//---------------------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Files::watch(const TCHAR* const dir) {
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Files::schedule(const unsigned first /*= 0*/) {
 	assert(first < SLOT_COUNT);

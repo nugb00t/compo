@@ -53,15 +53,14 @@ class Files : public kaynine::Singleton<Files> {
 	};
 	
 public:
-	Files();
+	Files::Files(const TCHAR* const dir = NULL);
 
 	bool update();
 	
 	const uint add(const TCHAR* const path, kaynine::MemoryPool& pool);
 	void remove(const uint item);
 	
-	// TODO: add
-	//void refresh();
+	void watch(const TCHAR* const dir);
 	
 	inline const File& get(const uint item) const { return items_[item]; }
 
@@ -74,7 +73,12 @@ private:
 	Items items_;
 
 	Slot slots_[SLOT_COUNT];
+	
+#ifdef DIRECTORY_WATCH_ENABLED
+	HANDLE handles_[SLOT_COUNT + 3];
+#else
 	HANDLE handles_[SLOT_COUNT + 2];
+#endif
 
 	kaynine::Event newFile_;
 	kaynine::Events events_;
