@@ -17,8 +17,9 @@ struct File : kaynine::SafeBool<File> {
 	enum Status {
 		Vacant,
 		Pending,
-		Processing,
-		Done,
+		Queued,
+		Aquired,
+		Processed,
 		Error,
 	} status;
 
@@ -54,12 +55,12 @@ class Files : public kaynine::Singleton<Files> {
 
 		enum Status {
 			Vacant,
-			Processing
+			Occupied
 		} status;
 	};
 
 #ifdef TRACK_DIRECTORY_CHANGES
-	struct NotifyInfo {
+	struct NotifyInfo /*FILE_NOTIFY_INFORMATION*/ {
 		DWORD NextEntryOffset;
 		DWORD Action;
 		DWORD FileNameLength;
@@ -76,8 +77,9 @@ public:
 	const uint add(const TCHAR* const path, kaynine::MemoryPool& pool);
 	void remove(const uint item);
 	
-	void refresh();
+	void refresh(const WCHAR* const path);
 	
+	inline		 File& get(const uint item)		  { return items_[item]; }
 	inline const File& get(const uint item) const { return items_[item]; }
 
 private:

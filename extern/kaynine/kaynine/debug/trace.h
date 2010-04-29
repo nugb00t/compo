@@ -19,6 +19,7 @@ class Trace : public kaynine::Singleton<Trace> {
 public:
 	enum Level {
 		LEVEL_NOTICE,
+		LEVEL_EVENT,
 		LEVEL_GOOD,
 		LEVEL_WARNING,
 		LEVEL_ERROR,

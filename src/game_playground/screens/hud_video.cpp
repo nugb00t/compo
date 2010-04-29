@@ -17,7 +17,7 @@ using namespace game_playground;
 void HUDVideo::initialize(engine::Video& video) {
 	mesh_.reset(video.createDynamicMesh(sizeof(Font::Vertex), MAX_VERTICES, MAX_INDICES));
 	
-	texUniform_.path = _T("main/fonts/bureau_20_o_0.dds");
+	texUniform_.path = _T("main\\fonts\\bureau_20_o_0.dds");
 	texUniform_.name = "TEX_DIFFUSE";
 	texUniform_.texture = video.addTexture(texUniform_.path);
 }

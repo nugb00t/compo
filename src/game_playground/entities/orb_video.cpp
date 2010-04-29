@@ -26,7 +26,7 @@ const u16 OrbVideo::indices_[] = {
 void OrbVideo::initialize(engine::Video& video) {
 	mesh_.reset(video.createStaticMesh(sizeof(Vertex), vertices_, sizeof(vertices_) / sizeof(Vertex), indices_, sizeof(indices_) / sizeof(u16)));
 
-	texUniform_.path = _T("playground/textures/myself.bmp");
+	texUniform_.path = _T("playground\\textures\\myself.bmp");
 	texUniform_.name = "TEX_DIFFUSE";
 	texUniform_.texture = video.addTexture(texUniform_.path);
 }

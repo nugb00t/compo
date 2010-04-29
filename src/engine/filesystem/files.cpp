@@ -20,8 +20,13 @@ Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof
 	handles_[1] = newFile_.handle();
 
 #ifdef TRACK_DIRECTORY_CHANGES
-	folder_ = ::CreateFile(_T("./"), FILE_LIST_DIRECTORY, FILE_SHARE_READ | FILE_SHARE_WRITE,
-		NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, NULL);
+	folder_ = ::CreateFile(_T("./"),
+						   FILE_LIST_DIRECTORY,
+						   FILE_SHARE_READ | FILE_SHARE_WRITE,
+						   NULL,
+						   OPEN_EXISTING,
+						   FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED,
+						   NULL);
 	assert(folder_ && folder_ != INVALID_HANDLE_VALUE);
 
 	memset(&overlapped_, 0, sizeof(overlapped_));
@@ -65,11 +70,14 @@ bool Files::update() {
 			NotifyInfo& other = changes_[current_];
 			
 			const uint time = Time::inst().msec();
-			if (time - lastUpdate_ > CHANGE_TRACK_THRESHOLD && change.FileNameLength == other.FileNameLength && !_tcsncmp(change.FileName, other.FileName, MAX_PATH)) {
+			if (change.FileNameLength != other.FileNameLength ||
+				_tcsncicmp(change.FileName, other.FileName, MAX_PATH) ||
+				time - lastUpdate_ > CHANGE_TRACK_THRESHOLD)
+			{
 				lastUpdate_ = time;
 
-				TRACE_GOOD(_T("directory changes detected: [%d]'%s'"), change.Action, change.FileName);
-				refresh();
+				TRACE_EVENT(_T("file changes detected: '%s'"), change.FileName);
+				refresh(change.FileName);
 			}
 
 			CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &other, sizeof(other), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped_, NULL));
@@ -87,9 +95,8 @@ const uint Files::add(const TCHAR* const path, kaynine::MemoryPool& pool) {
 	kaynine::AutoLock<> lock(guard_);
 
 	// look through already added files
-	Items::Range range(items_);
-	for (; !range.finished(); range.next())
-		if (!_tcscmp(path, range.get().path)) {
+	for (Items::Range range(items_); !range.finished(); range.next())
+		if (!_tcsncicmp(path, range.get().path, MAX_PATH)) {
 			assert(range.get().pool == &pool);
 
 			return range.index();
@@ -111,7 +118,21 @@ void Files::remove(const uint item) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Files::refresh() {
+void Files::refresh(const WCHAR* const path) {
+	for (Items::Range range(items_); !range.finished(); range.next()) {
+		if (_wcsnicmp(path, range.get().path, MAX_PATH))
+			continue;
+
+		File& file = range.get();
+		file.status = File::Pending;
+		
+		for (uint slot = 0; slot < SLOT_COUNT; ++slot)
+			if (slots_[slot].status == Slot::Vacant) {
+				file.pool->deallocate(file.buffer);
+				load(range.index(), slot);
+				return;
+			}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -187,18 +208,18 @@ void Files::load(const uint item, const uint slot) {
 	} else {
 		items_[item].buffer = buffer;
 		items_[item].size = size;
-		items_[item].status = File::Processing;
+		items_[item].status = File::Queued;
 		
 		slots_[slot].file = item;
 		slots_[slot].handle = handle;
-		slots_[slot].status = Slot::Processing;
+		slots_[slot].status = Slot::Occupied;
 	}
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 
 void Files::complete(const unsigned slot) {
-	assert(slots_[slot].status == Slot::Processing);
+	assert(slots_[slot].status == Slot::Occupied);
 
 	File& file = items_[slots_[slot].file];
 
@@ -209,7 +230,7 @@ void Files::complete(const unsigned slot) {
 
 	if (slots_[slot].overlapped.InternalHigh == file.size) {
 		TRACE_GOOD(_T("file #%d '%s' was successfully loaded at the slot #%d"), slots_[slot].file, file.path, slot);
-		file.status = File::Done;
+		file.status = File::Aquired;
 	} else {
 		TRACE_WARNING(_T("file #%d '%s' failed to load at the slot #%d"), slots_[slot].file, file.path, slot);
 		file.status = File::Error;

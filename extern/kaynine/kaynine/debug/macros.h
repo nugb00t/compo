@@ -24,6 +24,7 @@
 
 #ifdef KN_USE_TRACE
 # define TRACE_NOTICE(...)			kaynine::Trace::inst().print(/*__FILE__*/ 0, __LINE__, __FUNCTION__, kaynine::Trace::LEVEL_NOTICE,	kaynine::Trace::SOURCE_NONE, 0,					__VA_ARGS__)
+# define TRACE_EVENT(...)			kaynine::Trace::inst().print(/*__FILE__*/ 0, __LINE__, __FUNCTION__, kaynine::Trace::LEVEL_EVENT,	kaynine::Trace::SOURCE_NONE, 0, 				__VA_ARGS__)
 # define TRACE_GOOD(...)			kaynine::Trace::inst().print(/*__FILE__*/ 0, __LINE__, __FUNCTION__, kaynine::Trace::LEVEL_GOOD,	kaynine::Trace::SOURCE_NONE, 0, 				__VA_ARGS__)
 # define TRACE_WARNING(...)			kaynine::Trace::inst().print(/*__FILE__*/ 0, __LINE__, __FUNCTION__, kaynine::Trace::LEVEL_WARNING,	kaynine::Trace::SOURCE_NONE, 0, 				__VA_ARGS__)
 # define TRACE_ERROR(...)			kaynine::Trace::inst().print(/*__FILE__*/ 0, __LINE__, __FUNCTION__, kaynine::Trace::LEVEL_ERROR,	kaynine::Trace::SOURCE_NONE, 0, 				__VA_ARGS__)
@@ -32,6 +33,7 @@
 # define TRACE_D3D_ERROR(hr, ...)	kaynine::Trace::inst().print(/*__FILE__*/ 0, __LINE__, __FUNCTION__, kaynine::Trace::LEVEL_ERROR,	kaynine::Trace::SOURCE_D3D, hr,					__VA_ARGS__)
 #else
 # define TRACE_NOTICE(...)		
+# define TRACE_EVENT(...)		
 # define TRACE_GOOD(...)		
 # define TRACE_WARNING(...)	
 # define TRACE_ERROR(...)
