@@ -11,29 +11,32 @@ File File::Null;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Files::Files(const TCHAR* const dir) : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2, SLOT_COUNT) {
+Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2) 
+{
 	for (uint i = 0; i < SLOT_COUNT; ++i)
 		slots_[i].status = Slot::Vacant;
 
 	handles_[0] = Sync::inst().exit.handle();
 	handles_[1] = newFile_.handle();
 
-	if (dir) {
-		HANDLE handle = ::CreateFile(dir, 
-			FILE_LIST_DIRECTORY,
-			FILE_SHARE_READ | FILE_SHARE_WRITE,
-			NULL,
-			OPEN_EXISTING,
-			FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED,
-			NULL);
-		assert(handle && handle != INVALID_HANDLE_VALUE);
+#ifdef TRACK_DIRECTORY_CHANGES
+	folder_ = ::CreateFile(_T("./"), FILE_LIST_DIRECTORY, FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, NULL);
+	assert(folder_ && folder_ != INVALID_HANDLE_VALUE);
 
-		FILE_NOTIFY_INFORMATION buffer[1024];
-		::ReadDirectoryChangesW(handle, &buffer, sizeof(buffer), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, NULL, NULL);
-		::CloseHandle(handle);
+	memset(&overlapped_, 0, sizeof(overlapped_));
+	overlapped_.hEvent = handles_[SLOT_COUNT + 2];
 
-		handles_[SLOT_COUNT + 2] = newFile_.handle();
-	}
+	CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &change_, sizeof(change_), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped_, NULL));
+#endif
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Files::~Files() {
+#ifdef TRACK_DIRECTORY_CHANGES
+	CHECKED_WINAPI_CALL_1_A(::CloseHandle(folder_));
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,14 +48,23 @@ bool Files::update() {
 		if (check == WAIT_OBJECT_0 + 1) {	// new file
 			schedule();
 			newFile_.reset();
-		} else if (WAIT_OBJECT_0 + 2 <= check && check < WAIT_OBJECT_0 + SLOT_COUNT + 2) {	// async file read complete
+		}
+		else if (WAIT_OBJECT_0 + 2 <= check && check < WAIT_OBJECT_0 + SLOT_COUNT + 2) {	// file read complete
 			complete(check - WAIT_OBJECT_0 - 2);
+			events_.reset(check, 1);
 			schedule(check - WAIT_OBJECT_0 - 2);
 		}
-		else if (check == WAIT_OBJECT_0 + SLOT_COUNT + 2) {	// async directory change notification
-		}
+#ifdef TRACK_DIRECTORY_CHANGES
+		else if (check == WAIT_OBJECT_0 + SLOT_COUNT + 2) {		// directory change notification
+			events_.reset(check - WAIT_OBJECT_0, 1);
+			TRACE_GOOD(_T("directory changes detected: [%d]'%s'"), change_.Action, change_.FileName);
+			refresh();
 
-	return true;
+			CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &change_, sizeof(change_), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped_, NULL));
+		}
+#endif
+
+		return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +99,7 @@ void Files::remove(const uint item) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Files::watch(const TCHAR* const dir) {
+void Files::refresh() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +147,7 @@ void Files::load(const uint item, const uint slot) {
 	// file size
 	const DWORD size = ::GetFileSize(handle, NULL);
 	if (!size) {
-		::CloseHandle(handle);
+		CHECKED_WINAPI_CALL_1_A(::CloseHandle(handle));
 
 		items_[item].status = File::Error;
 		TRACE_WARNING(_T("couldn't load empty file '%s'"), items_[item].path);
@@ -156,7 +168,7 @@ void Files::load(const uint item, const uint slot) {
 	// initiate asio read
 	DWORD read = 0;
 	if (!::ReadFile(handle, buffer, size, &read, &slots_[slot].overlapped) && ::GetLastError() != ERROR_IO_PENDING) {
-		::CloseHandle(handle);
+		CHECKED_WINAPI_CALL_1_A(::CloseHandle(handle));
 		TRACE_WARNING(_T("couldn't read file '%s'"), items_[item].path);
 
 		items_[item].status = File::Error;
@@ -191,8 +203,7 @@ void Files::complete(const unsigned slot) {
 		file.status = File::Error;
 	}
 
-	CHECKED_CALL_A(::CloseHandle(slots_[slot].handle));
-	events_.reset(slot + 2, 1);
+	CHECKED_WINAPI_CALL_1_A(::CloseHandle(slots_[slot].handle));
 
 	slots_[slot].status = Slot::Vacant;
 }

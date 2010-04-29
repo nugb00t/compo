@@ -1,5 +1,7 @@
 #pragma once
 
+#define TRACK_DIRECTORY_CHANGES
+
 namespace engine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,16 +53,26 @@ class Files : public kaynine::Singleton<Files> {
 			Processing
 		} status;
 	};
+
+#ifdef TRACK_DIRECTORY_CHANGES
+	struct NotifyInfo {
+		DWORD NextEntryOffset;
+		DWORD Action;
+		DWORD FileNameLength;
+		WCHAR FileName[MAX_PATH + 1];
+	};
+#endif
 	
 public:
-	Files::Files(const TCHAR* const dir = NULL);
+	Files();
+	~Files();
 
 	bool update();
 	
 	const uint add(const TCHAR* const path, kaynine::MemoryPool& pool);
 	void remove(const uint item);
 	
-	void watch(const TCHAR* const dir);
+	void refresh();
 	
 	inline const File& get(const uint item) const { return items_[item]; }
 
@@ -74,10 +86,13 @@ private:
 
 	Slot slots_[SLOT_COUNT];
 	
-#ifdef DIRECTORY_WATCH_ENABLED
-	HANDLE handles_[SLOT_COUNT + 3];
+#ifdef TRACK_DIRECTORY_CHANGES
+	HANDLE handles_[SLOT_COUNT + 3];	// [0: exit][1: new][2: asio*slot_count][slot_count+2: dir_watch]
+	HANDLE folder_;
+	OVERLAPPED overlapped_;
+	NotifyInfo change_;
 #else
-	HANDLE handles_[SLOT_COUNT + 2];
+	HANDLE handles_[SLOT_COUNT + 2];	// [0: exit][1: new][2: asio*slot_count]
 #endif
 
 	kaynine::Event newFile_;

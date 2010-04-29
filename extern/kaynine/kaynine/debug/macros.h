@@ -43,32 +43,38 @@
 #ifdef _DEBUG
 # define CHECKED_CALL_F(x)				{ unsigned ReT = unsigned(x); if (!ReT)					{ TRACE_ERROR(			_T(#x) _T(" failed")); return false; } }
 # define CHECKED_GENERIC_CALL_F(x, r)	{ unsigned ReT = unsigned(x); if (ReT != (r))			{ TRACE_GENERIC_ERROR(	_T(#x) _T(" failed")); return false; } }
-# define CHECKED_WINAPI_CALL_F(x)		{ DWORD    ReT = DWORD   (x); if (ReT != ERROR_SUCCESS)	{ TRACE_WINAPI_ERROR(	_T(#x) _T(" failed")); return false; } }
+# define CHECKED_WINAPI_CALL_1_F(x)		{ DWORD    ReT = DWORD   (x); if (ReT != TRUE)			{ TRACE_WINAPI_ERROR(	_T(#x) _T(" failed")); return false; } }
+# define CHECKED_WINAPI_CALL_0_F(x)		{ DWORD    ReT = DWORD   (x); if (ReT != ERROR_SUCCESS)	{ TRACE_WINAPI_ERROR(	_T(#x) _T(" failed")); return false; } }
 # define CHECKED_D3D_CALL_F(x)			{ HRESULT  ReT = HRESULT (x); if (FAILED(ReT))			{ TRACE_D3D_ERROR(ReT,	_T(#x) _T(" failed")); return false; } }
 
 # define CHECKED_CALL_A(x)				{ unsigned ReT = unsigned(x); if (!ReT)					{ TRACE_ERROR(			_T(#x) _T(" failed")); ::DebugBreak(); } }
 # define CHECKED_GENERIC_CALL_A(x, r)	{ unsigned ReT = unsigned(x); if (ReT != (r))			{ TRACE_GENERIC_ERROR(	_T(#x) _T(" failed")); ::DebugBreak(); } }
-# define CHECKED_WINAPI_CALL_A(x)		{ DWORD    ReT = DWORD   (x); if (ReT != ERROR_SUCCESS)	{ TRACE_WINAPI_ERROR(	_T(#x) _T(" failed")); ::DebugBreak(); } }
+# define CHECKED_WINAPI_CALL_1_A(x)		{ DWORD    ReT = DWORD   (x); if (ReT != TRUE)			{ TRACE_WINAPI_ERROR(	_T(#x) _T(" failed")); ::DebugBreak(); } }
+# define CHECKED_WINAPI_CALL_0_A(x)		{ DWORD    ReT = DWORD   (x); if (ReT != ERROR_SUCCESS)	{ TRACE_WINAPI_ERROR(	_T(#x) _T(" failed")); ::DebugBreak(); } }
 # define CHECKED_D3D_CALL_A(x)			{ HRESULT  ReT = HRESULT (x); if (FAILED(ReT))			{ TRACE_D3D_ERROR(ReT,	_T(#x) _T(" failed")); ::DebugBreak(); } }
 
 # define CHECKED_CALL(x)				{ unsigned ReT = unsigned(x); if (!ReT)					{ TRACE_ERROR(			_T(#x) _T(" failed")); return false; } }
 # define CHECKED_GENERIC_CALL(x, r)		{ unsigned ReT = unsigned(x); if (ReT != (r))			{ TRACE_GENERIC_ERROR(	_T(#x) _T(" failed")); return false; } }
-# define CHECKED_WINAPI_CALL(x)			{ DWORD    ReT = DWORD   (x); if (ReT != ERROR_SUCCESS)	{ TRACE_WINAPI_ERROR(	_T(#x) _T(" failed")); return false; } }
+# define CHECKED_WINAPI_CALL_1(x)		{ DWORD    ReT = DWORD   (x); if (ReT != TRUE)			{ TRACE_WINAPI_ERROR(	_T(#x) _T(" failed")); return false; } }
+# define CHECKED_WINAPI_CALL_0(x)		{ DWORD    ReT = DWORD   (x); if (ReT != ERROR_SUCCESS)	{ TRACE_WINAPI_ERROR(	_T(#x) _T(" failed")); return false; } }
 # define CHECKED_D3D_CALL(x)			{ HRESULT  ReT = HRESULT (x); if (FAILED(ReT))			{ TRACE_D3D_ERROR(ReT,	_T(#x) _T(" failed")); return false; } }
 #else
 # define CHECKED_CALL_F(x)				(x)
 # define CHECKED_GENERIC_CALL_F(x, r)	(x)
-# define CHECKED_WINAPI_CALL_F(x)		(x)
+# define CHECKED_WINAPI_CALL_1_F(x)		(x)
+# define CHECKED_WINAPI_CALL_0_F(x)		(x)
 # define CHECKED_D3D_CALL_F(x)			(x)
 
 # define CHECKED_CALL_A(x)				(x)
 # define CHECKED_GENERIC_CALL_A(x, r)	(x)
-# define CHECKED_WINAPI_CALL_A(x)		(x)
+# define CHECKED_WINAPI_CALL_1_A(x)		(x)
+# define CHECKED_WINAPI_CALL_0_A(x)		(x)
 # define CHECKED_D3D_CALL_A(x)			(x)
 
 # define CHECKED_CALL(x)				(x)
 # define CHECKED_GENERIC_CALL(x, r)		(x)
-# define CHECKED_WINAPI_CALL(x)			(x)
+# define CHECKED_WINAPI_CALL_1(x)		(x)
+# define CHECKED_WINAPI_CALL_0(x)		(x)
 # define CHECKED_D3D_CALL(x)			(x)
 #endif
 
