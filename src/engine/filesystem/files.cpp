@@ -3,6 +3,7 @@
 #include "files.h"
 
 #include "core/sync.h"
+#include "core/time.h"
 #include "engine.h"
 
 using namespace engine;
@@ -11,8 +12,7 @@ File File::Null;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2) 
-{
+Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2) {
 	for (uint i = 0; i < SLOT_COUNT; ++i)
 		slots_[i].status = Slot::Vacant;
 
@@ -26,8 +26,12 @@ Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof
 
 	memset(&overlapped_, 0, sizeof(overlapped_));
 	overlapped_.hEvent = handles_[SLOT_COUNT + 2];
+	
+	current_ = 0;
+	lastUpdate_ = 0;
+	memset(&changes_, 0, sizeof(changes_));
 
-	CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &change_, sizeof(change_), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped_, NULL));
+	CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &changes_[current_], sizeof(changes_[0]), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped_, NULL));
 #endif
 }
 
@@ -56,11 +60,19 @@ bool Files::update() {
 		}
 #ifdef TRACK_DIRECTORY_CHANGES
 		else if (check == WAIT_OBJECT_0 + SLOT_COUNT + 2) {		// directory change notification
-			events_.reset(check - WAIT_OBJECT_0, 1);
-			TRACE_GOOD(_T("directory changes detected: [%d]'%s'"), change_.Action, change_.FileName);
-			refresh();
+			NotifyInfo& change = changes_[current_];
+			current_ = ~current_ & 0x1;
+			NotifyInfo& other = changes_[current_];
+			
+			const uint time = Time::inst().msec();
+			if (time - lastUpdate_ > CHANGE_TRACK_THRESHOLD && change.FileNameLength == other.FileNameLength && !_tcsncmp(change.FileName, other.FileName, MAX_PATH)) {
+				lastUpdate_ = time;
 
-			CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &change_, sizeof(change_), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped_, NULL));
+				TRACE_GOOD(_T("directory changes detected: [%d]'%s'"), change.Action, change.FileName);
+				refresh();
+			}
+
+			CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &other, sizeof(other), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped_, NULL));
 		}
 #endif
 

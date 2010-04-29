@@ -41,6 +41,10 @@ class Files : public kaynine::Singleton<Files> {
 	static const uint MAX_RESOURCES = 64;
 	static const uint SLOT_COUNT = 4;
 	
+#ifdef TRACK_DIRECTORY_CHANGES
+	static const uint CHANGE_TRACK_THRESHOLD = 1000; // msec
+#endif
+
 	typedef kaynine::StaticArray<File, MAX_RESOURCES> Items;
 
 	struct Slot {
@@ -90,7 +94,9 @@ private:
 	HANDLE handles_[SLOT_COUNT + 3];	// [0: exit][1: new][2: asio*slot_count][slot_count+2: dir_watch]
 	HANDLE folder_;
 	OVERLAPPED overlapped_;
-	NotifyInfo change_;
+	NotifyInfo changes_[2];
+	uint current_;
+	uint lastUpdate_;
 #else
 	HANDLE handles_[SLOT_COUNT + 2];	// [0: exit][1: new][2: asio*slot_count]
 #endif
