@@ -29,7 +29,7 @@ class MemoryPool {
 public:
 	MemoryPool(): data_(0), first_(0), last_(0), biggest_(0), smallest_(0) {}
 	MemoryPool(const unsigned kbytes): data_(0), first_(0), last_(0), biggest_(0), smallest_(0) { reserve(kbytes); }
-	~MemoryPool() { reset(); }
+	~MemoryPool() { discard(); }
 
 private:
 	// disallow copy semantics

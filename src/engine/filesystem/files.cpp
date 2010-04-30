@@ -89,7 +89,7 @@ bool Files::update() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const uint Files::add(const TCHAR* const path, kaynine::MemoryPool& pool) {
+const bool Files::add(const TCHAR* const path, kaynine::MemoryPool& pool, uint& item) {
 	assert(path);
 
 	kaynine::AutoLock<> lock(guard_);
@@ -99,13 +99,15 @@ const uint Files::add(const TCHAR* const path, kaynine::MemoryPool& pool) {
 		if (!_tcsncicmp(path, range.get().path, MAX_PATH)) {
 			assert(range.get().pool == &pool);
 
-			return range.index();
+			item = range.index();
+			return false;
 		}
 
-	const uint added = items_.add(File(path, &pool, NULL, 0, File::Pending));
+	const uint added = items_.add(File(path, &pool, File::Pending));
 	newFile_.set();
 
-	return added;
+	item = added;
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,7 +175,7 @@ void Files::load(const uint item, const uint slot) {
 									   NULL);
 	if (handle == INVALID_HANDLE_VALUE) {
 		items_[item].status = File::Error;
-		TRACE_WARNING(_T("couldn't open file '%s'"), items_[item].path);
+		TRACE_WARNING(_T("couldn't open file '%s': %s"), items_[item].path, kaynine::Trace::errorString(kaynine::Trace::SOURCE_WIN, ::GetLastError()));
 		return;
 	}
 	

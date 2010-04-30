@@ -17,20 +17,6 @@ class VideoAssetsD3D9 {
 
 	//-----------------------------------------------------------------------------------------------------------------
 
-	struct TextureQueueItem {
-		uint texture;
-		uint file;
-		
-		TextureQueueItem() {}
-		
-		TextureQueueItem(const uint texture_, const uint file_)
-		: texture(texture_), file(file_) {}
-	};
-
-	//-----------------------------------------------------------------------------------------------------------------
-
-	typedef kaynine::StaticList<TextureQueueItem, MAX_TEXTURES> TextureLoadQueue;
-
 public:
 	VideoAssetsD3D9(const uint bufferSize) : pool_(bufferSize), textureCount_(0) {}
 
@@ -47,8 +33,6 @@ private:
 	// textures
 	Texture textures_[MAX_TEXTURES];
 	uint textureCount_;
-	
-	TextureLoadQueue textureLoadQueue_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

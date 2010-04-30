@@ -29,7 +29,6 @@ void BallVideo::initialize(engine::Video& video) {
 	texUniform_.path = _T("playground\\textures\\myself.bmp");
 	texUniform_.name = "TEX_DIFFUSE";
 	texUniform_.texture = video.addTexture(texUniform_.path);
-	assert(texUniform_.texture);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

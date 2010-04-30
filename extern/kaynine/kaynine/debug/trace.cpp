@@ -150,8 +150,8 @@ const TCHAR* Trace::errorString(const Source source, const DWORD code) {
 			break;
 
 		case SOURCE_WIN:
-			::FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-				NULL, code, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buffer, BUFFER_LENGTH, NULL);
+			::FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM /*| FORMAT_MESSAGE_IGNORE_INSERTS*/,
+				NULL, code, MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), buffer, sizeof(buffer) / sizeof(TCHAR), NULL);
 			break;
 
 		case SOURCE_D3D:

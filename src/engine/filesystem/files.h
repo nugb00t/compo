@@ -22,11 +22,12 @@ struct File : kaynine::SafeBool<File> {
 		Processed,
 		Error,
 	} status;
+	uint object;		// back reference
 
-	File() : path(NULL), pool(NULL), buffer(NULL), size(0), status(Vacant) {}
+	File() : path(NULL), pool(NULL), buffer(NULL), size(0), status(Vacant), object((uint)-1) {}
 
-	File(const TCHAR* const path_, kaynine::MemoryPool* pool_, void* buffer_, const uint size_, const Status status_) 
-		: path(path_), pool(pool_), buffer(buffer_), size(size_), status(status_) {
+	File(const TCHAR* const path_, kaynine::MemoryPool* pool_, const Status status_) 
+		: path(path_), pool(pool_), buffer(NULL), size(0), status(status_), object((uint)-1) {
 			assert(path_ && pool_);
 	}
 
@@ -74,7 +75,7 @@ public:
 
 	bool update();
 	
-	const uint add(const TCHAR* const path, kaynine::MemoryPool& pool);
+	const bool add(const TCHAR* const path, kaynine::MemoryPool& pool, uint& item);		// true if added, false if found
 	void remove(const uint item);
 	
 	void refresh(const WCHAR* const path);
