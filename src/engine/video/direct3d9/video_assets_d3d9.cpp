@@ -12,6 +12,10 @@ void VideoAssetsD3D9::reset() {
 	while (textureCount_--)
 		textures_[textureCount_].texture->Release();
 
+#ifndef TRACK_DIRECTORY_CHANGES
+	textureLoadQueue_.reset();
+#endif
+
 	pool_.reset();
 }
 
@@ -28,6 +32,10 @@ const uint VideoAssetsD3D9::addTexture(const TCHAR* const path) {
 
 		Files::inst().get(file).object = textureCount_;		// back reference
 
+#ifndef TRACK_DIRECTORY_CHANGES
+		textureLoadQueue_.add(TextureQueueItem(textureCount_, textures_[textureCount_].file));
+#endif
+
 		return textureCount_++;
 	} else {
 		const uint texture = Files::inst().get(file).object;
@@ -42,17 +50,33 @@ const uint VideoAssetsD3D9::addTexture(const TCHAR* const path) {
 void VideoAssetsD3D9::update(IDirect3DDevice9* device) {
 	assert(device);
 
-	// TODO: find a better way to inform Assets about files being loaded / re-loaded?
+#ifndef TRACK_DIRECTORY_CHANGES
+	for (TextureLoadQueue::Range range(textureLoadQueue_); !range.finished(); range.next()) {
+		File& item = Files::inst().get(range.get().file);
+
+		assert(item.status != File::Error);
+
+		if (item.status == File::Aquired) {
+			CHECKED_D3D_CALL_A(D3DXCreateTextureFromFileInMemory(device, 
+				item.buffer,
+				item.size,
+				&textures_[range.get().texture].texture));
+			item.status = File::Processed;
+			range.remove();
+		}
+	}
+#else
 	for (uint i = 0; i < textureCount_; ++i) {
 		File& item = Files::inst().get(textures_[i].file);
 
 		assert(item.status != File::Error);
-		
+
 		if (item.status == File::Aquired) {
 			CHECKED_D3D_CALL_A(D3DXCreateTextureFromFileInMemory(device, item.buffer, item.size, &textures_[i].texture));
 			item.status = File::Processed;
 		}
 	}
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

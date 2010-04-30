@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="src/engine;src/game;src/game_playground;extern/kaynine;extern/boost;extern/cml;extern/opengl;extern/tinyxml;extern/directx/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;D3D_DEBUG_INFO;PLATFORM_WIN51;VIDEO_DIRECT3D9;KN_USE_TRACE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;D3D_DEBUG_INFO;KN_USE_TRACE;PLATFORM_WIN51;VIDEO_DIRECT3D9;TRACK_DIRECTORY_CHANGES"
 				RuntimeLibrary="3"
 				DebugInformationFormat="3"
 			/>
