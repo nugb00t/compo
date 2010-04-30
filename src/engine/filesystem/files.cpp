@@ -12,7 +12,7 @@ File File::Null;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2) {
+Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2, -1), timer_() {
 	for (uint i = 0; i < SLOT_COUNT; ++i)
 		slots_[i].status = Slot::Vacant;
 
@@ -174,8 +174,14 @@ void Files::load(const uint item, const uint slot) {
 									   FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED | FILE_FLAG_SEQUENTIAL_SCAN,
 									   NULL);
 	if (handle == INVALID_HANDLE_VALUE) {
-		items_[item].status = File::Error;
-		TRACE_WARNING(_T("couldn't open file '%s': %s"), items_[item].path, kaynine::Trace::errorString(kaynine::Trace::SOURCE_WIN, ::GetLastError()));
+		DWORD error = ::GetLastError();
+		if (error == ERROR_SHARING_VIOLATION || error == ERROR_LOCK_VIOLATION) {
+			TRACE_WARNING(_T("sharing violation while opening file '%s', retrying in 1 sec"), items_[item].path, kaynine::Trace::errorString(kaynine::Trace::SOURCE_WIN, ::GetLastError()));
+			timer_.set();
+		} else {
+			items_[item].status = File::Error;
+			TRACE_WARNING(_T("couldn't open file '%s': %s"), items_[item].path, kaynine::Trace::errorString(kaynine::Trace::SOURCE_WIN, ::GetLastError()));
+		}
 		return;
 	}
 	

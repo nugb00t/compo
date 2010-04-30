@@ -173,8 +173,8 @@ protected:
 
 class Events : public Handles {
 public:
-	inline Events(HANDLE* const handles, const unsigned size, const unsigned first = 0, const unsigned count = 0)
-		: Handles(Handle::LEAVE_OWNERSHIP, handles, size), first_(first), limit_(count ? first + count : size) {
+	inline Events(HANDLE* const handles, const unsigned size, const unsigned first = 0, const int count = 0)
+		: Handles(Handle::LEAVE_OWNERSHIP, handles, size), first_(first), limit_(count < 0 ? size - count: count > 0 ? first + count : size) {
 			for (unsigned i = first_; i < limit_; ++i)
 				handles_[i] = ::CreateEvent(NULL, TRUE, FALSE, NULL);	// manual reset + non-signaled
 	}

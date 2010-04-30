@@ -98,6 +98,7 @@ private:
 	NotifyInfo changes_[2];
 	uint current_;
 	uint lastUpdate_;
+	kaynine::WaitableTimer timer_;
 #else
 	HANDLE handles_[SLOT_COUNT + 2];	// [0: exit][1: new][2: asio*slot_count]
 #endif
