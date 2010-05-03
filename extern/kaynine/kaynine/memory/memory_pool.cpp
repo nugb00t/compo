@@ -77,6 +77,8 @@ void* MemoryPool::allocate(const unsigned bytes) {
 		linkBySize(leftChunk);
 	}
 
+	DEBUG_ONLY(checkStructure());
+
 	return chunk + 1;
 }
 
@@ -108,6 +110,8 @@ void MemoryPool::deallocate(void* data) {
 	}
 
 	linkBySize(chunk);
+
+	DEBUG_ONLY(checkStructure());
 }
 
 
@@ -249,5 +253,16 @@ inline void MemoryPool::unlinkBySize(Chunk* chunk) {
 
 //---------------------------------------------------------------------------------------------------------------------
 
+#ifdef _DEBUG
+void MemoryPool::checkStructure() {
+	assert(first_->prev == NULL && last_->next == NULL);
+	for (Chunk* chunk = first_; chunk->next; chunk = chunk->next)
+		assert(chunk->next->prev == chunk);
 
+	assert(smallest_->smaller == NULL && biggest_->bigger == NULL);
+	for (Chunk* chunk = smallest_; chunk->bigger; chunk = chunk->bigger)
+		assert(chunk->bigger->smaller == chunk && chunk->bigger->dataSize() >= chunk->dataSize());
+}
+#endif
 
+//---------------------------------------------------------------------------------------------------------------------

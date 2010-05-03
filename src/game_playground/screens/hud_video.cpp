@@ -7,11 +7,6 @@
 using namespace engine;
 using namespace game_playground;
 
-//const Effect::TextureUniform HUDVideo::FONT_TEX[2] = {
-//	{ ,  },
-//	Effect::TextureUniform::TERMINATOR
-//};
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void HUDVideo::initialize(engine::Video& video) {

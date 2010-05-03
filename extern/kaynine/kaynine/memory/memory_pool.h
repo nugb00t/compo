@@ -4,6 +4,8 @@
 #include "../debug/logger.h"
 #endif
 
+#include "../debug/macros.h"
+
 namespace kaynine {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +61,9 @@ private:
 protected:
 	inline static bool isAligned(const void* const p) { return isAligned((unsigned)p); }
 	inline static bool isAligned(const unsigned p) { return p % sizeof(Chunk) == 0; }
+
+private:
+	DEBUG_ONLY(void checkStructure());
 
 private:
 	Chunk* findFreeChunk(const unsigned bytes) const;

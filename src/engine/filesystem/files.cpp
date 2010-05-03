@@ -12,7 +12,7 @@ File File::Null;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2, -1), timer_() {
+Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof(HANDLE), 2, -1) {
 	for (uint i = 0; i < SLOT_COUNT; ++i)
 		slots_[i].status = Slot::Vacant;
 
@@ -29,14 +29,15 @@ Files::Files() : items_(File::Null), events_(handles_, sizeof(handles_) / sizeof
 						   NULL);
 	assert(folder_ && folder_ != INVALID_HANDLE_VALUE);
 
-	memset(&overlapped_, 0, sizeof(overlapped_));
-	overlapped_.hEvent = handles_[SLOT_COUNT + 2];
-	
-	current_ = 0;
+	change_ = 0;
 	lastUpdate_ = 0;
 	memset(&changes_, 0, sizeof(changes_));
+	retryItem_ = (uint)-1;
 
-	CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &changes_[current_], sizeof(changes_[0]), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped_, NULL));
+	handles_[SLOT_COUNT + 3] = retryTimer_.handle();
+
+	OVERLAPPED overlapped = { 0, 0, 0, 0, handles_[SLOT_COUNT + 2] };
+	CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &changes_[change_], sizeof(changes_[0]), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped, NULL));
 #endif
 }
 
@@ -60,19 +61,19 @@ bool Files::update() {
 		}
 		else if (WAIT_OBJECT_0 + 2 <= check && check < WAIT_OBJECT_0 + SLOT_COUNT + 2) {	// file read complete
 			complete(check - WAIT_OBJECT_0 - 2);
-			events_.reset(check, 1);
+			events_.reset(check - WAIT_OBJECT_0, 1);
 			schedule(check - WAIT_OBJECT_0 - 2);
 		}
 #ifdef TRACK_DIRECTORY_CHANGES
 		else if (check == WAIT_OBJECT_0 + SLOT_COUNT + 2) {		// directory change notification
-			NotifyInfo& change = changes_[current_];
-			current_ = ~current_ & 0x1;
-			NotifyInfo& other = changes_[current_];
+			NotifyInfo& change = changes_[change_];
+			change_ = ~change_ & 0x1;
+			NotifyInfo& other = changes_[change_];
 			
 			const uint time = Time::inst().msec();
 			if (change.FileNameLength != other.FileNameLength ||
 				_tcsncicmp(change.FileName, other.FileName, MAX_PATH) ||
-				time - lastUpdate_ > CHANGE_TRACK_THRESHOLD)
+				time - lastUpdate_ > CHANGE_THRESHOLD)
 			{
 				lastUpdate_ = time;
 
@@ -80,11 +81,23 @@ bool Files::update() {
 				refresh(change.FileName);
 			}
 
-			CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &other, sizeof(other), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped_, NULL));
+			OVERLAPPED overlapped = { 0, 0, 0, 0, handles_[SLOT_COUNT + 2] };
+			CHECKED_WINAPI_CALL_1_A(::ReadDirectoryChangesW(folder_, &other, sizeof(other), TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE, NULL, &overlapped, NULL));
+		}
+		else if (check == WAIT_OBJECT_0 + SLOT_COUNT + 3) {		// delayed file read due to sharing violation
+			uint slot;
+			for (slot = 0; slot < SLOT_COUNT; ++slot)
+				if (slots_[slot].status == Slot::Vacant) {
+					load(retryItem_, slot);
+					break;
+				}
+
+			if (slot == SLOT_COUNT)
+				retryTimer_.set(0, CHANGE_RETRY_DELAY * 10);
 		}
 #endif
 
-		return true;
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,8 +155,6 @@ void Files::refresh(const WCHAR* const path) {
 void Files::schedule(const unsigned first /*= 0*/) {
 	assert(first < SLOT_COUNT);
 
-	TRACE_NOTICE(_T("checking for the new files to load at the slot #%d"), first);
-
 	Items::Range range(items_);
 	for (uint slot = first; slot < SLOT_COUNT && !range.finished(); ++slot) {
 		if (slots_[slot].status == Slot::Vacant) {
@@ -161,9 +172,7 @@ void Files::schedule(const unsigned first /*= 0*/) {
 //---------------------------------------------------------------------------------------------------------------------
 
 void Files::load(const uint item, const uint slot) {
-	assert(item < MAX_RESOURCES && slot < SLOT_COUNT);
-
-	TRACE_NOTICE(_T("loading '%s' in slot #%d"), items_[item].path, slot);
+	assert(item < MAX_RESOURCES && items_[item].status == File::Pending && slot < SLOT_COUNT);
 
 	// open the file
 	const HANDLE handle = ::CreateFile(items_[item].path, 
@@ -176,15 +185,18 @@ void Files::load(const uint item, const uint slot) {
 	if (handle == INVALID_HANDLE_VALUE) {
 		DWORD error = ::GetLastError();
 		if (error == ERROR_SHARING_VIOLATION || error == ERROR_LOCK_VIOLATION) {
-			TRACE_WARNING(_T("sharing violation while opening file '%s', retrying in 1 sec"), items_[item].path, kaynine::Trace::errorString(kaynine::Trace::SOURCE_WIN, ::GetLastError()));
-			timer_.set();
+			TRACE_WARNING(_T("sharing violation while opening file '%s', retrying in .1 sec"), items_[item].path, kaynine::Trace::errorString(kaynine::Trace::SOURCE_WIN, ::GetLastError()));
+			retryItem_ = item;
+			retryTimer_.set(0, CHANGE_RETRY_DELAY * 10);
 		} else {
 			items_[item].status = File::Error;
 			TRACE_WARNING(_T("couldn't open file '%s': %s"), items_[item].path, kaynine::Trace::errorString(kaynine::Trace::SOURCE_WIN, ::GetLastError()));
 		}
 		return;
 	}
-	
+
+	TRACE_NOTICE(_T("loading '%s' in slot #%d"), items_[item].path, slot);
+
 	// file size
 	const DWORD size = ::GetFileSize(handle, NULL);
 	if (!size) {

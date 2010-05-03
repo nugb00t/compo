@@ -42,7 +42,8 @@ class Files : public kaynine::Singleton<Files> {
 	static const uint SLOT_COUNT = 4;
 	
 #ifdef TRACK_DIRECTORY_CHANGES
-	static const uint CHANGE_TRACK_THRESHOLD = 1000; // msec
+	static const uint CHANGE_THRESHOLD = 1000; // msec
+	static const uint CHANGE_RETRY_DELAY = 100 * 1000; // microsec
 #endif
 
 	typedef kaynine::StaticArray<File, MAX_RESOURCES> Items;
@@ -92,15 +93,20 @@ private:
 	Slot slots_[SLOT_COUNT];
 	
 #ifdef TRACK_DIRECTORY_CHANGES
-	HANDLE handles_[SLOT_COUNT + 3];	// [0: exit][1: new][2: asio*slot_count][slot_count+2: dir_watch]
+	// [0:					exit]
+	// [1:					new item]
+	// [2 - slot_count+1:	asio complete]
+	// [slot_count+2:		dir changed]
+	// [slot_count+3:		load retry timer]
+	HANDLE handles_[SLOT_COUNT + 4];
 	HANDLE folder_;
-	OVERLAPPED overlapped_;
 	NotifyInfo changes_[2];
-	uint current_;
+	uint change_;
 	uint lastUpdate_;
-	kaynine::WaitableTimer timer_;
+	kaynine::WaitableTimer retryTimer_;
+	uint retryItem_;
 #else
-	HANDLE handles_[SLOT_COUNT + 2];	// [0: exit][1: new][2: asio*slot_count]
+	HANDLE handles_[SLOT_COUNT + 3];
 #endif
 
 	kaynine::Event newFile_;
